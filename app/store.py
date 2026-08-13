@@ -1,92 +1,90 @@
 """
-Storage — SQLite for the MVP.
+Storage — persistent database via SQLAlchemy Core.
 
-One table, `updates`, holding the normalised + summarised feed items that power
-/api/updates. Idempotent upsert keyed on the item id, so re-running ingestion
-never creates duplicates. Swap for Postgres later without touching callers.
+Uses DATABASE_URL when set (Render Postgres in production) and falls back to a
+local SQLite file otherwise, so the same code runs locally and in the cloud with
+durable history (no more resets on redeploy). Table + query interface is
+unchanged, so callers (ingest, main) don't care which backend is behind it.
 """
 from __future__ import annotations
 
 import os
-import sqlite3
 from datetime import datetime, timezone
 
-DB_PATH = os.getenv("VIGIRADAR_DB", os.path.join(os.path.dirname(__file__), "vigiradar.db"))
-
-_SCHEMA = """
-CREATE TABLE IF NOT EXISTS updates (
-    id           TEXT PRIMARY KEY,
-    country      TEXT NOT NULL,
-    authority    TEXT NOT NULL,
-    subject      TEXT NOT NULL,
-    impact       TEXT NOT NULL,
-    title        TEXT NOT NULL,
-    summary      TEXT NOT NULL,
-    source_url   TEXT,
-    published    TEXT,
-    date         TEXT NOT NULL,      -- YYYY-MM-DD used for sorting/display
-    mode         TEXT,               -- "llm" | "heuristic"
-    ingested_at  TEXT NOT NULL
-);
-CREATE INDEX IF NOT EXISTS idx_updates_date ON updates(date DESC);
-CREATE INDEX IF NOT EXISTS idx_updates_country ON updates(country);
-CREATE INDEX IF NOT EXISTS idx_updates_subject ON updates(subject);
-"""
+from sqlalchemy import (create_engine, MetaData, Table, Column, String, Text,
+                        select, func, insert, delete)
 
 
-def _conn() -> sqlite3.Connection:
-    c = sqlite3.connect(DB_PATH)
-    c.row_factory = sqlite3.Row
-    return c
+def _database_url() -> str:
+    url = os.getenv("DATABASE_URL", "").strip()
+    if url:
+        # Render/Heroku hand out postgres:// ; SQLAlchemy wants postgresql://
+        if url.startswith("postgres://"):
+            url = url.replace("postgres://", "postgresql://", 1)
+        return url
+    path = os.getenv("VIGIRADAR_DB", os.path.join(os.path.dirname(__file__), "vigieye.db"))
+    return f"sqlite:///{path}"
+
+
+_engine = create_engine(_database_url(), future=True, pool_pre_ping=True)
+_meta = MetaData()
+
+updates = Table(
+    "updates", _meta,
+    Column("id", String(32), primary_key=True),
+    Column("country", String(8), nullable=False),
+    Column("authority", String(120), nullable=False),
+    Column("subject", String(80), nullable=False),
+    Column("impact", String(8), nullable=False),
+    Column("title", Text, nullable=False),
+    Column("summary", Text, nullable=False),
+    Column("source_url", Text),
+    Column("published", Text),
+    Column("date", String(10), nullable=False),
+    Column("mode", String(16)),
+    Column("ingested_at", String(40), nullable=False),
+)
 
 
 def init() -> None:
-    with _conn() as c:
-        c.executescript(_SCHEMA)
+    _meta.create_all(_engine)
 
 
 def exists(item_id: str) -> bool:
-    with _conn() as c:
-        return c.execute("SELECT 1 FROM updates WHERE id=?", (item_id,)).fetchone() is not None
+    with _engine.connect() as c:
+        return c.execute(select(updates.c.id).where(updates.c.id == item_id)).first() is not None
 
 
 def upsert(row: dict) -> None:
+    """Idempotent by id — delete-then-insert works on both SQLite and Postgres."""
     now = datetime.now(timezone.utc).isoformat()
-    with _conn() as c:
-        c.execute(
-            """INSERT INTO updates
-               (id, country, authority, subject, impact, title, summary, source_url, published, date, mode, ingested_at)
-               VALUES (:id,:country,:authority,:subject,:impact,:title,:summary,:source_url,:published,:date,:mode,:ingested_at)
-               ON CONFLICT(id) DO UPDATE SET
-                 subject=excluded.subject, impact=excluded.impact,
-                 summary=excluded.summary, mode=excluded.mode""",
-            {**row, "ingested_at": now},
-        )
+    payload = {**row, "ingested_at": now}
+    with _engine.begin() as c:
+        c.execute(delete(updates).where(updates.c.id == payload["id"]))
+        c.execute(insert(updates).values(**payload))
 
 
 def count() -> int:
-    with _conn() as c:
-        return c.execute("SELECT COUNT(*) FROM updates").fetchone()[0]
+    with _engine.connect() as c:
+        return c.execute(select(func.count()).select_from(updates)).scalar_one()
 
 
 def query(country: str | None = None, subject: str | None = None,
           impact: str | None = None, limit: int = 200) -> list[dict]:
-    sql = "SELECT country, authority, subject, impact, title, summary, source_url, date FROM updates"
-    where, params = [], []
+    stmt = select(updates.c.country, updates.c.authority, updates.c.subject,
+                  updates.c.impact, updates.c.title, updates.c.summary,
+                  updates.c.source_url, updates.c.date)
     if country:
-        where.append("country=?"); params.append(country)
+        stmt = stmt.where(updates.c.country == country)
     if subject:
-        where.append("subject=?"); params.append(subject)
+        stmt = stmt.where(updates.c.subject == subject)
     if impact:
-        where.append("impact=?"); params.append(impact)
-    if where:
-        sql += " WHERE " + " AND ".join(where)
-    sql += " ORDER BY date DESC, ingested_at DESC LIMIT ?"
-    params.append(limit)
-    with _conn() as c:
-        return [dict(r) for r in c.execute(sql, params).fetchall()]
+        stmt = stmt.where(updates.c.impact == impact)
+    stmt = stmt.order_by(updates.c.date.desc(), updates.c.ingested_at.desc()).limit(limit)
+    with _engine.connect() as c:
+        return [dict(r._mapping) for r in c.execute(stmt)]
 
 
 def distinct_countries() -> list[str]:
-    with _conn() as c:
-        return [r[0] for r in c.execute("SELECT DISTINCT country FROM updates ORDER BY country")]
+    with _engine.connect() as c:
+        return [r[0] for r in c.execute(select(updates.c.country).distinct().order_by(updates.c.country))]

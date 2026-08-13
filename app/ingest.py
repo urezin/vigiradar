@@ -13,7 +13,7 @@ import logging
 import re
 from datetime import datetime, timezone
 
-from . import store, sources, summarise
+from . import store, sources, scrapers, summarise
 
 log = logging.getLogger("vigiradar.ingest")
 
@@ -79,6 +79,38 @@ def run_ingest(per_source: int = 15, only: list[str] | None = None) -> dict:
 
         stats["new"] += new_here
         stats["by_source"][src.id] = {"fetched": len(raw), "new": new_here}
+
+    # National-agency scrapers (HTML) — same normalised item shape as RSS.
+    for scr in scrapers.SCRAPERS:
+        if only and scr.id not in only:
+            continue
+        stats["sources"] += 1
+        try:
+            raw = scrapers.fetch_raw_items(scr)
+        except Exception as e:
+            stats["errors"].append({"source": scr.id, "error": str(e)})
+            log.warning("scrape failed for %s: %s", scr.id, e)
+            continue
+
+        stats["fetched"] += len(raw)
+        new_here = 0
+        for item in raw:
+            if new_here >= per_source:
+                break
+            if store.exists(item["id"]):
+                continue
+            s = summarise.summarise_item(item, default_subject=scr.default_subject)
+            store.upsert({
+                "id": item["id"], "country": item["country"], "authority": item["authority"],
+                "subject": s["subject"], "impact": s["impact"], "title": item["title"],
+                "summary": s["summary"], "source_url": item["link"], "published": item["published"],
+                "date": _to_date(item["published"]), "mode": s.get("mode", "heuristic"),
+            })
+            new_here += 1
+
+        stats["new"] += new_here
+        stats["by_source"][scr.id] = {"fetched": len(raw), "new": new_here,
+                                      "scraper": True, "verified": scr.verified}
 
     stats["total_in_store"] = store.count()
     return stats
