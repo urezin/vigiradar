@@ -23,16 +23,17 @@ class Source:
 
 
 # Real, current official feeds. EMA exposes ~20 topic feeds; we start with the
-# ones most relevant to regulatory affairs & pharmacovigilance teams.
+# high-signal ones for regulatory affairs & pharmacovigilance teams. Two feeds
+# are deliberately excluded: `whats-new` (recently-updated-page churn) and
+# `agendas-and-minutes` (individual meeting presentations) — both are noisy for
+# a "what regulatory thing changed" feed. Add back later with tighter filters.
 SOURCES: list[Source] = [
     Source("ema-news", "EU", "EMA",
            "https://www.ema.europa.eu/en/news.xml", "GVP modules"),
-    Source("ema-whats-new", "EU", "EMA",
-           "https://www.ema.europa.eu/en/whats-new.xml", "GVP modules"),
     Source("ema-reg-guideline", "EU", "EMA",
            "https://www.ema.europa.eu/en/regulatory-and-procedural-guideline.xml", "GVP modules"),
-    Source("ema-agendas", "EU", "EMA · committees",
-           "https://www.ema.europa.eu/en/agendas-and-minutes.xml", "Signal management"),
+    Source("ema-scientific-guideline", "EU", "EMA",
+           "https://www.ema.europa.eu/en/scientific-guidelines.xml", "GVP modules"),
     Source("ema-consultations", "EU", "EMA",
            "https://www.ema.europa.eu/en/public-consultations.xml", "GVP modules"),
     Source("ema-fees", "EU", "EMA",
@@ -43,6 +44,19 @@ SOURCES: list[Source] = [
     Source("eurlex-oj-l", "EU", "EUR-Lex",
            "https://eur-lex.europa.eu/EN/display-feed.rss?rssId=165", "Falsified medicines"),
 ]
+
+# Procedural clutter to drop regardless of source — meeting mechanics, not
+# regulatory changes.
+_NOISE_PREFIXES = (
+    "presentation -", "presentation-", "agenda -", "agenda-", "agenda ",
+    "minutes ", "minutes-", "minutes –", "minutes -", "summary report",
+    "draft agenda", "product management services",
+)
+
+
+def _is_noise(title: str) -> bool:
+    t = (title or "").strip().lower()
+    return any(t.startswith(p) for p in _NOISE_PREFIXES)
 
 
 def item_id(source_id: str, link: str, title: str) -> str:
@@ -61,7 +75,7 @@ def fetch_raw_items(source: Source, timeout: float = 20.0) -> list[dict]:
     import httpx
     import feedparser
 
-    headers = {"User-Agent": "VigiRadar/0.1 (+https://vigiradar.com)"}
+    headers = {"User-Agent": "VigiEye/0.1 (+https://vigi-eye.com)"}
     with httpx.Client(timeout=timeout, headers=headers, follow_redirects=True) as client:
         resp = client.get(source.feed_url)
         resp.raise_for_status()
@@ -73,7 +87,7 @@ def fetch_raw_items(source: Source, timeout: float = 20.0) -> list[dict]:
         link = (getattr(e, "link", "") or "").strip()
         desc = (getattr(e, "summary", "") or getattr(e, "description", "") or "").strip()
         published = (getattr(e, "published", "") or getattr(e, "updated", "") or "").strip()
-        if not title:
+        if not title or _is_noise(title):
             continue
         items.append({
             "id": item_id(source.id, link, title),

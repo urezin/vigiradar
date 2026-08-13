@@ -1,5 +1,5 @@
 """
-VigiRadar — EU pharmacovigilance & regulatory monitoring.
+VigiEye — EU pharmacovigilance & regulatory monitoring.
 
 MVP surface: serves the marketing landing page and the monitoring workspace,
 captures early-access leads, exposes the updates feed as JSON, and provides a
@@ -22,7 +22,7 @@ from . import store, ingest as ingest_mod, digest as digest_mod, emailer
 
 log = logging.getLogger("vigiradar")
 
-app = FastAPI(title="VigiRadar", version="0.1.0")
+app = FastAPI(title="VigiEye", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 _BASE = os.path.dirname(__file__)
@@ -115,7 +115,7 @@ def admin_digest_send(to: str, country: str | None = None, subject: str | None =
     rows, src = _current_updates(country, subject, None)
     html = digest_mod.render_html(rows, scope_label=f"{country or 'EU'} · {subject or 'all subjects'}",
                                   app_url=settings.app_base_url)
-    result = emailer.send(to, "Your VigiRadar digest — this week", html)
+    result = emailer.send(to, "Your VigiEye digest — this week", html)
     return {"sent_to": to, "items": len(rows), "high_impact": len(digest_mod.high_impact(rows)),
             "data_source": src, "email": result}
 

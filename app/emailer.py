@@ -3,7 +3,7 @@ Email via Resend — digests + high-impact alerts.
 
 Safe when RESEND_API_KEY is unset: emails are logged instead of sent, so the app
 runs end-to-end without an email account. Sending sets a Reply-To so replies land
-in the monitored inbox (info@vigiradar.com, forwarded like Competrain).
+in the monitored inbox (info@vigi-eye.com, forwarded like Competrain).
 """
 import logging
 

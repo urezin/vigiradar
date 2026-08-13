@@ -1,8 +1,8 @@
-# VigiRadar
+# VigiEye
 
 EU pharmacovigilance & regulatory monitoring — per country, per subject.
 
-VigiRadar watches EMA, EUR-Lex, HMA and the national medicines agencies, then
+VigiEye watches EMA, EUR-Lex, HMA and the national medicines agencies, then
 summarises each regulatory/PV change with AI — organised by country and by
 subject, and flagged for the markets and products that matter to a team.
 
@@ -33,7 +33,7 @@ uvicorn app.main:app --reload
 1. Create a new GitHub repo and upload this folder.
 2. In Render: **New → Web Service** → connect the repo. It auto-detects the
    `Dockerfile` (or the `render.yaml` Blueprint).
-3. Add the custom domain **vigiradar.com** and point DNS at Render.
+3. Add the custom domain **vigi-eye.com** and point DNS at Render.
 4. Optional environment variables (the app runs fine without them):
    - `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` — AI summaries
    - `RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_REPLY_TO` — transactional email

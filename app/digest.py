@@ -51,7 +51,7 @@ def _item_html(u: dict) -> str:
 
 
 def render_html(updates: list[dict], period_label: str = "this week",
-                scope_label: str = "EU · all subjects", app_url: str = "https://vigiradar.com") -> str:
+                scope_label: str = "EU · all subjects", app_url: str = "https://vigi-eye.com") -> str:
     rows = sorted(updates, key=lambda u: (_IMPACT_ORDER.get(u.get("impact", "med"), 1),
                                           u.get("date", "")), reverse=False)
     rows = sorted(rows, key=lambda u: _IMPACT_ORDER.get(u.get("impact", "med"), 1))
@@ -62,10 +62,10 @@ def render_html(updates: list[dict], period_label: str = "this week",
   <div style="max-width:640px;margin:0 auto;padding:24px">
     <div style="display:flex;align-items:center;gap:9px;padding:6px 2px 18px">
       <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#34d399"></span>
-      <span style="font-size:19px;font-weight:800;color:#0b2942">Vigi<span style="color:#0ea5e9">Radar</span></span>
+      <span style="font-size:19px;font-weight:800;color:#0b2942">Vigi<span style="color:#0ea5e9">Eye</span></span>
     </div>
     <div style="background:linear-gradient(120deg,#08192b,#0f3a55);border-radius:14px;padding:22px 24px;color:#fff">
-      <div style="font-size:13px;color:#7dd3fc;font-weight:700;text-transform:uppercase;letter-spacing:.05em">Your radar digest — {period_label}</div>
+      <div style="font-size:13px;color:#7dd3fc;font-weight:700;text-transform:uppercase;letter-spacing:.05em">Your VigiEye digest — {period_label}</div>
       <div style="font-size:22px;font-weight:800;margin:6px 0 2px">{c['total']} regulatory changes across your scope</div>
       <div style="font-size:14px;color:#a9b4c9">{scope_label}</div>
       <div style="margin-top:14px;font-size:13px">
@@ -78,22 +78,22 @@ def render_html(updates: list[dict], period_label: str = "this week",
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:8px">{items}</table>
     <div style="text-align:center;margin:22px 0">
       <a href="{app_url}/app" style="display:inline-block;background:linear-gradient(92deg,#0ea5e9,#14b8a6);color:#fff;
-         text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:700;font-size:14px">Open the radar feed</a>
+         text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:700;font-size:14px">Open the feed</a>
     </div>
     <div style="border-top:1px solid #e6ebf2;padding-top:16px;font-size:12px;color:#94a3b8;text-align:center">
-      VigiRadar — EU pharmacovigilance &amp; regulatory monitoring.<br>
-      You're receiving this because you set up a radar at {app_url}.
+      VigiEye — EU pharmacovigilance &amp; regulatory monitoring.<br>
+      You're receiving this because you set up a watch at {app_url}.
     </div>
   </div>
 </body></html>"""
 
 
-def render_alert_html(u: dict, app_url: str = "https://vigiradar.com") -> str:
+def render_alert_html(u: dict, app_url: str = "https://vigi-eye.com") -> str:
     """A single high-impact real-time alert email."""
     flag = _FLAG.get(u.get("country", ""), "•")
     return f"""<!DOCTYPE html><html><body style="margin:0;background:#f6f9fc;font-family:system-ui,Segoe UI,Roboto,sans-serif">
   <div style="max-width:560px;margin:0 auto;padding:24px">
-    <div style="font-size:19px;font-weight:800;color:#0b2942;padding-bottom:12px">Vigi<span style="color:#0ea5e9">Radar</span></div>
+    <div style="font-size:19px;font-weight:800;color:#0b2942;padding-bottom:12px">Vigi<span style="color:#0ea5e9">Eye</span></div>
     <div style="background:#fee2e8;color:#e11d48;border-radius:8px;padding:6px 12px;display:inline-block;font-weight:800;font-size:12px">HIGH-IMPACT ALERT</div>
     <div style="font-size:13px;color:#64748b;margin:12px 0 4px">{flag} {u.get('authority','')} · {u.get('subject','')} · {u.get('date','')}</div>
     <div style="font-size:18px;font-weight:800;color:#0f172a;margin-bottom:6px">{u.get('title','')}</div>

@@ -1,4 +1,4 @@
-"""VigiRadar configuration — all via environment variables (12-factor)."""
+"""VigiEye configuration — all via environment variables (12-factor)."""
 import os
 
 
@@ -11,8 +11,8 @@ class Settings:
 
     # Email (Resend) — optional; leads are logged if unset
     resend_api_key: str = os.getenv("RESEND_API_KEY", "")
-    email_from: str = os.getenv("EMAIL_FROM", "VigiRadar <info@vigiradar.com>")
-    email_reply_to: str = os.getenv("EMAIL_REPLY_TO", "info@vigiradar.com")
+    email_from: str = os.getenv("EMAIL_FROM", "VigiEye <info@vigi-eye.com>")
+    email_reply_to: str = os.getenv("EMAIL_REPLY_TO", "info@vigi-eye.com")
 
     # Admin token guarding the ingestion trigger (/admin/ingest)
     admin_token: str = os.getenv("ADMIN_TOKEN", "")

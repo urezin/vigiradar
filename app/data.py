@@ -1,5 +1,5 @@
 """
-Sample regulatory/PV updates for the VigiRadar MVP feed.
+Sample regulatory/PV updates for the VigiEye MVP feed.
 
 In production these rows are produced by the ingestion + AI-summary pipeline
 (one row per detected change from EMA / EUR-Lex / HMA / national agencies).
