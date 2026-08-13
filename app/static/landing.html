@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VigiRadar — EU pharmacovigilance & regulatory monitoring, per country, per subject</title>
+<meta name="description" content="VigiRadar watches pharmacovigilance and regulatory legislation across every EU member state — organised by country and by subject — and gives you AI summaries, impact flags and inspection-ready audit trails. Stop checking 27 agency websites by hand." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="VigiRadar" />
+<meta property="og:title" content="EU pharmacovigilance & regulatory monitoring — per country, per subject" />
+<meta property="og:description" content="One radar for EMA, EUR-Lex and all 27 national agencies. AI-summarised regulatory change, filtered to your markets and subjects." />
+<meta property="og:url" content="https://vigiradar.com/" />
+<style>
+  :root{--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--accent2:#14b8a6;--radar:#34d399;
+        --bg:#ffffff;--soft:#f8fafc;--ok:#16a34a;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .btn{display:inline-block;background:linear-gradient(92deg,#0ea5e9,#14b8a6);color:#fff;padding:12px 22px;border-radius:10px;
+       font-weight:600;border:0;cursor:pointer;font-size:15px;transition:.16s;box-shadow:0 8px 22px rgba(14,165,233,.3)}
+  .btn:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 12px 30px rgba(14,165,233,.45)}
+  .btn.ghost{background:#e0f2fe;color:var(--accent);border:1px solid #bae6fd;box-shadow:none}
+  .btn.ghost:hover{background:#cbeafe;filter:none}
+  .cta-row .btn.ghost{background:rgba(255,255,255,.08);color:#e5e7eb;border:1px solid rgba(255,255,255,.16)}
+  .cta-row .btn.ghost:hover{background:rgba(255,255,255,.14)}
+  .btn.dark{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);box-shadow:none}
+  /* nav */
+  nav{position:sticky;top:0;background:rgba(6,12,24,.72);backdrop-filter:blur(12px) saturate(150%);
+      -webkit-backdrop-filter:blur(12px) saturate(150%);border-bottom:1px solid rgba(255,255,255,.08);z-index:20}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-weight:800;font-size:20px;letter-spacing:-.02em;color:#fff;display:flex;align-items:center;gap:9px}
+  .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--radar);box-shadow:0 0 12px 2px rgba(52,211,153,.8);position:relative}
+  .logo span{background:linear-gradient(90deg,#38bdf8,#2dd4bf);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .navlinks a{color:#94a3b8;margin:0 14px;font-size:14px;font-weight:500;transition:.14s}
+  .navlinks a:hover{color:#fff}
+  @media(max-width:820px){.navlinks{display:none}}
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:92px 0 76px;
+        background:radial-gradient(1200px 760px at 72% -10%,#0b2942 0%,#08192b 52%,#050c17 100%)}
+  #bgfx{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .radar-ring{position:absolute;right:-160px;top:-120px;width:620px;height:620px;border-radius:50%;z-index:1;pointer-events:none;opacity:.5;
+    background:
+      repeating-radial-gradient(circle,rgba(56,189,248,.09) 0 1px,transparent 1px 58px);
+    -webkit-mask:radial-gradient(circle,#000 60%,transparent 72%);mask:radial-gradient(circle,#000 60%,transparent 72%)}
+  .radar-sweep{position:absolute;right:-160px;top:-120px;width:620px;height:620px;border-radius:50%;z-index:1;pointer-events:none;
+    background:conic-gradient(from 0deg,rgba(52,211,153,.28),rgba(52,211,153,0) 30%);
+    -webkit-mask:radial-gradient(circle,#000 60%,transparent 72%);mask:radial-gradient(circle,#000 60%,transparent 72%);
+    animation:sweep 6s linear infinite}
+  @keyframes sweep{to{transform:rotate(360deg)}}
+  .hero .wrap{position:relative;z-index:3}
+  .launchrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+  .livepill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;
+    font-size:13px;font-weight:700;color:#d1fae5;background:linear-gradient(90deg,rgba(16,185,129,.18),rgba(16,185,129,.06));
+    border:1px solid rgba(16,185,129,.45)}
+  .livedot{width:9px;height:9px;border-radius:50%;background:var(--radar);box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:livepulse 1.8s infinite}
+  @keyframes livepulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.7)}70%{box-shadow:0 0 0 9px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+  .badge{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;color:#cbd5e1}
+  .hero h1{font-size:53px;line-height:1.06;letter-spacing:-.03em;max-width:820px;color:#fff}
+  .hero h1 em{font-style:normal;background:linear-gradient(90deg,#38bdf8,#2dd4bf 55%,#34d399);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.sub{font-size:20px;color:#a9b4c9;max-width:660px;margin:20px 0 28px}
+  @media(max-width:760px){.hero h1{font-size:35px}}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .capture{display:flex;gap:8px;margin-top:22px;max-width:460px}
+  .capture input{flex:1;padding:12px 14px;border:1px solid rgba(255,255,255,.16);border-radius:10px;font:inherit;background:rgba(255,255,255,.06);color:#fff}
+  .capture input::placeholder{color:#7c8aa5}
+  .capture input:focus{outline:0;border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.22)}
+  .microcopy{color:#7c8aa5;font-size:13px;margin-top:10px}
+  .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:38px}
+  .badges .badge b{color:#7dd3fc}
+  /* sections */
+  section{padding:64px 0}
+  .eyebrow{color:var(--accent);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+  h2.title{font-size:34px;letter-spacing:-.02em;margin:8px 0 8px;max-width:680px}
+  .lede{color:var(--mut);font-size:18px;max-width:680px;margin-bottom:36px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);border-radius:14px;padding:22px;background:#fff}
+  .card h3{font-size:17px;margin-bottom:6px}
+  .card p{color:var(--mut);font-size:14.5px}
+  .card .ic{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#e0f2fe,#ccfbf1);color:var(--accent);
+            display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:14px;font-size:19px}
+  /* problem band */
+  .prob{background:var(--soft)}
+  .prob .grid2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  @media(max-width:820px){.prob .grid2{grid-template-columns:1fr}}
+  .prob ul{list-style:none;margin-top:14px}
+  .prob li{padding:8px 0 8px 30px;position:relative;color:#334155;font-size:15.5px}
+  .prob li:before{content:"✕";color:#ef4444;position:absolute;left:0;font-weight:800}
+  .prob .after li:before{content:"✓";color:var(--ok)}
+  /* how it works */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
+  @media(max-width:860px){.steps{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.steps{grid-template-columns:1fr}}
+  .step{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff}
+  .step .n{counter-increment:s;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;
+    background:linear-gradient(135deg,#0ea5e9,#14b8a6);margin-bottom:12px}
+  .step .n:before{content:counter(s)}
+  .step h4{font-size:16px}.step p{color:var(--mut);font-size:14px;margin-top:4px}
+  /* coverage */
+  .cover{background:linear-gradient(160deg,#08192b,#0b2942);color:#e5e7eb}
+  .cover .title{color:#fff}.cover .lede{color:#a9b4c9}
+  .cover .cols{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+  @media(max-width:820px){.cover .cols{grid-template-columns:1fr}}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{padding:7px 13px;border-radius:999px;font-size:13px;font-weight:600;color:#cbd5e1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+  .chip b{color:#7dd3fc}
+  .cover h3{color:#fff;font-size:18px;margin-bottom:4px}
+  .cover .sub{color:#8b9bb2;font-size:14px}
+  /* pricing */
+  #pricing{background:var(--soft)}
+  .prices{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:stretch}
+  @media(max-width:960px){.prices{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.prices{grid-template-columns:1fr}}
+  .price{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column}
+  .price.pop{border:2px solid var(--accent);box-shadow:0 12px 30px rgba(14,165,233,.14)}
+  .price .tag{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+  .price .amt{font-size:32px;font-weight:800;margin:10px 0 2px}
+  .price .cad{color:var(--mut);font-size:13px;min-height:18px}
+  .price ul{list-style:none;margin:16px 0 20px;flex:1}
+  .price li{font-size:14px;padding:6px 0 6px 24px;position:relative;color:#334155}
+  .price li:before{content:"✓";color:var(--ok);position:absolute;left:0;font-weight:800}
+  .price .btn{width:100%;text-align:center}
+  .price.ent-card{background:linear-gradient(160deg,#08192b 0%,#0b2942 62%,#0f3a55 100%);border:1px solid #0f3a55;color:#e5e7eb}
+  .price.ent-card .amt{color:#fff}.price.ent-card li{color:#cbd5e1}.price.ent-card li:before{color:#38bdf8}.price.ent-card .cad{color:#a9b4c9}
+  /* cta band + footer */
+  .band{background:linear-gradient(115deg,#0b2942,#0f3a55);color:#fff;border-radius:20px;padding:44px;text-align:center}
+  .band h2{font-size:30px;letter-spacing:-.02em}.band p{color:#a9b4c9;margin:10px auto 22px;max-width:520px}
+  footer{padding:44px 0;border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+  footer .logo{color:#0f172a}footer .logo span{color:#0ea5e9;-webkit-text-fill-color:#0ea5e9}
+  footer .cols{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;align-items:center}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:12px 20px;border-radius:10px;opacity:0;transition:.25s;z-index:40;font-size:14px}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <div class="logo"><span class="dot"></span> Vigi<span>Radar</span></div>
+  <div class="navlinks">
+    <a href="#how">How it works</a>
+    <a href="#coverage">Coverage</a>
+    <a href="#pricing">Pricing</a>
+    <a href="/app">Log in</a>
+  </div>
+  <a class="btn" href="/app">Start free</a>
+</div></nav>
+
+<header class="hero">
+  <canvas id="bgfx"></canvas>
+  <div class="radar-ring"></div>
+  <div class="radar-sweep"></div>
+  <div class="wrap">
+    <div class="launchrow">
+      <span class="livepill"><span class="livedot"></span> Monitoring live</span>
+      <div class="badge">🇪🇺 All 27 EU member states + EMA</div>
+    </div>
+    <h1>Every EU pharmacovigilance & regulatory change — <em>on one radar</em>.</h1>
+    <p class="sub">VigiRadar watches EMA, EUR-Lex and all 27 national medicines agencies, then summarises what changed with AI — organised by country and by subject, and flagged for the markets and products that matter to you.</p>
+    <div class="cta-row">
+      <a class="btn" href="/app">Start free — no card</a>
+      <a class="btn ghost" href="#how">See how it works</a>
+    </div>
+    <div class="capture">
+      <input id="heroEmail" type="email" placeholder="you@company.com" />
+      <button class="btn dark" onclick="capture('hero')">Get early access</button>
+    </div>
+    <p class="microcopy">Free plan forever · Pro from €249/mo · Built for regulatory affairs & PV teams</p>
+    <div class="badges">
+      <div class="badge"><b>GVP</b> modules</div>
+      <div class="badge"><b>EUR-Lex</b> & national law</div>
+      <div class="badge"><b>AI</b> change summaries</div>
+      <div class="badge"><b>Inspection-ready</b> audit trail</div>
+    </div>
+  </div>
+</header>
+
+<section id="features"><div class="wrap">
+  <div class="eyebrow">Why VigiRadar</div>
+  <h2 class="title">Regulatory intelligence without the 27-tab morning</h2>
+  <p class="lede">National agencies publish in 24 languages, on 27 different websites, with no common feed. VigiRadar unifies them — and tells you what actually changed and why it matters.</p>
+  <div class="grid">
+    <div class="card"><div class="ic">◎</div><h3>Per-country coverage</h3><p>EMA and the EU level plus every national competent authority — BfArM, ANSM, AEMPS, AIFA, and the rest. Pick the markets you sell in.</p></div>
+    <div class="card"><div class="ic">☰</div><h3>Per-subject filtering</h3><p>Slice by subject: signal management, PSUR/PBRER, labelling & SmPC, GVP inspections, clinical trials (CTR), falsified medicines, and more.</p></div>
+    <div class="card"><div class="ic">✦</div><h3>AI change summaries</h3><p>Every update comes with a plain-language summary of what changed, the effective date, and an impact flag — not just a link to a 60-page PDF.</p></div>
+    <div class="card"><div class="ic">◔</div><h3>Alerts & digests</h3><p>Real-time alerts for high-impact changes; a clean weekly digest for the rest. Route by country, subject or product portfolio.</p></div>
+    <div class="card"><div class="ic">⛃</div><h3>Cited to the source</h3><p>Each item links to the exact official document and section it came from. Trace any summary back to primary source in one click.</p></div>
+    <div class="card"><div class="ic">🛡</div><h3>Inspection-ready trail</h3><p>Exportable timeline of what your team saw and when — evidence of regulatory surveillance for GVP inspections and audits.</p></div>
+  </div>
+</div></section>
+
+<section class="prob"><div class="wrap">
+  <div class="eyebrow">The problem</div>
+  <h2 class="title">Manual regulatory watch doesn't scale</h2>
+  <div class="grid2" style="margin-top:22px">
+    <div>
+      <strong>Today, without VigiRadar</strong>
+      <ul>
+        <li>Someone checks 27 agency sites + EMA + EUR-Lex by hand — or not at all</li>
+        <li>Updates arrive in 24 languages with no summary of what changed</li>
+        <li>Relevant changes get missed; you find out at inspection</li>
+        <li>No record proving you actually monitored the landscape</li>
+      </ul>
+    </div>
+    <div>
+      <strong>With VigiRadar</strong>
+      <ul class="after">
+        <li>One radar continuously watches every source for you</li>
+        <li>AI summarises each change in English, with an impact flag</li>
+        <li>Filtered to your countries, subjects and product portfolio</li>
+        <li>Every item cited to source and logged for inspection evidence</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <div class="eyebrow">How it works</div>
+  <h2 class="title">From 27 agencies to one prioritised feed</h2>
+  <p class="lede">Set it up once. VigiRadar does the watching, summarising and prioritising continuously.</p>
+  <div class="steps">
+    <div class="step"><div class="n"></div><h4>Choose your scope</h4><p>Select the EU markets and the subjects you care about — and add your product portfolio.</p></div>
+    <div class="step"><div class="n"></div><h4>We monitor the sources</h4><p>VigiRadar continuously ingests EMA, EUR-Lex, HMA and all national agency publications.</p></div>
+    <div class="step"><div class="n"></div><h4>AI summarises & flags</h4><p>Each change gets a plain-language summary, effective date and impact rating, cited to source.</p></div>
+    <div class="step"><div class="n"></div><h4>You get the signal</h4><p>Real-time alerts, a weekly digest and a searchable, exportable timeline for your team.</p></div>
+  </div>
+</div></section>
+
+<section id="coverage" class="cover"><div class="wrap">
+  <div class="eyebrow" style="color:#7dd3fc">Coverage</div>
+  <h2 class="title">EU-wide sources, one taxonomy</h2>
+  <p class="lede">Every level of the European medicines landscape, mapped to a consistent country × subject grid.</p>
+  <div class="cols">
+    <div>
+      <h3>Countries & authorities</h3>
+      <div class="sub">EU level + all 27 member states</div>
+      <div class="chips">
+        <div class="chip"><b>EU</b> · EMA · EUR-Lex · HMA</div>
+        <div class="chip">🇩🇪 BfArM / PEI</div><div class="chip">🇫🇷 ANSM</div><div class="chip">🇪🇸 AEMPS</div>
+        <div class="chip">🇮🇹 AIFA</div><div class="chip">🇳🇱 CBG-MEB</div><div class="chip">🇸🇪 LV</div>
+        <div class="chip">🇮🇪 HPRA</div><div class="chip">🇧🇪 FAMHP</div><div class="chip">+ 19 more</div>
+      </div>
+    </div>
+    <div>
+      <h3>Subjects</h3>
+      <div class="sub">The pharmacovigilance & regulatory taxonomy</div>
+      <div class="chips">
+        <div class="chip">Signal management</div><div class="chip">PSUR / PBRER</div>
+        <div class="chip">Labelling & SmPC</div><div class="chip">GVP modules</div>
+        <div class="chip">Clinical trials (CTR)</div><div class="chip">Falsified medicines</div>
+        <div class="chip">RMP & PASS</div><div class="chip">Shortages & recalls</div>
+        <div class="chip">Fees & guidance</div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="pricing"><div class="wrap">
+  <div class="eyebrow">Pricing</div>
+  <h2 class="title">Start free. Scale to your whole portfolio.</h2>
+  <p class="lede">Transparent pricing — change or cancel anytime.</p>
+  <div class="prices">
+    <div class="price">
+      <div class="tag">Free</div><div class="amt">€0</div><div class="cad">forever</div>
+      <ul><li>1 country + EU level</li><li>2 subjects</li><li>Weekly digest</li><li>AI summaries (basic)</li></ul>
+      <a class="btn ghost" href="/app">Start free</a>
+    </div>
+    <div class="price pop">
+      <div class="tag">Pro · Most popular</div><div class="amt">€249</div><div class="cad">per user / month</div>
+      <ul><li>All 27 countries + EMA</li><li>All subjects</li><li>Real-time alerts + digest</li><li>Full AI summaries & impact flags</li><li>Source citations + export</li></ul>
+      <button class="btn" onclick="checkout('pro_monthly')">Start 14-day trial</button>
+    </div>
+    <div class="price">
+      <div class="tag">Team</div><div class="amt">€199</div><div class="cad">per user / mo · annual</div>
+      <ul><li>Everything in Pro</li><li>Shared workspaces & routing</li><li>Product-portfolio tagging</li><li>Annual invoice for procurement</li></ul>
+      <button class="btn ghost" onclick="checkout('team_annual')">Go annual</button>
+    </div>
+    <div class="price ent-card">
+      <div class="tag" style="color:#7dd3fc">Enterprise</div><div class="amt">Custom</div><div class="cad">tailored to your org</div>
+      <ul><li>Unlimited users & portfolios</li><li>API & data feed access</li><li>Custom / private sources</li><li>SSO/SAML & audit export</li><li>Dedicated success & SLA</li></ul>
+      <a class="btn" href="mailto:info@vigiradar.com?subject=VigiRadar%20Enterprise%20inquiry">Contact sales</a>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap"><div class="band">
+  <h2>See what changed across the EU this week.</h2>
+  <p>Set up your country and subject radar in minutes. Free to start, no card required.</p>
+  <a class="btn" href="/app">Start free</a>
+</div></div></section>
+
+<footer><div class="wrap"><div class="cols">
+  <div class="logo">Vigi<span>Radar</span></div>
+  <div>
+    <a href="#how" style="color:var(--accent)">How it works</a> ·
+    <a href="#coverage" style="color:var(--accent)">Coverage</a> ·
+    <a href="#pricing" style="color:var(--accent)">Pricing</a> ·
+    <a href="mailto:info@vigiradar.com" style="color:var(--accent)">info@vigiradar.com</a>
+  </div>
+  <div>© 2026 VigiRadar</div>
+</div></div></footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* animated constellation background */
+(function(){
+  const cv=document.getElementById("bgfx");if(!cv)return;const ctx=cv.getContext("2d");
+  let w,h,pts=[],raf=0,mouse={x:-999,y:-999};
+  function size(){w=cv.width=cv.offsetWidth;h=cv.height=cv.offsetHeight;
+    const n=Math.min(90,Math.floor(w*h/16000));pts=[];
+    for(let i=0;i<n;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.7+.5});}
+  function step(){ctx.clearRect(0,0,w,h);
+    for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;
+      const dx=p.x-mouse.x,dy=p.y-mouse.y;if(dx*dx+dy*dy<12000){p.x+=dx*0.004;p.y+=dy*0.004;}}
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=dx*dx+dy*dy;
+      if(d<15000){const o=(1-d/15000)*.5;ctx.strokeStyle="rgba(56,189,248,"+o.toFixed(3)+")";
+        ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}
+    for(const p of pts){ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.2832);
+      ctx.fillStyle="rgba(45,212,191,.85)";ctx.fill();}
+    raf=requestAnimationFrame(step);
+  }
+  window.addEventListener("resize",size);
+  cv.addEventListener("pointermove",e=>{const r=cv.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});
+  cv.addEventListener("pointerleave",()=>{mouse.x=-999;mouse.y=-999;});
+  size(); if(!raf) step();
+})();
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
+async function capture(source){
+  const el=document.getElementById('heroEmail');const email=el.value.trim();
+  if(!email||!email.includes('@')){toast('Please enter a valid email.');return;}
+  try{await fetch('/leads',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({email,source:'landing:'+source})});}catch(e){}
+  el.value='';toast('Thanks — you’re on the early-access list.');
+}
+async function checkout(sku){
+  toast('Opening checkout…');
+  try{const r=await fetch('/billing/checkout',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({sku})});const d=await r.json();
+    if(d.url){window.location=d.url;return;}toast(d.error||'Checkout is not enabled yet.');}
+  catch(e){toast('Checkout is not enabled yet.');}
+}
+</script>
+</body>
+</html>

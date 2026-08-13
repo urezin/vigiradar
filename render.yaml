@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: vigiradar
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_BASE_URL
+        value: https://vigiradar.com
+      # Set these in the Render dashboard when ready (leave unset to run without them):
+      # ANTHROPIC_API_KEY, RESEND_API_KEY, EMAIL_FROM,
+      # STRIPE_SECRET_KEY, STRIPE_PRICE_PRO_MONTHLY, STRIPE_PRICE_TEAM_ANNUAL

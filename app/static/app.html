@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VigiRadar — Workspace</title>
+<style>
+  :root{--ink:#0f172a;--mut:#64748b;--line:#e6ebf2;--accent:#0ea5e9;--accent2:#14b8a6;--radar:#34d399;--soft:#f6f9fc;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font:15px/1.55 system-ui,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--soft);display:flex;min-height:100vh}
+  a{color:inherit;text-decoration:none}
+  /* sidebar */
+  .side{width:236px;flex-shrink:0;background:linear-gradient(180deg,#08192b,#0b2942);color:#cbd5e1;display:flex;flex-direction:column;padding:18px 14px;position:sticky;top:0;height:100vh}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px;color:#fff;padding:6px 8px 18px}
+  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--radar);box-shadow:0 0 12px 2px rgba(52,211,153,.8)}
+  .brand span{background:linear-gradient(90deg,#38bdf8,#2dd4bf);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .navi{display:flex;flex-direction:column;gap:3px;margin-top:4px}
+  .navi a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;color:#aab6c8;font-weight:500;font-size:14.5px;transition:.14s}
+  .navi a .ic{width:18px;text-align:center;opacity:.9}
+  .navi a:hover{background:rgba(255,255,255,.06);color:#fff}
+  .navi a.on{background:linear-gradient(92deg,rgba(14,165,233,.22),rgba(20,184,166,.18));color:#fff;border:1px solid rgba(56,189,248,.3)}
+  .side .foot{margin-top:auto;border-top:1px solid rgba(255,255,255,.08);padding-top:12px;font-size:13px}
+  .side .user{display:flex;align-items:center;gap:10px;padding:6px 8px}
+  .avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#14b8a6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px}
+  /* main */
+  .main{flex:1;min-width:0;display:flex;flex-direction:column}
+  .top{background:#fff;border-bottom:1px solid var(--line);padding:16px 26px;position:sticky;top:0;z-index:10}
+  .top h1{font-size:20px;letter-spacing:-.01em}
+  .top .subttl{color:var(--mut);font-size:13.5px;margin-top:2px}
+  .content{padding:22px 26px;max-width:1180px;width:100%}
+  /* stat row */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+  @media(max-width:900px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 17px}
+  .stat .k{font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+  .stat .v{font-size:27px;font-weight:800;margin-top:3px}
+  .stat .v.hi{color:#e11d48}.stat .v.md{color:#d97706}.stat .v.eu{color:var(--accent)}
+  /* filter bar */
+  .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px 14px}
+  .filters .fl{font-size:13px;color:var(--mut);font-weight:600;margin-right:2px}
+  select,.search{font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+  .search{flex:1;min-width:160px}
+  select:focus,.search:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,.15)}
+  /* feed */
+  .feed{display:flex;flex-direction:column;gap:12px}
+  .item{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px;transition:.14s}
+  .item:hover{box-shadow:0 6px 20px rgba(15,23,42,.06);border-color:#d5deea}
+  .item .row1{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px}
+  .src{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#0b2942;background:#eef4fb;border:1px solid #dbe7f3;border-radius:999px;padding:3px 10px}
+  .subj{font-size:12px;font-weight:600;color:var(--accent2);background:#e7fbf5;border:1px solid #c7f2e7;border-radius:999px;padding:3px 9px}
+  .imp{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-radius:999px;padding:3px 9px;margin-left:auto}
+  .imp.high{color:#e11d48;background:#fee2e8;border:1px solid #fbcfd9}
+  .imp.med{color:#b45309;background:#fef3e2;border:1px solid #fbe0bd}
+  .imp.low{color:#0f766e;background:#e7fbf5;border:1px solid #c7f2e7}
+  .item h3{font-size:16px;letter-spacing:-.01em;margin:2px 0 6px}
+  .item .sum{color:#475569;font-size:14px}
+  .item .row2{display:flex;align-items:center;gap:14px;margin-top:11px;font-size:12.5px;color:var(--mut);flex-wrap:wrap}
+  .item .row2 .cite{color:var(--accent);font-weight:600}
+  .item .row2 .dot{width:3px;height:3px;border-radius:50%;background:#cbd5e1}
+  .empty{background:#fff;border:1px dashed var(--line);border-radius:13px;padding:40px;text-align:center;color:var(--mut)}
+  .aiflag{display:inline-flex;align-items:center;gap:5px;color:#7c3aed;font-weight:600}
+  .banner{background:linear-gradient(100deg,#08192b,#0f3a55);color:#dbeafe;border-radius:13px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px;font-size:14px}
+  .banner .pill{background:rgba(52,211,153,.16);border:1px solid rgba(52,211,153,.4);color:#a7f3d0;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+</style>
+</head>
+<body>
+<aside class="side">
+  <div class="brand"><span class="dot"></span> Vigi<span>Radar</span></div>
+  <nav class="navi">
+    <a class="on" href="#"><span class="ic">◎</span> Radar feed</a>
+    <a href="#"><span class="ic">▤</span> Timeline</a>
+    <a href="#"><span class="ic">🌍</span> Countries</a>
+    <a href="#"><span class="ic">☰</span> Subjects</a>
+    <a href="#"><span class="ic">🔔</span> Alerts</a>
+    <a href="#"><span class="ic">★</span> Saved</a>
+    <a href="#"><span class="ic">⤓</span> Exports</a>
+  </nav>
+  <div class="foot">
+    <div class="user"><div class="avatar">DG</div><div><div style="color:#fff;font-weight:600">Dimitrios</div><div style="color:#8b9bb2;font-size:12px">Pro · trial</div></div></div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="top">
+    <h1>Radar feed</h1>
+    <div class="subttl">Regulatory & pharmacovigilance changes across the EU — summarised and prioritised for you.</div>
+  </div>
+  <div class="content">
+    <div class="banner">
+      <span class="pill">● Monitoring live</span>
+      <div>Watching <b>EMA, EUR-Lex, HMA</b> and <b>27 national agencies</b>. <span id="wkline">3 high-impact changes this week.</span></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="k">Updates (7 days)</div><div class="v" id="s_total">—</div></div>
+      <div class="stat"><div class="k">High impact</div><div class="v hi" id="s_high">—</div></div>
+      <div class="stat"><div class="k">Medium impact</div><div class="v md" id="s_med">—</div></div>
+      <div class="stat"><div class="k">Countries active</div><div class="v eu" id="s_ctry">—</div></div>
+    </div>
+
+    <div class="filters">
+      <span class="fl">Country</span>
+      <select id="fCountry" onchange="render()"></select>
+      <span class="fl">Subject</span>
+      <select id="fSubject" onchange="render()"></select>
+      <span class="fl">Impact</span>
+      <select id="fImpact" onchange="render()">
+        <option value="">All</option><option value="high">High</option><option value="med">Medium</option><option value="low">Low</option>
+      </select>
+      <input class="search" id="fSearch" placeholder="Search summaries…" oninput="render()" />
+    </div>
+
+    <div class="feed" id="feed"></div>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {country:"EU", flag:"🇪🇺", auth:"EMA", subject:"Signal management", impact:"high", date:"2026-08-11",
+   title:"GVP Module IX (Rev 2) — revised expectations for signal validation",
+   sum:"EMA updated Good Pharmacovigilance Practices Module IX. Signal validation must now document data-source lag and include a structured benefit-risk note within 30 days. Applies to all MAHs operating in the EU."},
+  {country:"EU", flag:"🇪🇺", auth:"EMA · PRAC", subject:"Signal management", impact:"high", date:"2026-08-08",
+   title:"PRAC signals recommendation — August cycle",
+   sum:"PRAC recommended SmPC updates for two substance classes following new signal assessments. MAHs of affected products should prepare variations within the standard timetable."},
+  {country:"EU", flag:"🇪🇺", auth:"EUR-Lex", subject:"Clinical trials (CTR)", impact:"med", date:"2026-08-07",
+   title:"Corrigendum to CTR transitional provisions",
+   sum:"A corrigendum clarifies the deadline for transitioning legacy trials to the Clinical Trials Regulation framework. No change to substance, but the reference date wording is amended."},
+  {country:"FR", flag:"🇫🇷", auth:"ANSM", subject:"Falsified medicines", impact:"high", date:"2026-08-06",
+   title:"Updated national procedure for suspected falsified medicine reporting",
+   sum:"ANSM introduced a new reporting channel and a 24-hour notification expectation for suspected falsified products in the French supply chain. Affects wholesalers and MAHs distributing in France."},
+  {country:"DE", flag:"🇩🇪", auth:"BfArM", subject:"PSUR / PBRER", impact:"med", date:"2026-08-05",
+   title:"PSUR submission portal — new metadata requirements",
+   sum:"BfArM now requires additional national metadata on PSUR submissions routed through the German portal. Existing EU single-assessment submissions are unaffected."},
+  {country:"ES", flag:"🇪🇸", auth:"AEMPS", subject:"Shortages & recalls", impact:"med", date:"2026-08-05",
+   title:"Revised medicine-shortage notification obligations",
+   sum:"AEMPS shortened the advance-notice window for anticipated supply disruptions and expanded the product scope. MAHs must update their Spanish notification workflows."},
+  {country:"EU", flag:"🇪🇺", auth:"EMA", subject:"GVP modules", impact:"med", date:"2026-08-04",
+   title:"GVP inspection procedure — updated conduct guidance",
+   sum:"EMA revised the procedural guidance for pharmacovigilance inspections, adding detail on remote inspection evidence and record-retention expectations."},
+  {country:"IT", flag:"🇮🇹", auth:"AIFA", subject:"Labelling & SmPC", impact:"low", date:"2026-08-03",
+   title:"Linguistic requirements for Italian package leaflets",
+   sum:"AIFA clarified formatting and readability requirements for Italian-language leaflets. Low operational impact; affects new submissions and major variations only."},
+  {country:"NL", flag:"🇳🇱", auth:"CBG-MEB", subject:"Clinical trials (CTR)", impact:"med", date:"2026-08-02",
+   title:"Alignment of national safety-reporting timelines with CTR",
+   sum:"CBG-MEB aligned national expedited safety-reporting timelines with the CTR framework, removing a national divergence for trials conducted in the Netherlands."},
+  {country:"IE", flag:"🇮🇪", auth:"HPRA", subject:"Fees & guidance", impact:"low", date:"2026-08-01",
+   title:"Annual update to RMP and variation fees",
+   sum:"HPRA published its annual fee schedule, with modest increases to risk-management-plan assessment and variation fees effective from September."},
+  {country:"EU", flag:"🇪🇺", auth:"EUR-Lex", subject:"Falsified medicines", impact:"med", date:"2026-07-31",
+   title:"Amendment to Delegated Regulation on safety features (FMD)",
+   sum:"A delegated act amends technical requirements for the unique identifier and anti-tampering device. Manufacturers and MAHs should review serialisation and pack artwork impact."},
+  {country:"SE", flag:"🇸🇪", auth:"Läkemedelsverket", subject:"Shortages & recalls", impact:"low", date:"2026-07-30",
+   title:"Streamlined national recall notification form",
+   sum:"The Swedish agency simplified its recall notification form and moved submissions online. Administrative change with low compliance impact."}
+];
+
+const COUNTRIES = [...new Set(DATA.map(d=>d.country))];
+const SUBJECTS = [...new Set(DATA.map(d=>d.subject))].sort();
+
+function fill(sel, items, allLabel){
+  const el=document.getElementById(sel);
+  el.innerHTML = `<option value="">${allLabel}</option>` + items.map(i=>`<option value="${i}">${i}</option>`).join("");
+}
+fill("fCountry", COUNTRIES, "All countries");
+fill("fSubject", SUBJECTS, "All subjects");
+
+function impLabel(i){return i==="high"?"High":i==="med"?"Medium":"Low";}
+function fmt(d){const m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];const p=d.split("-");return `${+p[2]} ${m[+p[1]-1]} ${p[0]}`;}
+
+function render(){
+  const c=document.getElementById("fCountry").value;
+  const s=document.getElementById("fSubject").value;
+  const im=document.getElementById("fImpact").value;
+  const q=document.getElementById("fSearch").value.trim().toLowerCase();
+  let rows=DATA.filter(d=>(!c||d.country===c)&&(!s||d.subject===s)&&(!im||d.impact===im)&&
+    (!q||(d.title+" "+d.sum+" "+d.auth).toLowerCase().includes(q)));
+  rows.sort((a,b)=>b.date.localeCompare(a.date));
+  const feed=document.getElementById("feed");
+  if(!rows.length){feed.innerHTML=`<div class="empty">No updates match these filters. Try widening your country or subject selection.</div>`;return;}
+  feed.innerHTML = rows.map(d=>`
+    <div class="item">
+      <div class="row1">
+        <span class="src">${d.flag} ${d.auth}</span>
+        <span class="subj">${d.subject}</span>
+        <span class="imp ${d.impact}">${impLabel(d.impact)} impact</span>
+      </div>
+      <h3>${d.title}</h3>
+      <div class="sum"><span class="aiflag">✦ AI summary</span> — ${d.sum}</div>
+      <div class="row2">
+        <span>Effective / published: <b>${fmt(d.date)}</b></span><span class="dot"></span>
+        <span>Source: ${d.auth}</span><span class="dot"></span>
+        <a class="cite" href="#">View official document ↗</a>
+      </div>
+    </div>`).join("");
+}
+
+// stats
+(function(){
+  const wk=DATA; // sample set = "last 7 days"
+  document.getElementById("s_total").textContent=wk.length;
+  document.getElementById("s_high").textContent=wk.filter(d=>d.impact==="high").length;
+  document.getElementById("s_med").textContent=wk.filter(d=>d.impact==="med").length;
+  document.getElementById("s_ctry").textContent=new Set(wk.map(d=>d.country)).size;
+  document.getElementById("wkline").textContent=`${wk.filter(d=>d.impact==="high").length} high-impact changes this week.`;
+})();
+render();
+</script>
+</body>
+</html>
