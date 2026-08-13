@@ -40,10 +40,30 @@ SOURCES: list[Source] = [
            "https://www.ema.europa.eu/en/fees.xml", "Fees & guidance"),
     Source("ema-inspections", "EU", "EMA",
            "https://www.ema.europa.eu/en/inspections.xml", "GVP modules"),
-    # EUR-Lex: Acts of the Official Journal (L series = legislation)
+    # HMA — Heads of Medicines Agencies (the national-agency network). CMDh is the
+    # national mutual-recognition / decentralised-procedure layer: PSUR single
+    # assessments, referrals, national regulatory positions.
+    Source("hma-cmdh", "EU", "HMA · CMDh",
+           "https://www.hma.eu/rss/recently-published-cmdh/rss.xml", "PSUR / PBRER"),
+    Source("hma-human", "EU", "HMA",
+           "https://www.hma.eu/rss/recently-published-human-medicines/rss.xml", "GVP modules"),
+    # EUR-Lex: Acts of the Official Journal (L series = EU legislation)
     Source("eurlex-oj-l", "EU", "EUR-Lex",
            "https://eur-lex.europa.eu/EN/display-feed.rss?rssId=165", "Falsified medicines"),
 ]
+
+# ---------------------------------------------------------------------------
+# Roadmap sources (no clean RSS/API — need per-source HTML scraping, so they're
+# a heavier build than the RSS connectors above). Documented here so coverage
+# gaps are explicit rather than silently missing.
+#   - ICH (ich.org): guideline adoptions; partially covered today via EMA's
+#     scientific-/regulatory-guideline feeds, which republish adopted ICH texts.
+#   - National legislation: 27 member-state agencies + legal gazettes, each a
+#     different site/language/format. Start with high-value agencies (BfArM,
+#     ANSM, AEMPS, AIFA) that expose usable pages.
+#   - Ethics committees: fragmented national bodies; EU clinical-trial ethics is
+#     largely inside CTIS. No public feeds.
+# ---------------------------------------------------------------------------
 
 # Procedural clutter to drop regardless of source — meeting mechanics, not
 # regulatory changes.
