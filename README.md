@@ -39,9 +39,37 @@ uvicorn app.main:app --reload
    - `RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_REPLY_TO` — transactional email
    - `STRIPE_SECRET_KEY`, `STRIPE_PRICE_PRO_MONTHLY`, `STRIPE_PRICE_TEAM_ANNUAL` — billing
 
+## Data pipeline (live ingestion + AI summaries)
+
+The feed is populated by a real ingestion pipeline:
+
+- `app/sources.py` — official RSS/Atom connectors (8 EMA topic feeds + EUR-Lex
+  Official Journal to start; add a national agency = one `Source` row).
+- `app/summarise.py` — AI summariser (Anthropic). Turns each raw item into a
+  plain-English "what changed & why it matters" summary, a subject from the
+  taxonomy, and an impact rating. Falls back to a deterministic keyword
+  classifier (`app/taxonomy.py`) when no `ANTHROPIC_API_KEY` is set.
+- `app/store.py` — SQLite storage (idempotent upsert keyed on item id).
+- `app/ingest.py` — the runner: fetch → skip seen → summarise → store.
+
+`GET /api/updates` serves live data once the store is populated, and the curated
+sample otherwise, so it's never empty.
+
+### Activating it in production
+
+1. Set env vars on Render: `ANTHROPIC_API_KEY` (real AI summaries) and
+   `ADMIN_TOKEN` (any strong secret — guards the ingest trigger).
+2. Trigger a pass: `POST /admin/ingest` with header `X-Admin-Token: <token>`.
+3. Schedule it: add a Render **Cron Job** (or reuse the scheduled-task setup)
+   that POSTs `/admin/ingest` a few times a day.
+
+Note: the free instance's disk is ephemeral, so SQLite resets on redeploy —
+fine for the MVP (ingestion re-populates). For durable storage add a Render
+Disk or swap `store.py` to Postgres (the query interface stays the same).
+
 ## Next build phases
 
-1. **Source connectors** — EMA, EUR-Lex (SPARQL/API), HMA, national agency feeds.
-2. **AI summariser** — normalise each change to summary + effective date + impact.
-3. **Accounts & alerts** — per-user country/subject scope, digests, real-time alerts.
-4. **Audit export** — inspection-ready timeline of what the team monitored.
+1. **More connectors** — HMA + the national agencies (BfArM, ANSM, AEMPS, AIFA…).
+2. **Accounts & alerts** — per-user country/subject scope, digests, real-time alerts.
+3. **Audit export** — inspection-ready timeline of what the team monitored.
+4. **Effective-date extraction** — parse legal effective dates from linked docs.

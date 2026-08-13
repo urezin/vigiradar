@@ -14,6 +14,9 @@ class Settings:
     email_from: str = os.getenv("EMAIL_FROM", "VigiRadar <info@vigiradar.com>")
     email_reply_to: str = os.getenv("EMAIL_REPLY_TO", "info@vigiradar.com")
 
+    # Admin token guarding the ingestion trigger (/admin/ingest)
+    admin_token: str = os.getenv("ADMIN_TOKEN", "")
+
     # Stripe (billing) — optional; checkout disabled until keys are set
     stripe_secret_key: str = os.getenv("STRIPE_SECRET_KEY", "")
     stripe_price_pro_monthly: str = os.getenv("STRIPE_PRICE_PRO_MONTHLY", "")

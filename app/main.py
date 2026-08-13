@@ -10,7 +10,7 @@ Run:  uvicorn app.main:app --reload   →   http://127.0.0.1:8000
 import logging
 import os
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Header, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,6 +18,7 @@ from pydantic import BaseModel
 
 from .config import settings
 from .data import UPDATES, COUNTRIES, SUBJECTS
+from . import store, ingest as ingest_mod
 
 log = logging.getLogger("vigiradar")
 
@@ -65,6 +66,15 @@ def meta():
 
 @app.get("/api/updates")
 def updates(country: str | None = None, subject: str | None = None, impact: str | None = None):
+    # Serve live, ingested data once the store has anything; otherwise fall back
+    # to the curated sample so the product is always demoable.
+    try:
+        store.init()
+        if store.count() > 0:
+            rows = store.query(country=country, subject=subject, impact=impact)
+            return {"count": len(rows), "updates": rows, "source": "live"}
+    except Exception:
+        pass
     rows = UPDATES
     if country:
         rows = [r for r in rows if r["country"] == country]
@@ -73,7 +83,17 @@ def updates(country: str | None = None, subject: str | None = None, impact: str 
     if impact:
         rows = [r for r in rows if r["impact"] == impact]
     rows = sorted(rows, key=lambda r: r["date"], reverse=True)
-    return {"count": len(rows), "updates": rows}
+    return {"count": len(rows), "updates": rows, "source": "sample"}
+
+
+@app.post("/admin/ingest")
+def admin_ingest(per_source: int = 15, x_admin_token: str = Header(default="")):
+    """Trigger an ingestion pass. Protected by ADMIN_TOKEN (set on Render).
+    Call from a scheduled job or manually: POST with header X-Admin-Token."""
+    if not settings.admin_token or x_admin_token != settings.admin_token:
+        raise HTTPException(status_code=401, detail="Invalid or missing admin token.")
+    stats = ingest_mod.run_ingest(per_source=per_source)
+    return stats
 
 
 @app.post("/leads")
