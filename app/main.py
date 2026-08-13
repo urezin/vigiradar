@@ -12,13 +12,13 @@ import os
 
 from fastapi import FastAPI, Request, Header, HTTPException
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from .config import settings
 from .data import UPDATES, COUNTRIES, SUBJECTS
-from . import store, ingest as ingest_mod
+from . import store, ingest as ingest_mod, digest as digest_mod, emailer
 
 log = logging.getLogger("vigiradar")
 
@@ -64,15 +64,12 @@ def meta():
     return {"countries": COUNTRIES, "subjects": SUBJECTS}
 
 
-@app.get("/api/updates")
-def updates(country: str | None = None, subject: str | None = None, impact: str | None = None):
-    # Serve live, ingested data once the store has anything; otherwise fall back
-    # to the curated sample so the product is always demoable.
+def _current_updates(country=None, subject=None, impact=None) -> tuple[list[dict], str]:
+    """Live rows from the store once ingested; curated sample otherwise."""
     try:
         store.init()
         if store.count() > 0:
-            rows = store.query(country=country, subject=subject, impact=impact)
-            return {"count": len(rows), "updates": rows, "source": "live"}
+            return store.query(country=country, subject=subject, impact=impact), "live"
     except Exception:
         pass
     rows = UPDATES
@@ -83,17 +80,44 @@ def updates(country: str | None = None, subject: str | None = None, impact: str 
     if impact:
         rows = [r for r in rows if r["impact"] == impact]
     rows = sorted(rows, key=lambda r: r["date"], reverse=True)
-    return {"count": len(rows), "updates": rows, "source": "sample"}
+    return rows, "sample"
+
+
+@app.get("/api/updates")
+def updates(country: str | None = None, subject: str | None = None, impact: str | None = None):
+    rows, src = _current_updates(country, subject, impact)
+    return {"count": len(rows), "updates": rows, "source": src}
 
 
 @app.post("/admin/ingest")
 def admin_ingest(per_source: int = 15, x_admin_token: str = Header(default="")):
-    """Trigger an ingestion pass. Protected by ADMIN_TOKEN (set on Render).
-    Call from a scheduled job or manually: POST with header X-Admin-Token."""
+    """Trigger an ingestion pass. Protected by ADMIN_TOKEN (set on Render)."""
     if not settings.admin_token or x_admin_token != settings.admin_token:
         raise HTTPException(status_code=401, detail="Invalid or missing admin token.")
-    stats = ingest_mod.run_ingest(per_source=per_source)
-    return stats
+    return ingest_mod.run_ingest(per_source=per_source)
+
+
+@app.get("/digest/preview", response_class=HTMLResponse)
+def digest_preview(country: str | None = None, subject: str | None = None):
+    """Render the weekly digest email from the current feed (live or sample)."""
+    rows, _ = _current_updates(country, subject, None)
+    scope = f"{country or 'EU'} · {subject or 'all subjects'}"
+    return HTMLResponse(digest_mod.render_html(rows, scope_label=scope,
+                                               app_url=settings.app_base_url))
+
+
+@app.post("/admin/digest/send")
+def admin_digest_send(to: str, country: str | None = None, subject: str | None = None,
+                      x_admin_token: str = Header(default="")):
+    """Send the digest to one address. Protected by ADMIN_TOKEN."""
+    if not settings.admin_token or x_admin_token != settings.admin_token:
+        raise HTTPException(status_code=401, detail="Invalid or missing admin token.")
+    rows, src = _current_updates(country, subject, None)
+    html = digest_mod.render_html(rows, scope_label=f"{country or 'EU'} · {subject or 'all subjects'}",
+                                  app_url=settings.app_base_url)
+    result = emailer.send(to, "Your VigiRadar digest — this week", html)
+    return {"sent_to": to, "items": len(rows), "high_impact": len(digest_mod.high_impact(rows)),
+            "data_source": src, "email": result}
 
 
 @app.post("/leads")
