@@ -53,6 +53,15 @@ def _col(fields: list[str], i: int) -> str:
     return fields[i].strip() if len(fields) > i else ""
 
 
+def _decode(raw: bytes) -> str:
+    """BDPM files are inconsistent (one UTF-8, one Windows-1252). Try UTF-8
+    strictly first; if that fails it's the latin-1 file, so fall back."""
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return raw.decode("latin-1", "replace")
+
+
 def fetch_france(timeout: float = 90.0) -> list[dict]:
     """Fetch + join the two BDPM files into normalised price rows."""
     import httpx
@@ -63,14 +72,14 @@ def fetch_france(timeout: float = 90.0) -> list[dict]:
 
     # CIS code -> (drug name, pharmaceutical form)
     names: dict[str, tuple[str, str]] = {}
-    for line in cis.content.decode("latin-1", "replace").splitlines():
+    for line in _decode(cis.content).splitlines():
         f = line.split("\t")
         code = _col(f, 0)
         if code:
             names[code] = (_col(f, 1), _col(f, 2))
 
     items: list[dict] = []
-    for line in cip.content.decode("latin-1", "replace").splitlines():
+    for line in _decode(cip.content).splitlines():
         f = line.split("\t")
         code = _col(f, 0)
         if not code:
