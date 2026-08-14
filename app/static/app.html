@@ -115,7 +115,7 @@
 </div>
 
 <script>
-const DATA = [
+const SAMPLE = [
   {country:"EU", flag:"🇪🇺", auth:"EMA", subject:"Signal management", impact:"high", date:"2026-08-11",
    title:"GVP Module IX (Rev 2) — revised expectations for signal validation",
    sum:"EMA updated Good Pharmacovigilance Practices Module IX. Signal validation must now document data-source lag and include a structured benefit-risk note within 30 days. Applies to all MAHs operating in the EU."},
@@ -154,15 +154,21 @@ const DATA = [
    sum:"The Swedish agency simplified its recall notification form and moved submissions online. Administrative change with low compliance impact."}
 ];
 
-const COUNTRIES = [...new Set(DATA.map(d=>d.country))];
-const SUBJECTS = [...new Set(DATA.map(d=>d.subject))].sort();
+// Live feed wiring: ships with SAMPLE (never blank) then swaps in the real
+// ingested items from /api/updates. Falls back to SAMPLE if the API is empty.
+let DATA = SAMPLE;
+const FLAGS = {EU:"🇪🇺",AT:"🇦🇹",BE:"🇧🇪",BG:"🇧🇬",HR:"🇭🇷",CY:"🇨🇾",CZ:"🇨🇿",DK:"🇩🇰",EE:"🇪🇪",FI:"🇫🇮",FR:"🇫🇷",DE:"🇩🇪",GR:"🇬🇷",EL:"🇬🇷",HU:"🇭🇺",IE:"🇮🇪",IT:"🇮🇹",LV:"🇱🇻",LT:"🇱🇹",LU:"🇱🇺",MT:"🇲🇹",NL:"🇳🇱",PL:"🇵🇱",PT:"🇵🇹",RO:"🇷🇴",SK:"🇸🇰",SI:"🇸🇮",ES:"🇪🇸",SE:"🇸🇪",IS:"🇮🇸",NO:"🇳🇴",LI:"🇱🇮",GB:"🇬🇧",UK:"🇬🇧"};
+const flagFor = c => FLAGS[(c||"").toUpperCase()] || "🏳️";
 
 function fill(sel, items, allLabel){
-  const el=document.getElementById(sel);
+  const el=document.getElementById(sel); const cur=el.value;
   el.innerHTML = `<option value="">${allLabel}</option>` + items.map(i=>`<option value="${i}">${i}</option>`).join("");
+  if(cur) el.value=cur;
 }
-fill("fCountry", COUNTRIES, "All countries");
-fill("fSubject", SUBJECTS, "All subjects");
+function refreshFilters(){
+  fill("fCountry", [...new Set(DATA.map(d=>d.country))].sort(), "All countries");
+  fill("fSubject", [...new Set(DATA.map(d=>d.subject))].sort(), "All subjects");
+}
 
 function impLabel(i){return i==="high"?"High":i==="med"?"Medium":"Low";}
 function fmt(d){const m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];const p=d.split("-");return `${+p[2]} ${m[+p[1]-1]} ${p[0]}`;}
@@ -180,7 +186,7 @@ function render(){
   feed.innerHTML = rows.map(d=>`
     <div class="item">
       <div class="row1">
-        <span class="src">${d.flag} ${d.auth}</span>
+        <span class="src">${d.flag||flagFor(d.country)} ${d.auth}</span>
         <span class="subj">${d.subject}</span>
         <span class="imp ${d.impact}">${impLabel(d.impact)} impact</span>
       </div>
@@ -189,21 +195,33 @@ function render(){
       <div class="row2">
         <span>Effective / published: <b>${fmt(d.date)}</b></span><span class="dot"></span>
         <span>Source: ${d.auth}</span><span class="dot"></span>
-        <a class="cite" href="#">View official document ↗</a>
+        <a class="cite" href="${d.url||'#'}" target="_blank" rel="noopener">View official document ↗</a>
       </div>
     </div>`).join("");
 }
 
-// stats
-(function(){
-  const wk=DATA; // sample set = "last 7 days"
+function updateStats(){
+  const wk=DATA;
   document.getElementById("s_total").textContent=wk.length;
   document.getElementById("s_high").textContent=wk.filter(d=>d.impact==="high").length;
   document.getElementById("s_med").textContent=wk.filter(d=>d.impact==="med").length;
   document.getElementById("s_ctry").textContent=new Set(wk.map(d=>d.country)).size;
   document.getElementById("wkline").textContent=`${wk.filter(d=>d.impact==="high").length} high-impact changes this week.`;
-})();
-render();
+}
+function init(){ refreshFilters(); updateStats(); render(); }
+
+async function loadLive(){
+  try{
+    const r=await fetch("/api/updates"); if(!r.ok) return;
+    const j=await r.json();
+    if(j && j.count>0 && Array.isArray(j.updates)){
+      DATA = j.updates.map(u=>({country:u.country, flag:flagFor(u.country), auth:u.authority,
+        subject:u.subject, impact:u.impact, date:u.date, title:u.title, sum:u.summary, url:u.source_url}));
+      init();
+    }
+  }catch(e){}
+}
+init(); loadLive();
 </script>
 </body>
 </html>

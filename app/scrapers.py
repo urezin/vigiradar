@@ -36,19 +36,29 @@ SCRAPERS: list[Scraper] = [
     Scraper("ansm", "FR", "ANSM",
             "https://ansm.sante.fr/actualites",
             r"/actualites/[a-z0-9][a-z0-9\-]{8,}$", "Signal management", verified=True),
-    # Best-effort — tune list_url / link_re against live output after first run.
+    # AEMPS (ES) — verified live: "informa" bulletins + news articles.
     Scraper("aemps", "ES", "AEMPS",
             "https://www.aemps.gob.es/acciones-informativas/ultima-informacion/",
-            r"/informa/|/acciones-informativas/[a-z0-9\-]{8,}", "Signal management"),
+            r"/informa/|/acciones-informativas/[a-z0-9\-]{8,}", "Signal management", verified=True),
+    # AIFA (IT) — verified live 2026: English press-release listing. Individual
+    # articles live at /en/-/<slug> (slugs use hyphens, underscores and dots).
     Scraper("aifa", "IT", "AIFA",
-            "https://www.aifa.gov.it/en/-/",
-            r"/en/-/[a-z0-9\-]{8,}", "Signal management"),
+            "https://www.aifa.gov.it/en/comunicati-stampa",
+            r"/en/-/[a-z0-9][a-z0-9_.\-]{8,}$", "Signal management", verified=True),
+    # BfArM (DE) — verified live 2026: press releases are German-only, but the
+    # English "News overview" publishes Kundeninfos (supply/quality/batch notices)
+    # in English at /SharedDocs/Kundeninfos/EN/<n>/<year>/<ref>_kundeninfo_en.html.
     Scraper("bfarm", "DE", "BfArM",
-            "https://www.bfarm.de/SharedDocs/Pressemitteilungen/EN/allPressReleases.html",
-            r"/SharedDocs/Pressemitteilungen/EN/\d{4}/[a-z0-9\-_]+\.html", "Signal management"),
+            "https://www.bfarm.de/EN/News/News-from-the-divisions/News-Overview/_node.html",
+            r"/SharedDocs/Kundeninfos/EN/\d+/\d{4}/[A-Za-z0-9\-_]+_kundeninfo_en\.html",
+            "Shortages & recalls", verified=True),
 ]
 
 _DATE_RE = re.compile(r"(\d{1,2})[/.](\d{1,2})[/.](\d{4})|(\d{4})-(\d{2})-(\d{2})")
+# English "DD Mon YYYY" (e.g. AIFA: "15 Jun 2026")
+_MONTHS = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
+_DATE_MONTH_RE = re.compile(r"(\d{1,2})\s+([A-Za-z]{3})[a-z]*\s+(\d{4})")
 
 
 def item_id(scraper_id: str, url: str, title: str) -> str:
@@ -57,13 +67,18 @@ def item_id(scraper_id: str, url: str, title: str) -> str:
 
 
 def _guess_date(text_near: str) -> str:
-    m = _DATE_RE.search(text_near or "")
-    if not m:
-        return ""
-    if m.group(3):   # dd/mm/yyyy or dd.mm.yyyy
-        d, mo, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
+    text_near = text_near or ""
+    m = _DATE_RE.search(text_near)
+    if m:
+        if m.group(3):   # dd/mm/yyyy or dd.mm.yyyy
+            d, mo, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
+            return f"{y:04d}-{mo:02d}-{d:02d}"
+        return f"{m.group(4)}-{m.group(5)}-{m.group(6)}"   # yyyy-mm-dd
+    m = _DATE_MONTH_RE.search(text_near)   # "15 Jun 2026"
+    if m and m.group(2).lower() in _MONTHS:
+        d, mo, y = int(m.group(1)), _MONTHS[m.group(2).lower()], int(m.group(3))
         return f"{y:04d}-{mo:02d}-{d:02d}"
-    return f"{m.group(4)}-{m.group(5)}-{m.group(6)}"   # yyyy-mm-dd
+    return ""
 
 
 def fetch_raw_items(scraper: Scraper, timeout: float = 20.0, cap: int = 40) -> list[dict]:
