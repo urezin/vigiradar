@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import hashlib
 from dataclasses import dataclass
+from urllib.parse import urljoin
 
 
 @dataclass(frozen=True)
@@ -50,6 +51,16 @@ SOURCES: list[Source] = [
     # EUR-Lex: Acts of the Official Journal (L series = EU legislation)
     Source("eurlex-oj-l", "EU", "EUR-Lex",
            "https://eur-lex.europa.eu/EN/display-feed.rss?rssId=165", "Falsified medicines"),
+    # National agencies that DO expose RSS behind their JS news pages (found by
+    # inspecting the underlying feed endpoints — more robust than HTML scraping).
+    # AIFA (IT): Liferay "Notizia" feed (Italian; the AI summariser handles IT).
+    Source("aifa", "IT", "AIFA",
+           "https://www.aifa.gov.it/o/feedrss/rss?structureId=93604&groupId=20142&companyId=20115&baseportalURL=https://www.aifa.gov.it&size=25&excludeCategoryId=104878&locale=it_IT",
+           "Signal management"),
+    # BfArM (DE): Government Site Builder press-release RSS (German).
+    Source("bfarm", "DE", "BfArM",
+           "https://www.bfarm.de/SiteGlobals/Functions/RSSFeed/DE/Pressemitteilungen/RSSNewsfeed.xml",
+           "Signal management"),
 ]
 
 # ---------------------------------------------------------------------------
@@ -95,7 +106,14 @@ def fetch_raw_items(source: Source, timeout: float = 20.0) -> list[dict]:
     import httpx
     import feedparser
 
-    headers = {"User-Agent": "VigiEye/0.1 (+https://vigi-eye.com)"}
+    # Realistic browser UA + Accept: some gov sites (e.g. BfArM) reject default
+    # library user-agents on their RSS endpoints.
+    headers = {
+        "User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36 VigiEye/0.1"),
+        "Accept": "application/rss+xml, application/xml, text/xml, */*",
+        "Accept-Language": "en,it;q=0.8,de;q=0.6,fr;q=0.6,es;q=0.6",
+    }
     with httpx.Client(timeout=timeout, headers=headers, follow_redirects=True) as client:
         resp = client.get(source.feed_url)
         resp.raise_for_status()
@@ -105,6 +123,8 @@ def fetch_raw_items(source: Source, timeout: float = 20.0) -> list[dict]:
     for e in parsed.entries:
         title = (getattr(e, "title", "") or "").strip()
         link = (getattr(e, "link", "") or "").strip()
+        if link.startswith("/"):   # some feeds (AIFA) use root-relative links
+            link = urljoin(source.feed_url, link)
         desc = (getattr(e, "summary", "") or getattr(e, "description", "") or "").strip()
         published = (getattr(e, "published", "") or getattr(e, "updated", "") or "").strip()
         if not title or _is_noise(title):

@@ -40,18 +40,9 @@ SCRAPERS: list[Scraper] = [
     Scraper("aemps", "ES", "AEMPS",
             "https://www.aemps.gob.es/acciones-informativas/ultima-informacion/",
             r"/informa/|/acciones-informativas/[a-z0-9\-]{8,}", "Signal management", verified=True),
-    # AIFA (IT) — verified live 2026: English press-release listing. Individual
-    # articles live at /en/-/<slug> (slugs use hyphens, underscores and dots).
-    Scraper("aifa", "IT", "AIFA",
-            "https://www.aifa.gov.it/en/comunicati-stampa",
-            r"/en/-/[a-z0-9][a-z0-9_.\-]{8,}$", "Signal management", verified=True),
-    # BfArM (DE) — verified live 2026: press releases are German-only, but the
-    # English "News overview" publishes Kundeninfos (supply/quality/batch notices)
-    # in English at /SharedDocs/Kundeninfos/EN/<n>/<year>/<ref>_kundeninfo_en.html.
-    Scraper("bfarm", "DE", "BfArM",
-            "https://www.bfarm.de/EN/News/News-from-the-divisions/News-Overview/_node.html",
-            r"/SharedDocs/Kundeninfos/EN/\d+/\d{4}/[A-Za-z0-9\-_]+_kundeninfo_en\.html",
-            "Shortages & recalls", verified=True),
+    # NOTE: AIFA (IT) and BfArM (DE) moved to RSS connectors in app/sources.py —
+    # their news lists are JavaScript-rendered, so HTML scraping returned nothing.
+    # They now consume the agencies' underlying RSS feeds instead.
 ]
 
 _DATE_RE = re.compile(r"(\d{1,2})[/.](\d{1,2})[/.](\d{4})|(\d{4})-(\d{2})-(\d{2})")

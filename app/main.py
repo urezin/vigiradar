@@ -18,7 +18,7 @@ from pydantic import BaseModel
 
 from .config import settings
 from .data import UPDATES, COUNTRIES, SUBJECTS
-from . import store, ingest as ingest_mod, digest as digest_mod, emailer
+from . import store, ingest as ingest_mod, digest as digest_mod, emailer, prices as prices_mod
 
 log = logging.getLogger("vigiradar")
 
@@ -95,6 +95,38 @@ def admin_ingest(per_source: int = 15, x_admin_token: str = Header(default="")):
     if not settings.admin_token or x_admin_token != settings.admin_token:
         raise HTTPException(status_code=401, detail="Invalid or missing admin token.")
     return ingest_mod.run_ingest(per_source=per_source)
+
+
+@app.post("/admin/prices/ingest")
+def admin_prices_ingest(x_admin_token: str = Header(default="")):
+    """Full-refresh the national price/reimbursement datasets. Token-protected."""
+    if not settings.admin_token or x_admin_token != settings.admin_token:
+        raise HTTPException(status_code=401, detail="Invalid or missing admin token.")
+    store.init()
+    stats = {"sources": 0, "by_country": {}, "errors": [], "total": 0}
+    for src in prices_mod.PRICE_SOURCES:
+        stats["sources"] += 1
+        try:
+            rows = src.fetch()
+            n = store.prices_replace_country(src.country, rows)
+            stats["by_country"][src.country] = n
+            stats["total"] += n
+        except Exception as e:
+            stats["errors"].append({"source": src.id, "error": str(e)})
+    stats["total_in_store"] = store.prices_count()
+    return stats
+
+
+@app.get("/api/prices")
+def api_prices(country: str | None = None, search: str | None = None, limit: int = 200):
+    """Filterable price/reimbursement rows. Returns [] until an ingest has run."""
+    try:
+        store.init()
+        rows = store.prices_query(country=country, search=search, limit=min(limit, 500))
+        return {"count": len(rows), "total": store.prices_count(country),
+                "countries": store.prices_countries(), "prices": rows}
+    except Exception as e:
+        return {"count": 0, "total": 0, "countries": [], "prices": [], "error": str(e)}
 
 
 @app.get("/digest/preview", response_class=HTMLResponse)
