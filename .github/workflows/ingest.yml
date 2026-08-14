@@ -1,0 +1,57 @@
+name: Daily ingest
+
+# Refreshes the VigiEye feed every day by calling the protected /admin/ingest
+# endpoint. New items get an AI summary + are stored in Postgres; already-seen
+# items are skipped (idempotent), so daily runs are fast and cheap.
+#
+# Setup (one-time):
+#   1. Repo → Settings → Secrets and variables → Actions → New repository secret
+#        Name:  ADMIN_TOKEN     Value: <the ADMIN_TOKEN set on Render>
+#   2. If you rename the Render service (URL changes), update BASE_URL below.
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # 06:00 UTC daily
+  workflow_dispatch: {}    # allows a manual run from the Actions tab
+
+env:
+  BASE_URL: "https://vigiradar.onrender.com"   # ← update after renaming the service
+  PER_SOURCE: "25"
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Trigger ingestion
+        run: |
+          echo "Calling ${BASE_URL}/admin/ingest?per_source=${PER_SOURCE}"
+          # --max-time 900: allow a full pass (AI calls) to complete before the
+          # client disconnects, so uvicorn doesn't cancel the request mid-run.
+          # First call may be slow if the free instance is spun down.
+          http_code=$(curl -sS -o response.json -w "%{http_code}" \
+            --max-time 900 --retry 2 --retry-delay 30 --retry-connrefused \
+            -X POST "${BASE_URL}/admin/ingest?per_source=${PER_SOURCE}" \
+            -H "X-Admin-Token: ${{ secrets.ADMIN_TOKEN }}")
+          echo "HTTP ${http_code}"
+          echo "----- response -----"
+          cat response.json || true
+          echo
+          if [ "$http_code" != "200" ]; then
+            echo "::error::Ingest returned HTTP ${http_code}"
+            exit 1
+          fi
+      - name: Show summary
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          try:
+              d = json.load(open("response.json"))
+          except Exception as e:
+              print("no parseable response:", e); sys.exit(0)
+          print("sources:", d.get("sources"), "fetched:", d.get("fetched"),
+                "new:", d.get("new"), "total_in_store:", d.get("total_in_store"))
+          for e in d.get("errors", []):
+              print("  error:", e)
+          PY
