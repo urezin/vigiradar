@@ -319,6 +319,70 @@ def fetch_spain(timeout: float = 120.0) -> list[dict]:
     return items
 
 
+# ---------------------------------------------------------------------------
+# Slovenia — JAZMP list of regulated (wholesale) medicine prices. A monthly
+# .xlsx at a DATE-STAMPED URL (cene_YYYYMMDD.xlsx, dated the 1st), so we resolve
+# the latest by walking back month-by-month from today. Eurozone, so the price
+# is already in EUR. Columns (0-based, data from row 2; row 0 = note, row 1 =
+# header): 0 Ident, 1 Ime zdravila in pakiranje (name+pack), 2 ATC,
+# 3 splošno ime (generic name), 4 company, 5 dispensing regime,
+# 6 "Cena na debelo €" (wholesale price).
+SI_BASE = "https://www.jazmp.si/fileadmin/datoteke/seznami/SFE/Cene/cene_{ymd}.xlsx"
+
+
+def _si_candidate_urls() -> list[str]:
+    from datetime import date
+    today = date.today()
+    urls = []
+    for i in range(0, 8):
+        mm, yy = today.month - i, today.year
+        while mm <= 0:
+            mm += 12
+            yy -= 1
+        urls.append(SI_BASE.format(ymd=f"{yy:04d}{mm:02d}01"))
+    return urls
+
+
+def fetch_slovenia(timeout: float = 90.0) -> list[dict]:
+    """Resolve the latest JAZMP monthly price xlsx and parse it (stdlib reader)."""
+    import httpx
+
+    content = None
+    with httpx.Client(timeout=timeout, headers=_UA, follow_redirects=True) as client:
+        for u in _si_candidate_urls():
+            try:
+                r = client.get(u)
+            except Exception:
+                continue
+            if r.status_code == 200 and r.content[:2] == b"PK":
+                content = r.content
+                break
+    if not content:
+        raise RuntimeError("no JAZMP price file found in the last 8 months")
+
+    items: list[dict] = []
+    for f in read_xlsx(content)[2:]:      # skip note row + header row
+        code = _col(f, 0)
+        name = _col(f, 1)
+        price = _price_to_float(_col(f, 6))
+        if not name or price is None:
+            continue
+        items.append({
+            "id": _row_id("SI", code or name, name),
+            "country": "SI",
+            "product": name[:300],
+            "form": _col(f, 3)[:200],      # generic name (splošno ime)
+            "presentation": "",
+            "cip13": code,
+            "price_eur": price,
+            "price_with_fee_eur": None,
+            "reimbursement": "",
+            "status": _col(f, 2)[:120],    # ATC
+            "source_url": "https://www.jazmp.si/",
+        })
+    return items
+
+
 @dataclass(frozen=True)
 class PriceSource:
     id: str
@@ -334,4 +398,5 @@ PRICE_SOURCES: list[PriceSource] = [
     PriceSource("fr-bdpm", "FR", "France — Base de données publique des médicaments", fetch_france),
     PriceSource("it-aifa", "IT", "Italy — AIFA Liste di trasparenza", fetch_italy),
     PriceSource("es-nomen", "ES", "Spain — Nomenclátor de facturación (Min. Sanidad)", fetch_spain),
+    PriceSource("si-jazmp", "SI", "Slovenia — JAZMP regulated prices", fetch_slovenia),
 ]
