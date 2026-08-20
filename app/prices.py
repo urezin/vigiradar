@@ -35,8 +35,12 @@ _UA = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
 
 
 def _price_to_float(raw: str):
-    """'2,05' -> 2.05 ; '' -> None (French comma decimal, stray spaces/nbsp)."""
-    s = (raw or "").strip().replace(" ", "").replace(" ", "").replace(",", ".")
+    """'2,05' or '5,63 €' -> float ; '' -> None.
+
+    Handles the European comma decimal separator plus stray spaces, non-breaking
+    spaces and a trailing euro sign (Italy's CSV writes prices as '5,63 €')."""
+    s = (raw or "").strip().replace("€", "").replace(" ", "").replace(" ", "")
+    s = s.replace(",", ".")
     if not s:
         return None
     try:
@@ -60,6 +64,17 @@ def _decode(raw: bytes) -> str:
         return raw.decode("utf-8")
     except UnicodeDecodeError:
         return raw.decode("latin-1", "replace")
+
+
+def _decode_try(raw: bytes, encodings: tuple[str, ...]) -> str:
+    """Decode bytes trying each encoding in turn; last one uses 'replace' so it
+    never raises. Used for national files whose encoding isn't documented."""
+    for enc in encodings[:-1]:
+        try:
+            return raw.decode(enc)
+        except (UnicodeDecodeError, LookupError):
+            continue
+    return raw.decode(encodings[-1], "replace")
 
 
 def fetch_france(timeout: float = 90.0) -> list[dict]:
@@ -109,6 +124,69 @@ def fetch_france(timeout: float = 90.0) -> list[dict]:
     return items
 
 
+# ---------------------------------------------------------------------------
+# Italy — AIFA "Liste di trasparenza" (generic-equivalent transparency list).
+# One semicolon-delimited CSV, refreshed monthly at a STABLE (undated) URL.
+# Columns (0-based):
+#   0 Principio attivo, 1 Confezione di riferimento, 2 ATC, 3 AIC,
+#   4 Farmaco (brand), 5 Confezione (presentation), 6 Ditta (company),
+#   7 Prezzo riferimento SSN (reimbursed reference price),
+#   8 Prezzo Pubblico <date> (public price), 9 Differenza, 10 Nota,
+#   11 Codice gruppo equivalenza.
+# Prices look like "5,63 €" (comma decimal + euro sign). Fields are CSV-quoted
+# ("" escapes an inner quote), so parse with the csv module, not a bare split.
+IT_CSV_URL = "https://www.aifa.gov.it/documents/20142/825643/Lista_farmaci_equivalenti.csv"
+
+
+def fetch_italy(timeout: float = 90.0) -> list[dict]:
+    """Fetch + parse the AIFA transparency-list CSV into normalised price rows.
+
+    The public price (col 8) is the shelf price; the SSN reference price (col 7)
+    is what the national health service reimburses, so we surface it in the
+    `reimbursement` slot as a euro figure."""
+    import csv
+    import io
+    import httpx
+
+    with httpx.Client(timeout=timeout, headers=_UA, follow_redirects=True) as client:
+        r = client.get(IT_CSV_URL)
+        r.raise_for_status()
+
+    text = _decode_try(r.content, ("utf-8-sig", "utf-8", "cp1252", "latin-1"))
+    reader = csv.reader(io.StringIO(text), delimiter=";")
+
+    items: list[dict] = []
+    for idx, f in enumerate(reader):
+        if idx == 0:
+            continue  # header row
+        if len(f) < 9:
+            continue
+        active = _col(f, 0)
+        aic = _col(f, 3)
+        brand = _col(f, 4)
+        presentation = _col(f, 5)
+        public = _price_to_float(_col(f, 8))
+        ssn_ref = _price_to_float(_col(f, 7))
+        if public is None and ssn_ref is None:
+            continue
+        product = brand or active
+        reimb = f"{ssn_ref:.2f} € SSN" if ssn_ref is not None else ""
+        items.append({
+            "id": _row_id("IT", aic or presentation, product),
+            "country": "IT",
+            "product": product[:300],
+            "form": active[:200],          # active ingredient (form is inside presentation)
+            "presentation": presentation[:300],
+            "cip13": aic,                  # AIC national code reuses the code column
+            "price_eur": public,
+            "price_with_fee_eur": ssn_ref,
+            "reimbursement": reimb[:16],
+            "status": _col(f, 2)[:120],    # ATC code as a lightweight classifier
+            "source_url": "https://www.aifa.gov.it/liste-di-trasparenza",
+        })
+    return items
+
+
 @dataclass(frozen=True)
 class PriceSource:
     id: str
@@ -117,7 +195,10 @@ class PriceSource:
     fetch: Callable[[], list[dict]]
 
 
-# Phase 1 — add Italy / Spain / Belgium here as their connectors land.
+# Phase 1 — Spain / Belgium plug in here once tractable direct-download files are
+# confirmed (Spain's prices live in the Ministerio "nomenclátor de facturación",
+# Belgium's in the INAMI multi-table reference DB — neither is a clean CSV yet).
 PRICE_SOURCES: list[PriceSource] = [
     PriceSource("fr-bdpm", "FR", "France — Base de données publique des médicaments", fetch_france),
+    PriceSource("it-aifa", "IT", "Italy — AIFA Liste di trasparenza", fetch_italy),
 ]
