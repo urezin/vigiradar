@@ -62,6 +62,22 @@ prices = Table(
     Column("updated_at", String(40), nullable=False),
 )
 
+# Accounts (SSO). id is deterministic from provider+subject so re-login updates
+# the same row. Billing fields are filled in by the Stripe webhook.
+users = Table(
+    "users", _meta,
+    Column("id", String(32), primary_key=True),
+    Column("email", String(320)),
+    Column("name", String(200)),
+    Column("provider", String(20)),
+    Column("provider_sub", String(255)),
+    Column("stripe_customer_id", String(64)),
+    Column("plan", String(40)),
+    Column("plan_status", String(40)),
+    Column("created_at", String(40), nullable=False),
+    Column("updated_at", String(40), nullable=False),
+)
+
 
 def init() -> None:
     _meta.create_all(_engine)
@@ -157,3 +173,65 @@ def prices_countries() -> list[str]:
     with _engine.connect() as c:
         return [r[0] for r in c.execute(
             select(prices.c.country).distinct().order_by(prices.c.country))]
+
+
+# --- users / accounts -------------------------------------------------------
+
+import hashlib as _hashlib
+
+
+def _user_id(provider: str, sub: str) -> str:
+    return _hashlib.sha1(f"{provider}:{sub}".encode("utf-8", "ignore")).hexdigest()[:16]
+
+
+def user_upsert_oauth(provider: str, sub: str, email: str, name: str) -> dict:
+    """Create or refresh a user from an OAuth login; returns the full row."""
+    now = datetime.now(timezone.utc).isoformat()
+    uid = _user_id(provider, sub)
+    with _engine.begin() as c:
+        existing = c.execute(select(users).where(users.c.id == uid)).first()
+        if existing:
+            c.execute(users.update().where(users.c.id == uid).values(
+                email=email, name=name, updated_at=now))
+        else:
+            c.execute(insert(users).values(
+                id=uid, email=email, name=name, provider=provider, provider_sub=sub,
+                stripe_customer_id="", plan="", plan_status="", created_at=now, updated_at=now))
+    return user_get(uid) or {"id": uid, "email": email, "name": name}
+
+
+def _row(res) -> dict | None:
+    return dict(res._mapping) if res else None
+
+
+def user_get(uid: str) -> dict | None:
+    with _engine.connect() as c:
+        return _row(c.execute(select(users).where(users.c.id == uid)).first())
+
+
+def user_by_email(email: str) -> dict | None:
+    with _engine.connect() as c:
+        return _row(c.execute(select(users).where(users.c.email == email.lower())).first())
+
+
+def user_by_stripe_customer(customer_id: str) -> dict | None:
+    with _engine.connect() as c:
+        return _row(c.execute(
+            select(users).where(users.c.stripe_customer_id == customer_id)).first())
+
+
+def user_set_stripe_customer(uid: str, customer_id: str) -> None:
+    now = datetime.now(timezone.utc).isoformat()
+    with _engine.begin() as c:
+        c.execute(users.update().where(users.c.id == uid).values(
+            stripe_customer_id=customer_id, updated_at=now))
+
+
+def user_set_plan(customer_id: str, plan: str, status: str) -> bool:
+    """Set plan/status for the user with this Stripe customer id. Returns True
+    if a matching user was updated."""
+    now = datetime.now(timezone.utc).isoformat()
+    with _engine.begin() as c:
+        res = c.execute(users.update().where(users.c.stripe_customer_id == customer_id).values(
+            plan=plan, plan_status=status, updated_at=now))
+        return bool(res.rowcount)
