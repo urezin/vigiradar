@@ -66,6 +66,78 @@ def _decode(raw: bytes) -> str:
         return raw.decode("latin-1", "replace")
 
 
+def _xlsx_col(ref: str) -> int:
+    """'C12' -> 2 (0-based column index from an A1-style cell reference)."""
+    letters = ""
+    for ch in ref:
+        if ch.isalpha():
+            letters += ch
+        else:
+            break
+    n = 0
+    for ch in letters:
+        n = n * 26 + (ord(ch.upper()) - 64)
+    return n - 1
+
+
+def read_xlsx(content: bytes, sheet_index: int = 0, max_rows: int | None = None) -> list[list[str]]:
+    """Read an .xlsx (Office Open XML) with the STANDARD LIBRARY only.
+
+    An xlsx is a zip of XML, so zipfile + ElementTree parse it without openpyxl
+    (whose install was breaking the Render build). Returns rows of string cells,
+    honouring column gaps via each cell's A1 reference so columns stay aligned."""
+    import io
+    import zipfile
+    from xml.etree import ElementTree as ET
+
+    ns = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+    zf = zipfile.ZipFile(io.BytesIO(content))
+    names = zf.namelist()
+
+    shared: list[str] = []
+    if "xl/sharedStrings.xml" in names:
+        root = ET.fromstring(zf.read("xl/sharedStrings.xml"))
+        for si in root:
+            shared.append("".join(t.text or "" for t in si.iter(ns + "t")))
+
+    sheet_parts = sorted(n for n in names
+                         if n.startswith("xl/worksheets/sheet") and n.endswith(".xml"))
+    if not sheet_parts:
+        return []
+    root = ET.fromstring(zf.read(sheet_parts[min(sheet_index, len(sheet_parts) - 1)]))
+
+    rows: list[list[str]] = []
+    for row in root.iter(ns + "row"):
+        cells: dict[int, str] = {}
+        maxc = -1
+        auto = 0
+        for c in row.findall(ns + "c"):
+            ref = c.get("r") or ""
+            ci = _xlsx_col(ref) if ref else auto
+            auto = ci + 1
+            t = c.get("t")
+            val = ""
+            v = c.find(ns + "v")
+            if t == "s" and v is not None:
+                try:
+                    val = shared[int(v.text)]
+                except (ValueError, IndexError, TypeError):
+                    val = ""
+            elif t == "inlineStr":
+                is_ = c.find(ns + "is")
+                if is_ is not None:
+                    val = "".join(tt.text or "" for tt in is_.iter(ns + "t"))
+            elif v is not None:
+                val = v.text or ""
+            cells[ci] = val
+            if ci > maxc:
+                maxc = ci
+        rows.append([cells.get(i, "") for i in range(maxc + 1)])
+        if max_rows and len(rows) >= max_rows:
+            break
+    return rows
+
+
 def _decode_try(raw: bytes, encodings: tuple[str, ...]) -> str:
     """Decode bytes trying each encoding in turn; last one uses 'replace' so it
     never raises. Used for national files whose encoding isn't documented."""
@@ -170,7 +242,7 @@ def fetch_italy(timeout: float = 90.0) -> list[dict]:
         if public is None and ssn_ref is None:
             continue
         product = brand or active
-        reimb = f"{ssn_ref:.2f} ‬ SSN" if ssn_ref is not None else ""
+        reimb = f"{ssn_ref:.2f} € SSN" if ssn_ref is not None else ""
         items.append({
             "id": _row_id("IT", aic or presentation, product),
             "country": "IT",
