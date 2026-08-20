@@ -170,7 +170,7 @@ def fetch_italy(timeout: float = 90.0) -> list[dict]:
         if public is None and ssn_ref is None:
             continue
         product = brand or active
-        reimb = f"{ssn_ref:.2f} € SSN" if ssn_ref is not None else ""
+        reimb = f"{ssn_ref:.2f} ‬ SSN" if ssn_ref is not None else ""
         items.append({
             "id": _row_id("IT", aic or presentation, product),
             "country": "IT",
@@ -187,6 +187,66 @@ def fetch_italy(timeout: float = 90.0) -> list[dict]:
     return items
 
 
+# ---------------------------------------------------------------------------
+# Spain — Ministerio de Sanidad "Nomenclátor de facturación" (SNS pharmacy
+# billing list). A comma-delimited CSV export ("...&<hex 'export'>=1"); the
+# "%%%" wildcard (url-encoded %25%25%25) returns every product. Prices use a DOT
+# decimal and names containing commas are double-quoted, so parse with the csv
+# module (default comma delimiter + quoting), not a bare split.
+# Columns (0-based): 0 Código Nacional, 1 Nombre del producto, 6 Estado
+#   (ALTA / BAJA…), 9 Aportación del beneficiario (NORMAL / ESPECIAL…),
+#   10 Principio activo, 11 Precio venta al público con IVA (PVP),
+#   12 Precio de referencia, 15 Nombre de la agrupación homogénea.
+ES_CSV_URL = ("https://www.sanidad.gob.es/profesionales/nomenclator.do"
+              "?metodo=buscarProductos&especialidad=%25%25%25&d-4015021-e=1&6578706f7274=1")
+
+
+def fetch_spain(timeout: float = 120.0) -> list[dict]:
+    """Fetch + parse the SNS billing nomenclátor CSV into normalised price rows.
+
+    Keeps only currently-listed products (Estado not BAJA). PVP (col 11) is the
+    retail price; the reference price (col 12) rides in price_with_fee_eur, and
+    the patient contribution class (col 9) surfaces in the reimbursement slot."""
+    import csv
+    import io
+    import httpx
+
+    with httpx.Client(timeout=timeout, headers=_UA, follow_redirects=True) as client:
+        r = client.get(ES_CSV_URL)
+        r.raise_for_status()
+
+    text = _decode_try(r.content, ("utf-8-sig", "utf-8", "cp1252", "latin-1"))
+    reader = csv.reader(io.StringIO(text))
+
+    items: list[dict] = []
+    for idx, f in enumerate(reader):
+        if idx == 0 or len(f) < 13:
+            continue
+        estado = _col(f, 6)
+        if "BAJA" in estado.upper():
+            continue  # delisted -> not currently marketed
+        pvp = _price_to_float(_col(f, 11))
+        ref = _price_to_float(_col(f, 12))
+        if pvp is None and ref is None:
+            continue
+        code = _col(f, 0)
+        product = _col(f, 1)
+        items.append({
+            "id": _row_id("ES", code or product, product),
+            "country": "ES",
+            "product": product[:300],
+            "form": _col(f, 10)[:200],        # active ingredient (Principio activo)
+            "presentation": _col(f, 15)[:300],  # agrupación homogénea (normalised pack)
+            "cip13": code,                    # Código Nacional reuses the code column
+            "price_eur": pvp,
+            "price_with_fee_eur": ref,
+            "reimbursement": _col(f, 9)[:16],  # Aportación del beneficiario
+            "status": estado[:120],
+            "source_url": "https://www.sanidad.gob.es/profesionales/nomenclator.do",
+        })
+    return items
+
+
 @dataclass(frozen=True)
 class PriceSource:
     id: str
@@ -195,10 +255,11 @@ class PriceSource:
     fetch: Callable[[], list[dict]]
 
 
-# Phase 1 — Spain / Belgium plug in here once tractable direct-download files are
-# confirmed (Spain's prices live in the Ministerio "nomenclátor de facturación",
-# Belgium's in the INAMI multi-table reference DB — neither is a clean CSV yet).
+# Belgium plugs in here once its price file is tractable (INAMI/CBIP publish a
+# multi-table reference DB — the public price sits across joined tables / behind
+# the SAM portal — rather than one clean priced CSV like FR/IT/ES).
 PRICE_SOURCES: list[PriceSource] = [
     PriceSource("fr-bdpm", "FR", "France — Base de données publique des médicaments", fetch_france),
     PriceSource("it-aifa", "IT", "Italy — AIFA Liste di trasparenza", fetch_italy),
+    PriceSource("es-nomen", "ES", "Spain — Nomenclátor de facturación (Min. Sanidad)", fetch_spain),
 ]
