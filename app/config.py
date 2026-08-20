@@ -19,8 +19,21 @@ class Settings:
 
     # Stripe (billing) — optional; checkout disabled until keys are set
     stripe_secret_key: str = os.getenv("STRIPE_SECRET_KEY", "")
+    stripe_webhook_secret: str = os.getenv("STRIPE_WEBHOOK_SECRET", "")
     stripe_price_pro_monthly: str = os.getenv("STRIPE_PRICE_PRO_MONTHLY", "")
     stripe_price_team_annual: str = os.getenv("STRIPE_PRICE_TEAM_ANNUAL", "")
+
+    # Sessions — signed cookie secret. Falls back to the admin token so sessions
+    # still work before a dedicated secret is set (set SESSION_SECRET in prod).
+    session_secret: str = os.getenv("SESSION_SECRET", "") or os.getenv("ADMIN_TOKEN", "") or "dev-insecure-secret"
+    session_ttl_days: int = int(os.getenv("SESSION_TTL_DAYS", "30"))
+
+    # OAuth / SSO — each provider activates only when its client id+secret are set
+    google_client_id: str = os.getenv("GOOGLE_CLIENT_ID", "")
+    google_client_secret: str = os.getenv("GOOGLE_CLIENT_SECRET", "")
+    microsoft_client_id: str = os.getenv("MICROSOFT_CLIENT_ID", "")
+    microsoft_client_secret: str = os.getenv("MICROSOFT_CLIENT_SECRET", "")
+    microsoft_tenant: str = os.getenv("MICROSOFT_TENANT", "common")
 
     @property
     def billing_enabled(self) -> bool:
@@ -29,6 +42,18 @@ class Settings:
     @property
     def email_enabled(self) -> bool:
         return bool(self.resend_api_key)
+
+    @property
+    def google_enabled(self) -> bool:
+        return bool(self.google_client_id and self.google_client_secret)
+
+    @property
+    def microsoft_enabled(self) -> bool:
+        return bool(self.microsoft_client_id and self.microsoft_client_secret)
+
+    @property
+    def auth_enabled(self) -> bool:
+        return self.google_enabled or self.microsoft_enabled
 
 
 settings = Settings()
