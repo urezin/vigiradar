@@ -12,7 +12,7 @@ import os
 from datetime import datetime, timezone
 
 from sqlalchemy import (create_engine, MetaData, Table, Column, String, Text, Float,
-                        select, func, insert, delete, or_)
+                        select, func, insert, delete, or_, text)
 
 
 def _database_url() -> str:
@@ -58,6 +58,7 @@ prices = Table(
     Column("price_with_fee_eur", Float),
     Column("reimbursement", String(16)),
     Column("status", String(120)),
+    Column("currency", String(8)),      # ISO-ish code; EUR unless a non-euro country
     Column("source_url", Text),
     Column("updated_at", String(40), nullable=False),
 )
@@ -81,6 +82,23 @@ users = Table(
 
 def init() -> None:
     _meta.create_all(_engine)
+    _migrate()
+
+
+def _migrate() -> None:
+    """Add columns that create_all() won't add to a pre-existing table.
+    Idempotent: 'IF NOT EXISTS' on Postgres; the plain-ADD fallback's duplicate
+    error is swallowed on SQLite."""
+    for stmt in ("ALTER TABLE prices ADD COLUMN IF NOT EXISTS currency VARCHAR(8)",):
+        try:
+            with _engine.begin() as c:
+                c.execute(text(stmt))
+        except Exception:
+            try:
+                with _engine.begin() as c:
+                    c.execute(text(stmt.replace(" IF NOT EXISTS", "")))
+            except Exception:
+                pass
 
 
 def exists(item_id: str) -> bool:
@@ -157,7 +175,7 @@ def prices_query(country: str | None = None, search: str | None = None,
     stmt = select(prices.c.country, prices.c.product, prices.c.form,
                   prices.c.presentation, prices.c.cip13, prices.c.price_eur,
                   prices.c.price_with_fee_eur, prices.c.reimbursement,
-                  prices.c.status, prices.c.source_url)
+                  prices.c.status, prices.c.currency, prices.c.source_url)
     if country:
         stmt = stmt.where(prices.c.country == country)
     if search:
