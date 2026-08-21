@@ -191,6 +191,7 @@ def fetch_france(timeout: float = 90.0) -> list[dict]:
             "price_with_fee_eur": price_fee,
             "reimbursement": reimb[:16],
             "status": _col(f, 4)[:120],
+            "currency": "EUR",
             "source_url": "https://base-donnees-publique.medicaments.gouv.fr/",
         })
     return items
@@ -254,6 +255,7 @@ def fetch_italy(timeout: float = 90.0) -> list[dict]:
             "price_with_fee_eur": ssn_ref,
             "reimbursement": reimb[:16],
             "status": _col(f, 2)[:120],    # ATC code as a lightweight classifier
+            "currency": "EUR",
             "source_url": "https://www.aifa.gov.it/liste-di-trasparenza",
         })
     return items
@@ -314,6 +316,7 @@ def fetch_spain(timeout: float = 120.0) -> list[dict]:
             "price_with_fee_eur": ref,
             "reimbursement": _col(f, 9)[:16],  # Aportación del beneficiario
             "status": estado[:120],
+            "currency": "EUR",
             "source_url": "https://www.sanidad.gob.es/profesionales/nomenclator.do",
         })
     return items
@@ -378,7 +381,85 @@ def fetch_slovenia(timeout: float = 90.0) -> list[dict]:
             "price_with_fee_eur": None,
             "reimbursement": "",
             "status": _col(f, 2)[:120],    # ATC
+            "currency": "EUR",
             "source_url": "https://www.jazmp.si/",
+        })
+    return items
+
+
+# ---------------------------------------------------------------------------
+# Poland — Ministry of Health reimbursement list (obwieszczenie refundacyjne).
+# The full drug annex is an .xlsx attached to each ~bi-monthly obwieszczenie; the
+# attachment URL is a per-period UUID, so we resolve the latest from the listing
+# page (falling back to a known-good URL). Prices are in PLN (not EUR). Columns
+# (0-based, data from row 2; row 0 = section title, row 1 = header):
+#   1 Substancja czynna (active), 2 Nazwa, postać i dawka (name/form/dose),
+#   3 Zawartość opakowania (pack), 4 GTIN, 11 Cena detaliczna (retail price),
+#   15 Poziom odpłatności (co-payment level). Section/header rows carry no numeric
+#   price so they drop out naturally.
+PL_LIST_URL = "https://www.gov.pl/web/zdrowie/obwieszczenia-ministra-zdrowia-lista-lekow-refundowanych"
+PL_FALLBACK_XLSX = "https://www.gov.pl/attachment/baa46a75-286f-4671-a68d-8646f242a3ff"
+
+
+def _pl_resolve_xlsx(client) -> str:
+    """Best-effort resolve of the latest 'załącznik do obwieszczenia .xlsx'
+    attachment URL from the MoH listing → obwieszczenie page."""
+    from bs4 import BeautifulSoup
+    try:
+        r = client.get(PL_LIST_URL)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+        page = None
+        for a in soup.find_all("a", href=True):
+            if "obwieszczenie-ministra-zdrowia-z-dnia" in a["href"]:
+                page = a["href"] if a["href"].startswith("http") else "https://www.gov.pl" + a["href"]
+                break
+        if page:
+            r2 = client.get(page)
+            r2.raise_for_status()
+            for a in BeautifulSoup(r2.text, "html.parser").find_all("a", href=True):
+                txt = a.get_text(" ", strip=True).lower()
+                if ("/attachment/" in a["href"] and txt.endswith(".xlsx")
+                        and "obwieszczeni" in txt
+                        and ("zalacznik" in txt or "załącznik" in txt)):
+                    return a["href"] if a["href"].startswith("http") else "https://www.gov.pl" + a["href"]
+    except Exception:
+        pass
+    return PL_FALLBACK_XLSX
+
+
+def fetch_poland(timeout: float = 120.0) -> list[dict]:
+    """Resolve + parse the latest MoH reimbursement-list annex (xlsx, PLN)."""
+    import httpx
+
+    with httpx.Client(timeout=timeout, headers=_UA, follow_redirects=True) as client:
+        url = _pl_resolve_xlsx(client)
+        r = client.get(url)
+        r.raise_for_status()
+    content = r.content
+    if content[:2] != b"PK":
+        raise RuntimeError("Poland annex did not resolve to an xlsx")
+
+    items: list[dict] = []
+    for f in read_xlsx(content)[2:]:      # skip section-title row + header row
+        name = _col(f, 2)
+        price = _price_to_float(_col(f, 11))
+        if not name or price is None:
+            continue                       # section/header/blank rows have no price
+        gtin = _col(f, 4)
+        items.append({
+            "id": _row_id("PL", gtin or name, name),
+            "country": "PL",
+            "product": name[:300],
+            "form": _col(f, 1)[:200],       # active substance
+            "presentation": _col(f, 3)[:300],  # package content
+            "cip13": gtin,
+            "price_eur": price,             # numeric value is in PLN (see currency)
+            "price_with_fee_eur": None,
+            "reimbursement": _col(f, 15)[:16],  # co-payment level (30% / ryczałt / …)
+            "status": "",
+            "currency": "PLN",
+            "source_url": "https://www.gov.pl/web/zdrowie/leki-refundowane",
         })
     return items
 
@@ -399,4 +480,5 @@ PRICE_SOURCES: list[PriceSource] = [
     PriceSource("it-aifa", "IT", "Italy — AIFA Liste di trasparenza", fetch_italy),
     PriceSource("es-nomen", "ES", "Spain — Nomenclátor de facturación (Min. Sanidad)", fetch_spain),
     PriceSource("si-jazmp", "SI", "Slovenia — JAZMP regulated prices", fetch_slovenia),
+    PriceSource("pl-mz", "PL", "Poland — MZ lista leków refundowanych", fetch_poland),
 ]
