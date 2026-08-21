@@ -74,6 +74,17 @@
   .ptable .reimb{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;background:#eef4fb;border:1px solid #dbe7f3;color:#0b2942}
   .ptable .cflag{font-size:12.5px;font-weight:700;color:#0b2942}
   .pmeta{color:var(--mut);font-size:12.5px;margin:0 2px 10px}
+  /* auth / sidebar footer */
+  .authrow{display:flex;gap:6px;margin-top:9px}
+  .authrow.col{flex-direction:column}
+  .lbtn{flex:1;text-align:center;display:inline-block;font-size:12.5px;font-weight:600;border-radius:9px;
+        padding:8px 10px;cursor:pointer;text-decoration:none;border:1px solid rgba(255,255,255,.16);
+        color:#dbeafe;background:rgba(255,255,255,.06)}
+  .lbtn:hover{background:rgba(255,255,255,.12)}
+  .lbtn.g{background:#fff;color:#1f2937;border-color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
+  .lbtn.g:hover{background:#eef2f7}
+  .lbtn.up{background:linear-gradient(100deg,#0ea5e9,#22d3ee);color:#04121f;border:0}
+  .lbtn .gi{width:15px;height:15px;display:inline-block;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -89,8 +100,8 @@
     <a href="#"><span class="ic">★</span> Saved</a>
     <a href="#"><span class="ic">⤓</span> Exports</a>
   </nav>
-  <div class="foot">
-    <div class="user"><div class="avatar">DG</div><div><div style="color:#fff;font-weight:600">Dimitrios</div><div style="color:#8b9bb2;font-size:12px">Pro · trial</div></div></div>
+  <div class="foot" id="authFoot">
+    <div class="user"><div class="avatar">··</div><div><div style="color:#fff;font-weight:600">Loading…</div></div></div>
   </div>
 </aside>
 
@@ -273,8 +284,13 @@ function showView(v){
   }
 }
 
-const CNAMES = {FR:'France',IT:'Italy',ES:'Spain',DE:'Germany',BE:'Belgium',NL:'Netherlands',PT:'Portugal',PL:'Poland',EU:'EU'};
-const pFmt = n => (n==null||n==='') ? '—' : '€'+Number(n).toFixed(2);
+const CNAMES = {FR:'France',IT:'Italy',ES:'Spain',DE:'Germany',BE:'Belgium',NL:'Netherlands',PT:'Portugal',PL:'Poland',SI:'Slovenia',RO:'Romania',GR:'Greece',HR:'Croatia',BG:'Bulgaria',CY:'Cyprus',EU:'EU'};
+const CURSYM = {EUR:'€',PLN:'zł',RON:'lei',BGN:'лв',HRK:'kn',CZK:'Kč',HUF:'Ft',GBP:'£'};
+const pFmt = (n, cur) => {
+  if(n==null||n==='') return '—';
+  const v = Number(n).toFixed(2), c = cur||'EUR', s = CURSYM[c]||c;
+  return c==='EUR' ? s+v : v+' '+s;   // €1.23  vs  1.23 zł
+};
 let pFiltersReady = false;
 
 async function loadPrices(){
@@ -295,6 +311,13 @@ async function loadPrices(){
     document.getElementById('p_total').textContent = j.total ?? '—';
     document.getElementById('p_ctry').textContent = (j.countries||[]).length || '—';
     document.getElementById('p_show').textContent = j.count ?? '—';
+    const prLine = document.getElementById('prLine');
+    if(prLine){
+      const names = (j.countries||[]).map(c=>CNAMES[c]||c);
+      prLine.textContent = names.length
+        ? names.join(', ').replace(/, ([^,]*)$/, ' & $1') + ' live — more EU countries rolling out.'
+        : 'More EU countries rolling out.';
+    }
     if(!j.prices || !j.prices.length){
       wrap.innerHTML = '<div class="empty">No priced items yet — run a price ingest, or widen the search.</div>';
       return;
@@ -304,7 +327,7 @@ async function loadPrices(){
         <td class="cflag">${flagFor(p.country)} ${CNAMES[p.country]||p.country}</td>
         <td><div class="prod">${p.product||''}</div><div class="form">${p.form||''}</div></td>
         <td>${p.presentation||''}</td>
-        <td class="price">${pFmt(p.price_eur)}</td>
+        <td class="price">${pFmt(p.price_eur, p.currency)}</td>
         <td>${p.reimbursement?`<span class="reimb">${p.reimbursement}</span>`:'—'}</td>
       </tr>`).join('');
     wrap.innerHTML = `<div class="pmeta">Showing ${j.count} of ${j.total} priced items${country?(' in '+(CNAMES[country]||country)):''} · source: official government datasets.</div>
@@ -318,7 +341,45 @@ async function loadPrices(){
 let _pt;
 function pSearchDebounced(){ clearTimeout(_pt); _pt = setTimeout(loadPrices, 350); }
 
-init(); loadLive();
+// ---- accounts / billing ----
+const GICON = '<svg class="gi" viewBox="0 0 48 48"><path fill="#4285F4" d="M45 24.5c0-1.6-.1-2.8-.4-4H24v7.3h12c-.2 1.9-1.5 4.7-4.3 6.6l6.6 5.1C42.5 36 45 30.8 45 24.5z"/><path fill="#34A853" d="M24 46c5.8 0 10.6-1.9 14.2-5.2l-6.6-5.1c-1.8 1.2-4.2 2.1-7.6 2.1-5.8 0-10.7-3.9-12.5-9.2l-6.8 5.3C7.9 40.9 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.5 28.6c-.5-1.4-.7-2.9-.7-4.6s.3-3.2.7-4.6l-6.8-5.3C3.6 17 3 20.4 3 24s.6 7 1.7 9.9l6.8-5.3z"/><path fill="#EA4335" d="M24 10.8c3.2 0 5.4 1.4 6.6 2.5l4.9-4.8C32.6 5.7 28.9 4 24 4 15.4 4 7.9 9.1 4.7 16.1l6.8 5.3C13.3 14.7 18.2 10.8 24 10.8z"/></svg>';
+async function loadAuth(){
+  const foot = document.getElementById('authFoot'); if(!foot) return;
+  let me={}, prov={};
+  try{ me = await (await fetch('/api/me')).json(); }catch(e){}
+  try{ prov = await (await fetch('/auth/providers')).json(); }catch(e){}
+  if(me && me.authenticated){
+    const u=me.user||{}, initials=(u.name||u.email||'U').replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase()||'U';
+    const active = u.plan_status==='active' || u.plan_status==='trialing';
+    const planTxt = active ? (u.plan==='team_annual'?'Team':'Pro') : 'Free plan';
+    const act = active
+      ? '<button class="lbtn" onclick="billingPortal()">Manage billing</button>'
+      : '<button class="lbtn up" onclick="checkout(\'pro_monthly\')">Upgrade</button>';
+    foot.innerHTML = '<div class="user"><div class="avatar">'+initials+'</div>'
+      +'<div style="min-width:0"><div style="color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(u.name||u.email||'Account')+'</div>'
+      +'<div style="color:#8b9bb2;font-size:12px">'+planTxt+'</div></div></div>'
+      +'<div class="authrow">'+act+'<a class="lbtn" href="/auth/logout">Sign out</a></div>';
+  } else {
+    const b=[];
+    if(prov.google) b.push('<a class="lbtn g" href="/auth/login/google">'+GICON+'Continue with Google</a>');
+    if(prov.microsoft) b.push('<a class="lbtn g" href="/auth/login/microsoft">Continue with Microsoft</a>');
+    if(!b.length) b.push('<div style="color:#8b9bb2;font-size:12px;text-align:center">Sign-in setup pending</div>');
+    foot.innerHTML = '<div class="authrow col">'+b.join('')+'</div>';
+  }
+}
+async function checkout(sku){
+  try{
+    const j = await (await fetch('/billing/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sku})})).json();
+    if(j && j.url) location.href = j.url;
+    else if(j && j.error && /sign in/i.test(j.error)){ alert('Please sign in first.'); }
+    else alert((j && j.error) || 'Checkout is not available yet.');
+  }catch(e){ alert('Checkout is not available yet.'); }
+}
+async function billingPortal(){
+  try{ const j = await (await fetch('/billing/portal',{method:'POST'})).json();
+    if(j && j.url) location.href = j.url; else alert((j&&j.error)||'Billing portal unavailable.'); }catch(e){}
+}
+init(); loadLive(); loadAuth();
 </script>
 </body>
 </html>
