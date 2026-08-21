@@ -85,6 +85,16 @@
   .lbtn.g:hover{background:#eef2f7}
   .lbtn.up{background:linear-gradient(100deg,#0ea5e9,#22d3ee);color:#04121f;border:0}
   .lbtn .gi{width:15px;height:15px;display:inline-block;vertical-align:middle}
+  .authbox{display:flex;flex-direction:column;gap:7px}
+  .ainp{width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:#fff;font-size:12.5px;outline:none}
+  .ainp:focus{border-color:#22d3ee}
+  .ainp::placeholder{color:#6b7a90}
+  .amsg{color:#fca5a5;font-size:11.5px;line-height:1.35}
+  .amsg.ok{color:#6ee7b7}
+  .aswitch{color:#8b9bb2;font-size:11.5px;text-align:center}
+  .aswitch a{color:#22d3ee;cursor:pointer;text-decoration:none}
+  .adiv{display:flex;align-items:center;gap:8px;color:#6b7a90;font-size:11px;margin:2px 0}
+  .adiv:before,.adiv:after{content:"";flex:1;height:1px;background:rgba(255,255,255,.1)}
 </style>
 </head>
 <body>
@@ -360,12 +370,43 @@ async function loadAuth(){
       +'<div style="color:#8b9bb2;font-size:12px">'+planTxt+'</div></div></div>'
       +'<div class="authrow">'+act+'<a class="lbtn" href="/auth/logout">Sign out</a></div>';
   } else {
-    const b=[];
-    if(prov.google) b.push('<a class="lbtn g" href="/auth/login/google">'+GICON+'Continue with Google</a>');
-    if(prov.microsoft) b.push('<a class="lbtn g" href="/auth/login/microsoft">Continue with Microsoft</a>');
-    if(!b.length) b.push('<div style="color:#8b9bb2;font-size:12px;text-align:center">Sign-in setup pending</div>');
-    foot.innerHTML = '<div class="authrow col">'+b.join('')+'</div>';
+    const sso=[];
+    if(prov.google) sso.push('<a class="lbtn g" href="/auth/login/google">'+GICON+'Continue with Google</a>');
+    if(prov.microsoft) sso.push('<a class="lbtn g" href="/auth/login/microsoft">Continue with Microsoft</a>');
+    if(prov.apple) sso.push('<a class="lbtn g" href="/auth/login/apple"> Continue with Apple</a>');
+    const ssoBlock = sso.length ? '<div class="adiv"><span>or</span></div><div class="authrow col">'+sso.join('')+'</div>' : '';
+    foot.innerHTML =
+      '<div class="authbox">'
+      +'<input id="authEmail" class="ainp" type="email" placeholder="you@company.com" autocomplete="email">'
+      +'<input id="authPass" class="ainp" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key===\'Enter\')emailAuth()">'
+      +'<button class="lbtn up" style="width:100%" onclick="emailAuth()"><span id="authBtnTxt">Sign in</span></button>'
+      +'<div id="authMsg" class="amsg"></div>'
+      +'<div class="aswitch"><a id="authToggle" onclick="toggleAuthMode()">Create an account</a></div>'
+      +ssoBlock
+      +'</div>';
   }
+}
+let __authMode='login';
+function toggleAuthMode(){
+  __authMode = __authMode==='login' ? 'register' : 'login';
+  document.getElementById('authBtnTxt').textContent = __authMode==='login'?'Sign in':'Create account';
+  document.getElementById('authToggle').textContent = __authMode==='login'?'Create an account':'Have an account? Sign in';
+  document.getElementById('authPass').setAttribute('autocomplete', __authMode==='login'?'current-password':'new-password');
+  const m=document.getElementById('authMsg'); if(m){ m.textContent=''; m.className='amsg'; }
+}
+async function emailAuth(){
+  const email=(document.getElementById('authEmail').value||'').trim();
+  const password=document.getElementById('authPass').value||'';
+  const msg=document.getElementById('authMsg'); msg.className='amsg'; msg.textContent='';
+  if(!email||!password){ msg.textContent='Enter your email and password.'; return; }
+  if(__authMode==='register' && password.length<8){ msg.textContent='Password must be at least 8 characters.'; return; }
+  const path = __authMode==='login' ? '/auth/login' : '/auth/register';
+  try{
+    const r = await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+    const j = await r.json().catch(()=>({}));
+    if(r.ok && j.ok){ msg.className='amsg ok'; msg.textContent='Welcome!'; setTimeout(()=>location.reload(),350); }
+    else { msg.textContent = j.error || 'Could not sign you in.'; }
+  }catch(e){ msg.textContent='Network error — try again.'; }
 }
 async function checkout(sku){
   try{
