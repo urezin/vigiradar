@@ -274,8 +274,71 @@ def _current_user(session: str | None) -> dict | None:
 
 @app.get("/auth/providers")
 def auth_providers():
-    return {"google": settings.google_enabled, "microsoft": settings.microsoft_enabled,
-            "auth_enabled": settings.auth_enabled}
+    return {"email": True, "google": settings.google_enabled,
+            "microsoft": settings.microsoft_enabled, "apple": settings.apple_enabled,
+            "auth_enabled": True}
+
+
+class RegisterIn(BaseModel):
+    email: str
+    password: str
+    name: str = ""
+
+
+class LoginIn(BaseModel):
+    email: str
+    password: str
+
+
+def _set_session_cookie(resp, user: dict) -> None:
+    base = settings.app_base_url.rstrip("/")
+    resp.set_cookie(auth_mod.COOKIE_NAME, auth_mod.make_session(user),
+                    max_age=settings.session_ttl_days * 86400, httponly=True,
+                    secure=base.startswith("https"), samesite="lax")
+
+
+@app.post("/auth/register")
+def auth_register(body: RegisterIn):
+    email = (body.email or "").strip().lower()
+    if "@" not in email or "." not in email.split("@")[-1]:
+        return JSONResponse({"error": "Enter a valid email address."}, status_code=400)
+    if len(body.password or "") < 8:
+        return JSONResponse({"error": "Password must be at least 8 characters."}, status_code=400)
+    try:
+        store.init()
+        if store.user_by_email(email):
+            return JSONResponse(
+                {"error": "An account with this email already exists — sign in instead."},
+                status_code=409)
+        salt, ph = auth_mod.hash_password(body.password)
+        name = (body.name or "").strip() or email.split("@")[0]
+        user = store.user_create_email(email, name, ph, salt)
+    except Exception as e:
+        log.warning("[auth] register failed: %s", e)
+        return JSONResponse({"error": "Could not create the account right now."}, status_code=500)
+    resp = JSONResponse({"ok": True})
+    _set_session_cookie(resp, user)
+    return resp
+
+
+@app.post("/auth/login")
+def auth_login_email(body: LoginIn):
+    email = (body.email or "").strip().lower()
+    try:
+        store.init()
+        user = store.user_by_email(email)
+    except Exception:
+        user = None
+    if not user or not user.get("password_hash"):
+        return JSONResponse(
+            {"error": "No password account with that email. Try Google or Microsoft sign-in."},
+            status_code=401)
+    if not auth_mod.verify_password(body.password or "", user.get("password_salt", ""),
+                                    user.get("password_hash", "")):
+        return JSONResponse({"error": "Incorrect email or password."}, status_code=401)
+    resp = JSONResponse({"ok": True})
+    _set_session_cookie(resp, user)
+    return resp
 
 
 @app.get("/api/me")

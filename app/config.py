@@ -34,6 +34,12 @@ class Settings:
     microsoft_client_id: str = os.getenv("MICROSOFT_CLIENT_ID", "")
     microsoft_client_secret: str = os.getenv("MICROSOFT_CLIENT_SECRET", "")
     microsoft_tenant: str = os.getenv("MICROSOFT_TENANT", "common")
+    # Apple Sign In — reserved for a later build (needs a paid Apple Developer
+    # account + an ES256-signed client secret). Kept dormant for now.
+    apple_client_id: str = os.getenv("APPLE_CLIENT_ID", "")      # the Service ID
+    apple_team_id: str = os.getenv("APPLE_TEAM_ID", "")
+    apple_key_id: str = os.getenv("APPLE_KEY_ID", "")
+    apple_private_key: str = os.getenv("APPLE_PRIVATE_KEY", "")  # .p8 contents
 
     @property
     def billing_enabled(self) -> bool:
@@ -52,8 +58,15 @@ class Settings:
         return bool(self.microsoft_client_id and self.microsoft_client_secret)
 
     @property
+    def apple_enabled(self) -> bool:
+        # Apple's OAuth needs an ES256-signed client secret that isn't built yet,
+        # so the provider stays off even if the IDs are present.
+        return False
+
+    @property
     def auth_enabled(self) -> bool:
-        return self.google_enabled or self.microsoft_enabled
+        # Email/password is always available, so auth is always enabled.
+        return True
 
 
 settings = Settings()

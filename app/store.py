@@ -75,6 +75,8 @@ users = Table(
     Column("stripe_customer_id", String(64)),
     Column("plan", String(40)),
     Column("plan_status", String(40)),
+    Column("password_hash", String(128)),
+    Column("password_salt", String(64)),
     Column("created_at", String(40), nullable=False),
     Column("updated_at", String(40), nullable=False),
 )
@@ -89,7 +91,9 @@ def _migrate() -> None:
     """Add columns that create_all() won't add to a pre-existing table.
     Idempotent: 'IF NOT EXISTS' on Postgres; the plain-ADD fallback's duplicate
     error is swallowed on SQLite."""
-    for stmt in ("ALTER TABLE prices ADD COLUMN IF NOT EXISTS currency VARCHAR(8)",):
+    for stmt in ("ALTER TABLE prices ADD COLUMN IF NOT EXISTS currency VARCHAR(8)",
+                 "ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash VARCHAR(128)",
+                 "ALTER TABLE users ADD COLUMN IF NOT EXISTS password_salt VARCHAR(64)"):
         try:
             with _engine.begin() as c:
                 c.execute(text(stmt))
@@ -215,6 +219,20 @@ def user_upsert_oauth(provider: str, sub: str, email: str, name: str) -> dict:
             c.execute(insert(users).values(
                 id=uid, email=email, name=name, provider=provider, provider_sub=sub,
                 stripe_customer_id="", plan="", plan_status="", created_at=now, updated_at=now))
+    return user_get(uid) or {"id": uid, "email": email, "name": name}
+
+
+def user_create_email(email: str, name: str, password_hash: str, salt: str) -> dict:
+    """Create a new email/password account; returns the full row."""
+    now = datetime.now(timezone.utc).isoformat()
+    email = email.lower()
+    uid = _user_id("email", email)
+    with _engine.begin() as c:
+        c.execute(insert(users).values(
+            id=uid, email=email, name=name, provider="email", provider_sub=email,
+            password_hash=password_hash, password_salt=salt,
+            stripe_customer_id="", plan="", plan_status="",
+            created_at=now, updated_at=now))
     return user_get(uid) or {"id": uid, "email": email, "name": name}
 
 

@@ -174,6 +174,23 @@ def fetch_userinfo(provider: str, access_token: str) -> dict:
     return {"email": email.lower(), "name": name, "sub": str(sub)}
 
 
+# --- email / password (stdlib PBKDF2, no new dependencies) ------------------
+
+def hash_password(password: str, salt: str | None = None) -> tuple[str, str]:
+    """Return (salt_hex, hash_hex) using PBKDF2-HMAC-SHA256 (200k iterations)."""
+    import os as _os
+    salt = salt or _os.urandom(16).hex()
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode(), bytes.fromhex(salt), 200_000)
+    return salt, dk.hex()
+
+
+def verify_password(password: str, salt: str, expected_hash: str) -> bool:
+    if not salt or not expected_hash:
+        return False
+    _, computed = hash_password(password, salt)
+    return hmac.compare_digest(computed, expected_hash)
+
+
 def decode_id_token_claims(id_token: str) -> dict:
     """Best-effort unverified decode of a JWT's claims (email/name). Signature is
     not checked here — we only trust it because it arrived over the direct,
