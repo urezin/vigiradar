@@ -20,7 +20,7 @@ from .config import settings
 from .data import UPDATES, COUNTRIES, SUBJECTS
 from . import (store, ingest as ingest_mod, digest as digest_mod, emailer,
                prices as prices_mod, auth as auth_mod, billing as billing_mod,
-               compliance as compliance_mod)
+               compliance as compliance_mod, medmonitor as medmonitor_mod)
 
 log = logging.getLogger("vigiradar")
 
@@ -31,8 +31,9 @@ _BASE = os.path.dirname(__file__)
 _STATIC = os.path.join(_BASE, "static")
 app.mount("/static", StaticFiles(directory=_STATIC), name="static")
 
-# Compliance add-on module (sellable, entitlement-gated).
+# Add-on modules (sellable, entitlement-gated).
 app.include_router(compliance_mod.router)
+app.include_router(medmonitor_mod.router)
 
 # in-memory lead store for the MVP (swap for a DB when persistence is needed)
 _LEADS: list[dict] = []
@@ -61,6 +62,11 @@ def workspace():
 @app.get("/compliance", include_in_schema=False)
 def compliance_page():
     return FileResponse(os.path.join(_STATIC, "compliance.html"))
+
+
+@app.get("/medical-monitoring", include_in_schema=False)
+def medical_monitoring_page():
+    return FileResponse(os.path.join(_STATIC, "medical.html"))
 
 
 @app.get("/health")
