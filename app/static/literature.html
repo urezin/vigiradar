@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VigiEye — Literature Monitoring</title>
+<style>
+  :root{
+    --navy:#0b2942;--sky:#0ea5e9;--cyan:#22d3ee;--ink:#0b2942;--ink-2:#33465e;
+    --muted:#6b7a90;--line:#dbe7f3;--bg:#f4f8fc;--card:#fff;--green:#0f9d58;--amber:#d97706;--red:#e11d48;--purple:#6b3fd4;
+    --radius:14px;--shadow:0 1px 2px rgba(11,41,66,.06),0 10px 30px rgba(11,41,66,.08);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font-family:inherit;
+    font-weight:650;font-size:14.5px;border-radius:10px;padding:10px 16px;transition:.15s;line-height:1}
+  .btn-primary{background:var(--sky);color:#fff}.btn-primary:hover{background:#0284c7}
+  .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn-ghost:hover{border-color:var(--muted)}
+  .btn-sm{padding:6px 11px;font-size:12.5px}.btn-lg{padding:13px 22px;font-size:15px}
+  header{height:60px;background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:0 22px;position:sticky;top:0;z-index:20}
+  .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px;letter-spacing:-.3px}
+  .logo .mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--sky));display:grid;place-items:center;font-size:16px}
+  .logo b{color:var(--cyan)}
+  header nav{margin-left:auto;display:flex;gap:16px;font-size:14.5px;color:#c3d4e6}
+  header nav a:hover{color:#fff}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 22px}
+  .page-h{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+  .page-h h1{font-size:27px;letter-spacing:-.5px;margin:0}
+  .page-h p{margin:5px 0 0;color:var(--muted);font-size:14.5px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:22px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+  .stat .v{font-size:28px;font-weight:820;letter-spacing:-.5px}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .stat.warn .v{color:var(--red)}.stat.ok .v{color:var(--green)}.stat.ae .v{color:var(--amber)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+  .panel-h{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .panel-h h3{margin:0;font-size:16px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  .ref .cit{font-weight:750;font-size:12px;color:var(--ink-2)}
+  .ref .ti{font-weight:600}
+  .ref .pr{color:var(--muted);font-size:12.5px}
+  .src{display:inline-block;background:#eef4fb;color:#4a5b70;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:700}
+  .due.over{color:var(--red);font-weight:800}.due.soon{color:var(--amber);font-weight:700}
+  select.mini{border:1px solid var(--line);border-radius:8px;padding:5px 7px;font-weight:650;font-size:12px;background:#fff;cursor:pointer;max-width:150px}
+  select.ae-Yes{border-color:var(--amber);color:var(--amber)}
+  select.st-Escalated{border-color:var(--purple);color:var(--purple)}
+  .addbar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;background:var(--bg);border-top:1px solid var(--line)}
+  .addbar input,.addbar select{height:38px;border:1px solid var(--line);border-radius:9px;padding:0 10px;min-width:110px;flex:1}
+  .addbar input:focus,.addbar select:focus{outline:none;border-color:var(--sky)}
+  .empty{padding:26px;text-align:center;color:var(--muted)}
+  .gate{max-width:640px;margin:40px auto;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:40px;text-align:center}
+  .gate .ic{font-size:44px}.gate h2{margin:12px 0 8px;font-size:24px}
+  .gate p{color:var(--muted);margin:0 auto 22px;max-width:48ch}
+  .gate ul{list-style:none;padding:0;margin:0 0 24px;display:inline-grid;gap:9px;text-align:left}
+  .gate li{display:flex;gap:9px;font-size:14.5px;color:var(--ink-2)}.gate li .ck{color:var(--green);font-weight:900}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;box-shadow:var(--shadow);z-index:40;display:none;max-width:90vw}
+  .toast.show{display:block}
+  @media(max-width:820px){.hide-sm{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="/hub"><span class="mark">👁️</span>Vigi<b>Eye</b></a>
+  <nav>
+    <a href="/hub">Dashboard</a>
+    <a href="/app">Monitoring</a>
+    <a href="/compliance">Compliance</a>
+    <a href="/medical-monitoring">Medical</a>
+    <a href="/medical-literature" style="color:#fff">Literature</a>
+    <a href="/api/logout" id="logoutlink" style="display:none">Log out</a>
+  </nav>
+</header>
+<div class="wrap" id="root"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+let ST=null, ITEMS=[], META={};
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),3000);}
+async function api(p,o){const r=await fetch(p,Object.assign({headers:{"Content-Type":"application/json"}},o));let j={};try{j=await r.json()}catch(e){}return{ok:r.ok,status:r.status,data:j};}
+const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const todayISO=()=>new Date().toISOString().slice(0,10);
+function addDays(iso,n){const d=new Date(iso);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
+
+async function boot(){
+  const {data}=await api("/api/lit/status"); ST=data;
+  if(ST.authenticated) $("#logoutlink").style.display="";
+  if(!ST.authenticated) return renderSignedOut();
+  if(!ST.active) return renderGate();
+  return renderBoard();
+}
+function renderSignedOut(){
+  $("#root").innerHTML=`<div class="gate"><div class="ic">🔐</div><h2>Sign in to VigiEye</h2>
+    <p>The Literature Monitoring module is part of your VigiEye workspace. Sign in to activate and manage your screening worklist.</p>
+    <a class="btn btn-primary btn-lg" href="/app">Go to sign in</a></div>`;
+}
+function renderGate(){
+  $("#root").innerHTML=`<div class="gate"><div class="ic">📚</div><h2>Medical Literature Monitoring</h2>
+    <p>Systematic literature surveillance for pharmacovigilance (GVP Module VI) — screen references for adverse events, assess relevance, and escalate valid cases.</p>
+    <ul>
+      <li><span class="ck">✓</span> Worklist of references from PubMed, Embase &amp; journals</li>
+      <li><span class="ck">✓</span> Adverse-event &amp; relevance screening per reference</li>
+      <li><span class="ck">✓</span> Weekly screening cadence with overdue alerts</li>
+      <li><span class="ck">✓</span> Escalate to an ICSR + full screening audit trail</li>
+    </ul>
+    <div><button class="btn btn-primary btn-lg" onclick="activate()">Activate literature monitoring</button></div>
+    ${ST.plan_active?'':'<p style="margin-top:14px;font-size:12.5px">Included with your plan, or activate now to evaluate.</p>'}</div>`;
+}
+async function activate(){
+  const {ok,data}=await api("/api/lit/activate",{method:"POST"});
+  if(ok&&data.active){ toast("Literature monitoring activated ✓"); await boot(); }
+  else toast(data.error||"Couldn't activate.");
+}
+
+async function renderBoard(){
+  const s=(await api("/api/lit/summary")).data; META=s;
+  ITEMS=(await api("/api/lit/references")).data.items||[];
+  $("#root").innerHTML=`
+    <div class="page-h"><div><h1>Literature monitoring</h1><p>Screen the literature for safety signals — GVP Module VI surveillance.</p></div>
+      <a class="btn btn-ghost" href="/hub">← All modules</a></div>
+    <div class="stats">
+      <div class="stat"><div class="v">${s.total}</div><div class="k">References</div></div>
+      <div class="stat"><div class="v">${s.awaiting}</div><div class="k">Awaiting screening</div></div>
+      <div class="stat ae"><div class="v">${s.with_ae}</div><div class="k">Contain an AE</div></div>
+      <div class="stat ${s.overdue?'warn':''}"><div class="v">${s.overdue}</div><div class="k">Overdue</div></div>
+      <div class="stat ok"><div class="v">${s.escalated}</div><div class="k">Escalated</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-h"><h3>Screening worklist</h3><span style="color:var(--muted);font-size:13px">${ITEMS.length} references</span></div>
+      <div style="overflow-x:auto"><table><thead><tr>
+        <th>Reference</th><th>Contains AE</th><th class="hide-sm">Relevance</th><th>Due</th><th>Status</th>
+      </tr></thead><tbody id="rows"></tbody></table></div>
+      <div class="addbar">
+        <input id="f_title" placeholder="Article title" style="min-width:220px">
+        <select id="f_source">${SOURCESOPTS()}</select>
+        <input id="f_citation" placeholder="PMID / DOI">
+        <input id="f_product" placeholder="Product">
+        <button class="btn btn-primary btn-sm" onclick="addRef()">＋ Add reference</button>
+      </div>
+    </div>`;
+  renderRows();
+}
+function SOURCESOPTS(){return (META.sources||["PubMed"]).map(x=>`<option>${x}</option>`).join("");}
+function renderRows(){
+  const t=todayISO();
+  $("#rows").innerHTML = ITEMS.length ? ITEMS.map(r=>{
+    const dueCls = r.overdue?'over':(r.due&&r.due<=addDays(t,3)&&r.status==='Awaiting screening'?'soon':'');
+    return `<tr class="ref">
+      <td><span class="src">${esc(r.source)}</span> <span class="cit">${esc(r.citation||'')}</span>
+        <div class="ti">${esc(r.title)}</div><div class="pr">${esc(r.product||'')}${r.reviewer?' · '+esc(r.reviewer):''}</div></td>
+      <td><select class="mini ae-${r.contains_ae}" onchange="setField('${r.id}','contains_ae',this.value)">${META.contains_ae.map(x=>`<option ${x===r.contains_ae?'selected':''}>${x}</option>`).join("")}</select></td>
+      <td class="hide-sm"><select class="mini" onchange="setField('${r.id}','relevance',this.value)">${META.relevance.map(x=>`<option ${x===r.relevance?'selected':''}>${x}</option>`).join("")}</select></td>
+      <td><span class="due ${dueCls}">${r.due||'—'}</span>${r.overdue?' ⚠️':''}</td>
+      <td><select class="mini st-${(r.status||'').split(' ')[0]}" onchange="setField('${r.id}','status',this.value)">${META.statuses.map(x=>`<option ${x===r.status?'selected':''}>${x}</option>`).join("")}</select></td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="5"><div class="empty">No references yet — add your first below.</div></td></tr>`;
+}
+async function addRef(){
+  const body={title:$("#f_title").value.trim(),source:$("#f_source").value,
+    citation:$("#f_citation").value.trim(),product:$("#f_product").value.trim()};
+  if(!body.title) return toast("Article title required");
+  const {ok,data}=await api("/api/lit/references",{method:"POST",body:JSON.stringify(body)});
+  if(ok){ toast(`Reference added · screen by ${data.due}`); renderBoard(); }
+  else toast(data.error||"Error");
+}
+async function setField(id,field,value){
+  const {ok,data}=await api(`/api/lit/references/${id}/set`,{method:"POST",body:JSON.stringify({field,value})});
+  if(ok){ const r=ITEMS.find(x=>x.id===id); if(r) r[field]=value; renderRows();
+    if(field==='status'&&value==='Escalated to case') toast("Escalated to an ICSR"); else toast("Updated"); }
+  else toast(data.error||"Error");
+}
+boot();
+</script>
+</body>
+</html>
