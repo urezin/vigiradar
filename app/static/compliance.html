@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VigiEye — Compliance</title>
+<style>
+  :root{
+    --navy:#0b2942;--navy-2:#12395a;--sky:#0ea5e9;--cyan:#22d3ee;--ink:#0b2942;--ink-2:#33465e;
+    --muted:#6b7a90;--line:#dbe7f3;--bg:#f4f8fc;--card:#fff;--green:#0f9d58;--amber:#d97706;--red:#e11d48;
+    --radius:14px;--shadow:0 1px 2px rgba(11,41,66,.06),0 10px 30px rgba(11,41,66,.08);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font-family:inherit;
+    font-weight:650;font-size:14.5px;border-radius:10px;padding:10px 16px;transition:.15s;line-height:1}
+  .btn-primary{background:var(--sky);color:#fff}.btn-primary:hover{background:#0284c7}
+  .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn-ghost:hover{border-color:var(--muted)}
+  .btn-sm{padding:7px 12px;font-size:13px}.btn-lg{padding:13px 22px;font-size:15px}
+  header{height:60px;background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:0 22px;position:sticky;top:0;z-index:20}
+  .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px;letter-spacing:-.3px}
+  .logo .mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--sky));display:grid;place-items:center;font-size:16px}
+  .logo b{color:var(--cyan)}
+  header nav{margin-left:auto;display:flex;gap:18px;font-size:14.5px;color:#c3d4e6}
+  header nav a:hover{color:#fff}
+  .wrap{max-width:1080px;margin:0 auto;padding:26px 22px}
+  .page-h{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+  .page-h h1{font-size:27px;letter-spacing:-.5px;margin:0}
+  .page-h p{margin:5px 0 0;color:var(--muted);font-size:14.5px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+  .stat .v{font-size:28px;font-weight:820;letter-spacing:-.5px}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .stat.warn .v{color:var(--red)}.stat.ok .v{color:var(--green)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+  .panel-h{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .panel-h h3{margin:0;font-size:16px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--line)}
+  td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  .oblig .t{font-weight:650}
+  .oblig .d{color:var(--muted);font-size:12.5px;margin-top:2px;max-width:44ch}
+  .tag{display:inline-block;background:#eef4fb;color:var(--ink-2);border-radius:11px;padding:2px 9px;font-size:11.5px;font-weight:650;margin-right:5px}
+  .pill{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:700}
+  .pill.Open{background:#eef2f7;color:#5b6b80}
+  .pill.progress{background:#fff2e0;color:#b5730d}
+  .pill.Complete{background:#e7f8ef;color:#0b7a43}
+  .due.over{color:var(--red);font-weight:750}.due.soon{color:var(--amber);font-weight:700}
+  select.mini{border:1px solid var(--line);border-radius:8px;padding:5px 8px;font-weight:650;font-size:12.5px;background:#fff;cursor:pointer}
+  .addbar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;background:var(--bg);border-top:1px solid var(--line)}
+  .addbar input,.addbar select{height:38px;border:1px solid var(--line);border-radius:9px;padding:0 11px;min-width:120px;flex:1}
+  .addbar input:focus,.addbar select:focus{outline:none;border-color:var(--sky)}
+  .empty{padding:26px;text-align:center;color:var(--muted)}
+  .gate{max-width:620px;margin:40px auto;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:40px;text-align:center}
+  .gate .ic{font-size:44px}
+  .gate h2{margin:12px 0 8px;font-size:24px}
+  .gate p{color:var(--muted);margin:0 auto 22px;max-width:46ch}
+  .gate ul{list-style:none;padding:0;margin:0 0 24px;display:inline-grid;gap:9px;text-align:left}
+  .gate li{display:flex;gap:9px;font-size:14.5px;color:var(--ink-2)}.gate li .ck{color:var(--green);font-weight:900}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;box-shadow:var(--shadow);z-index:40;display:none}
+  .toast.show{display:block}
+  @media(max-width:640px){.hide-sm{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="/"><span class="mark">👁️</span>Vigi<b>Eye</b></a>
+  <nav>
+    <a href="/app">Monitoring</a>
+    <a href="/compliance" style="color:#fff">Compliance</a>
+    <a href="/api/logout" id="logoutlink" style="display:none">Log out</a>
+  </nav>
+</header>
+<div class="wrap" id="root"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+let ST=null, ITEMS=[];
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),3000);}
+async function api(p,o){const r=await fetch(p,Object.assign({headers:{"Content-Type":"application/json"}},o));let j={};try{j=await r.json()}catch(e){}return{ok:r.ok,status:r.status,data:j};}
+const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const todayISO=()=>new Date().toISOString().slice(0,10);
+
+async function boot(){
+  const {data}=await api("/api/compliance/status");
+  ST=data;
+  if(ST.authenticated) $("#logoutlink").style.display="";
+  if(!ST.authenticated) return renderSignedOut();
+  if(!ST.active) return renderGate();
+  return renderRegister();
+}
+
+function renderSignedOut(){
+  $("#root").innerHTML=`<div class="gate"><div class="ic">🔐</div>
+    <h2>Sign in to VigiEye</h2>
+    <p>The Compliance module is part of your VigiEye workspace. Sign in to activate and manage your regulatory obligations.</p>
+    <a class="btn btn-primary btn-lg" href="/app">Go to sign in</a></div>`;
+}
+
+function renderGate(){
+  $("#root").innerHTML=`<div class="gate"><div class="ic">✅</div>
+    <h2>Compliance module</h2>
+    <p>Turn VigiEye's regulatory feed into action. Track every obligation, deadline and owner — with audit-ready sign-off.</p>
+    <ul>
+      <li><span class="ck">✓</span> Obligation register mapped to GVP / GMP frameworks</li>
+      <li><span class="ck">✓</span> Deadlines with overdue &amp; due-soon alerts</li>
+      <li><span class="ck">✓</span> Attestation sign-off &amp; audit trail</li>
+      <li><span class="ck">✓</span> Pre-loaded pharmacovigilance starter register</li>
+    </ul>
+    <div><button class="btn btn-primary btn-lg" onclick="activate()">Activate compliance module</button></div>
+    ${ST.plan_active?'':'<p style="margin-top:14px;font-size:12.5px">Included with your plan, or activate now to evaluate.</p>'}</div>`;
+}
+async function activate(){
+  const {ok,data}=await api("/api/compliance/activate",{method:"POST"});
+  if(ok&&data.active){ toast("Compliance module activated ✓"); await boot(); }
+  else toast(data.error||"Couldn't activate.");
+}
+
+async function renderRegister(){
+  const s=(await api("/api/compliance/summary")).data;
+  ITEMS=(await api("/api/compliance/obligations")).data.items||[];
+  $("#root").innerHTML=`
+    <div class="page-h"><div><h1>Compliance register</h1><p>Every regulatory obligation, deadline and sign-off in one place.</p></div>
+      <a class="btn btn-ghost" href="/app">← Monitoring feed</a></div>
+    <div class="stats">
+      <div class="stat"><div class="v">${s.total}</div><div class="k">Obligations</div></div>
+      <div class="stat ${s.overdue?'warn':''}"><div class="v">${s.overdue}</div><div class="k">Overdue</div></div>
+      <div class="stat"><div class="v">${s.due_soon}</div><div class="k">Due in 14 days</div></div>
+      <div class="stat ok"><div class="v">${s.compliance_rate}%</div><div class="k">Compliance rate</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-h"><h3>Obligations</h3><span style="color:var(--muted);font-size:13px">${ITEMS.length} total</span></div>
+      <div style="overflow-x:auto"><table><thead><tr>
+        <th>Obligation</th><th class="hide-sm">Owner</th><th>Due</th><th>Status</th><th></th>
+      </tr></thead><tbody id="rows"></tbody></table></div>
+      <div class="addbar">
+        <input id="f_title" placeholder="New obligation title" style="min-width:200px">
+        <input id="f_framework" placeholder="Framework (e.g. GVP Module IX)">
+        <input id="f_owner" placeholder="Owner">
+        <input id="f_due" type="date">
+        <button class="btn btn-primary btn-sm" onclick="addOblig()">＋ Add</button>
+      </div>
+    </div>`;
+  renderRows();
+}
+function renderRows(){
+  const t=todayISO();
+  $("#rows").innerHTML = ITEMS.length ? ITEMS.map(o=>{
+    const dueCls = o.overdue?'over':(o.due_date&&o.due_date<=addDays(t,14)&&o.status!=='Complete'?'soon':'');
+    const stCls = o.status==='In progress'?'progress':o.status;
+    return `<tr class="oblig">
+      <td><div class="t">${esc(o.title)}</div>
+        <div>${o.framework?`<span class="tag">${esc(o.framework)}</span>`:''}${o.authority?`<span class="tag">${esc(o.authority)}</span>`:''}</div>
+        ${o.description?`<div class="d">${esc(o.description)}</div>`:''}</td>
+      <td class="hide-sm">${esc(o.owner||'—')}</td>
+      <td><span class="due ${dueCls}">${o.due_date||'—'}</span>${o.overdue?' ⚠️':''}</td>
+      <td><select class="mini" onchange="setStatus('${o.id}',this.value)">
+        ${["Open","In progress","Complete"].map(x=>`<option ${x===o.status?'selected':''}>${x}</option>`).join("")}
+      </select></td>
+      <td style="text-align:right">${o.status==='Complete'?'<span style="color:var(--green);font-weight:700">✓ Signed</span>':`<button class="btn btn-ghost btn-sm" onclick="attest('${o.id}')">Attest</button>`}</td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="5"><div class="empty">No obligations yet — add your first below.</div></td></tr>`;
+}
+function addDays(iso,n){const d=new Date(iso);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
+async function addOblig(){
+  const body={title:$("#f_title").value.trim(),framework:$("#f_framework").value.trim(),
+    owner:$("#f_owner").value.trim(),due_date:$("#f_due").value};
+  if(!body.title) return toast("Title required");
+  const {ok,data}=await api("/api/compliance/obligations",{method:"POST",body:JSON.stringify(body)});
+  if(ok) renderRegister(); else toast(data.error||"Error");
+}
+async function setStatus(id,status){
+  await api(`/api/compliance/obligations/${id}/status`,{method:"POST",body:JSON.stringify({status})});
+  const o=ITEMS.find(x=>x.id===id); if(o) o.status=status; renderRows(); toast("Status updated");
+}
+async function attest(id){
+  const {ok,data}=await api("/api/compliance/attest",{method:"POST",body:JSON.stringify({obligation_id:id})});
+  if(ok){ toast(`Signed off by ${data.who} ✓`); renderRegister(); }
+  else toast(data.error||"Couldn't attest.");
+}
+boot();
+</script>
+</body>
+</html>
