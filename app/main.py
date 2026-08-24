@@ -19,7 +19,8 @@ from pydantic import BaseModel
 from .config import settings
 from .data import UPDATES, COUNTRIES, SUBJECTS
 from . import (store, ingest as ingest_mod, digest as digest_mod, emailer,
-               prices as prices_mod, auth as auth_mod, billing as billing_mod)
+               prices as prices_mod, auth as auth_mod, billing as billing_mod,
+               compliance as compliance_mod)
 
 log = logging.getLogger("vigiradar")
 
@@ -29,6 +30,9 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 _BASE = os.path.dirname(__file__)
 _STATIC = os.path.join(_BASE, "static")
 app.mount("/static", StaticFiles(directory=_STATIC), name="static")
+
+# Compliance add-on module (sellable, entitlement-gated).
+app.include_router(compliance_mod.router)
 
 # in-memory lead store for the MVP (swap for a DB when persistence is needed)
 _LEADS: list[dict] = []
@@ -52,6 +56,11 @@ def landing():
 @app.get("/app", include_in_schema=False)
 def workspace():
     return FileResponse(os.path.join(_STATIC, "app.html"))
+
+
+@app.get("/compliance", include_in_schema=False)
+def compliance_page():
+    return FileResponse(os.path.join(_STATIC, "compliance.html"))
 
 
 @app.get("/health")
