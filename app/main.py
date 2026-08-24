@@ -69,24 +69,39 @@ def marketing_landing():
     return FileResponse(os.path.join(_STATIC, "landing.html"))
 
 
+def _plan_ok(session: str | None) -> bool:
+    """True only for a registered account on an active or trialing paid plan.
+    The 14-day trial requires a card at Stripe Checkout, so this gates the whole
+    product behind registration + credit card — no free self-serve access."""
+    user = _current_user(session)
+    return bool(user) and (user.get("plan") or "") not in ("", "free") and \
+        (user.get("plan_status") or "") in ("active", "trialing")
+
+
+def _gated(session, filename):
+    if not _plan_ok(session):
+        return RedirectResponse("/welcome#pricing", status_code=302)
+    return FileResponse(os.path.join(_STATIC, filename))
+
+
 @app.get("/app", include_in_schema=False)
-def workspace():
-    return FileResponse(os.path.join(_STATIC, "app.html"))
+def workspace(session: str | None = Cookie(default=None, alias=auth_mod.COOKIE_NAME)):
+    return _gated(session, "app.html")
 
 
 @app.get("/compliance", include_in_schema=False)
-def compliance_page():
-    return FileResponse(os.path.join(_STATIC, "compliance.html"))
+def compliance_page(session: str | None = Cookie(default=None, alias=auth_mod.COOKIE_NAME)):
+    return _gated(session, "compliance.html")
 
 
 @app.get("/medical-monitoring", include_in_schema=False)
-def medical_monitoring_page():
-    return FileResponse(os.path.join(_STATIC, "medical.html"))
+def medical_monitoring_page(session: str | None = Cookie(default=None, alias=auth_mod.COOKIE_NAME)):
+    return _gated(session, "medical.html")
 
 
 @app.get("/medical-literature", include_in_schema=False)
-def medical_literature_page():
-    return FileResponse(os.path.join(_STATIC, "literature.html"))
+def medical_literature_page(session: str | None = Cookie(default=None, alias=auth_mod.COOKIE_NAME)):
+    return _gated(session, "literature.html")
 
 
 @app.get("/health")

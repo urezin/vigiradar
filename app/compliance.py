@@ -177,7 +177,7 @@ def status(session: str | None = Cookie(default=None, alias=COOKIE)):
         return {"authenticated": False, "active": False}
     return {"authenticated": True, "active": _entitled(user),
             "plan_active": _plan_active(user),
-            "self_grant": os.getenv("ALLOW_SELF_GRANT", "1") == "1",
+            "self_grant": os.getenv("ALLOW_SELF_GRANT", "0") == "1",
             "name": user.get("name") or user.get("email", "")}
 
 
@@ -189,7 +189,7 @@ def activate(session: str | None = Cookie(default=None, alias=COOKIE)):
     if _entitled(user):
         _seed_for(user["id"])
         return {"ok": True, "active": True}
-    if os.getenv("ALLOW_SELF_GRANT", "1") != "1":
+    if os.getenv("ALLOW_SELF_GRANT", "0") != "1":
         return JSONResponse({"error": "The compliance module isn’t part of your plan yet."}, status_code=402)
     _init()
     with _engine.begin() as c:
