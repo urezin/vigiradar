@@ -12,15 +12,34 @@ from __future__ import annotations
 
 import hashlib
 import hmac
+import os
 import time
 
 from .config import settings
 
 API = "https://api.stripe.com/v1"
 
-PRICES = {
-    "pro_monthly": lambda: settings.stripe_price_pro_monthly,
-    "team_annual": lambda: settings.stripe_price_team_annual,
+# Inline plan pricing, matching the public pricing page (amounts overridable via
+# env). If a pre-created Stripe Price ID is configured for a plan it takes
+# precedence; otherwise we build the price inline via price_data, so checkout
+# works with just STRIPE_SECRET_KEY — no Stripe Products to pre-create.
+PLANS = {
+    "pro_monthly": {
+        "name": "VigiEye Pro",
+        "amount": int(os.getenv("VIGI_PRO_MONTHLY_CENTS", "24900")),    # €249 / user / month
+        "currency": os.getenv("VIGI_CURRENCY", "eur"),
+        "interval": "month",
+        "trial_days": int(os.getenv("VIGI_PRO_TRIAL_DAYS", "14")),      # 14-day trial (as advertised)
+        "price_id": lambda: settings.stripe_price_pro_monthly,
+    },
+    "team_annual": {
+        "name": "VigiEye Team (annual)",
+        "amount": int(os.getenv("VIGI_TEAM_ANNUAL_CENTS", "238800")),   # €199/user/mo billed annually = €2,388/yr
+        "currency": os.getenv("VIGI_CURRENCY", "eur"),
+        "interval": "year",
+        "trial_days": int(os.getenv("VIGI_TEAM_TRIAL_DAYS", "0")),
+        "price_id": lambda: settings.stripe_price_team_annual,
+    },
 }
 
 
@@ -46,20 +65,33 @@ def ensure_customer(email: str, name: str = "", existing: str = "") -> str:
 
 
 def create_checkout_session(sku: str, customer_id: str, base_url: str) -> str:
-    """Create a subscription Checkout Session and return its URL."""
-    price = PRICES.get(sku, lambda: "")()
-    if not price:
-        raise ValueError("unknown or unconfigured plan")
+    """Create a subscription Checkout Session and return its URL.
+
+    Uses a pre-created Stripe Price if one is configured for the plan; otherwise
+    builds the price inline with price_data so it works with just the secret key.
+    """
+    plan = PLANS.get(sku)
+    if not plan:
+        raise ValueError("unknown plan")
     base = base_url.rstrip("/")
     data = {
         "mode": "subscription",
         "customer": customer_id,
-        "line_items[0][price]": price,
         "line_items[0][quantity]": "1",
         "success_url": f"{base}/app?checkout=success",
         "cancel_url": f"{base}/app?checkout=cancel",
         "allow_promotion_codes": "true",
     }
+    pid = plan["price_id"]()
+    if pid:
+        data["line_items[0][price]"] = pid
+    else:
+        data["line_items[0][price_data][currency]"] = plan["currency"]
+        data["line_items[0][price_data][unit_amount]"] = str(plan["amount"])
+        data["line_items[0][price_data][recurring][interval]"] = plan["interval"]
+        data["line_items[0][price_data][product_data][name]"] = plan["name"]
+    if plan["trial_days"]:
+        data["subscription_data[trial_period_days]"] = str(plan["trial_days"])
     return _post("/checkout/sessions", data)["url"]
 
 
