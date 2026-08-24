@@ -20,7 +20,8 @@ from .config import settings
 from .data import UPDATES, COUNTRIES, SUBJECTS
 from . import (store, ingest as ingest_mod, digest as digest_mod, emailer,
                prices as prices_mod, auth as auth_mod, billing as billing_mod,
-               compliance as compliance_mod, medmonitor as medmonitor_mod)
+               compliance as compliance_mod, medmonitor as medmonitor_mod,
+               litmonitor as litmonitor_mod)
 
 log = logging.getLogger("vigiradar")
 
@@ -34,6 +35,7 @@ app.mount("/static", StaticFiles(directory=_STATIC), name="static")
 # Add-on modules (sellable, entitlement-gated).
 app.include_router(compliance_mod.router)
 app.include_router(medmonitor_mod.router)
+app.include_router(litmonitor_mod.router)
 
 # in-memory lead store for the MVP (swap for a DB when persistence is needed)
 _LEADS: list[dict] = []
@@ -51,6 +53,19 @@ class CheckoutIn(BaseModel):
 
 @app.get("/", include_in_schema=False)
 def landing():
+    # Homepage is now the modular hub (CompePharma-style): a module store when
+    # signed out, a modular dashboard when signed in.
+    return FileResponse(os.path.join(_STATIC, "hub.html"))
+
+
+@app.get("/hub", include_in_schema=False)
+def hub_page():
+    return FileResponse(os.path.join(_STATIC, "hub.html"))
+
+
+@app.get("/welcome", include_in_schema=False)
+def marketing_landing():
+    # The original marketing landing (incl. pricing) is kept here.
     return FileResponse(os.path.join(_STATIC, "landing.html"))
 
 
@@ -67,6 +82,11 @@ def compliance_page():
 @app.get("/medical-monitoring", include_in_schema=False)
 def medical_monitoring_page():
     return FileResponse(os.path.join(_STATIC, "medical.html"))
+
+
+@app.get("/medical-literature", include_in_schema=False)
+def medical_literature_page():
+    return FileResponse(os.path.join(_STATIC, "literature.html"))
 
 
 @app.get("/health")
