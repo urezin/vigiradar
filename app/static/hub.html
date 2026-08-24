@@ -83,6 +83,36 @@
   .hero-card .row .i{width:34px;height:34px;border-radius:9px;background:var(--brand-050);display:grid;place-items:center;font-size:18px}
   .hero-card .row small{margin-left:auto;color:var(--muted);font-weight:600}
 
+  /* --- animated radar hero (signed-out) --- */
+  .herofx{position:relative;overflow:hidden;border-radius:22px;margin:6px 0 36px;
+    background:radial-gradient(1200px 720px at 74% -20%,#0b2942 0%,#08192b 55%,#050c17 100%);
+    border:1px solid rgba(56,189,248,.18);box-shadow:0 30px 80px rgba(5,12,23,.45)}
+  .herofx #bgfx{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .herofx .in{position:relative;z-index:3;display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;padding:54px 46px}
+  .herofx h1{font-size:46px;line-height:1.06;letter-spacing:-1.4px;margin:0 0 16px;color:#fff}
+  .herofx h1 em{font-style:normal;background:linear-gradient(90deg,#38bdf8,#2dd4bf 55%,#34d399);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .herofx p{font-size:18px;color:#b8c8dc;margin:0 0 24px;max-width:44ch}
+  .livepill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:700;color:#d1fae5;
+    background:linear-gradient(90deg,rgba(16,185,129,.18),rgba(16,185,129,.05));border:1px solid rgba(16,185,129,.45);margin-bottom:16px}
+  .livedot{width:9px;height:9px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:livepulse 1.8s infinite}
+  @keyframes livepulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.7)}70%{box-shadow:0 0 0 10px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+  .radar{position:relative;width:340px;height:340px;justify-self:center;border-radius:50%}
+  .radar .grid{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(56,189,248,.28);
+    background:repeating-radial-gradient(circle,rgba(56,189,248,.13) 0 1px,transparent 1px 42px)}
+  .radar .cross::before,.radar .cross::after{content:"";position:absolute;background:rgba(56,189,248,.18)}
+  .radar .cross::before{left:50%;top:0;bottom:0;width:1px;transform:translateX(-.5px)}
+  .radar .cross::after{top:50%;left:0;right:0;height:1px;transform:translateY(-.5px)}
+  .radar .sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(52,211,153,.34),rgba(52,211,153,0) 26%);animation:sweep 5s linear infinite}
+  .radar .sweep2{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 180deg,rgba(56,189,248,.16),rgba(56,189,248,0) 30%);animation:sweep 9s linear infinite reverse}
+  @keyframes sweep{to{transform:rotate(360deg)}}
+  .radar .core{position:absolute;left:50%;top:50%;width:14px;height:14px;border-radius:50%;transform:translate(-50%,-50%);
+    background:radial-gradient(#eafff6,#34d399);box-shadow:0 0 16px 3px rgba(52,211,153,.7)}
+  .blip{position:absolute;width:10px;height:10px;border-radius:50%;background:#34d399;box-shadow:0 0 10px 2px rgba(52,211,153,.85);
+    transform:translate(-50%,-50%);animation:blip 3.4s ease-out infinite}
+  @keyframes blip{0%,100%{opacity:.22;transform:translate(-50%,-50%) scale(.65)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}}
+  @media(max-width:860px){.herofx .in{grid-template-columns:1fr;padding:36px 22px}.radar{display:none}}
+  @media(prefers-reduced-motion:reduce){.radar .sweep,.radar .sweep2,.livedot,.blip{animation:none}}
+
   .overlay{position:fixed;inset:0;background:rgba(8,20,32,.55);backdrop-filter:blur(3px);z-index:60;display:none;align-items:flex-start;justify-content:center;padding:44px 16px;overflow:auto}
   .overlay.open{display:flex}
   .modal{background:#fff;border-radius:16px;max-width:420px;width:100%;box-shadow:var(--shadow-lg);padding:28px;position:relative}
@@ -191,25 +221,52 @@ document.addEventListener("click",e=>{const m=$("#am");if(m&&!e.target.closest("
 function renderLanding(){
   $("#root").innerHTML=`
   <div class="land">
-    <div class="hero">
-      <div>
-        <h1>One eye on <span>everything</span> that moves in pharmacovigilance.</h1>
-        <p>VigiEye is a modular PV platform. Turn on regulatory monitoring, compliance, medical monitoring and literature surveillance — only the modules you need.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button class="btn btn-primary btn-lg" onclick="openAuth('register')">Start free</button>
-          <button class="btn btn-ghost btn-lg" onclick="document.getElementById('store').scrollIntoView({behavior:'smooth'})">See modules</button>
+    <div class="herofx">
+      <canvas id="bgfx"></canvas>
+      <div class="in">
+        <div>
+          <span class="livepill"><span class="livedot"></span> Monitoring live · EU PV &amp; regulatory</span>
+          <h1>One eye on <em>everything</em> that moves in pharmacovigilance.</h1>
+          <p>VigiEye is a modular PV platform — regulatory monitoring, compliance, medical monitoring and literature surveillance. Turn on only the modules you need.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-lg" onclick="openAuth('register')">Start free trial</button>
+            <button class="btn btn-lg" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)" onclick="document.getElementById('store').scrollIntoView({behavior:'smooth'})">See modules</button>
+          </div>
         </div>
-      </div>
-      <div class="hero-card">
-        ${MODULES.map(m=>`<div class="row"><span class="i">${m.icon}</span>${esc(m.name)}<small>${m.core?'Core':'Add-on'}</small></div>`).join("")}
+        <div class="radar" aria-hidden="true">
+          <div class="grid"></div><div class="cross"></div>
+          <div class="sweep2"></div><div class="sweep"></div>
+          <span class="core"></span>
+          <span class="blip" style="left:70%;top:32%;animation-delay:.2s"></span>
+          <span class="blip" style="left:38%;top:60%;animation-delay:1.1s"></span>
+          <span class="blip" style="left:61%;top:73%;animation-delay:1.9s"></span>
+          <span class="blip" style="left:27%;top:37%;animation-delay:2.6s"></span>
+          <span class="blip" style="left:79%;top:57%;animation-delay:.7s"></span>
+        </div>
       </div>
     </div>
     <div id="store">
       <h2 style="font-size:26px;letter-spacing:-.5px;margin:8px 0 4px">Your PV modules</h2>
-      <p style="color:var(--muted);margin:0 0 20px">Each works on its own. Add more any time.</p>
+      <p style="color:var(--muted);margin:0 0 20px">Each works on its own. Every plan includes a 14-day free trial — card required, cancel anytime.</p>
       <div class="mods">${MODULES.map(m=>modCard(m,false)).join("")}</div>
     </div>
   </div>`;
+  initBgfx();
+}
+function initBgfx(){
+  const cv=document.getElementById("bgfx");if(!cv)return;const ctx=cv.getContext("2d");
+  let w,h,pts=[];
+  function size(){w=cv.width=cv.offsetWidth;h=cv.height=cv.offsetHeight;
+    const n=Math.min(78,Math.floor(w*h/17000));pts=[];
+    for(let i=0;i<n;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.24,vy:(Math.random()-.5)*.24,r:Math.random()*1.6+.5});}
+  size();
+  (function step(){if(!document.getElementById("bgfx")){return;}ctx.clearRect(0,0,w,h);
+    for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;}
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=dx*dx+dy*dy;
+      if(d<14000){const o=(1-d/14000)*.45;ctx.strokeStyle="rgba(56,189,248,"+o.toFixed(3)+")";ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}
+    for(const p of pts){ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.2832);ctx.fillStyle="rgba(45,212,191,.85)";ctx.fill();}
+    requestAnimationFrame(step);})();
+  window.addEventListener("resize",size);
 }
 function modCard(m, isOwned){
   const tag = m.core?'<span class="tag core">✓ Core module</span>'
@@ -306,10 +363,15 @@ function renderLocked(m){
 }
 async function activate(key){
   if(!ME){ pending=key; openAuth('register'); return; }
-  const m=MOD(key);
-  const {ok,data}=await api(m.activate,{method:"POST"});
-  if(ok&&data.active){ toast(`${m.name} activated ✓`); STATUS[key]={active:true}; VIEW=key; renderShell(); setTimeout(()=>location.href=m.open,600); }
-  else toast(data.error||"Couldn't activate.");
+  // Modules unlock with a paid plan — every plan starts a 14-day free trial and
+  // requires a card. Send the user to Stripe Checkout (no free self-serve grant).
+  toast("Opening secure checkout…");
+  try{
+    const {ok,data}=await api('/billing/checkout',{method:'POST',body:JSON.stringify({sku:'pro_monthly'})});
+    if(ok && data && data.url){ location.href=data.url; return; }
+    if(data && data.error){ toast(data.error); }
+  }catch(e){}
+  location.href='/welcome#pricing';
 }
 
 /* ---------- auth ---------- */
