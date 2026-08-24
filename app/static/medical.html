@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VigiEye — Medical Monitoring</title>
+<style>
+  :root{
+    --navy:#0b2942;--navy-2:#12395a;--sky:#0ea5e9;--cyan:#22d3ee;--ink:#0b2942;--ink-2:#33465e;
+    --muted:#6b7a90;--line:#dbe7f3;--bg:#f4f8fc;--card:#fff;--green:#0f9d58;--amber:#d97706;--red:#e11d48;
+    --radius:14px;--shadow:0 1px 2px rgba(11,41,66,.06),0 10px 30px rgba(11,41,66,.08);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font-family:inherit;
+    font-weight:650;font-size:14.5px;border-radius:10px;padding:10px 16px;transition:.15s;line-height:1}
+  .btn-primary{background:var(--sky);color:#fff}.btn-primary:hover{background:#0284c7}
+  .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn-ghost:hover{border-color:var(--muted)}
+  .btn-sm{padding:6px 11px;font-size:12.5px}.btn-lg{padding:13px 22px;font-size:15px}
+  header{height:60px;background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:0 22px;position:sticky;top:0;z-index:20}
+  .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px;letter-spacing:-.3px}
+  .logo .mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--sky));display:grid;place-items:center;font-size:16px}
+  .logo b{color:var(--cyan)}
+  header nav{margin-left:auto;display:flex;gap:18px;font-size:14.5px;color:#c3d4e6}
+  header nav a:hover{color:#fff}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 22px}
+  .page-h{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+  .page-h h1{font-size:27px;letter-spacing:-.5px;margin:0}
+  .page-h p{margin:5px 0 0;color:var(--muted);font-size:14.5px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:22px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+  .stat .v{font-size:28px;font-weight:820;letter-spacing:-.5px}
+  .stat .k{font-size:13px;color:var(--muted);margin-top:2px}
+  .stat.warn .v{color:var(--red)}.stat.ok .v{color:var(--green)}.stat.ser .v{color:var(--amber)}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+  .panel-h{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .panel-h h3{margin:0;font-size:16px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  .case .ref{font-weight:750;font-size:12.5px;color:var(--ink-2)}
+  .case .ev{font-weight:650}
+  .case .pr{color:var(--muted);font-size:12.5px}
+  .pill{display:inline-block;padding:3px 9px;border-radius:11px;font-size:11.5px;font-weight:750}
+  .pill.Serious{background:#fdecea;color:#c0392b}.pill.Nonserious{background:#eef4fb;color:#4a5b70}
+  .due.over{color:var(--red);font-weight:800}.due.soon{color:var(--amber);font-weight:700}
+  select.mini{border:1px solid var(--line);border-radius:8px;padding:5px 7px;font-weight:650;font-size:12px;background:#fff;cursor:pointer;max-width:150px}
+  .addbar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;background:var(--bg);border-top:1px solid var(--line)}
+  .addbar input,.addbar select{height:38px;border:1px solid var(--line);border-radius:9px;padding:0 10px;min-width:120px;flex:1}
+  .addbar input:focus,.addbar select:focus{outline:none;border-color:var(--sky)}
+  .empty{padding:26px;text-align:center;color:var(--muted)}
+  .gate{max-width:640px;margin:40px auto;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:40px;text-align:center}
+  .gate .ic{font-size:44px}.gate h2{margin:12px 0 8px;font-size:24px}
+  .gate p{color:var(--muted);margin:0 auto 22px;max-width:48ch}
+  .gate ul{list-style:none;padding:0;margin:0 0 24px;display:inline-grid;gap:9px;text-align:left}
+  .gate li{display:flex;gap:9px;font-size:14.5px;color:var(--ink-2)}.gate li .ck{color:var(--green);font-weight:900}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;box-shadow:var(--shadow);z-index:40;display:none;max-width:90vw}
+  .toast.show{display:block}
+  .clock{font-size:12px;color:var(--muted);margin-top:2px}
+  @media(max-width:760px){.hide-sm{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="/"><span class="mark">👁️</span>Vigi<b>Eye</b></a>
+  <nav>
+    <a href="/app">Monitoring</a>
+    <a href="/compliance">Compliance</a>
+    <a href="/medical-monitoring" style="color:#fff">Medical monitoring</a>
+    <a href="/api/logout" id="logoutlink" style="display:none">Log out</a>
+  </nav>
+</header>
+<div class="wrap" id="root"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+let ST=null, CASES=[], META={};
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),3000);}
+async function api(p,o){const r=await fetch(p,Object.assign({headers:{"Content-Type":"application/json"}},o));let j={};try{j=await r.json()}catch(e){}return{ok:r.ok,status:r.status,data:j};}
+const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const todayISO=()=>new Date().toISOString().slice(0,10);
+function addDays(iso,n){const d=new Date(iso);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
+
+async function boot(){
+  const {data}=await api("/api/mm/status"); ST=data;
+  if(ST.authenticated) $("#logoutlink").style.display="";
+  if(!ST.authenticated) return renderSignedOut();
+  if(!ST.active) return renderGate();
+  return renderBoard();
+}
+function renderSignedOut(){
+  $("#root").innerHTML=`<div class="gate"><div class="ic">🔐</div><h2>Sign in to VigiEye</h2>
+    <p>The Medical Monitoring module is part of your VigiEye workspace. Sign in to activate and manage your caseload.</p>
+    <a class="btn btn-primary btn-lg" href="/app">Go to sign in</a></div>`;
+}
+function renderGate(){
+  $("#root").innerHTML=`<div class="gate"><div class="ic">🩺</div><h2>PhV Medical Monitoring</h2>
+    <p>A medical review workbench for case safety — triage seriousness, track the expedited reporting clock, record causality, and raise medical queries.</p>
+    <ul>
+      <li><span class="ck">✓</span> ICSR / adverse-event caseload with medical review workflow</li>
+      <li><span class="ck">✓</span> 15-day (serious) &amp; 90-day reporting clocks with overdue alerts</li>
+      <li><span class="ck">✓</span> Causality &amp; listedness assessment per case</li>
+      <li><span class="ck">✓</span> Medical query tracking &amp; a pre-loaded sample caseload</li>
+    </ul>
+    <div><button class="btn btn-primary btn-lg" onclick="activate()">Activate medical monitoring</button></div>
+    ${ST.plan_active?'':'<p style="margin-top:14px;font-size:12.5px">Included with your plan, or activate now to evaluate.</p>'}</div>`;
+}
+async function activate(){
+  const {ok,data}=await api("/api/mm/activate",{method:"POST"});
+  if(ok&&data.active){ toast("Medical monitoring activated ✓"); await boot(); }
+  else toast(data.error||"Couldn't activate.");
+}
+
+async function renderBoard(){
+  const s=(await api("/api/mm/summary")).data; META=s;
+  CASES=(await api("/api/mm/cases")).data.items||[];
+  $("#root").innerHTML=`
+    <div class="page-h"><div><h1>Medical monitoring</h1><p>Case safety review &amp; expedited reporting oversight.</p></div>
+      <a class="btn btn-ghost" href="/app">← Monitoring feed</a></div>
+    <div class="stats">
+      <div class="stat"><div class="v">${s.total}</div><div class="k">Cases</div></div>
+      <div class="stat"><div class="v">${s.awaiting}</div><div class="k">Awaiting review</div></div>
+      <div class="stat ser"><div class="v">${s.serious}</div><div class="k">Serious</div></div>
+      <div class="stat ${s.overdue?'warn':''}"><div class="v">${s.overdue}</div><div class="k">Overdue clock</div></div>
+      <div class="stat ok"><div class="v">${s.reviewed}</div><div class="k">Reviewed</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-h"><h3>Caseload</h3><span style="color:var(--muted);font-size:13px">${CASES.length} cases</span></div>
+      <div style="overflow-x:auto"><table><thead><tr>
+        <th>Case</th><th>Seriousness</th><th class="hide-sm">Causality</th><th>Reporting clock</th><th>Status</th><th></th>
+      </tr></thead><tbody id="rows"></tbody></table></div>
+      <div class="addbar">
+        <input id="f_event" placeholder="Adverse event / reaction" style="min-width:200px">
+        <input id="f_product" placeholder="Suspect product">
+        <select id="f_seriousness">${META.seriousness.map(x=>`<option ${x==='Non-serious'?'selected':''}>${x}</option>`).join("")}</select>
+        <input id="f_received" type="date" title="Date received">
+        <input id="f_monitor" placeholder="Medical monitor">
+        <button class="btn btn-primary btn-sm" onclick="addCase()">＋ Log case</button>
+      </div>
+    </div>`;
+  renderRows();
+}
+function renderRows(){
+  const t=todayISO();
+  $("#rows").innerHTML = CASES.length ? CASES.map(c=>{
+    const dueCls = c.overdue?'over':(c.due&&c.due<=addDays(t,5)&&c.status!=='Reviewed'?'soon':'');
+    const serPill = c.seriousness==='Serious'?'Serious':'Nonserious';
+    return `<tr class="case">
+      <td><div class="ref">${esc(c.case_ref)}</div><div class="ev">${esc(c.event)}</div><div class="pr">${esc(c.product||'')}${c.monitor?' · '+esc(c.monitor):''}</div></td>
+      <td><select class="mini" onchange="setField('${c.id}','seriousness',this.value)">${META.seriousness.map(x=>`<option ${x===c.seriousness?'selected':''}>${x}</option>`).join("")}</select></td>
+      <td class="hide-sm"><select class="mini" onchange="setField('${c.id}','causality',this.value)">${META.causality.map(x=>`<option ${x===c.causality?'selected':''}>${x}</option>`).join("")}</select></td>
+      <td><span class="due ${dueCls}">${c.due||'—'}</span>${c.overdue?' ⚠️':''}<div class="clock">${c.seriousness==='Serious'?'15-day':'90-day'} · rec. ${c.received||'—'}</div></td>
+      <td><select class="mini" onchange="setField('${c.id}','status',this.value)">${META.statuses.map(x=>`<option ${x===c.status?'selected':''}>${x}</option>`).join("")}</select></td>
+      <td style="text-align:right"><button class="btn btn-ghost btn-sm" onclick="raiseQuery('${c.id}','${esc(c.case_ref)}')">Query</button></td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="6"><div class="empty">No cases yet — log your first below.</div></td></tr>`;
+}
+async function addCase(){
+  const body={event:$("#f_event").value.trim(),product:$("#f_product").value.trim(),
+    seriousness:$("#f_seriousness").value,received:$("#f_received").value,monitor:$("#f_monitor").value.trim()};
+  if(!body.event) return toast("Adverse event required");
+  const {ok,data}=await api("/api/mm/cases",{method:"POST",body:JSON.stringify(body)});
+  if(ok){ toast(`Case ${data.case_ref} logged · due ${data.due}`); renderBoard(); }
+  else toast(data.error||"Error");
+}
+async function setField(id,field,value){
+  const {ok,data}=await api(`/api/mm/cases/${id}/set`,{method:"POST",body:JSON.stringify({field,value})});
+  if(ok){ if(field==='seriousness'){ renderBoard(); } else { const c=CASES.find(x=>x.id===id); if(c) c[field]=value; toast("Updated"); } }
+  else toast(data.error||"Error");
+}
+async function raiseQuery(id,ref){
+  const q=prompt(`Medical query for case ${ref}:`);
+  if(!q||!q.trim()) return;
+  const {ok,data}=await api("/api/mm/queries",{method:"POST",body:JSON.stringify({case_id:id,question:q.trim()})});
+  if(ok){ toast("Query raised ✓"); renderBoard(); } else toast(data.error||"Error");
+}
+boot();
+</script>
+</body>
+</html>
