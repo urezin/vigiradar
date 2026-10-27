@@ -150,7 +150,8 @@ nav{position:sticky;top:0;background:rgba(6,12,24,.9);backdrop-filter:blur(10px)
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
 .logo{font-weight:800;font-size:19px;color:#fff}.logo b{color:#2dd4bf}
 .nl a{color:#cbd5e1;margin-left:16px;font-size:14px;font-weight:500}.nl a.cta{background:linear-gradient(92deg,#0ea5e9,#14b8a6);color:#fff;padding:8px 14px;border-radius:9px}
-@media(max-width:640px){.nl a.hide{display:none}}
+@media(max-width:640px){.nl a.hide{display:none}.nl a{margin-left:10px;font-size:13px}.nl a.cta{padding:7px 10px}.logo{font-size:17px}}
+.nl{white-space:nowrap}
 header.hero{background:radial-gradient(900px 500px at 75% -20%,#0b2942,#050c17);color:#fff;padding:44px 0 34px}
 header.hero h1{font-size:36px;line-height:1.12;letter-spacing:-.02em;max-width:780px}
 header.hero p{color:#a9b4c9;max-width:680px;margin-top:12px;font-size:17px}
@@ -181,6 +182,7 @@ header.hero p{color:#a9b4c9;max-width:680px;margin-top:12px;font-size:17px}
 .cd.soon{color:var(--md)}.cd.hot,.cd.now{color:#fff;background:#e11d48}.cd.past{opacity:.7}
 @media(max-width:640px){.ev{grid-template-columns:1fr}.ev .cdw{order:-1}}
 .lock{border:1px dashed var(--accent);border-radius:12px;padding:18px;margin:26px 0;background:var(--soft)}
+.lock .sub input{background:var(--bg);color:var(--ink);border-color:var(--line)}.lock .msg{color:var(--accent)}
 .lock h3{font-size:17px}.lock p{color:var(--mut);font-size:14.5px;margin:6px 0 12px}
 .article{max-width:760px;padding:30px 0}
 .article h2{font-size:20px;margin:24px 0 8px}
@@ -209,7 +211,7 @@ def _page(title: str, description: str, canonical: str, body: str,
 <link rel="alternate" type="text/calendar" title="VigiEye EU regulatory calendar" href="{_base()}/calendar.ics">
 <style>{_CSS}</style>{ld}</head><body>
 <nav><div class="wrap"><a class="logo" href="/welcome">👁️ Vigi<b>Eye</b></a>
-<div class="nl"><a href="/calendar">Calendar</a><a href="/radar">Radar</a><a class="hide" href="/welcome#pricing">Pricing</a><a class="cta" href="/welcome#pricing">Start monitoring</a></div></div></nav>
+<div class="nl"><a href="/calendar">Calendar</a><a href="/radar">Radar</a><a class="hide" href="/welcome#pricing">Pricing</a><a class="cta" href="/welcome#pricing">Start</a></div></div></nav>
 {body}
 <footer><div class="wrap">VigiEye · EU pharmacovigilance &amp; regulatory monitoring. Every date links to its official source; always confirm against the source before acting.
  · <a href="/calendar">Calendar</a> · <a href="/calendar.ics">iCal feed</a> · <a href="/radar">Regulatory radar</a> · <a href="/welcome">About VigiEye</a></div></footer>
@@ -275,7 +277,7 @@ def calendar_page(past: int = 0):
                 if nxt else "")
     body = f"""<header class="hero"><div class="wrap">
 <h1>EU regulatory &amp; pharmacovigilance catalyst calendar</h1>
-<p>Every upcoming CHMP, PRAC and CMDh meeting, legislation milestone, guideline effective date and consultation deadline that moves EU pharma and medical devices, each linked to its official source.</p>
+<p>Upcoming EMA committee meetings (CHMP, PRAC, CAT, PDCO, COMP), EU legislation milestones, MDR/IVDR and EUDAMED deadlines, guideline effective dates and consultation deadlines, each linked to its official source.</p>
 <div class="stats"><span class="stat"><b>{len(upcoming)}</b> upcoming events</span>
 <span class="stat"><b>{len(next30)}</b> in the next 30 days</span><span class="stat"><b>{len(high)}</b> high impact</span>{nxt_html}</div>
 {_subscribe_box("calendar-hero")}
@@ -310,10 +312,21 @@ el.style.display=ok?'':'none';if(ok&&last){{last.style.display='';shown++;}}}});
            "itemListElement": [{"@type": "ListItem", "position": n + 1,
                                 "url": f"{_base()}/calendar/{e['slug']}", "name": e.get("title", "")}
                                for n, e in enumerate(upcoming[:50])]}]
-    return _page("EU Regulatory Calendar 2026–2027: CHMP, PRAC, CMDh dates & deadlines | VigiEye",
-                 "Free calendar of upcoming EU pharma regulatory events: CHMP, PRAC and CMDh meeting dates, "
+    return _page("EU Regulatory Calendar 2026–2027: CHMP & PRAC dates, MDR deadlines",
+                 "Free calendar of upcoming EU pharma regulatory events: CHMP, PRAC, CAT, PDCO and COMP meeting dates, "
                  "MDR/IVDR, HTA and EUDAMED deadlines, guideline effective dates. Every date sourced. iCal feed.",
                  f"{_base()}/calendar", body, ld)
+
+
+def _outcome_line(ev: dict) -> str:
+    if ev.get("type") == "committee":
+        return (f"When {ev.get('body')} publishes its highlights and minutes, VigiEye subscribers get an AI "
+                "summary of what changed and which of their products and markets it touches.")
+    if ev.get("type") == "consultation":
+        return ("When EMA publishes the final text, VigiEye subscribers get an AI summary of what changed "
+                "versus the draft and who it affects.")
+    return ("VigiEye subscribers get related guidance and regulatory changes summarised by AI, "
+            "filtered to their products and markets. The free weekly email lists this date when it is two weeks out.")
 
 
 def _q(s: str) -> str:
@@ -524,7 +537,7 @@ def event_page(slug: str):
 <p style="margin-top:16px"><a class="btn ghost" href="{_e(gcal)}" target="_blank" rel="noopener">Add to Google Calendar</a>
  <a class="btn ghost" href="/calendar.ics">Subscribe to all dates (iCal)</a></p>
 <div class="lock"><h3>Get the outcome, not just the date</h3>
-<p>When {_e(ev.get('body'))} publishes, VigiEye subscribers get an AI summary of what changed and which of their products and markets it touches.</p>
+<p>{_e(_outcome_line(ev))}</p>
 {_subscribe_box("event:" + ev['slug'])}<p style="font-size:13px;color:var(--mut)">Free weekly "EU regulatory week ahead" email. Or <a href="/welcome#pricing">start monitoring</a>.</p></div>
 <h2>Related upcoming dates</h2><div class="related">{rel}</div>
 <p style="font-size:13px;color:var(--mut);margin-top:22px">Dates are taken from the official source above. Agencies occasionally reschedule; confirm on the source before acting.</p>

@@ -259,11 +259,11 @@
 <section id="upcoming"><div class="wrap">
   <div class="eyebrow">Free · EU regulatory calendar</div>
   <h2 class="title">What's coming up in EU regulation</h2>
-  <p class="lede">CHMP, PRAC and CMDh meetings, legislation milestones and guideline deadlines, each linked to its official source. <a href="/calendar" style="color:var(--accent);font-weight:600">See the full calendar →</a></p>
+  <p class="lede">EMA committee meetings, MDR/IVDR and HTA milestones, guideline and consultation deadlines, each linked to its official source. <a href="/calendar" style="color:var(--accent);font-weight:600">See the full calendar →</a></p>
   <div id="upList" class="grid"></div>
 </div></section>
 <script>
-fetch('/api/catalysts').then(r=>r.json()).then(d=>{const el=document.getElementById('upList');
+fetch('/api/catalysts?impact=high').then(r=>r.json()).then(d=>{const el=document.getElementById('upList');
  const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
  const ev=(d.events||[]).slice(0,6); if(!ev.length){document.getElementById('upcoming').style.display='none';return;}
  el.innerHTML=ev.map(e=>`<a class="card" href="/calendar/${esc(e.slug)}"><div style="font-size:13px;color:var(--mut);font-weight:600">${esc(e.date)} · ${esc(e.body)} · ${e.days<=0?'now':'in '+e.days+' days'}</div><h3 style="margin-top:6px">${esc(e.title)}</h3><p>${esc(e.type_label)}</p></a>`).join('');
