@@ -21,7 +21,7 @@ from .data import UPDATES, COUNTRIES, SUBJECTS
 from . import (store, ingest as ingest_mod, digest as digest_mod, emailer,
                prices as prices_mod, auth as auth_mod, billing as billing_mod,
                compliance as compliance_mod, medmonitor as medmonitor_mod,
-               litmonitor as litmonitor_mod)
+               litmonitor as litmonitor_mod, catalysts as catalysts_mod)
 
 log = logging.getLogger("vigiradar")
 
@@ -36,6 +36,8 @@ app.mount("/static", StaticFiles(directory=_STATIC), name="static")
 app.include_router(compliance_mod.router)
 app.include_router(medmonitor_mod.router)
 app.include_router(litmonitor_mod.router)
+# Public, indexable catalyst calendar + radar (the organic-traffic layer).
+app.include_router(catalysts_mod.router)
 
 # in-memory lead store for the MVP (swap for a DB when persistence is needed)
 _LEADS: list[dict] = []
@@ -303,6 +305,12 @@ def capture_lead(body: LeadIn):
     if not any(l["email"] == body.email for l in _LEADS):
         _LEADS.append({"email": body.email, "source": body.source})
         log.info("[lead] %s (%s)", body.email, body.source)
+    # Persist too, so early-access leads survive redeploys (was memory-only).
+    try:
+        store.init()
+        store.subscriber_add(body.email, body.source or "landing")
+    except Exception as e:
+        log.warning("[lead] persist failed: %s", e)
     return {"status": "ok", "email": body.email}
 
 

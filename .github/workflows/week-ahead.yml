@@ -1,0 +1,33 @@
+name: Weekly "EU regulatory week ahead" email
+
+# Sends the week-ahead email (next 14 days of calendar dates) to everyone who
+# subscribed on /calendar, /radar or an event page.
+#
+# Off by default: it only runs when you click "Run workflow" in the Actions tab.
+# To make it automatic every Monday, remove the "#" in front of the two
+# schedule lines below. Needs the same ADMIN_TOKEN secret as the daily ingest,
+# and RESEND_API_KEY set on Render so emails can actually go out.
+
+on:
+  # schedule:
+  #   - cron: "0 6 * * 1"   # Mondays 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (count recipients only)"
+        default: "true"
+
+env:
+  BASE_URL: "https://vigi-eye.com"
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Send week-ahead email
+        run: |
+          DRY="${{ github.event.inputs.dry_run || 'false' }}"
+          curl -sS --fail-with-body --max-time 600 --retry 2 --retry-delay 30 \
+            -X POST "${BASE_URL}/admin/calendar/send-weekly?dry_run=${DRY}" \
+            -H "X-Admin-Token: ${{ secrets.ADMIN_TOKEN }}"

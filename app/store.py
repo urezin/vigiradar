@@ -63,6 +63,15 @@ prices = Table(
     Column("updated_at", String(40), nullable=False),
 )
 
+# Public calendar / digest subscribers (lead capture that survives redeploys).
+subscribers = Table(
+    "subscribers", _meta,
+    Column("email", String(320), primary_key=True),
+    Column("source", String(60)),
+    Column("created_at", String(40), nullable=False),
+    Column("unsubscribed", String(5)),
+)
+
 # Accounts (SSO). id is deterministic from provider+subject so re-login updates
 # the same row. Billing fields are filled in by the Stripe webhook.
 users = Table(
@@ -195,6 +204,36 @@ def prices_countries() -> list[str]:
     with _engine.connect() as c:
         return [r[0] for r in c.execute(
             select(prices.c.country).distinct().order_by(prices.c.country))]
+
+
+# --- subscribers ------------------------------------------------------------
+
+def subscriber_add(email: str, source: str = "calendar") -> bool:
+    """Add (or re-activate) a subscriber. Returns True if newly added."""
+    now = datetime.now(timezone.utc).isoformat()
+    email = email.strip().lower()
+    with _engine.begin() as c:
+        existing = c.execute(select(subscribers).where(subscribers.c.email == email)).first()
+        if existing:
+            c.execute(subscribers.update().where(subscribers.c.email == email)
+                      .values(unsubscribed=""))
+            return False
+        c.execute(insert(subscribers).values(email=email, source=source[:60],
+                                             created_at=now, unsubscribed=""))
+        return True
+
+
+def subscriber_remove(email: str) -> None:
+    with _engine.begin() as c:
+        c.execute(subscribers.update().where(subscribers.c.email == email.strip().lower())
+                  .values(unsubscribed="1"))
+
+
+def subscribers_active() -> list[str]:
+    with _engine.connect() as c:
+        return [r[0] for r in c.execute(
+            select(subscribers.c.email).where(or_(subscribers.c.unsubscribed == "",
+                                                  subscribers.c.unsubscribed.is_(None))))]
 
 
 # --- users / accounts -------------------------------------------------------
