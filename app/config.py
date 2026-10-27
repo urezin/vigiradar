@@ -7,7 +7,7 @@ class Settings:
 
     # Anthropic (AI summaries of regulatory changes) — optional at MVP stage
     anthropic_api_key: str = os.getenv("ANTHROPIC_API_KEY", "")
-    anthropic_model: str = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-5")
+    anthropic_model: str = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-5-5")
 
     # Email (Resend) — optional; leads are logged if unset
     resend_api_key: str = os.getenv("RESEND_API_KEY", "")
