@@ -579,6 +579,7 @@ def pdufa_sentence(text: str, date_text: str) -> str:
     dl = _DATELINE.search(out, k + len(date_text)) if k >= 0 else None
     if dl:
         out = out[:dl.start()].strip(" •-–—,")
+    out = re.sub(r"\s[–—-]\s*[A-Z][A-Z .']+\s*,\s*[A-Z][a-z]{2,4}\.?$", "", out)   # trailing "– SAN DIEGO , Aug."
     return ("…" if start > 0 and text[start - 2:start] != ". " else "") + out[:520]
 
 
