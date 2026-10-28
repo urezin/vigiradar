@@ -137,7 +137,7 @@ def count() -> int:
 
 def query(country: str | None = None, subject: str | None = None,
           impact: str | None = None, limit: int = 200) -> list[dict]:
-    stmt = select(updates.c.country, updates.c.authority, updates.c.subject,
+    stmt = select(updates.c.id, updates.c.country, updates.c.authority, updates.c.subject,
                   updates.c.impact, updates.c.title, updates.c.summary,
                   updates.c.source_url, updates.c.date)
     if country:
@@ -149,6 +149,12 @@ def query(country: str | None = None, subject: str | None = None,
     stmt = stmt.order_by(updates.c.date.desc(), updates.c.ingested_at.desc()).limit(limit)
     with _engine.connect() as c:
         return [dict(r._mapping) for r in c.execute(stmt)]
+
+
+def get_update(item_id: str) -> dict | None:
+    with _engine.connect() as c:
+        r = c.execute(select(updates).where(updates.c.id == item_id)).first()
+        return dict(r._mapping) if r else None
 
 
 def distinct_countries() -> list[str]:

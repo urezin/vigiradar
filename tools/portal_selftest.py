@@ -7,6 +7,10 @@ from app import portal_data as pd, store
 out = {"started": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
 only = sys.argv[1].split(",") if len(sys.argv) > 1 and sys.argv[1] else None
 out["results"] = pd.run_all(only)
+if os.environ.get("SELFTEST_NEWS"):
+    from app import ingest, news
+    out["radar"] = ingest.run_ingest(per_source=12)
+    out["news"] = news.run_all()
 out["counts"] = pd.counts()
 from datetime import date, timedelta
 t = date.today().isoformat()

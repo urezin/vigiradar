@@ -22,7 +22,7 @@ from . import (store, ingest as ingest_mod, digest as digest_mod, emailer,
                prices as prices_mod, auth as auth_mod, billing as billing_mod,
                compliance as compliance_mod, medmonitor as medmonitor_mod,
                litmonitor as litmonitor_mod, catalysts as catalysts_mod,
-               portal_pages as portal_mod)
+               portal_pages as portal_mod, news_pages as news_pages_mod)
 
 log = logging.getLogger("vigiradar")
 
@@ -39,6 +39,7 @@ app.include_router(medmonitor_mod.router)
 app.include_router(litmonitor_mod.router)
 # Public portal (home, PDUFA, approvals, safety, drugs, companies, insights, ticker)
 # and the EU catalyst calendar + radar. "/" is the portal; the module hub is /hub.
+app.include_router(news_pages_mod.router)
 app.include_router(portal_mod.router)
 app.include_router(catalysts_mod.router)
 

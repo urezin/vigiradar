@@ -199,7 +199,7 @@ m.textContent=j.message||j.error;if(r.ok)i.value='';}}catch(e){{m.textContent='C
 
 # --- home -------------------------------------------------------------------
 
-@router.get("/", response_class=HTMLResponse, include_in_schema=False)
+@router.get("/overview", response_class=HTMLResponse, include_in_schema=False)
 def portal_home():
     t = _today()
     pdufa = _safe(lambda: pd.milestones_between(t, _ahead(120), ["pdufa"], limit=8), [])
@@ -882,8 +882,9 @@ def _run_job(steps: list[str]):
             if s == "ingest":
                 _JOB["result"]["ingest"] = pd.run_all()
             elif s == "news":
-                from . import ingest as ingest_mod
+                from . import ingest as ingest_mod, news as news_mod
                 _JOB["result"]["news"] = ingest_mod.run_ingest(per_source=25)
+                _JOB["result"]["press_company"] = news_mod.run_all()
             elif s == "analyse":
                 _JOB["result"]["analyse"] = analyse_drugs(40)
             elif s == "week":
@@ -904,7 +905,18 @@ def portal_stats():
                                                                       "processed", "filings_with_dates", "ai_mode", "seconds")})
                for k, v in ing.items()}
     an = res.get("analyse") or {}
-    return {"counts": _safe(pd.counts, {}), "last_run": {"started": _JOB.get("started"), "finished": _JOB.get("finished"),
+    nres = res.get("news") or {}
+
+    def ncounts():
+        from sqlalchemy import select, func
+        from . import news as nw
+        nw.init()
+        with store._engine.connect() as c:
+            return dict(c.execute(select(nw.news.c.kind, func.count()).group_by(nw.news.c.kind)).all()) | \
+                {"official_updates": store.count()}
+    return {"counts": _safe(pd.counts, {}), "news_counts": _safe(ncounts, {}),
+            "news_last_run": {"new": nres.get("new"), "errors": (nres.get("errors") or [])[:10],
+                              "press_company": res.get("press_company")}, "last_run": {"started": _JOB.get("started"), "finished": _JOB.get("finished"),
             "running": _JOB.get("running"), "step": _JOB.get("step"), "ingest": summary,
             "analyse": {k: an.get(k) for k in ("candidates", "generated", "unchanged", "error") if k in an},
             "error": res.get("error")}}

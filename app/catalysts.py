@@ -150,7 +150,8 @@ nav{position:sticky;top:0;background:rgba(6,12,24,.9);backdrop-filter:blur(10px)
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
 .logo{font-weight:800;font-size:19px;color:#fff}.logo b{color:#2dd4bf}
 .nl a{color:#cbd5e1;margin-left:14px;font-size:14px;font-weight:500}.nl a.cta{background:linear-gradient(92deg,#0ea5e9,#14b8a6);color:#fff;padding:8px 14px;border-radius:9px}
-@media(max-width:900px){.nl a.hide{display:none}}
+@media(max-width:1100px){.nl a.hide{display:none}}
+@media(max-width:640px){.nl a.hide2{display:none}}
 @media(max-width:640px){.nl a.hide{display:none}.nl a{margin-left:10px;font-size:13px}.nl a.cta{padding:7px 10px}.logo{font-size:17px}}
 .nl{white-space:nowrap}
 header.hero{background:radial-gradient(900px 500px at 75% -20%,#0b2942,#050c17);color:#fff;padding:44px 0 34px}
@@ -212,10 +213,10 @@ def _page(title: str, description: str, canonical: str, body: str,
 <link rel="alternate" type="text/calendar" title="VigiEye EU regulatory calendar" href="{_base()}/calendar.ics">
 <style>{_CSS}</style>{ld}</head><body>
 <nav><div class="wrap"><a class="logo" href="/">👁️ Vigi<b>Eye</b></a>
-<div class="nl"><a href="/pdufa">PDUFA</a><a href="/approvals">Approvals</a><a href="/safety">Safety</a><a class="hide" href="/calendar">Calendar</a><a class="hide" href="/radar">News</a><a class="hide" href="/insights">Insights</a><a class="hide" href="/drugs">Drugs</a><a class="cta" href="/welcome#pricing">Start</a></div></div></nav>
+<div class="nl"><a href="/news">News</a><a class="hide" href="/news/pharmacovigilance">PV</a><a class="hide" href="/news/regulatory">Regulatory</a><a class="hide" href="/news/market-access">Market access</a><a class="hide" href="/news/compliance">Compliance</a><a href="/pdufa">PDUFA</a><a class="hide2" href="/approvals">Approvals</a><a class="hide" href="/calendar">Calendar</a><a class="hide" href="/drugs">Drugs</a><a class="cta" href="/newsletter">Daily email</a></div></div></nav>
 {body}
 <footer><div class="wrap">VigiEye · EU pharmacovigilance &amp; regulatory monitoring. Every date links to its official source; always confirm against the source before acting.
- · <a href="/">Portal</a> · <a href="/pdufa">PDUFA calendar</a> · <a href="/approvals">Approvals</a> · <a href="/safety">Safety</a> · <a href="/drugs">Drugs</a> · <a href="/calendar">EU calendar</a> · <a href="/calendar.ics">iCal</a> · <a href="/radar">News</a> · <a href="/insights">Insights</a> · <a href="/newsletter">Newsletter</a> · <a href="/embed">Embed ticker</a> · <a href="/welcome">About</a></div></footer>
+ · <a href="/">Home</a> · <a href="/news/pharmacovigilance">Pharmacovigilance</a> · <a href="/news/regulatory">Regulatory</a> · <a href="/news/market-access">Market access</a> · <a href="/news/compliance">Compliance</a> · <a href="/feed.xml">RSS</a> · <a href="/pdufa">PDUFA calendar</a> · <a href="/approvals">Approvals</a> · <a href="/safety">Safety</a> · <a href="/drugs">Drugs</a> · <a href="/calendar">EU calendar</a> · <a href="/calendar.ics">iCal</a> · <a href="/radar">News</a> · <a href="/insights">Insights</a> · <a href="/newsletter">Newsletter</a> · <a href="/embed">Embed ticker</a> · <a href="/welcome">About</a></div></footer>
 <script>
 async function vgSub(form){{const i=form.querySelector('input[type=email]'),m=form.parentNode.querySelector('.msg');
  m.textContent='…';try{{const r=await fetch('/calendar/subscribe',{{method:'POST',headers:{{'Content-Type':'application/json'}},
@@ -504,8 +505,8 @@ def sitemap():
     today = date.today().isoformat()
     urls = [("/welcome", "weekly", "0.8"), ("/calendar", "daily", "1.0"), ("/radar", "daily", "0.9")]
     try:
-        from . import portal_pages
-        urls += portal_pages.sitemap_urls()
+        from . import portal_pages, news_pages
+        urls += news_pages.sitemap_urls() + portal_pages.sitemap_urls()
     except Exception:
         pass
     urls += [(f"/calendar/{e['slug']}", "weekly", "0.7") for e in load_events() if e["status"] != "past"]

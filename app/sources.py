@@ -68,6 +68,29 @@ SOURCES: list[Source] = [
     Source("fda-drugs", "US", "FDA CDER",
            "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drugs/rss.xml",
            "Fees & guidance"),
+    # United Kingdom — MHRA (GOV.UK Atom feeds)
+    Source("mhra-news", "UK", "MHRA",
+           "https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency.atom",
+           "Fees & guidance"),
+    Source("mhra-dsu", "UK", "MHRA Drug Safety Update",
+           "https://www.gov.uk/drug-safety-update.atom", "Signal management"),
+    Source("mhra-alerts", "UK", "MHRA alerts",
+           "https://www.gov.uk/drug-device-alerts.atom", "Shortages & recalls"),
+    # European Commission DG SANTE health news (incl. HTA Regulation, pharma package)
+    Source("ec-health", "EU", "European Commission (DG SANTE)",
+           "https://health.ec.europa.eu/node/2/rss_en", "Fees & guidance"),
+    # National agencies with RSS
+    Source("ansm", "FR", "ANSM", "https://ansm.sante.fr/rss/actualites", "Signal management"),
+    Source("aemps", "ES", "AEMPS", "https://www.aemps.gob.es/feed/", "Shortages & recalls"),
+    # HTA / market access bodies
+    Source("gba", "DE", "G-BA", "https://www.g-ba.de/service/rss/", "Market access"),
+    Source("has", "FR", "HAS", "https://www.has-sante.fr/jcms/fc_2875171/fr/rss", "Market access"),
+    Source("icer", "US", "ICER", "https://icer.org/feed/", "Market access"),
+    # Global
+    Source("who", "INT", "WHO", "https://www.who.int/rss-feeds/news-english.xml", "Fees & guidance"),
+    # Compliance / enforcement (filtered to health care below)
+    Source("doj", "US", "US Department of Justice", "https://www.justice.gov/news/rss?type=press_release&m=1",
+           "Compliance & enforcement"),
     Source("bfarm", "DE", "BfArM",
            "https://www.bfarm.de/SiteGlobals/Functions/RSSFeed/DE/Pressemitteilungen/RSSNewsfeed.xml",
            "Signal management"),
@@ -102,6 +125,24 @@ _EURLEX_KEEP = ("medicin", "pharmac", "medical device", "in vitro diagnostic", "
                 "european medicines agency", "ema ", "orphan", "paediatric", "pediatric", "falsified",
                 "substance", "hta", "health technology", "cosmetic", "narcotic", "precursor", "radiat",
                 "ehds", "health data", "artificial intelligence", "gmp", "good manufacturing")
+
+
+_DOJ_KEEP = ("health care fraud", "healthcare fraud", "pharmac", "drug", "opioid", "medicare", "medicaid",
+             "kickback", "false claims", "fda", "medical device", "compounding", "clinic", "physician",
+             "hospital", "telemedicine", "laborator", "biotech", "counterfeit")
+_WHO_KEEP = ("medicine", "vaccin", "regulat", "prequalif", "safety", "antimicrobial", "falsified",
+             "substandard", "essential", "pharma", "drug", "health product", "biosimilar", "clinical trial")
+
+
+def feed_relevant(source_id: str, title: str, desc: str = "") -> bool:
+    t = f"{title} {desc}".lower()
+    if source_id.startswith("eurlex"):
+        return eurlex_relevant(title, desc)
+    if source_id == "doj":
+        return any(k in t for k in _DOJ_KEEP)
+    if source_id == "who":
+        return any(k in t for k in _WHO_KEEP)
+    return True
 
 
 def eurlex_relevant(title: str, summary: str = "") -> bool:
@@ -153,7 +194,7 @@ def fetch_raw_items(source: Source, timeout: float = 20.0) -> list[dict]:
         published = (getattr(e, "published", "") or getattr(e, "updated", "") or "").strip()
         if not title or _is_noise(title):
             continue
-        if source.id.startswith("eurlex") and not eurlex_relevant(title, desc):
+        if not feed_relevant(source.id, title, desc):
             continue
         items.append({
             "id": item_id(source.id, link, title),

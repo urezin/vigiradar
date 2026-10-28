@@ -17,13 +17,15 @@ COUNTRIES = {
     "IE": "Ireland (HPRA)",
     "SE": "Sweden (Läkemedelsverket)",
     "US": "United States (FDA)",
+    "UK": "United Kingdom (MHRA)",
+    "INT": "International (WHO)",
     # + 19 more member states in production
 }
 
 SUBJECTS = [
     "Signal management", "PSUR / PBRER", "Labelling & SmPC", "GVP modules",
     "Clinical trials (CTR)", "Falsified medicines", "RMP & PASS",
-    "Shortages & recalls", "Fees & guidance",
+    "Shortages & recalls", "Fees & guidance", "Market access", "Compliance & enforcement",
 ]
 
 UPDATES = [

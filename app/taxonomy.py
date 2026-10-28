@@ -11,11 +11,21 @@ from __future__ import annotations
 SUBJECTS = [
     "Signal management", "PSUR / PBRER", "Labelling & SmPC", "GVP modules",
     "Clinical trials (CTR)", "Falsified medicines", "RMP & PASS",
-    "Shortages & recalls", "Fees & guidance",
+    "Shortages & recalls", "Fees & guidance", "Market access", "Compliance & enforcement",
 ]
 
 # keyword -> subject (first match wins, order matters: specific before generic)
 _SUBJECT_KEYWORDS: list[tuple[str, str]] = [
+    ("reimburse", "Market access"),
+    ("health technology", "Market access"),
+    ("pricing", "Market access"),
+    ("nutzenbewertung", "Market access"),
+    ("fraud", "Compliance & enforcement"),
+    ("kickback", "Compliance & enforcement"),
+    ("warning letter", "Compliance & enforcement"),
+    ("settlement", "Compliance & enforcement"),
+    ("gmp", "Compliance & enforcement"),
+    ("inspection", "Compliance & enforcement"),
     ("signal", "Signal management"),
     ("prac", "Signal management"),
     ("psur", "PSUR / PBRER"),

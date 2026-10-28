@@ -11,7 +11,7 @@ preview endpoint and the scheduled sender.
 from __future__ import annotations
 
 _FLAG = {"EU": "🇪🇺", "DE": "🇩🇪", "FR": "🇫🇷", "ES": "🇪🇸", "IT": "🇮🇹",
-         "NL": "🇳🇱", "IE": "🇮🇪", "SE": "🇸🇪", "BE": "🇧🇪", "US": "🇺🇸"}
+         "NL": "🇳🇱", "IE": "🇮🇪", "SE": "🇸🇪", "BE": "🇧🇪", "US": "🇺🇸", "UK": "🇬🇧", "INT": "🌐"}
 _IMPACT_ORDER = {"high": 0, "med": 1, "low": 2}
 _IMPACT_LABEL = {"high": "High impact", "med": "Medium impact", "low": "Low impact"}
 _IMPACT_COLOR = {"high": "#e11d48", "med": "#b45309", "low": "#0f766e"}
