@@ -279,6 +279,34 @@ article h2 a,article h3 a{color:var(--ink)}article h2 a:hover,article h3 a:hover
 .cu{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--rule);font-size:13.5px}.cu:last-child{border-bottom:0}
 .cu b{flex:none;width:52px;color:var(--accent);font-size:12.5px}.cu a{color:var(--ink);font-weight:600}
 .pager{display:flex;gap:10px;margin:18px 0}
+/* full-width layout */
+.wrap{max-width:1480px;padding:0 28px}@media(max-width:640px){.wrap{padding:0 16px}}
+:root{--band:#f4f6f9}@media (prefers-color-scheme: dark){:root{--band:#0a1220}}
+.band{padding:34px 0}.band.alt{background:var(--band)}.band .row{margin-top:0}
+.band.dark{background:radial-gradient(1400px 700px at 80% -20%,#0f3b57 0%,#08182b 45%,#050b15 100%);color:#e5e7eb}
+.band.dark a,.band.dark article h2 a,.band.dark article h3 a{color:#f8fafc}.band.dark .by,.band.dark .kd{color:#94a3b8}
+.mast.dark{border-color:#e5e7eb}.mast.dark h1{color:#fff}.mast.dark p,.mast.dark .date{color:#a9b4c9}
+.hero{padding-top:18px}.hero-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:34px;margin-top:24px;align-items:start}
+@media(max-width:980px){.hero-grid{grid-template-columns:1fr}}
+.hero-img{border-radius:10px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.hero .h-lead{font-size:38px;line-height:1.1;margin:8px 0 12px}@media(max-width:640px){.hero .h-lead{font-size:28px}}
+.hero-sum{font-size:17.5px;color:#cbd5e1}.hero-side{margin-top:18px;border-top:1px solid #1e2d44}
+.hero-side .mini{border-color:#1e2d44}.hero-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;margin-top:30px;padding-top:24px;border-top:1px solid #1e2d44}
+@media(max-width:980px){.hero-strip{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.hero-strip{grid-template-columns:1fr}}
+.hcard h3{font-size:16.5px;line-height:1.3;margin-top:4px}.hcard .lab{display:inline-block;margin-top:10px}
+.row-h.big{font-size:15px;align-items:center}.ico{width:20px;height:20px;vertical-align:-4px;margin-right:4px}
+.pulse{padding:22px 0;background:linear-gradient(180deg,var(--band),var(--paper))}
+.kpis2{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:14px;margin-top:10px}
+@media(max-width:1200px){.kpis2{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:640px){.kpis2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi2{display:flex;flex-direction:column;gap:2px;padding:14px;border-radius:10px;background:var(--paper);border:1px solid var(--rule);border-top:4px solid var(--k);color:var(--ink)}
+.kpi2:hover{text-decoration:none;box-shadow:0 10px 24px -14px rgba(15,23,42,.35)}
+.kpi2 .kl{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+.kpi2 b{font:800 30px/1.1 Georgia,'Times New Roman',serif;color:var(--k)}.kpi2 .ks{font-size:12px;color:var(--mut)}
+.spark{width:100%;height:34px;margin-top:6px}
+.g4{gap:24px}.gcard{transition:transform .15s}.gcard:hover{transform:translateY(-2px)}
+.th{border-radius:8px}.gcard .th,.hcard .th{box-shadow:0 14px 30px -18px rgba(15,23,42,.5)}
+.heads2{columns:3;column-gap:30px;list-style:none}@media(max-width:1000px){.heads2{columns:2}}@media(max-width:600px){.heads2{columns:1}}
+.heads2 li{break-inside:avoid;padding:10px 0;border-bottom:1px solid var(--rule)}.heads2 .mh{font-weight:700;margin-top:2px}
 .hub{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 26px}@media(max-width:760px){.hub{grid-template-columns:1fr}}
 """
 
@@ -309,7 +337,7 @@ def _ticker() -> str:
 
 def _page(title, desc, path, body, ld=None):
     from . import articles as _am
-    return pp._page(title, desc, path, f"<style>{_NCSS}{_am.AD_CSS}</style>{body}", ld)
+    return pp._page(title, desc, path, f"<style>{_NCSS}{_ACSS}</style>{body}", ld)
 
 
 def _coming_up(n: int = 8) -> str:
@@ -349,59 +377,132 @@ def home():
     used = {id(lead)} if lead else set()
     tops = []
     for r in ranked[1:]:
-        if len(tops) >= 4:
+        if len(tops) >= 7:
             break
-        if r["section"] != (lead or {}).get("section") or len(tops) >= 2:
+        if r["section"] != (lead or {}).get("section") or len(tops) >= 3:
             tops.append(r)
             used.add(id(r))
     river = [r for r in editorial if id(r) not in used and r["kind"] != "guideline"][:30]
     used |= {id(r) for r in river}
     press = [r for r in rows if r["kind"] == "press"]
 
-    def row(k, extra=None):
+    def row(k, extra=None, band="alt"):
         items = sorted([r for r in editorial if r["section"] == k and id(r) not in used], key=_score, reverse=True)[:8]
         if len(items) < 8:
-            items += [r for r in press if r["section"] == k][: 8 - len(items)]
+            items += [r for r in press if r["section"] == k and id(r) not in used][: 8 - len(items)]
         used.update(id(r) for r in items)
         if not items:
             return ""
-        return (f'<section class="row" style="--c:{SEC_COLOR[k]}"><div class="row-h"><span style="color:{SEC_COLOR[k]}">{_e(nw.SECTIONS[k])}</span>'
+        return (f'<section class="band {band}"><div class="wrap"><div class="row-h big" style="--c:{SEC_COLOR[k]}">'
+                f'<span style="color:{SEC_COLOR[k]}">{_svg_icon(k)} {_e(nw.SECTIONS[k])}</span>'
                 f'<a href="{extra or "/news/" + k}">More {_e(nw.SECTIONS[k])} →</a></div>'
-                f'<div class="g4">{"".join(grid_card(r) for r in items)}</div></section>')
-    guides = [r for r in rows if r["kind"] == "guideline"][:4]
+                f'<div class="g4">{"".join(grid_card(r) for r in items)}</div></div></section>')
+    guides = [r for r in rows if r["kind"] == "guideline"][:8]
     rest = [r for r in rows if id(r) not in used and r["kind"] != "guideline"][:40]
+    hero = ""
+    if lead:
+        strip = "".join(f'<article class="hcard">{_a(r, _thumb(r, "wide"))}{_label(r)}<h3>{_a(r, _e(r["title"]))}</h3>{_meta(r)}</article>'
+                        for r in tops[3:7])
+        side = "".join(mini_card(r) for r in tops[:3])
+        hero = f"""<section class="band dark hero"><div class="wrap">
+<div class="mast dark"><div><h1>Vigi<b>Eye</b></h1><p>Regulatory · Clinical trials · Pharmacovigilance · Quality · Market access, for EU &amp; US pharma, from the official sources</p></div>
+<div class="date">{_e(date.today().strftime("%A %d %B %Y"))}</div></div>
+<div class="hero-grid"><div class="hero-lead">{_a(lead, _thumb(lead, "wide hero-img"))}</div>
+<div class="hero-text">{_label(lead)}<h2 class="h-lead">{_a(lead, _e(lead["title"]))}</h2>
+{f'<p class="hero-sum">{_e(lead.get("summary"))}</p>' if _real_summary(lead) else ""}{_meta(lead)}
+<div class="hero-side">{side}</div></div></div>
+{f'<div class="hero-strip">{strip}</div>' if strip else ""}</div></section>"""
+    guide_band = ""
+    if guides:
+        guide_band = (f'<section class="band"><div class="wrap"><div class="row-h big" style="--c:#6d28d9"><span style="color:#6d28d9">{_svg_icon("guidelines")} '
+                      f'New guidelines: ICH, FDA, EMA, MHRA</span><a href="/guidelines">Guidelines tracker →</a></div>'
+                      f'<div class="g4">{"".join(grid_card(r) for r in guides)}</div></div></section>')
     more_heads = ""
     if rest:
-        more_heads = ('<section class="row"><div class="row-h"><span>More news</span><a href="/news">All news →</a></div>'
-                      '<ul class="heads2" style="columns:2;column-gap:28px;list-style:none">'
-                      + "".join(f'<li style="break-inside:avoid;padding:9px 0;border-bottom:1px solid var(--rule)">{_label(r)}'
-                                f'<div style="font-weight:700;margin-top:2px">{_a(r, _e(r["title"]))}</div>{_meta(r)}</li>' for r in rest)
-                      + "</ul></section>")
-    guide_row = ""
-    if guides:
-        guide_row = (f'<section class="row" style="--c:#6d28d9"><div class="row-h"><span style="color:#6d28d9">New guidelines: ICH, FDA, EMA, MHRA</span>'
-                     f'<a href="/guidelines">Guidelines tracker →</a></div><div class="g4">{"".join(grid_card(r) for r in guides)}</div></section>')
-    front = ""
-    if lead:
-        front = (f'<div class="front"><div>{lead_card(lead)}</div><div class="tops"><h2>Top stories</h2>'
-                 f'{"".join(mini_card(r) for r in tops)}</div></div>')
-    body = f"""{_ticker()}{_secbar("home")}<main class="wrap">
-{_mast("Regulatory · Pharmacovigilance · Quality · Market access: EU & US pharma, from the official sources")}
-{front or '<p class="note" style="margin-top:20px">The news feeds are loading for the first time. Check back in a few minutes.</p>'}
-<style>{_ACSS}</style>
-{editorial_row(3)}
-<div class="body3"><div><div class="row-h" style="margin-top:0"><span>Latest</span><a href="/news">All news →</a></div>
-{"".join(river_item(r) for r in river[:8])}{art_mod.ad_html("home-river", "inline")}{"".join(river_item(r) for r in river[8:])}</div>{_sidebar(None, press)}</div>
-{row("pharmacovigilance", "/safety")}{row("regulatory")}{row("clinical-trials")}{art_mod.ad_html("home-banner", "banner")}{row("quality")}{row("market-access")}{guide_row}{row("industry")}
+        more_heads = ('<section class="band alt"><div class="wrap"><div class="row-h big"><span>More news</span><a href="/news">All news →</a></div>'
+                      '<ul class="heads2">' + "".join(f'<li>{_label(r)}<div class="mh">{_a(r, _e(r["title"]))}</div>{_meta(r)}</li>' for r in rest)
+                      + "</ul></div></section>")
+    ed = editorial_row(3)
+    body = f"""{_ticker()}{_secbar("home")}
+{hero or '<div class="wrap"><p class="note" style="margin:24px 0">The news feeds are loading for the first time. Check back in a few minutes.</p></div>'}
+{_pulse(rows)}
+{f'<section class="band"><div class="wrap">{ed}</div></section>' if ed else ""}
+<section class="band"><div class="wrap"><div class="body3" style="margin-top:0"><div><div class="row-h big"><span>Latest</span><a href="/news">All news →</a></div>
+{"".join(river_item(r) for r in river[:8])}{art_mod.ad_html("home-river", "inline")}{"".join(river_item(r) for r in river[8:])}</div>{_sidebar(None, press)}</div></div></section>
+{row("pharmacovigilance", "/safety")}{row("regulatory", band="")}{row("clinical-trials")}
+<section class="band"><div class="wrap">{art_mod.ad_html("home-banner", "banner")}</div></section>
+{row("quality")}{row("market-access", band="")}{guide_band}{row("industry")}
 {more_heads}
-<p class="note" style="margin-top:28px">{pp.DISCLAIMER}</p></main>"""
+<div class="wrap"><p class="note" style="margin:24px 0">{pp.DISCLAIMER}</p></div>"""
     ld = [{"@context": "https://schema.org", "@type": "NewsMediaOrganization", "name": "VigiEye", "url": _base() + "/"},
           {"@context": "https://schema.org", "@type": "WebSite", "name": "VigiEye", "url": _base() + "/",
            "potentialAction": {"@type": "SearchAction", "target": _base() + "/drugs?q={query}",
                                "query-input": "required name=query"}}]
-    return _page("VigiEye: regulatory, pharmacovigilance, quality & market access news for pharma",
-                 "EU and US pharma news for regulatory, pharmacovigilance, quality and market-access professionals: EMA, FDA, "
-                 "MHRA, PRAC, HTA, GMP and enforcement, with official sources.", "/", body, ld)
+    return _page("VigiEye: pharma regulatory, clinical trials, pharmacovigilance, quality & market access news",
+                 "EU and US pharma news for regulatory, clinical trials, pharmacovigilance, quality and market-access professionals: "
+                 "EMA, FDA, MHRA, PRAC, HTA, GMP and enforcement, with official sources.", "/", body, ld)
+
+
+_ICON = {
+    "regulatory": '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+    "clinical-trials": '<path d="M9 3h6M10 3v6L5 20h14L14 9V3"/><path d="M7.5 15h9"/>',
+    "pharmacovigilance": '<path d="M3 12h4l2-5 3 10 2-5h7"/>',
+    "quality": '<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',
+    "market-access": '<path d="M4 20h16M7 20v-6M11 20V9M15 20v-4M19 20V5"/>',
+    "industry": '<path d="M9 3c6 4-6 10 0 18M15 3c-6 4 6 10 0 18"/>',
+    "guidelines": '<path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4M8 13h8M8 17h6"/>',
+}
+
+
+def _svg_icon(k: str) -> str:
+    return (f'<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+            f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{_ICON.get(k, _ICON["industry"])}</svg>')
+
+
+def _spark(vals: list[int], color: str) -> str:
+    if not vals:
+        return ""
+    w, h, mx = 120, 34, max(max(vals), 1)
+    pts = [(round(i * w / max(len(vals) - 1, 1), 1), round(h - 3 - (v / mx) * (h - 6), 1)) for i, v in enumerate(vals)]
+    line = " ".join(f"{x},{y}" for x, y in pts)
+    area = f"0,{h} " + line + f" {w},{h}"
+    return (f'<svg class="spark" viewBox="0 0 {w} {h}" preserveAspectRatio="none" aria-hidden="true">'
+            f'<polygon points="{area}" fill="{color}" opacity=".15"/><polyline points="{line}" fill="none" stroke="{color}" '
+            f'stroke-width="2" stroke-linejoin="round"/></svg>')
+
+
+def _pulse(rows: list[dict]) -> str:
+    """Live statistics strip: what moved in the last two weeks, with sparklines."""
+    today = date.today()
+    days = [(today - timedelta(days=i)).isoformat() for i in range(13, -1, -1)]
+
+    def series(pred):
+        c = {d: 0 for d in days}
+        for r in rows:
+            if r["date"] in c and pred(r):
+                c[r["date"]] += 1
+        return [c[d] for d in days]
+    t = today.isoformat()
+    week = (today - timedelta(days=7)).isoformat()
+    pdufa = pp._safe(lambda: pd.milestones_between(t, (today + timedelta(days=30)).isoformat(), ["pdufa"], limit=500), [])
+    ecexp = pp._safe(lambda: pd.milestones_between(t, (today + timedelta(days=60)).isoformat(), ["ec_expected"], limit=500), [])
+    appr = pp._safe(lambda: pd.milestones_between((today - timedelta(days=30)).isoformat(), t, ["ec_decision", "fda_approval"], limit=999), [])
+    cards = [
+        ("Stories today", sum(1 for r in rows if r["date"] == t), "all sources", series(lambda r: True), "#0d9488", "/news"),
+        ("Safety & PV, 7 days", sum(1 for r in rows if r["date"] >= week and r["section"] == "pharmacovigilance"), "PRAC, DHPCs, MHRA, FDA",
+         series(lambda r: r["section"] == "pharmacovigilance"), SEC_COLOR["pharmacovigilance"], "/safety"),
+        ("Quality & recalls, 7 days", sum(1 for r in rows if r["date"] >= week and r["section"] == "quality"), "GMP, recalls, enforcement",
+         series(lambda r: r["section"] == "quality"), SEC_COLOR["quality"], "/news/quality"),
+        ("New guidelines, 7 days", sum(1 for r in rows if r["date"] >= week and r["kind"] == "guideline"), "ICH, FDA, EMA, MHRA",
+         series(lambda r: r["kind"] == "guideline"), "#6d28d9", "/guidelines"),
+        ("PDUFA dates, next 30 days", len(pdufa), "company-announced", None, SEC_COLOR["regulatory"], "/pdufa"),
+        ("EU decisions due, 60 days", len(ecexp), "estimated from CHMP opinions", None, SEC_COLOR["regulatory"], "/approvals?tab=expected"),
+        ("Approvals, last 30 days", len(appr), "EU + FDA (NDA/BLA)", None, SEC_COLOR["clinical-trials"], "/approvals"),
+    ]
+    html_cards = "".join(
+        f'<a class="kpi2" href="{href}" style="--k:{col}"><span class="kl">{_e(label)}</span><b>{val}</b>'
+        f'<span class="ks">{_e(sub)}</span>{_spark(ser, col) if ser else ""}</a>' for label, val, sub, ser, col, href in cards)
+    return f'<section class="band pulse"><div class="wrap"><div class="row-h"><span>Pulse: the last two weeks</span><a href="/calendar">EU calendar →</a></div><div class="kpis2">{html_cards}</div></div></section>'
 
 
 # --- section fronts ------------------------------------------------------------------------
@@ -523,24 +624,44 @@ _GLYPH = {
 }
 
 
+_SEC2 = {"regulatory": "#22d3ee", "clinical-trials": "#5eead4", "pharmacovigilance": "#fb7185", "quality": "#fbbf24",
+         "market-access": "#c4b5fd", "industry": "#6ee7b7"}
+
+
 @router.get("/thumb/{section}/{seed}.svg", include_in_schema=False)
 def thumb(section: str, seed: str, p: str = ""):
+    """Generated story artwork: layered gradient, molecular network, glowing section glyph, label pill."""
     sec = section if section in SEC_COLOR else "industry"
-    h = hashlib.sha1(seed.encode()).digest()
-    c = SEC_COLOR[sec]
+    h = hashlib.sha1(seed.encode()).digest() + hashlib.sha1(seed[::-1].encode()).digest()
+    c, c2 = SEC_COLOR[sec], _SEC2.get(sec, "#99f6e4")
     ang = h[0] % 180
-    circles = "".join(
-        f'<circle cx="{40 + (h[i] * 3) % 560}" cy="{20 + (h[i + 1] * 2) % 300}" r="{20 + h[i + 2] % 90}" '
-        f'fill="#fff" opacity="{0.04 + (h[i + 3] % 8) / 100:.2f}"/>' for i in range(1, 17, 4))
-    lines = "".join(f'<path d="M{(h[i] * 5) % 640} 0 L{(h[i + 1] * 5) % 640} 360" stroke="#fff" stroke-opacity=".06" '
-                    f'stroke-width="{1 + h[i] % 3}"/>' for i in range(0, 12, 2))
+    # molecular network: nodes + links between near neighbours
+    nodes = [(30 + (h[i] * 2.4) % 580, 24 + (h[i + 1] * 1.25) % 312, 3 + h[i + 2] % 6) for i in range(2, 38, 3)]
+    links = []
+    for i, (x1, y1, _) in enumerate(nodes):
+        for x2, y2, _ in nodes[i + 1:]:
+            if (x1 - x2) ** 2 + (y1 - y2) ** 2 < 150 ** 2:
+                links.append(f'<line x1="{x1:.0f}" y1="{y1:.0f}" x2="{x2:.0f}" y2="{y2:.0f}"/>')
+    dots = "".join(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r}"/>' for x, y, r in nodes)
+    blobs = "".join(f'<circle cx="{(h[i] * 3) % 640}" cy="{(h[i + 1] * 2) % 360}" r="{60 + h[i + 2] % 140}" fill="url(#rg)" opacity=".55"/>'
+                    for i in (30, 33, 36))
     label = re.sub(r"[^A-Z]", "", (p or "").upper())
     label = label if label in ("ANALYSIS", "VIEW") else label[:4]
+    tag = f'{SEC_ABBR[sec]}{(" · " + label) if label else ""}'
+    tw = 22 + len(tag) * 13
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice">
-<defs><linearGradient id="g" gradientTransform="rotate({ang} .5 .5)"><stop offset="0" stop-color="{c}"/><stop offset="1" stop-color="#0b1220"/></linearGradient></defs>
-<rect width="640" height="360" fill="url(#g)"/>{lines}{circles}
-<g transform="translate(320 170) scale(2.2)">{_GLYPH[sec]}</g>
-<text x="24" y="336" font-family="system-ui,Segoe UI,sans-serif" font-size="22" font-weight="800" fill="#fff" opacity=".85" letter-spacing="3">{SEC_ABBR[sec]}{(" · " + label) if label else ""}</text>
+<defs>
+<linearGradient id="g" gradientTransform="rotate({ang} .5 .5)"><stop offset="0" stop-color="{c}"/><stop offset=".62" stop-color="#0b1a2c"/><stop offset="1" stop-color="#050b15"/></linearGradient>
+<radialGradient id="rg"><stop offset="0" stop-color="{c2}" stop-opacity=".55"/><stop offset="1" stop-color="{c2}" stop-opacity="0"/></radialGradient>
+<pattern id="hx" width="28" height="48.5" patternUnits="userSpaceOnUse" patternTransform="scale(1.1)"><path d="M14 0 L28 8 V24 L14 32 L0 24 V8 Z M14 32 V48.5" fill="none" stroke="#fff" stroke-opacity=".05" stroke-width="1"/></pattern>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="640" height="360" fill="url(#g)"/>{blobs}<rect width="640" height="360" fill="url(#hx)"/>
+<g stroke="{c2}" stroke-opacity=".28" stroke-width="1.4">{"".join(links)}</g><g fill="{c2}" fill-opacity=".7">{dots}</g>
+<circle cx="320" cy="172" r="92" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".18" stroke-width="2"/>
+<g transform="translate(320 172) scale(2.25)" filter="url(#glow)">{_GLYPH[sec]}</g>
+<rect x="20" y="310" rx="14" width="{tw}" height="30" fill="#000" fill-opacity=".35"/>
+<text x="{20 + 12}" y="331" font-family="system-ui,Segoe UI,sans-serif" font-size="17" font-weight="800" fill="#fff" letter-spacing="2.5">{_e(tag)}</text>
 </svg>"""
     return Response(svg, media_type="image/svg+xml", headers={"Cache-Control": "public, max-age=604800, immutable"})
 

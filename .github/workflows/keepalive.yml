@@ -1,0 +1,31 @@
+name: Keep scheduled jobs alive
+
+# GitHub pauses scheduled workflows in repositories with no commits for 60 days.
+# This makes a tiny commit once a month (only if nothing else was committed in 45 days),
+# so the news refreshes keep running unattended.
+
+on:
+  schedule:
+    - cron: "11 3 1 * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 1}
+      - name: Commit a heartbeat if the repo has been quiet
+        run: |
+          last=$(git log -1 --format=%ct)
+          now=$(date +%s)
+          if [ $(( (now - last) / 86400 )) -ge 45 ]; then
+            date -u +%Y-%m-%dT%H:%M:%SZ > .github/heartbeat
+            git config user.name "vigieye-bot"; git config user.email "noreply@github.com"
+            git add .github/heartbeat && git commit -m "chore: monthly heartbeat [skip ci]" && git push
+          else
+            echo "recent commits exist; nothing to do"
+          fi

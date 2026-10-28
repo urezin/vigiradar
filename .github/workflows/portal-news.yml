@@ -1,0 +1,44 @@
+name: News refresh every 2 hours
+
+# Keeps VigiEye and CompePharma current without anyone touching them:
+#  - every 2 hours: regulator/agency feeds, trade headlines, SEC company releases,
+#    guidelines, PRAC/recall notices, ClinicalTrials.gov (step "news")
+#  - then warms CompePharma so its 10-minute cache picks up the new stories
+# The heavier daily job (EMA/FDA/SEC data, analyses, articles, email) is portal-daily.yml.
+
+on:
+  schedule:
+    - cron: "17 */2 * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: portal-refresh
+  cancel-in-progress: false
+
+env:
+  BASE_URL: "https://vigi-eye.com"
+  COMPEPHARMA_URL: "https://compedpharma.onrender.com"
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Start news refresh
+        run: |
+          curl -sS --max-time 120 --retry 3 --retry-delay 30 --retry-all-errors \
+            -X POST "$BASE_URL/admin/portal/run?steps=news" -H "X-Admin-Token: ${{ secrets.ADMIN_TOKEN }}" || true
+      - name: Wait for it to finish
+        run: |
+          for i in $(seq 1 70); do
+            sleep 30
+            s=$(curl -sS --max-time 60 "$BASE_URL/admin/portal/status" -H "X-Admin-Token: ${{ secrets.ADMIN_TOKEN }}" || echo '{}')
+            running=$(echo "$s" | python3 -c "import sys,json;print(json.load(sys.stdin).get('job',{}).get('running'))" 2>/dev/null || echo "?")
+            echo "check $i: running=$running"
+            [ "$running" = "False" ] && exit 0
+          done
+          echo "::warning::refresh still running; it will finish on the server"
+      - name: Warm CompePharma
+        run: |
+          curl -sS -o /dev/null -w "CompePharma %{http_code}\n" --max-time 120 --retry 2 "$COMPEPHARMA_URL/" || true
+          curl -sS -o /dev/null -w "VigiEye %{http_code}\n" --max-time 60 "$BASE_URL/" || true
