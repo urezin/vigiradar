@@ -84,6 +84,18 @@
   "source_url": "https://www.ema.europa.eu/en/events/committee-advanced-therapies-cat-4-6-november-2026"
  },
  {
+  "date": "2026-11-08",
+  "end_date": "2026-11-11",
+  "type": "conference",
+  "body": "ISPOR",
+  "country": "INT",
+  "title": "ISPOR Europe 2026 (Vienna)",
+  "detail": "Europe's main HEOR and market-access conference: HTA, the EU Joint Clinical Assessment, pricing and real-world evidence. Austria Center Vienna.",
+  "impact": "med",
+  "subject": "HTA & market access",
+  "source_url": "https://www.ispor.org/conferences-education/conferences/upcoming-conferences"
+ },
+ {
   "date": "2026-11-09",
   "end_date": "2026-11-12",
   "type": "committee",
@@ -684,6 +696,18 @@
   "source_url": "https://www.ema.europa.eu/en/documents/other/cat-meetings-2027-2028_en.pdf"
  },
  {
+  "date": "2027-05-23",
+  "end_date": "2027-05-26",
+  "type": "conference",
+  "body": "ISPOR",
+  "country": "INT",
+  "title": "ISPOR 2027 (Denver)",
+  "detail": "ISPOR's annual international HEOR conference: value assessment, US pricing policy, real-world evidence. Colorado Convention Center, Denver.",
+  "impact": "med",
+  "subject": "HTA & market access",
+  "source_url": "https://www.ispor.org/conferences-education/conferences/upcoming-conferences"
+ },
+ {
   "date": "2027-05-24",
   "end_date": "2027-05-27",
   "type": "committee",
@@ -1044,6 +1068,18 @@
   "source_url": "https://www.ema.europa.eu/system/files/documents/other/final-chmp-dates-2027-2028_en.pdf"
  },
  {
+  "date": "2027-11-14",
+  "end_date": "2027-11-17",
+  "type": "conference",
+  "body": "ISPOR",
+  "country": "INT",
+  "title": "ISPOR Europe 2027 (Milan)",
+  "detail": "ISPOR's European HEOR and market-access conference. Allianz MiCo, Milan.",
+  "impact": "med",
+  "subject": "HTA & market access",
+  "source_url": "https://www.ispor.org/conferences-education/conferences/upcoming-conferences"
+ },
+ {
   "date": "2027-11-16",
   "end_date": "2027-11-19",
   "type": "committee",
@@ -1164,6 +1200,18 @@
   "source_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32021R2282"
  },
  {
+  "date": "2028-05-07",
+  "end_date": "2028-05-10",
+  "type": "conference",
+  "body": "ISPOR",
+  "country": "INT",
+  "title": "ISPOR 2028 (National Harbor)",
+  "detail": "ISPOR's annual international HEOR conference. Gaylord National Resort & Convention Center, National Harbor, Maryland.",
+  "impact": "med",
+  "subject": "HTA & market access",
+  "source_url": "https://www.ispor.org/conferences-education/conferences/upcoming-conferences"
+ },
+ {
   "date": "2028-08-02",
   "end_date": null,
   "type": "legislation",
@@ -1174,6 +1222,18 @@
   "impact": "high",
   "subject": "Data & AI",
   "source_url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/timeline/timeline-implementation-eu-ai-act"
+ },
+ {
+  "date": "2028-10-29",
+  "end_date": "2028-11-01",
+  "type": "conference",
+  "body": "ISPOR",
+  "country": "INT",
+  "title": "ISPOR Europe 2028 (Copenhagen)",
+  "detail": "ISPOR's European HEOR and market-access conference. Bella Center Copenhagen.",
+  "impact": "med",
+  "subject": "HTA & market access",
+  "source_url": "https://www.ispor.org/conferences-education/conferences/upcoming-conferences"
  },
  {
   "date": "2028-12-31",

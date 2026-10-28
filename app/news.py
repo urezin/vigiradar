@@ -168,7 +168,9 @@ PRESS_FEEDS = [
     ("pharmatimes", "PharmaTimes", "https://pharmatimes.com/feed/"),
     ("pharmaphorum", "pharmaphorum", "https://pharmaphorum.com/rss.xml"),
     ("pmlive", "PMLiVE", "https://pmlive.com/feed/"),
+    ("valueinhealth", "Value in Health (ISPOR)", "https://www.valueinhealthjournal.com/current.rss"),
 ]
+_FORCE_SECTION = {"valueinhealth": "market-access"}
 
 _UA = {"User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
                       "Chrome/124.0 Safari/537.36 VigiEye/0.2 (+https://vigi-eye.com)"),
@@ -212,9 +214,46 @@ def ingest_press(max_per_feed: int = 40) -> dict:
                 if fid == "statnews" and not any(k in f"{title} {desc}".lower() for k in _STAT_KEEP):
                     continue
                 if _upsert({"id": _id("press", link), "kind": "press",
-                            "section": classify(title, desc[:400], "industry"), "publisher": publisher,
+                            "section": _FORCE_SECTION.get(fid) or classify(title, desc[:400], "industry"),
+                            "publisher": publisher,
                             "country": None, "title": title[:300], "summary": None, "url": link,
                             "date": _date_of(e), "company": None, "ticker": None, "tags": None}):
+                    stats["new"] += 1
+    return stats
+
+
+# --- ISPOR (HEOR / market access) ------------------------------------------------------
+
+ISPOR_PAGES = ["https://www.ispor.org/", "https://www.ispor.org/heor-resources/news-top"]
+_ISPOR_LINK = re.compile(r'<a[^>]+href="((?:https://www\.ispor\.org)?/heor-resources/news-top/news/view/'
+                         r'(\d{4})/(\d{2})/(\d{2})/[^"]+)"[^>]*>(.*?)</a>', re.S)
+
+
+def ingest_ispor() -> dict:
+    """ISPOR's own HEOR news items (headline + link; ISPOR has no RSS feed)."""
+    import html as _h
+    import httpx
+    init()
+    stats = {"found": 0, "new": 0, "errors": []}
+    seen = set()
+    with httpx.Client(timeout=30, headers={"User-Agent": "VigiEye regulatory monitor (+https://vigi-eye.com)"},
+                      follow_redirects=True) as client:
+        for page in ISPOR_PAGES:
+            try:
+                body = client.get(page).text
+            except Exception as e:
+                stats["errors"].append(f"{page}: {e}")
+                continue
+            for href, y, m, d, inner in _ISPOR_LINK.findall(body):
+                url = href if href.startswith("http") else "https://www.ispor.org" + href
+                title = re.sub(r"\s+", " ", _h.unescape(re.sub(r"<[^>]+>", " ", inner))).strip()
+                if url in seen or len(title) < 15:
+                    continue
+                seen.add(url)
+                stats["found"] += 1
+                if _upsert({"id": _id("ispor", url), "kind": "press", "section": "market-access", "publisher": "ISPOR",
+                            "country": "INT", "title": title[:300], "summary": None, "url": url,
+                            "date": f"{y}-{m}-{d}", "company": None, "ticker": None, "tags": None}):
                     stats["new"] += 1
     return stats
 
@@ -369,7 +408,7 @@ def get(nid: str) -> dict | None:
 
 def run_all() -> dict:
     out = {}
-    for name, fn in (("press", ingest_press), ("company", ingest_company)):
+    for name, fn in (("press", ingest_press), ("ispor", ingest_ispor), ("company", ingest_company)):
         t0 = time.time()
         try:
             out[name] = fn()

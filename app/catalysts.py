@@ -44,6 +44,7 @@ TYPE_LABEL = {
     "guideline": "Guideline effective",
     "consultation": "Consultation deadline",
     "deadline": "Compliance deadline",
+    "conference": "Conference",
 }
 IMPACT_LABEL = {"high": "High impact", "med": "Medium impact", "low": "Low impact"}
 
