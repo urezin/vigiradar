@@ -1,27 +1,71 @@
 {
  "running": false,
- "started": "2026-10-28T18:45:09.264694+00:00",
- "finished": "2026-10-28T18:46:36.226209+00:00",
+ "started": "2026-10-28T20:01:02.275021+00:00",
+ "finished": "2026-10-28T20:02:25.466401+00:00",
  "result": {
-  "articles": {
-   "generated": [],
-   "errors": [],
-   "at": "2026-10-28T18:45:09.563391+00:00"
+  "ingest": {
+   "ema_medicines": {
+    "drugs": 2357,
+    "milestones": 231,
+    "statuses": {
+     "Authorised": 1566,
+     "Withdrawn": 372,
+     "Opinion": 28,
+     "Application withdrawn": 268,
+     "Refused": 65,
+     "Revoked": 10,
+     "Suspended": 1,
+     "Opinion under re-examination": 1,
+     "Lapsed": 27,
+     "Expired": 17,
+     "Withdrawn from rolling review": 2
+    },
+    "seconds": 19.4
+   },
+   "ema_referrals": {
+    "milestones": 16,
+    "seconds": 0.9
+   },
+   "ema_dhpc": {
+    "milestones": 22,
+    "seconds": 0.3
+   },
+   "ema_shortages": {
+    "milestones": 32,
+    "seconds": 0.2
+   },
+   "fda_approvals": {
+    "drugs": 153,
+    "milestones": 153,
+    "seconds": 3.7
+   },
+   "fda_adcomm": {
+    "notices": 8,
+    "milestones": 8,
+    "seconds": 0.2
+   },
+   "sec_pdufa": {
+    "hits": 400,
+    "processed": 23,
+    "ai_mode": true,
+    "skipped_seen": 377,
+    "errors": [],
+    "filings_with_dates": 331,
+    "milestones": 144,
+    "seconds": 57.4
+   }
   },
-  "earnings_ingest": {
-   "hits": 19,
-   "new": 0,
-   "not_pharma": 0,
-   "errors": []
-  },
-  "cp_articles": {
-   "generated": [
-    "2026-10-28-abbott-s-exact-sciences-deal-lifts-q3-sales-14-5-while-gaap-earnings-fall-43-6",
-    "2026-10-28-iqvia-lifts-2026-guidance-as-clinical-bookings-jump-15-and-book-to-bill-reaches",
-    "2026-10-28-boston-scientific-s-q3-stalls-at-1-5-growth-as-cyber-incident-costs-and-a-weak-q"
-   ],
-   "errors": [],
-   "at": "2026-10-28T18:46:36.226073+00:00"
+  "indexnow": {
+   "vigieye": {
+    "host": "vigi-eye.com",
+    "submitted": 76,
+    "status": 200
+   },
+   "compepharma": {
+    "host": "compepharma.com",
+    "submitted": 15,
+    "status": 200
+   }
   }
  },
  "step": null
