@@ -1,0 +1,13 @@
+name: Data probe (temporary)
+on:
+  push:
+    branches: [probe-data-sources]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 probe/probe.py
+      - uses: actions/upload-artifact@v4
+        with: {name: probe-out, path: out}
