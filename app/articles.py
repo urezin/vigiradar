@@ -130,7 +130,7 @@ def _slug(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")[:80].strip("-")
 
 
-def _claude(prompt: str, max_tokens: int = 2600) -> dict | None:
+def _claude(prompt: str, max_tokens: int = 3600) -> dict | None:
     if not settings.anthropic_api_key:
         return None
     import anthropic
@@ -138,7 +138,7 @@ def _claude(prompt: str, max_tokens: int = 2600) -> dict | None:
     msg = client.messages.create(model=settings.anthropic_model, max_tokens=max_tokens, system=_SYSTEM,
                                  messages=[{"role": "user", "content": prompt}])
     raw = "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
-    return json.loads(raw[raw.find("{"): raw.rfind("}") + 1])
+    return _parse_json(raw)
 
 
 def _rec(r: dict) -> str:
@@ -335,13 +335,29 @@ CP_BEATS = {"deals": "deals & M&A", "launches": "approvals & launches", "pricing
             "pipeline": "pipeline & R&D", "earnings": "earnings", "industry": "industry"}
 
 
-def _cp_claude(prompt: str, max_tokens: int = 3000) -> dict | None:
+def _parse_json(raw: str) -> dict:
+    t = raw[raw.find("{"): raw.rfind("}") + 1]
+    try:
+        return json.loads(t)
+    except Exception:
+        # common model slip: raw newlines inside strings
+        return json.loads(re.sub(r"(?<!\\)\n", " ", t))
+
+
+def _cp_claude(prompt: str, max_tokens: int = 4200) -> dict | None:
     import anthropic
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
-    msg = client.messages.create(model=settings.anthropic_model, max_tokens=max_tokens, system=_CP_SYSTEM,
-                                 messages=[{"role": "user", "content": prompt}])
-    raw = "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
-    return json.loads(raw[raw.find("{"): raw.rfind("}") + 1])
+    last = None
+    for attempt in range(2):
+        msg = client.messages.create(model=settings.anthropic_model, max_tokens=max_tokens, system=_CP_SYSTEM,
+                                     messages=[{"role": "user", "content": prompt + (
+                                         "\n\nReturn strictly valid JSON (escape quotes inside strings)." if attempt else "")}])
+        raw = "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
+        try:
+            return _parse_json(raw)
+        except Exception as e:
+            last = e
+    raise ValueError(f"invalid JSON from model: {last}")
 
 
 def _cp_store(art: dict) -> None:
@@ -408,7 +424,7 @@ def generate_cp_daily(target: int = 10, earnings_n: int = 4, opinions: int = 3) 
             break
         try:
             j = _cp_claude(_CP_EARN.format(company=r["company"], ticker=r.get("ticker") or "", date=r["date"],
-                                           text=r["text"][:16000]), max_tokens=3200)
+                                           text=r["text"][:16000]))
         except Exception as e:
             errors.append(f"earnings {r['company']}: {e}")
             continue
@@ -469,7 +485,7 @@ def generate_cp_daily(target: int = 10, earnings_n: int = 4, opinions: int = 3) 
         if want_o <= 0:
             break
         try:
-            j = _cp_claude(_CP_OPINION.format(theme=theme, avoid=recent, records=material[:14000]), max_tokens=2600)
+            j = _cp_claude(_CP_OPINION.format(theme=theme, avoid=recent, records=material[:14000]), max_tokens=3200)
         except Exception as e:
             errors.append(f"opinion: {e}")
             continue
