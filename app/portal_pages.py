@@ -114,15 +114,19 @@ def _ms_item(m: dict, show_days: bool = False) -> str:
                     f'{"today" if n == 0 else ("in %d days" % n if n > 0 else "%d days ago" % -n)}</span>')
         except Exception:
             pass
-    co = ""
+    detail, co = _e(m.get("detail")), ""
     if m.get("company_slug") and m.get("company"):
-        co = f' · <a href="/companies/{_e(m["company_slug"])}">{_e(m["company"])}</a>'
+        link = f'<a href="/companies/{_e(m["company_slug"])}">{_e(m["company"])}</a>'
+        if _e(m["company"]) in detail:
+            detail = detail.replace(_e(m["company"]), link, 1)   # link the existing mention
+        else:
+            co = " · " + link
     src = (f' · <a href="{_e(m.get("source_url"))}" target="_blank" rel="noopener nofollow">source</a>'
            if m.get("source_url") else "")
     return (f'<div class="ms"><div class="top"><b>{_e(_fmt(m["date"]))}</b>'
             f'<span>{FLAG.get(m.get("region"), "")} {_e(pd.KIND_LABEL.get(m.get("kind"), m.get("kind")))}</span>'
             f'{_source_tag(m)}{days}</div><h3>{title_html}</h3>'
-            f'<p>{_e(m.get("detail"))}{co}{src}</p></div>')
+            f'<p>{detail}{co}{src}</p></div>')
 
 
 def _panel(title: str, items: list[dict], more: str | None = None, empty: str = "Nothing listed yet.",
