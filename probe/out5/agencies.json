@@ -1,0 +1,2088 @@
+[
+ {
+  "country": "BG",
+  "agency": "BDA",
+  "url": "https://www.bda.bg/bg/208-news-bg?format=feed&type=rss",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "error": "ConnectError('[Errno 104] Connection reset by peer')"
+  },
+  "honest": {
+   "error": "ConnectError('[Errno 104] Connection reset by peer')"
+  }
+ },
+ {
+  "country": "BG",
+  "agency": "BDA",
+  "url": "https://www.bda.bg/bg/business-info-bg/58-messages-biz?format=feed&type=rss",
+  "category": "guidance",
+  "type": "rss",
+  "browser": {
+   "error": "ConnectError('[Errno 104] Connection reset by peer')"
+  },
+  "honest": {
+   "error": "ConnectError('[Errno 104] Connection reset by peer')"
+  }
+ },
+ {
+  "country": "CZ",
+  "agency": "SÚKL",
+  "url": "https://sukl.gov.cz/feed/",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=UTF-8",
+   "len": 65335,
+   "s": 1.1,
+   "n": 10,
+   "sample": [
+    [
+     "Seznam cen a úhrad LP k 1. 11. 2026",
+     "https://sukl.gov.cz/ceny-a-uhrady-leciv/seznam-cen-a-uhrad-lp/seznam-cen-a-uhrad-lp-k-1-11-2026/",
+     "Tue, 27 Oct 2026 12:50:29 +0000"
+    ],
+    [
+     "Seznam léčiv nehrazených ze zdravotního pojištění k 1. 11. 2026",
+     "https://sukl.gov.cz/ceny-a-uhrady-leciv/seznam-leciv-nehrazenych-ze-zdravotniho-pojisteni/seznam-leciv-nehrazenych-ze-zdravotniho-pojisteni-k-1-11-2026/",
+     "Tue, 27 Oct 2026 11:56:24 +0000"
+    ],
+    [
+     "Seminář č. 22 –Sekce Cenové a úhradové regulace – Aktuální témata cenové a úhradové regulace",
+     "https://sukl.gov.cz/vzdelavaci-akce/seminare/seminar-c-22-sekce-cenove-a-uhradove-regulace-aktualni-temata-cenove-a-uhradove-regulace/",
+     "Mon, 26 Oct 2026 11:32:48 +0000"
+    ],
+    [
+     "Hlavní body zasedání Výboru pro humánní léčivé přípravky (CHMP) 12. – 15. října 2026",
+     "https://sukl.gov.cz/registrace-leciv/jednani-vyboru-chmp/hlavni-body-zasedani-vyboru-pro-humanni-lecive-pripravky-chmp-14-17-zari-2026-2/",
+     "Fri, 23 Oct 2026 13:58:07 +0000"
+    ],
+    [
+     "Seznam cen a úhrad PZLÚ k 1. 11. 2026",
+     "https://sukl.gov.cz/seznam-cen-a-uhrad-pzlu/seznam-cen-a-uhrad-pzlu-k-1-11-2026/",
+     "Fri, 23 Oct 2026 09:21:00 +0000"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "DK",
+  "agency": "DKMA",
+  "url": "https://laegemiddelstyrelsen.dk/da/Feeds/rss-feed",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 11833,
+   "s": 0.7,
+   "n": 20,
+   "sample": [
+    [
+     "Euthasol vet. injektionsvæske; forsyningsvanskelighed",
+     "https://laegemiddelstyrelsen.dk/da/godkendelse/kontrol-og-inspektion/mangel-paa-medicin/meddelelser-om-forsyning-af-medicin/veterinaer-2026/euthasol-vet-injektionsvaeske-forsyningsvanskelighed/",
+     "Wed, 28 Oct 2026 15:50:00 +0100"
+    ],
+    [
+     "Fixopost (Thea Nordic AB); forsyningsvanskelighed",
+     "https://laegemiddelstyrelsen.dk/da/godkendelse/kontrol-og-inspektion/mangel-paa-medicin/meddelelser-om-forsyning-af-medicin/human-2026/fixopost-thea-nordic-ab-forsyningsvanskelighed/",
+     "Wed, 28 Oct 2026 15:33:00 +0100"
+    ],
+    [
+     "Vimpat 100 mg; forsyningsvanskelighed",
+     "https://laegemiddelstyrelsen.dk/da/godkendelse/kontrol-og-inspektion/mangel-paa-medicin/meddelelser-om-forsyning-af-medicin/human-2026/vimpat-100-mg-forsyningsvanskelighed/",
+     "Wed, 28 Oct 2026 14:20:00 +0100"
+    ],
+    [
+     "Tybost; forsyningsvanskelighed",
+     "https://laegemiddelstyrelsen.dk/da/godkendelse/kontrol-og-inspektion/mangel-paa-medicin/meddelelser-om-forsyning-af-medicin/human-2026/tybost-forsyningsvanskelighed/",
+     "Wed, 28 Oct 2026 12:40:00 +0100"
+    ],
+    [
+     "Rimactan 300 mg (Sandoz A/S); forsyningsvanskelighed",
+     "https://laegemiddelstyrelsen.dk/da/godkendelse/kontrol-og-inspektion/mangel-paa-medicin/meddelelser-om-forsyning-af-medicin/human-2026/rimactan-300-mg-sandoz-as-forsyningsvanskelighed/",
+     "Tue, 27 Oct 2026 15:53:00 +0100"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "EE",
+  "agency": "Ravimiamet",
+  "url": "https://www.ravimiamet.ee/rss-feeds/rss.xml",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 58397,
+   "s": 0.6,
+   "n": 100,
+   "sample": [
+    [
+     "Oktoobris 2026 lõppenud humaan- ja veterinaarravimite müügiload",
+     "https://ravimiamet.ee/uudised/oktoobris-2026-loppenud-humaan-ja-veterinaarravimite-muugiload",
+     "Tue, 27 Oct 2026 16:02:05 +0200"
+    ],
+    [
+     "Registreeritud veterinaarravimite müügiload oktoobris 2026",
+     "https://ravimiamet.ee/uudised/registreeritud-veterinaarravimite-muugiload-oktoobris-2026",
+     "Tue, 27 Oct 2026 15:58:44 +0200"
+    ],
+    [
+     "Otsime oma meeskonda kvaliteedi hindamise büroo spetsialisti (asenduskoht)",
+     "https://ravimiamet.ee/uudised/otsime-oma-meeskonda-kvaliteedi-hindamise-buroo-spetsialisti-asenduskoht-0",
+     "Tue, 27 Oct 2026 15:01:43 +0200"
+    ],
+    [
+     "Ravimiameti labor pälvis rahvusvahelise tunnustuse",
+     "https://ravimiamet.ee/uudised/ravimiameti-labor-palvis-rahvusvahelise-tunnustuse",
+     "Mon, 26 Oct 2026 09:01:26 +0200"
+    ],
+    [
+     "Transdermaalse manustamisega östradiooli sisaldavate ravimite Lenzetto ja Divigeli pikaajalised tarneraskused",
+     "https://ravimiamet.ee/uudised/transdermaalse-manustamisega-ostradiooli-sisaldavate-ravimite-lenzetto-ja-divigeli",
+     "Tue, 20 Oct 2026 17:59:12 +0300"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "FI",
+  "agency": "Fimea",
+  "url": "https://fimea.fi/en/current-events/-/asset_publisher/6Fp1W0OnZUR7/rss",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml;charset=UTF-8",
+   "len": 28175,
+   "s": 1.5,
+   "n": 50,
+   "sample": [
+    [
+     "Welcome to the Farmasto launch event on 24 November",
+     "https://fimea.fi/en/-/welcome-to-the-farmasto-launch-event-on-24-november",
+     "Fri, 23 Oct 2026 08:37:00 GMT"
+    ],
+    [
+     "Cooperation between Finnish Customs and Fimea leads to the discovery of an illegal pharmaceutical factory in G",
+     "https://fimea.fi/en/-/cooperation-between-finnish-customs-and-fimea-leads-to-the-discovery-of-an-illegal-pharmaceutical-factory-in-greece",
+     "Thu, 08 Oct 2026 05:40:00 GMT"
+    ],
+    [
+     "Instructions for use of medical devices must be available to the user and easy to understand",
+     "https://fimea.fi/en/-/instructions-for-use-of-medical-devices-must-be-available-to-the-user-and-easy-to-understand",
+     "Tue, 06 Oct 2026 09:17:00 GMT"
+    ],
+    [
+     "Sale of non-prescription medicines is expanding – the first phase begins in October",
+     "https://fimea.fi/en/-/sale-of-non-prescription-medicines-is-expanding-the-first-phase-begins-in-october",
+     "Thu, 01 Oct 2026 05:30:00 GMT"
+    ],
+    [
+     "European pharmaceutical experts met at Fimea to seek solutions to medicine shortages",
+     "https://fimea.fi/en/-/european-pharmaceutical-experts-met-at-fimea-to-seek-solutions-to-medicine-shortages",
+     "Wed, 30 Sep 2026 09:12:00 GMT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "DE",
+  "agency": "BfArM",
+  "url": "https://www.bfarm.de/SiteGlobals/Functions/RSSFeed/DE/Pharmakovigilanz/Rote-Hand-Briefe/RSSNewsfeed.xml?nn=591002",
+  "category": "safety",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml;charset=utf-8",
+   "len": 11590,
+   "s": 0.6,
+   "n": 20,
+   "sample": [
+    [
+     "Rote-Hand-Brief zu Litfulo (Ritlecitinib): Risiko für schwerwiegende unerwünschte kardiovaskuläre Ereignisse, ",
+     "https://www.bfarm.de/SharedDocs/Risikoinformationen/Pharmakovigilanz/DE/RHB/2026/rhb-litfulo.html",
+     "Mon, 10 Aug 2026 12:32:00 +0200"
+    ],
+    [
+     "Rote-Hand-Brief zu desogestrel- und etonogestrelhaltigen Arzneimitteln: Risiko eines Meningeoms und Maßnahmen ",
+     "https://www.bfarm.de/SharedDocs/Risikoinformationen/Pharmakovigilanz/DE/RHB/2026/rhb-desogestrel-etonogestrel.html",
+     "Thu, 6 Aug 2026 14:50:00 +0200"
+    ],
+    [
+     "Informationsbrief zu Eferox (Levothyroxin-Natrium): Tabletten in neuer Zusammensetzung",
+     "https://www.bfarm.de/SharedDocs/Risikoinformationen/Pharmakovigilanz/DE/RHB/2026/info-eferox.html",
+     "Mon, 27 Jul 2026 09:51:00 +0200"
+    ],
+    [
+     "Rote-Hand-Brief zu Tavneos (Avacopan): Empfehlung zum Widerruf der Zulassung in der EU",
+     "https://www.bfarm.de/SharedDocs/Risikoinformationen/Pharmakovigilanz/DE/RHB/2026/rhb-tavneos.html",
+     "Thu, 16 Jul 2026 08:08:00 +0200"
+    ],
+    [
+     "Rote-Hand-Brief zu Mykronor 5 Mikrogramm/ml Injektions-/Infusionslösung: Risiko von Medikationsfehlern",
+     "https://www.bfarm.de/SharedDocs/Risikoinformationen/Pharmakovigilanz/DE/RHB/2026/rhb-mykronor.html",
+     "Wed, 15 Jul 2026 14:32:00 +0200"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "DE",
+  "agency": "BfArM",
+  "url": "https://www.bfarm.de/SiteGlobals/Functions/RSSFeed/DE/Medizinprodukte/Kundeninfo/RSSNewsfeed.xml?nn=597716",
+  "category": "recalls",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml;charset=utf-8",
+   "len": 9423,
+   "s": 0.4,
+   "n": 20,
+   "sample": [
+    [
+     "Dringende Sicherheitsinformation zu Steriflush Syringes with water von Sterisets Manufacturing S.A.",
+     "https://www.bfarm.de/SharedDocs/Kundeninfos/DE/07/2026/48816-26_kundeninfo_de.html",
+     "Tue, 27 Oct 2026 09:00:00 +0100"
+    ],
+    [
+     "Dringende Sicherheitsinformation zu Steriflush NaCl 0,9 % von Sterisets Manufacturing S.A.",
+     "https://www.bfarm.de/SharedDocs/Kundeninfos/DE/07/2026/47896-26_kundeninfo_de.html",
+     "Tue, 27 Oct 2026 09:00:00 +0100"
+    ],
+    [
+     "Dringende Sicherheitsinformation zu RayStation von RaySearch Laboratories AB",
+     "https://www.bfarm.de/SharedDocs/Kundeninfos/DE/18/2026/47172-26_kundeninfo_de.html",
+     "Tue, 27 Oct 2026 09:00:00 +0100"
+    ],
+    [
+     "Dringende Sicherheitsinformation zu Rotaflow Console von Maquet Cardiopulmonary AG",
+     "https://www.bfarm.de/SharedDocs/Kundeninfos/DE/12/2026/49546-26_kundeninfo_de.html",
+     "Tue, 27 Oct 2026 09:00:00 +0100"
+    ],
+    [
+     "Dringende Sicherheitsinformation zu Syriflow MR von MEDTRON AG",
+     "https://www.bfarm.de/SharedDocs/Kundeninfos/DE/07/2026/46116-26_kundeninfo_de.html",
+     "Mon, 26 Oct 2026 09:00:00 +0100"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "DE",
+  "agency": "BfArM",
+  "url": "https://www.bfarm.de/SiteGlobals/Functions/RSSFeed/EN/Kundeninfo/RSSNewsfeed.xml?nn=708434",
+  "category": "recalls",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml;charset=utf-8",
+   "len": 9244,
+   "s": 0.5,
+   "n": 20,
+   "sample": [
+    [
+     "Urgent Field Safety Notice for 6008 CAREsystem by Fresenius Medical Care AG & Co. KGaA",
+     "https://www.bfarm.de/SharedDocs/Kundeninfos/EN/07/2026/49772-26_kundeninfo_en.html",
+     "Tue, 27 Oct 2026 09:00:00 +0100"
+    ],
+    [
+     "Urgent Field Safety Notice for Rotaflow Console by Maquet Cardiopulmonary AG",
+     "https://www.bfarm.de/SharedDocs/Kundeninfos/EN/12/2026/49546-26_kundeninfo_en.html",
+     "Tue, 27 Oct 2026 09:00:00 +0100"
+    ],
+    [
+     "Urgent Field Safety Notice for aerstent TBY by bess pro gmbh",
+     "https://www.bfarm.de/SharedDocs/Kundeninfos/EN/11/2026/49755-26_kundeninfo_en.html",
+     "Mon, 26 Oct 2026 09:00:00 +0100"
+    ],
+    [
+     "Urgent Field Safety Notice for HF-cable monopolar, HF-cable HiQ+ bipolar, HF-cable, Versapoint Connector Cable",
+     "https://www.bfarm.de/SharedDocs/Kundeninfos/EN/10/2026/48638-26_kundeninfo_en.html",
+     "Mon, 26 Oct 2026 09:00:00 +0100"
+    ],
+    [
+     "Urgent Field Safety Notice for Abre Venous Self-expanding Stent System by Medtronic Inc",
+     "https://www.bfarm.de/SharedDocs/Kundeninfos/EN/11/2026/48220-26_kundeninfo_en.html",
+     "Mon, 26 Oct 2026 09:00:00 +0100"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "DE",
+  "agency": "PEI",
+  "url": "https://www.pei.de/SiteGlobals/Functions/RSSFeed/RSSGenerator_Aktuell.xml?nn=165890",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml;charset=utf-8",
+   "len": 4718,
+   "s": 0.6,
+   "n": 6,
+   "sample": [
+    [
+     "Austausch zwischen dem Paul-Ehrlich-Institut und dem Verband Pharma Deutschland",
+     "https://www.pei.de/DE/newsroom/hp-meldungen/2026/261027-jahresgespraech-paul-ehrlich-institut-pharma-deutschland.html",
+     ""
+    ],
+    [
+     "Chikungunya-Impfstoff Vimkunya mit französischer und schwedischer/finnischer Beschriftung in Deutschland verfü",
+     "https://www.pei.de/DE/newsroom/hp-meldungen/2026/261015-vimkunya-chikungunya-impfstoff-franzoesisch-schwedisch-finnische-beschriftung.html",
+     ""
+    ],
+    [
+     "Das Paul-Ehrlich-Institut und das Bundesinstitut für Arzneimittel und Medizinprodukte bitten um erneute Übermi",
+     "https://www.pei.de/DE/newsroom/hp-meldungen/2026/261009-technischer-fehler-online-meldeportal.html",
+     ""
+    ],
+    [
+     "Europäischer Austausch zu In-vitro-Diagnostika am Paul-Ehrlich-Institut",
+     "https://www.pei.de/DE/newsroom/hp-meldungen/2026/260930-eurl-netzwerktreffen.html",
+     ""
+    ],
+    [
+     "#MedSafetyWeek 2026: Side effects – don’t ignore them, report them",
+     "https://www.pei.de/DE/newsroom/hp-meldungen/2026/260929-medsafetyweek.html",
+     ""
+    ]
+   ]
+  }
+ },
+ {
+  "country": "DE",
+  "agency": "PEI",
+  "url": "https://www.pei.de/SiteGlobals/Functions/RSSFeed/RSSGenerator_Sicherheitsinformationen.xml?nn=165890",
+  "category": "safety",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml;charset=utf-8",
+   "len": 3748,
+   "s": 0.7,
+   "n": 6,
+   "sample": [
+    [
+     "Rote-Hand-Brief: Ocrevus (Ocrelizumab)",
+     "https://www.pei.de/DE/newsroom/veroffentlichungen-arzneimittel/sicherheitsinformationen-human/2026/ablage2026/2026-10-08-rhb-ocrevus.html",
+     "Thu, 8 Oct 2026 00:00:00 +0200"
+    ],
+    [
+     "Informationsbrief von Biotest Pharma GmbH: Yimmugo",
+     "https://www.pei.de/DE/newsroom/veroffentlichungen-arzneimittel/sicherheitsinformationen-human/2026/ablage2026/2026-09-17-infobrief-yimmugo.html",
+     "Thu, 17 Sep 2026 00:00:00 +0200"
+    ],
+    [
+     "Informationsbrief von Regeneron GmbH: Libtayo (Cemiplimab)",
+     "https://www.pei.de/DE/newsroom/veroffentlichungen-arzneimittel/sicherheitsinformationen-human/2026/ablage2026/2026-07-30-infoschreiben-libtayo.html",
+     "Thu, 30 Jul 2026 00:00:00 +0200"
+    ],
+    [
+     "Rote-Hand-Brief: Ixchiq (Chikungunya-Impfstoff)",
+     "https://www.pei.de/DE/newsroom/veroffentlichungen-arzneimittel/sicherheitsinformationen-human/2026/ablage2026/2026-07-14-rhb-ixchiq.html",
+     "Tue, 14 Jul 2026 00:00:00 +0200"
+    ],
+    [
+     "Informationsbrief von Biotest Pharma GmbH: Yimmugo",
+     "https://www.pei.de/DE/newsroom/veroffentlichungen-arzneimittel/sicherheitsinformationen-human/2026/ablage2026/2026-05-08-infoschreiben-yimmugo.html",
+     "Tue, 12 May 2026 00:00:00 +0200"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "DE",
+  "agency": "PEI",
+  "url": "https://www.pei.de/SiteGlobals/Functions/RSSFeed/RSSGenerator_IVD-Herstellermassnahmen.xml?nn=165890",
+  "category": "recalls",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml;charset=utf-8",
+   "len": 246430,
+   "s": 0.8,
+   "n": 515,
+   "sample": [
+    [
+     "Referenznummer PEI0074/26 (pdf in Deutsch):\nKorrektive Maßnahme zu Mastazyme Chamydia ; Fa. Mast Diagnostics G",
+     "https://www.pei.de/SharedDocs/Downloads/DE/arzneimittelsicherheit/ivd-vigilanz/ivd-herstellermassnahmen/2026/PEI0-074-26-de.html",
+     ""
+    ],
+    [
+     "Referenznummer PEI0194/26 (pdf in Englisch):\nKorrektive Maßnahme zu Elecsys HBsAg Ii quant II; Fa. Roche",
+     "https://www.pei.de/SharedDocs/Downloads/DE/arzneimittelsicherheit/ivd-vigilanz/ivd-herstellermassnahmen/2026/PEI0-194-26-en.html",
+     ""
+    ],
+    [
+     "Referenznummer PEI0184/26 (pdf in Deutsch):\nKorrektive Maßnahme zu ERY Q KKD/MNS; Fa. BAG Diagnostics GmbH",
+     "https://www.pei.de/SharedDocs/Downloads/DE/arzneimittelsicherheit/ivd-vigilanz/ivd-herstellermassnahmen/2026/PEI0-184-26-de.html",
+     ""
+    ],
+    [
+     "Referenznummer PEI0167/26 (pdf in Englisch):\nKorrektive Maßnahme zu Panocel-16; Fa. werfen",
+     "https://www.pei.de/SharedDocs/Downloads/DE/arzneimittelsicherheit/ivd-vigilanz/ivd-herstellermassnahmen/2026/PEI0-167-26-en.html",
+     ""
+    ],
+    [
+     "Referenznummer PEI0167/26 (pdf in Deutsch):\nKorrektive Maßnahme zu Panocell-16; Fa. werfen",
+     "https://www.pei.de/SharedDocs/Downloads/DE/arzneimittelsicherheit/ivd-vigilanz/ivd-herstellermassnahmen/2026/PEI0-167-26-de.html",
+     ""
+    ]
+   ]
+  }
+ },
+ {
+  "country": "DE",
+  "agency": "PEI",
+  "url": "https://www.pei.de/SiteGlobals/Functions/RSSFeed/RSSGenerator_Schulungsmaterial.xml?nn=165890",
+  "category": "safety",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml;charset=utf-8",
+   "len": 107806,
+   "s": 1.0,
+   "n": 288,
+   "sample": [
+    [
+     "Zessly (Infliximab) Schulungsmaterial:\nInformationen zur Risiko-Minimierung für medizinische Fachkräfte – Pati",
+     "https://www.pei.de/SharedDocs/schulungsmaterial/Zessly-Schulungsmaterial-Aerzte_Version-1_Patientenkarte.html",
+     ""
+    ],
+    [
+     "Cejemly (Sugemalimab) Schulungsmaterial:\nInformationen zur Risiko-Minimierung für medizinische Fachkräfte – Pa",
+     "https://www.pei.de/SharedDocs/schulungsmaterial/Cejemly-Schulungsmaterial-Aerzte_Version-1_Patientenkarte.html",
+     ""
+    ],
+    [
+     "Susvimo (Ranibizumab) Schulungsmaterial:\nInformationen zur Risiko-Minimierung für medizinische Fachkräfte - Au",
+     "https://www.pei.de/SharedDocs/schulungsmaterial/audios/susvimo.html",
+     ""
+    ],
+    [
+     "Susvimo (Ranibizumab) Schulungsmaterial:\nInformationen zur Risiko-Minimierung für medizinische Fachkräfte – An",
+     "https://www.pei.de/SharedDocs/schulungsmaterial/Susvimo-Schulungsmaterial-Aerzte_Version-1_Anwendungsleitfaden.html",
+     ""
+    ],
+    [
+     "Susvimo (Ranibizumab) Schulungsmaterial:\nInformationen zur Risiko-Minimierung für medizinische Fachkräfte – Le",
+     "https://www.pei.de/SharedDocs/schulungsmaterial/Susvimo-Schulungsmaterial-Aerzte_Version-1_Leitfaden-Patienten.html",
+     ""
+    ]
+   ]
+  }
+ },
+ {
+  "country": "GR",
+  "agency": "EOF",
+  "url": "https://www.eof.gr/feed/",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=UTF-8",
+   "len": 22380,
+   "s": 2.2,
+   "n": 10,
+   "sample": [
+    [
+     "ΚΑΤΑΛΟΓΟΣ ΕΠΙΘΕΩΡΗΤΩΝ / ΕΛΕΓΚΤΩΝ",
+     "https://www.eof.gr/%ce%ba%ce%b1%cf%84%ce%b1%ce%bb%ce%bf%ce%b3%ce%bf%cf%82-%ce%b5%cf%80%ce%b9%ce%b8%ce%b5%cf%89%cf%81%ce%b7%cf%84%cf%89%ce%bd/",
+     "Tue, 27 Oct 2026 11:08:02 +0000"
+    ],
+    [
+     "Οριστικοί πίνακες κατάταξης υποψηφίων συνεργατών του ΕΟΦ με καθεστώς ΑΠΥ ειδικοτήτων: ΠΕ Φαρμακοποιών, ΠΕ Κτην",
+     "https://www.eof.gr/%ce%bf%cf%81%ce%b9%cf%83%cf%84%ce%b9%ce%ba%ce%bf%ce%af-%cf%80%ce%af%ce%bd%ce%b1%ce%ba%ce%b5%cf%82-%ce%ba%ce%b1%cf%84%ce%ac%cf%84%ce%b1%ce%be%ce%b7%cf%82-%cf%85%cf%80%ce%bf%cf%88%ce%b7%cf%86%ce%af-2/",
+     "Mon, 26 Oct 2026 14:16:56 +0000"
+    ],
+    [
+     "Ανάκληση παρτίδας του  Ιατροτεχνολογικού  προϊόντος BLAYCO Electrode tip cleaner κατηγορίας MDD Class I και το",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%80%ce%b1%cf%81%cf%84%ce%af%ce%b4%ce%b1%cf%82-%cf%84%ce%bf%cf%85-%ce%b9%ce%b1%cf%84%cf%81%ce%bf%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3-3/",
+     "Mon, 26 Oct 2026 06:17:54 +0000"
+    ],
+    [
+     "Στοιχεία εκτέλεσης προϋπολογισμού μηνός Σεπτεμβρίου 2026",
+     "https://www.eof.gr/%cf%83%cf%84%ce%bf%ce%b9%cf%87%ce%b5%ce%af%ce%b1-%ce%b5%ce%ba%cf%84%ce%ad%ce%bb%ce%b5%cf%83%ce%b7%cf%82-%cf%80%cf%81%ce%bf%cf%8b%cf%80%ce%bf%ce%bb%ce%bf%ce%b3%ce%b9%cf%83%ce%bc%ce%bf%cf%8d-%ce%bc-2/",
+     "Thu, 22 Oct 2026 10:08:15 +0000"
+    ],
+    [
+     "Δήλωση Αποθεμάτων Φαρμάκων Ανθρώπινης Χρήσης",
+     "https://www.eof.gr/%ce%b4%ce%ae%ce%bb%cf%89%cf%83%ce%b7-%ce%b1%cf%80%ce%bf%ce%b8%ce%b5%ce%bc%ce%ac%cf%84%cf%89%ce%bd-%cf%86%ce%b1%cf%81%ce%bc%ce%ac%ce%ba%cf%89%ce%bd-%ce%b1%ce%bd%ce%b8%cf%81%cf%8e%cf%80%ce%b9%ce%bd-44/",
+     "Thu, 22 Oct 2026 08:14:34 +0000"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "GR",
+  "agency": "EOF",
+  "url": "https://www.eof.gr/category/farmaka/anakliseis-farmakon-anthropinis-xrisis-farmaka/feed/",
+  "category": "recalls",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=UTF-8",
+   "len": 17277,
+   "s": 1.8,
+   "n": 10,
+   "sample": [
+    [
+     "Ανάκληση παρτίδων του φαρμακευτικού προϊόντος BENDAMUSTINE/ACTAVIS PD.C.S.INF 2,5MG/ML BTx1 VIAL (x26ML) x 25M",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%80%ce%b1%cf%81%cf%84%ce%af%ce%b4%cf%89%ce%bd-%cf%84%ce%bf%cf%85-%cf%86%ce%b1%cf%81%ce%bc%ce%b1%ce%ba%ce%b5%cf%85%cf%84%ce%b9%ce%ba%ce%bf%cf%8d-3/",
+     "Thu, 27 Aug 2026 10:53:34 +0000"
+    ],
+    [
+     "Ανάκληση παρτίδων των φαρμακευτικών προϊόντων CLONOTRIL TABLET 2MG/TAB και METHYLDOPA/REMEDICA F.C.TAB 250MG/T",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%80%ce%b1%cf%81%cf%84%ce%af%ce%b4%cf%89%ce%bd-%cf%84%cf%89%ce%bd-%cf%86%ce%b1%cf%81%ce%bc%ce%b1%ce%ba%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%8e%ce%bd-3/",
+     "Fri, 14 Aug 2026 09:19:27 +0000"
+    ],
+    [
+     "Ανάκληση της παρτίδας V0281,  του φαρμακευτικού προϊόντος FAMPRIDIN-NEURAXPHARM 10MG",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%84%ce%b7%cf%82-%cf%80%ce%b1%cf%81%cf%84%ce%af%ce%b4%ce%b1%cf%82-v0281-%cf%84%ce%bf%cf%85-%cf%86%ce%b1%cf%81%ce%bc%ce%b1%ce%ba%ce%b5%cf%85%cf%84/",
+     "Wed, 29 Jul 2026 11:43:55 +0000"
+    ],
+    [
+     "Ανάκληση της παρτίδας 2500143F, του φαρμακευτικού προϊόντος BENTALYA VIAL 5×25 MG/10ML",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%84%ce%b7%cf%82-%cf%80%ce%b1%cf%81%cf%84%ce%af%ce%b4%ce%b1%cf%82-2500143f-%cf%84%ce%bf%cf%85-%cf%86%ce%b1%cf%81%ce%bc%ce%b1%ce%ba%ce%b5%cf%85%cf%84/",
+     "Wed, 22 Jul 2026 10:18:26 +0000"
+    ],
+    [
+     "Ανάκληση της παρτίδας  H0444C του φαρμακευτικού προϊόντος NILOTINIB/TEVA caps 200mg/cap BT x 112",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%84%ce%b7%cf%82-%cf%80%ce%b1%cf%81%cf%84%ce%af%ce%b4%ce%b1%cf%82-h0444c-%cf%84%ce%bf%cf%85-%cf%86%ce%b1%cf%81%ce%bc%ce%b1%ce%ba%ce%b5%cf%85%cf%84/",
+     "Wed, 17 Jun 2026 12:46:23 +0000"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "GR",
+  "agency": "EOF",
+  "url": "https://www.eof.gr/category/anakoinoseis-asfaleias/feed/",
+  "category": "safety",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=UTF-8",
+   "len": 33049,
+   "s": 2.2,
+   "n": 10,
+   "sample": [
+    [
+     "Η PRAC ξεκινά την ανασκόπηση της ασφάλειας των ενέσιμων φαρμάκων που περιέχουν σίδηρο",
+     "https://www.eof.gr/%ce%b7-prac-%ce%be%ce%b5%ce%ba%ce%b9%ce%bd%ce%ac-%cf%84%ce%b7%ce%bd-%ce%b1%ce%bd%ce%b1%cf%83%ce%ba%cf%8c%cf%80%ce%b7%cf%83%ce%b7-%cf%84%ce%b7%cf%82-%ce%b1%cf%83%cf%86%ce%ac%ce%bb%ce%b5%ce%b9%ce%b1/",
+     "Tue, 08 Sep 2026 09:07:37 +0000"
+    ],
+    [
+     "Κύρια σημεία συνεδρίασης της Επιτροπής Αξιολόγησης Κινδύνου Φαρμακοεπαγρύπνησης (PRAC), 6 – 9 Ιουλίου 2026",
+     "https://www.eof.gr/%ce%ba%cf%8d%cf%81%ce%b9%ce%b1-%cf%83%ce%b7%ce%bc%ce%b5%ce%af%ce%b1-%cf%83%cf%85%ce%bd%ce%b5%ce%b4%cf%81%ce%af%ce%b1%cf%83%ce%b7%cf%82-%cf%84%ce%b7%cf%82-%ce%b5%cf%80%ce%b9%cf%84%cf%81%ce%bf%cf%80-11/",
+     "Wed, 15 Jul 2026 10:31:50 +0000"
+    ],
+    [
+     "Κύρια σημεία συνεδρίασης της Επιτροπής Αξιολόγησης Κινδύνου Φαρμακοεπαγρύπνησης (PRAC), 8 – 11 Ιουνίου 2026",
+     "https://www.eof.gr/%ce%ba%cf%8d%cf%81%ce%b9%ce%b1-%cf%83%ce%b7%ce%bc%ce%b5%ce%af%ce%b1-%cf%83%cf%85%ce%bd%ce%b5%ce%b4%cf%81%ce%af%ce%b1%cf%83%ce%b7%cf%82-%cf%84%ce%b7%cf%82-%ce%b5%cf%80%ce%b9%cf%84%cf%81%ce%bf%cf%80-10/",
+     "Thu, 18 Jun 2026 12:23:06 +0000"
+    ],
+    [
+     "Κύρια σημεία συνεδρίασης της Επιτροπής Αξιολόγησης Κινδύνου Φαρμακοεπαγρύπνησης (PRAC), 7 – 10 Απριλίου 2026",
+     "https://www.eof.gr/%ce%ba%cf%8d%cf%81%ce%b9%ce%b1-%cf%83%ce%b7%ce%bc%ce%b5%ce%af%ce%b1-%cf%83%cf%85%ce%bd%ce%b5%ce%b4%cf%81%ce%af%ce%b1%cf%83%ce%b7%cf%82-%cf%84%ce%b7%cf%82-%ce%b5%cf%80%ce%b9%cf%84%cf%81%ce%bf%cf%80-9/",
+     "Fri, 17 Apr 2026 09:54:25 +0000"
+    ],
+    [
+     "Arixtra (fondaparinux sodium) – Σοβαρό ποιοτικό ελάττωμα που σχετίζεται με τη βελόνα σε προγεμισμένη σύριγγα –",
+     "https://www.eof.gr/arixtra-fondaparinux-sodium-%cf%83%ce%bf%ce%b2%ce%b1%cf%81%cf%8c-%cf%80%ce%bf%ce%b9%ce%bf%cf%84%ce%b9%ce%ba%cf%8c-%ce%b5%ce%bb%ce%ac%cf%84%cf%84%cf%89%ce%bc%ce%b1-%cf%80%ce%bf%cf%85-%cf%83%cf%87/",
+     "Tue, 24 Feb 2026 12:52:32 +0000"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "GR",
+  "agency": "EOF",
+  "url": "https://www.eof.gr/category/farmaka/anakoinoseis-farmaka/feed/",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=UTF-8",
+   "len": 27145,
+   "s": 2.6,
+   "n": 10,
+   "sample": [
+    [
+     "MARATHON capsules",
+     "https://www.eof.gr/marathon-capsules/",
+     "Mon, 12 Oct 2026 12:45:10 +0000"
+    ],
+    [
+     "ΛΙΣΤΑ ΦΑΡΜΑΚΕΥΤΙΚΩΝ ΣΚΕΥΑΣΜΑΤΩΝ ΠΕΡΙΟΡΙΣΜΕΝΗΣ ΔΙΑΘΕΣΙΜΟΤΗΤΑΣ 30 ΣΕΠΤΕΜΒΡΙΟΥ 2026",
+     "https://www.eof.gr/%ce%bb%ce%b9%cf%83%cf%84%ce%b1-%cf%86%ce%b1%cf%81%ce%bc%ce%b1%ce%ba%ce%b5%cf%85%cf%84%ce%b9%ce%ba%cf%89%ce%bd-%cf%83%ce%ba%ce%b5%cf%85%ce%b1%cf%83%ce%bc%ce%b1%cf%84%cf%89%ce%bd-%cf%80%ce%b5%cf%81-17/",
+     "Fri, 02 Oct 2026 06:32:40 +0000"
+    ],
+    [
+     "Ανάκληση της Άδειας Χονδρικής πώλησης φαρμάκων για Ανθρώπινη Χρήση της εταιρείας ΦΑΡΜΑ ΧΑΟΥΖ Μ.ΕΠΕ",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%84%ce%b7%cf%82-%ce%ac%ce%b4%ce%b5%ce%b9%ce%b1%cf%82-%cf%87%ce%bf%ce%bd%ce%b4%cf%81%ce%b9%ce%ba%ce%ae%cf%82-%cf%80%cf%8e%ce%bb%ce%b7%cf%83%ce%b7-8/",
+     "Thu, 17 Sep 2026 12:31:55 +0000"
+    ],
+    [
+     "ΑΝΑΚΟΙΝΩΣΗ ΣΧΕΤΙΚΑ ΜΕ ΤΗ ΔΙΑΘΕΣΗ ΣΚΕΥΑΣΜΑΤΩΝ ΜΕΣΩ ΔΙΑΔΙΚΤΥΟΥ",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%b1%ce%ba%ce%bf%ce%b9%ce%bd%cf%89%cf%83%ce%b7-%cf%83%cf%87%ce%b5%cf%84%ce%b9%ce%ba%ce%b1-%ce%bc%ce%b5-%cf%84%ce%b7-%ce%b4%ce%b9%ce%b1%ce%b8%ce%b5%cf%83%ce%b7-%cf%83%ce%ba%ce%b5%cf%85/",
+     "Fri, 04 Sep 2026 12:15:27 +0000"
+    ],
+    [
+     "WELLNEXIS SUPER COMPLEX",
+     "https://www.eof.gr/wellnexis-super-complex/",
+     "Fri, 04 Sep 2026 12:11:32 +0000"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "GR",
+  "agency": "EOF",
+  "url": "https://www.eof.gr/category/iatrotexnologika/anakliseis-iatrotexnologikon-iatrotexnologika/feed/",
+  "category": "recalls",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=UTF-8",
+   "len": 18024,
+   "s": 2.0,
+   "n": 10,
+   "sample": [
+    [
+     "Ανάκληση παρτίδας του  Ιατροτεχνολογικού  προϊόντος BLAYCO Electrode tip cleaner κατηγορίας MDD Class I και το",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%80%ce%b1%cf%81%cf%84%ce%af%ce%b4%ce%b1%cf%82-%cf%84%ce%bf%cf%85-%ce%b9%ce%b1%cf%84%cf%81%ce%bf%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3-3/",
+     "Mon, 26 Oct 2026 06:17:54 +0000"
+    ],
+    [
+     "Ανάκληση παρτίδων των ιατροτεχνολογικών προϊόντων: NEUROPACK, 1 LONG & 2 MED STRAIGHT PLATES και STERILE FAST ",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%80%ce%b1%cf%81%cf%84%ce%af%ce%b4%cf%89%ce%bd-%cf%84%cf%89%ce%bd-%ce%b9%ce%b1%cf%84%cf%81%ce%bf%cf%84%ce%b5%cf%87%ce%bd%ce%bf%ce%bb%ce%bf%ce%b3-14/",
+     "Wed, 21 Oct 2026 11:12:36 +0000"
+    ],
+    [
+     "Ανάκληση των παρτίδων P77755, N81918, N73767, του Ιατροτεχνολογικού προϊόντος κατηγορίας MDD Class IIa, TENAX ",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%84%cf%89%ce%bd-%cf%80%ce%b1%cf%81%cf%84%ce%af%ce%b4%cf%89%ce%bd-p77755-n81918-n73767-%cf%84%ce%bf%cf%85-%ce%b9%ce%b1%cf%84%cf%81%ce%bf%cf%84/",
+     "Thu, 15 Oct 2026 12:02:03 +0000"
+    ],
+    [
+     "Ανάκληση παρτίδας των προϊόντων «ΤΟΛΥΠΙΑ – Gauze balls» με REF 24-0415 και 24-0430",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%80%ce%b1%cf%81%cf%84%ce%af%ce%b4%ce%b1%cf%82-%cf%84%cf%89%ce%bd-%cf%80%cf%81%ce%bf%cf%8a%cf%8c%ce%bd%cf%84%cf%89%ce%bd-%cf%84%ce%bf%ce%bb/",
+     "Mon, 05 Oct 2026 06:23:02 +0000"
+    ],
+    [
+     "Ανάκληση των σειριακών αριθμών CDD408713V, CDD408712V των μη εμφυτευμένων ηλεκτροδίων απινίδωσης OmniaSecure M",
+     "https://www.eof.gr/%ce%b1%ce%bd%ce%ac%ce%ba%ce%bb%ce%b7%cf%83%ce%b7-%cf%84%cf%89%ce%bd-%cf%83%ce%b5%ce%b9%cf%81%ce%b9%ce%b1%ce%ba%cf%8e%ce%bd-%ce%b1%cf%81%ce%b9%ce%b8%ce%bc%cf%8e%ce%bd-cdd408713v-cdd408712v-%cf%84/",
+     "Wed, 30 Sep 2026 12:45:27 +0000"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "HU",
+  "agency": "NNGYK (ex-OGYÉI)",
+  "url": "https://nngyk.gov.hu/hu/tovabbi-hirek.html?format=feed&type=rss",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 39344,
+   "s": 1.6,
+   "n": 10,
+   "sample": [
+    [
+     "Tájékoztatás gyógyszerészeti honlapjaink átmeneti elérhetetlenségéről",
+     "https://nngyk.gov.hu/hu/tovabbi-hirek/tajekoztatas-gyogyszereszeti-honlapjaink-atmeneti-elerhetetlensegerol.html",
+     "Thu, 22 Oct 2026 14:17:41 +0200"
+    ],
+    [
+     "Gyógyszertárak nyitvatartása a hosszú hétvégén",
+     "https://nngyk.gov.hu/hu/tovabbi-hirek/gyogyszertarak-nyitvatartasa-a-hosszu-hetvegen.html",
+     "Thu, 22 Oct 2026 09:41:37 +0200"
+    ],
+    [
+     "A megelőzés a kezünkben van – október 15. a Kézmosás Világnapja",
+     "https://nngyk.gov.hu/hu/tovabbi-hirek/kezmosas.html",
+     "Thu, 15 Oct 2026 08:13:37 +0200"
+    ],
+    [
+     "NNGYK: Magyarországon engedélyezett a Triaxis feliratú oltóanyag",
+     "https://nngyk.gov.hu/hu/tovabbi-hirek/nngyk-magyarorszagon-engedelyezett-a-triaxis-feliratu-oltoanyag-2.html",
+     "Tue, 13 Oct 2026 14:16:47 +0200"
+    ],
+    [
+     "Az NNGYK főosztályvezetőjét nevezték ki az ECHA igazgatótanácsának elnökévé",
+     "https://nngyk.gov.hu/hu/tovabbi-hirek/a-magyar-tagot-neveztek-ki-az-echa-igazgatotanacsanak-elnokeve.html",
+     "Mon, 05 Oct 2026 07:45:36 +0200"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "IT",
+  "agency": "AIFA",
+  "url": "https://www.aifa.gov.it/o/feedrss/rss?structureId=93604&groupId=20142&companyId=20115&basePortalURL=https://www.aifa.gov.it&size=10&excludeCategoryId=104878&locale=it_IT",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml",
+   "len": 6768,
+   "s": 0.5,
+   "n": 10,
+   "sample": [
+    [
+     "Aggiornamento Registro di monitoraggio FABHALTA C3G",
+     "https://www.aifa.gov.it/-/aggiornamento-registro-di-monitoraggio-fabhalta-c3g",
+     "Wed, 28 Oct 2026 15:31:00 GMT"
+    ],
+    [
+     "Tabelle farmaci di classe A e H al 30/06/2026",
+     "https://www.aifa.gov.it/-/tabelle-farmaci-di-classe-a-e-h-al-30/06/2026",
+     "Mon, 26 Oct 2026 08:59:00 GMT"
+    ],
+    [
+     "Aggiornamento \"Diario di bordo sulla Trasparenza\"",
+     "https://www.aifa.gov.it/-/aggiornamento-diario-di-bordo-sulla-trasparenza-288",
+     "Fri, 23 Oct 2026 13:40:00 GMT"
+    ],
+    [
+     "Tipologie di procedimenti - aggiornamento sezione",
+     "https://www.aifa.gov.it/-/tipologie-di-procedimenti-aggiornamento-sezione-42",
+     "Fri, 23 Oct 2026 13:13:00 GMT"
+    ],
+    [
+     "Esiti runione Commissione Scientifica e Economica del Farmaco (CSE)",
+     "https://www.aifa.gov.it/-/esiti-cse",
+     "Fri, 23 Oct 2026 13:00:00 GMT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "IT",
+  "agency": "AIFA",
+  "url": "https://www.aifa.gov.it/o/feedrss/rss?structureId=93604&categoryId=104878&groupId=20142&companyId=20115&basePortalURL=https://www.aifa.gov.it&size=6&locale=it_IT",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml",
+   "len": 4999,
+   "s": 0.6,
+   "n": 6,
+   "sample": [
+    [
+     "AIFA a Genova: il valore dell’innovazione farmaceutica al centro del confronto con le Regioni",
+     "https://www.aifa.gov.it/-/aifa-genova-valore-innovazione-farmaceutica-al-centro-confronto-con-regioni",
+     "Fri, 16 Oct 2026 14:06:00 GMT"
+    ],
+    [
+     "Il CdA AIFA approva la rimborsabilità per un nuovo farmaco orfano, 6 estensioni di indicazione anche in ambito",
+     "https://www.aifa.gov.it/-/cda-aifa-approva-rimborsabilita-nuovo-farmaco-orfano-6-estensioni-indicazione-anche-in-ambito-pediatrico-e-3-equivalenti",
+     "Thu, 15 Oct 2026 15:35:00 GMT"
+    ],
+    [
+     "AIFA nella Piattaforma Digitale Nazionale Dati",
+     "https://www.aifa.gov.it/-/aifa-nella-piattaforma-digitale-nazionale-dati",
+     "Tue, 13 Oct 2026 14:41:00 GMT"
+    ],
+    [
+     "AIFA a Genova. Il 16 ottobre confronto sul valore dell’innovazione farmaceutica",
+     "https://www.aifa.gov.it/-/aifa-a-genova.-il-16-ottobre-confronto-sul-valore-dell-innovazione-farmaceutica",
+     "Thu, 01 Oct 2026 10:38:00 GMT"
+    ],
+    [
+     "Malattie rare, l’Europa a confronto su innovazione e accesso alle terapie",
+     "https://www.aifa.gov.it/-/malattie-rare-l-europa-a-confronto-su-innovazione-e-accesso-alle-terapie",
+     "Fri, 25 Sep 2026 12:08:00 GMT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "IT",
+  "agency": "AIFA",
+  "url": "https://www.aifa.gov.it/o/feedrss/rss?structureId=93604&groupId=20142&companyId=20115&basePortalURL=https://www.aifa.gov.it&size=10&excludeCategoryId=104878&locale=en_US",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml",
+   "len": 6630,
+   "s": 0.6,
+   "n": 10,
+   "sample": [
+    [
+     "Aggiornamento Registro di monitoraggio FABHALTA C3G",
+     "https://www.aifa.gov.it/-/aggiornamento-registro-di-monitoraggio-fabhalta-c3g",
+     "Wed, 28 Oct 2026 15:31:00 GMT"
+    ],
+    [
+     "List of class A and H medicinal products at 30 June 2026",
+     "https://www.aifa.gov.it/-/tabelle-farmaci-di-classe-a-e-h-al-30/06/2026",
+     "Mon, 26 Oct 2026 08:59:00 GMT"
+    ],
+    [
+     "Aggiornamento \"Diario di bordo sulla Trasparenza\"",
+     "https://www.aifa.gov.it/-/aggiornamento-diario-di-bordo-sulla-trasparenza-288",
+     "Fri, 23 Oct 2026 13:40:00 GMT"
+    ],
+    [
+     "Tipologie di procedimenti - aggiornamento sezione",
+     "https://www.aifa.gov.it/-/tipologie-di-procedimenti-aggiornamento-sezione-42",
+     "Fri, 23 Oct 2026 13:13:00 GMT"
+    ],
+    [
+     "Esiti runione Commissione Scientifica e Economica del Farmaco (CSE)",
+     "https://www.aifa.gov.it/-/esiti-cse",
+     "Fri, 23 Oct 2026 13:00:00 GMT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "NL",
+  "agency": "IGJ",
+  "url": "https://www.igj.nl/api/rss?query=%7B%22filters%22%3A%5B%7B%22field%22%3A%22information_type%22%2C%22values%22%3A%5B%22Waarschuwing%22%5D%2C%22type%22%3A%22all%22%7D%5D%2C%22resultSearchTerm%22%3A%22%22%7D",
+  "category": "enforcement",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/xml",
+   "len": 11825,
+   "s": 0.7,
+   "n": 20,
+   "sample": [
+    [
+     "Update Abbott Diabetes Care FreeStyle Libre 3 App",
+     "https://www.igj.nl/documenten/fsn-2026/10/28/abbott-diabetes-care-freestyle-libre-3-app-and-libre-app",
+     "Tue, 27 Oct 2026 23:00:00 GMT"
+    ],
+    [
+     "Lowenstein Medical Technology LUISA TIVAN LS Life One",
+     "https://www.igj.nl/documenten/fsn-2026/10/28/lowenstein-medical-technology-luisa-tivan-ls-life-one",
+     "Tue, 27 Oct 2026 23:00:00 GMT"
+    ],
+    [
+     "Merit Medical Systems Philips Bridge Balloon Prep Kit",
+     "https://www.igj.nl/documenten/fsn-2026/10/28/merit-medical-systems-philips-bridge-balloon-prep-kit",
+     "Tue, 27 Oct 2026 23:00:00 GMT"
+    ],
+    [
+     "Philips Medical Systems Nederland BV Lumify Diagnostic Ultrasound System",
+     "https://www.igj.nl/documenten/fsn-2026/10/26/philips-medical-systems-nederland-bv-lumify-diagnostic-ultrasound-system",
+     "Sun, 25 Oct 2026 23:00:00 GMT"
+    ],
+    [
+     "Abbott Diabetes Care Ltd FreeStyle Libre 3 App and Libre App",
+     "https://www.igj.nl/documenten/fsn-2026/10/22/abbott-diabetes-care-ltd-freestyle-libre-3-app-and-libre-app",
+     "Wed, 21 Oct 2026 22:00:00 GMT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "NL",
+  "agency": "IGJ",
+  "url": "https://toezichtdocumenten.igj.nl/api/rss",
+  "category": "enforcement",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "",
+   "len": 10430,
+   "s": 0.9,
+   "n": 20,
+   "sample": [
+    [
+     "Forta Groep Capelle aan den IJssel mei 2026",
+     "https://toezichtdocumenten.igj.nl/link/publicatie?publ=d0ce8920-cfcb-4cd8-b202-870bb29cc40c",
+     "10/28/2026 11:40:00"
+    ],
+    [
+     "Rivierduinen Leiden mei 2026",
+     "https://toezichtdocumenten.igj.nl/link/publicatie?publ=fef38808-4237-4d40-8f7e-41eeea7be43b",
+     "10/28/2026 11:35:00"
+    ],
+    [
+     "Stichtig Simpele Zorg Rotterdam september 2026",
+     "https://toezichtdocumenten.igj.nl/link/publicatie?publ=a9703a17-8da1-4355-aabf-401fba6b5e4b",
+     "10/28/2026 10:00:00"
+    ],
+    [
+     "Stichting Simpele Zorg Rotterdam aanwijzing oktober 2026",
+     "https://toezichtdocumenten.igj.nl/link/publicatie?publ=38e69ec4-8e00-4efb-9f49-a681f9a978f1",
+     "10/28/2026 10:00:00"
+    ],
+    [
+     "Centrafarm Services B.V. Breda september 2026",
+     "https://toezichtdocumenten.igj.nl/link/publicatie?publ=a3625b2f-e156-4d1c-9bd7-b8246e893859",
+     "10/28/2026 00:00:01"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "SK",
+  "agency": "ŠÚKL",
+  "url": "https://www.sukl.sk/sk/rss?page_id=1355&days=365",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/xml",
+   "len": 69448,
+   "s": 1.8,
+   "n": 85,
+   "sample": [
+    [
+     "Zmeny v oznamovaní prerušenia dodávok liekov",
+     "https://www.sukl.sk/pre-odbornikov-a-firmy/dostupnost-a-kvalita-liekov/dostupnost-liekov/zmeny-v-oznamovani-prerusenia-dodavok-liekov",
+     "Wed, 28 Oct 2026 13:24:29 +0100"
+    ],
+    [
+     "Informácia o aktualizácii tlačív určených na podanie žiadosti o prevod registrácie",
+     "https://www.sukl.sk/pre-odbornikov-a-firmy/registracia-humannych-liekov/doplnujuce-informacie-a-oznamy/informacia-o-aktualizacii-tlaciv-urcenych-na-podanie-ziadosti-o-prevod-registracie",
+     "Mon, 26 Oct 2026 14:56:28 +0100"
+    ],
+    [
+     "Aktualizácia: Niektoré IT služby ŠÚKL sú naďalej nedostupné",
+     "https://www.sukl.sk/pre-verejnost-pacientov-a-media/oznamy-a-upozornenia/aktualizacia-niektore-it-sluzby-sukl-su-nadalej-nedostupne",
+     "Thu, 22 Oct 2026 09:57:16 +0200"
+    ],
+    [
+     "EMA odporučila schválenie nového lieku Rasonque na metastatickú rakovinu pankreasu",
+     "https://www.sukl.sk/pre-verejnost-pacientov-a-media/pre-media/tlacove-spravy/ema-odporucila-schvalenie-noveho-lieku-rasonque-na-metastaticku-rakovinu-pankreasu",
+     "Tue, 20 Oct 2026 13:26:57 +0200"
+    ],
+    [
+     "Konferencia SARAP 2026: MODUL 2",
+     "https://www.sukl.sk/o-nas/podujatia-a-udalosti/konferencia-sarap-2026-modul-2",
+     "Mon, 19 Oct 2026 14:21:34 +0200"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "SK",
+  "agency": "ŠÚKL",
+  "url": "https://www.sukl.sk/sk/rss?page_id=1355&pid=208&days=365",
+  "category": "recalls",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/xml",
+   "len": 23288,
+   "s": 0.8,
+   "n": 32,
+   "sample": [
+    [
+     "Stiahnutie liekov Plenvu a  Moviprep z trhu",
+     "https://www.sukl.sk/pre-odbornikov-a-firmy/dostupnost-a-kvalita-liekov/kvalita-liekov/oznamy-o-stiahnuti-liekov/stiahnutie-liekov-plenvu-a-moviprep-ztrhu",
+     "Fri, 25 Sep 2026 15:14:37 +0200"
+    ],
+    [
+     "Stiahnutie lieku Tyverb 250 mg z trhu",
+     "https://www.sukl.sk/pre-odbornikov-a-firmy/dostupnost-a-kvalita-liekov/kvalita-liekov/oznamy-o-stiahnuti-liekov/stiahnutie-lieku-tyverb-250-mg-ztrhu",
+     "Thu, 10 Sep 2026 14:10:27 +0200"
+    ],
+    [
+     "Stiahnutie lieku Rowatinex z trhu",
+     "https://www.sukl.sk/pre-odbornikov-a-firmy/dostupnost-a-kvalita-liekov/kvalita-liekov/oznamy-o-stiahnuti-liekov/stiahnutie-lieku-rowatinex-ztrhu",
+     "Tue, 18 Aug 2026 14:42:46 +0200"
+    ],
+    [
+     "Stiahnutie lieku Fingolimod Zentiva z trhu",
+     "https://www.sukl.sk/pre-odbornikov-a-firmy/dostupnost-a-kvalita-liekov/kvalita-liekov/oznamy-o-stiahnuti-liekov/stiahnutie-lieku-fingolimod-zentiva-ztrhu",
+     "Tue, 18 Aug 2026 14:37:17 +0200"
+    ],
+    [
+     "Stiahnutie lieku Zoely z trhu",
+     "https://www.sukl.sk/pre-odbornikov-a-firmy/dostupnost-a-kvalita-liekov/kvalita-liekov/oznamy-o-stiahnuti-liekov/stiahnutie-lieku-zoely-ztrhu",
+     "Thu, 13 Aug 2026 15:08:12 +0200"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "SI",
+  "agency": "JAZMP",
+  "url": "https://www.jazmp.si/feed",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=UTF-8",
+   "len": 84686,
+   "s": 2.4,
+   "n": 100,
+   "sample": [
+    [
+     "Izšla deseta številka Farmakovigilančnega biltena",
+     "https://www.jazmp.si/2026/10/26/izsla-deseta-stevilka-farmakovigilancnega-biltena/",
+     "Mon, 26 Oct 2026 11:45:09 +0000"
+    ],
+    [
+     "Poudarki s seje odbora PRAC",
+     "https://www.jazmp.si/2026/10/23/poudarki-s-seje-odbora-prac-55/",
+     "Fri, 23 Oct 2026 10:25:08 +0000"
+    ],
+    [
+     "EMA priporoča Evropski komisiji odobritev zdravila Rasonque za zdravljenje metastatskega raka trebušne slinavk",
+     "https://www.jazmp.si/2026/10/19/ema-priporoca-evropski-komisiji-odobritev-zdravila-rasonque-za-zdravljenje-metastatskega-raka-trebusne-slinavke/",
+     "Mon, 19 Oct 2026 07:59:31 +0000"
+    ],
+    [
+     "VARNOSTNA OBVESTILA ZA MEDICINSKE PRIPOMOČKE – SEPTEMBER 2026",
+     "https://www.jazmp.si/2026/10/19/varnostna-obvestila-za-medicinske-pripomocke-september-2026/",
+     "Mon, 19 Oct 2026 07:18:27 +0000"
+    ],
+    [
+     "Strokovno priporočilo za prehod z zdravila Kreon 25 000 na zdravilo Panzynorm forte pri odraslih bolnikih",
+     "https://www.jazmp.si/2026/10/15/strokovno-priporocilo-za-prehod-z-zdravila-kreon-25-000-na-zdravilo-panzynorm-forte-pri-odraslih-bolnikih/",
+     "Thu, 15 Oct 2026 11:33:18 +0000"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "SE",
+  "agency": "Läkemedelsverket",
+  "url": "https://via.tt.se/rss/releases/latest?publisherId=3235477",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml; charset=utf-8",
+   "len": 22445,
+   "s": 0.6,
+   "n": 25,
+   "sample": [
+    [
+     "Läkemedelssnack i familjen ska lägga grunden för goda vanor",
+     "https://via.tt.se/pressmeddelande/4614887/lakemedelssnack-i-familjen-ska-lagga-grunden-for-goda-vanor?lang=sv",
+     "Mon, 26 Oct 2026 07:24:44 GMT"
+    ],
+    [
+     "Defekt tillverkningssats av den receptbelagda nässprayen Mometason Apofri återkallas",
+     "https://via.tt.se/pressmeddelande/4613415/defekt-tillverkningssats-av-den-receptbelagda-nassprayen-mometason-apofri-aterkallas?lang=sv",
+     "Fri, 23 Oct 2026 11:01:12 GMT"
+    ],
+    [
+     "EMA rekommenderar godkännande av läkemedlet Rasonque mot bukspottkörtelcancer",
+     "https://via.tt.se/pressmeddelande/4605649/ema-rekommenderar-godkannande-av-lakemedlet-rasonque-mot-bukspottkortelcancer?lang=sv",
+     "Tue, 20 Oct 2026 08:27:36 GMT"
+    ],
+    [
+     "Nytt kunskapsstöd för läkemedel vid infektioner hos nyfödda",
+     "https://via.tt.se/pressmeddelande/4603149/nytt-kunskapsstod-for-lakemedel-vid-infektioner-hos-nyfodda?lang=sv",
+     "Tue, 20 Oct 2026 06:00:00 GMT"
+    ],
+    [
+     "Kunskapsstöd för trygga beslut i vården ska nå fler",
+     "https://via.tt.se/pressmeddelande/4602493/kunskapsstod-for-trygga-beslut-i-varden-ska-na-fler?lang=sv",
+     "Mon, 19 Oct 2026 07:29:37 GMT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "IS",
+  "agency": "IMA (Lyfjastofnun)",
+  "url": "https://www.ima.is/frettir/feed/",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=UTF-8",
+   "len": 26281,
+   "s": 0.7,
+   "n": 10,
+   "sample": [
+    [
+     "We say goodbye to ima.is",
+     "https://www.ima.is/frettir/we-say-goodbye-to-ima-is/",
+     "Wed, 28 Oct 2026 14:47:06 +0000"
+    ],
+    [
+     "Transition of the Icelandic Medicines Agency’s Website in Full Swing",
+     "https://www.ima.is/frettir/transition-of-the-icelandic-medicines-agencys-website-in-full-swing/",
+     "Fri, 11 Sep 2026 11:59:00 +0000"
+    ],
+    [
+     "Minimum service from 20 July till 3 August",
+     "https://www.ima.is/frettir/minimum-service-from-20-july-till-3-august/",
+     "Thu, 18 Jun 2026 09:32:51 +0000"
+    ],
+    [
+     "A new tariff for fees has come into effect",
+     "https://www.ima.is/frettir/a-new-tariff-for-fees-has-come-into-effect/",
+     "Fri, 15 May 2026 13:43:48 +0000"
+    ],
+    [
+     "Nordic Pilot Project simplifies language requirements",
+     "https://www.ima.is/frettir/nordic-pilot-project-simplifies-language-requirements/",
+     "Fri, 05 Dec 2025 14:58:00 +0000"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "IS",
+  "agency": "IMA (Lyfjastofnun)",
+  "url": "https://www.lyfjastofnun.is/feed/",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=UTF-8",
+   "len": 3398,
+   "s": 0.9,
+   "n": 1,
+   "sample": [
+    [
+     "Zypadhera og Zypadhera (Lyfjaver)",
+     "https://www.lyfjastofnun.is/2025/07/zypadhera-og-zypadhera-lyfjaver/",
+     "Wed, 02 Jul 2025 10:46:09 +0000"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "EU",
+  "agency": "EMA",
+  "url": "https://www.ema.europa.eu/en/news.xml",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 13281,
+   "s": 0.2,
+   "n": 11,
+   "sample": [
+    [
+     "AMA and EMA issue joint guidance on Ebola vaccine development",
+     "https://www.ema.europa.eu/en/news/ama-ema-issue-joint-guidance-ebola-vaccine-development",
+     "Fri, 23 Oct 2026 11:41:01 +0200"
+    ],
+    [
+     "Meeting highlights from the Committee for Medicinal Products for Human Use (CHMP) 12-15 October 2026",
+     "https://www.ema.europa.eu/en/news/meeting-highlights-committee-medicinal-products-human-use-chmp-12-15-october-2026",
+     "Fri, 16 Oct 2026 12:00:00 +0200"
+    ],
+    [
+     "EMA recommends authorisation of Rasonque for metastatic pancreatic cancer",
+     "https://www.ema.europa.eu/en/news/ema-recommends-authorisation-rasonque-metastatic-pancreatic-cancer",
+     "Thu, 15 Oct 2026 15:30:00 +0200"
+    ],
+    [
+     "Meeting highlights from the Committee for Veterinary Medicinal Products (CVMP) 6-8 October 2026",
+     "https://www.ema.europa.eu/en/news/meeting-highlights-committee-veterinary-medicinal-products-cvmp-6-8-october-2026",
+     "Fri, 09 Oct 2026 15:30:00 +0200"
+    ],
+    [
+     "Clinical trial applications advice pilot becomes permanent",
+     "https://www.ema.europa.eu/en/news/clinical-trial-applications-advice-pilot-becomes-permanent",
+     "Thu, 08 Oct 2026 17:09:00 +0200"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "EU",
+  "agency": "EMA",
+  "url": "https://www.ema.europa.eu/en/whats-new.xml",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 364439,
+   "s": 0.1,
+   "n": 538,
+   "sample": [
+    [
+     "Quarterly System Demo - Q4 2026, Online, European Medicines Agency, Amsterdam, the Netherlands, Broadcast, fro",
+     "https://www.ema.europa.eu/en/events/quarterly-system-demo-q4-2026",
+     "Wed, 28 Oct 2026 16:45:00 +0100"
+    ],
+    [
+     "Veterinary medicines European public assessment report (EPAR): Cirbloc, porcine circovirus vaccine (inactivate",
+     "https://www.ema.europa.eu/en/medicines/veterinary/EPAR/cirbloc",
+     "Wed, 28 Oct 2026 16:20:00 +0100"
+    ],
+    [
+     "Notice to sponsors on validation and qualification of computerised systems used in clinical trials",
+     "https://www.ema.europa.eu/system/files/documents/regulatory-procedural-guideline/notice-sponsors_computerised-systems-clinical-trials_rev1-en.pdf",
+     "Wed, 28 Oct 2026 16:15:59 +0100"
+    ],
+    [
+     "Human medicines European public assessment report (EPAR): Dazparda, insulin aspart, Date of authorisation: 27/",
+     "https://www.ema.europa.eu/en/medicines/human/EPAR/dazparda",
+     "Wed, 28 Oct 2026 16:08:00 +0100"
+    ],
+    [
+     "Meeting of the Medicine Shortages Single Point of Contact (SPOC) Working Party, Online, from 7 December 2027, ",
+     "https://www.ema.europa.eu/en/events/meeting-medicine-shortages-single-point-contact-spoc-working-party-60",
+     "Wed, 28 Oct 2026 16:00:00 +0100"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "EU",
+  "agency": "EMA",
+  "url": "https://www.ema.europa.eu/en/new-human-medicine-new.xml",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 4458,
+   "s": 0.1,
+   "n": 6,
+   "sample": [
+    [
+     "Human medicines European public assessment report (EPAR): Fovlussea, ranibizumab, Ophthalmologicals, Status: O",
+     "https://www.ema.europa.eu/en/medicines/human/EPAR/fovlussea",
+     "Fri, 16 Oct 2026 12:00:00 +0200"
+    ],
+    [
+     "Human medicines European public assessment report (EPAR): Neuzafy, filgrastim, Status: Opinion",
+     "https://www.ema.europa.eu/en/medicines/human/EPAR/neuzafy",
+     "Fri, 16 Oct 2026 12:00:00 +0200"
+    ],
+    [
+     "Human medicines European public assessment report (EPAR): Foundayo, Orforglipron, Status: Opinion",
+     "https://www.ema.europa.eu/en/medicines/human/EPAR/foundayo",
+     "Fri, 16 Oct 2026 12:00:00 +0200"
+    ],
+    [
+     "Human medicines European public assessment report (EPAR): Kizfizo, temozolomide, Status: Opinion",
+     "https://www.ema.europa.eu/en/medicines/human/EPAR/kizfizo-0",
+     "Fri, 16 Oct 2026 12:00:00 +0200"
+    ],
+    [
+     "Human medicines European public assessment report (EPAR): Yuviwel, Navepegritide, Status: Opinion",
+     "https://www.ema.europa.eu/en/medicines/human/EPAR/yuviwel",
+     "Fri, 16 Oct 2026 12:00:00 +0200"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "EU",
+  "agency": "EMA",
+  "url": "https://www.ema.europa.eu/en/public-consultations.xml",
+  "category": "guidance",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 5672,
+   "s": 0.1,
+   "n": 6,
+   "sample": [
+    [
+     "Draft Data Quality Framework (DQF) for EU medicines regulation: application to collection, management and subm",
+     "https://www.ema.europa.eu/en/documents/regulatory-procedural-guideline/draft-data-quality-framework-dqf-eu-medicines-regulation-application-collection-management-submission-adverse-drug-reaction-reports_en.pdf",
+     "Mon, 19 Oct 2026 13:47:22 +0200"
+    ],
+    [
+     "Reflection paper on methodological aspects in confirmatory platform trials",
+     "https://www.ema.europa.eu/en/documents/scientific-guideline/reflection-paper-methodological-aspects-confirmatory-platform-trials_en.pdf",
+     "Mon, 19 Oct 2026 08:40:18 +0200"
+    ],
+    [
+     "Concept paper on the need for revision of the guideline on clinical investigation of medicinal products in the",
+     "https://www.ema.europa.eu/en/documents/scientific-guideline/concept-paper-need-revision-guideline-clinical-investigation-medicinal-products-treatment-hypertension-ema-chmp-29947-2013-rev4_en.pdf",
+     "Mon, 19 Oct 2026 08:15:03 +0200"
+    ],
+    [
+     "Concept paper on clinical trials in recipients of kidney transplantation",
+     "https://www.ema.europa.eu/en/documents/scientific-guideline/concept-paper-clinical-trials-recipients-kidney-transplantation_en.pdf",
+     "Fri, 16 Oct 2026 07:52:19 +0200"
+    ],
+    [
+     "Draft reflection paper on the investigation of drug interactions of herbal medicinal products",
+     "https://www.ema.europa.eu/en/documents/scientific-guideline/draft-reflection-paper-investigation-drug-interactions-herbal-medicinal-products_en.pdf",
+     "Thu, 15 Oct 2026 14:28:21 +0200"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "EU",
+  "agency": "EMA",
+  "url": "https://www.ema.europa.eu/en/regulatory-and-procedural-guideline.xml",
+  "category": "guidance",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 9743,
+   "s": 0.1,
+   "n": 10,
+   "sample": [
+    [
+     "Notice to sponsors on validation and qualification of computerised systems used in clinical trials",
+     "https://www.ema.europa.eu/en/documents/regulatory-procedural-guideline/notice-sponsors-validation-qualification-computerised-systems-used-clinical-trials_en.pdf",
+     "Wed, 28 Oct 2026 16:15:59 +0100"
+    ],
+    [
+     "Recommended submission dates for veterinary medicinal products",
+     "https://www.ema.europa.eu/en/documents/regulatory-procedural-guideline/recommended-submission-dates-veterinary-medicinal-products_en.pdf",
+     "Tue, 20 Oct 2026 09:48:00 +0200"
+    ],
+    [
+     "Draft Data Quality Framework (DQF) for EU medicines regulation: application to collection, management and subm",
+     "https://www.ema.europa.eu/en/documents/regulatory-procedural-guideline/draft-data-quality-framework-dqf-eu-medicines-regulation-application-collection-management-submission-adverse-drug-reaction-reports_en.pdf",
+     "Mon, 19 Oct 2026 13:47:22 +0200"
+    ],
+    [
+     "Methodological Principles for the Assessment of Section 5.1 of the Summary of Product Characteristics",
+     "https://www.ema.europa.eu/en/documents/regulatory-procedural-guideline/methodological-principles-assessment-section-51-summary-product-characteristics_en.pdf",
+     "Mon, 19 Oct 2026 07:59:29 +0200"
+    ],
+    [
+     "Questions and answers on the PIP compliance verification procedure at EMA, and on paediatric rewards",
+     "https://www.ema.europa.eu/en/documents/regulatory-procedural-guideline/questions-answers-pip-compliance-verification-procedure-ema-paediatric-rewards_en.pdf",
+     "Fri, 09 Oct 2026 15:54:00 +0200"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "EU",
+  "agency": "EMA",
+  "url": "https://www.ema.europa.eu/en/inspections.xml",
+  "category": "guidance",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 3783,
+   "s": 0.1,
+   "n": 4,
+   "sample": [
+    [
+     "Notice to sponsors on validation and qualification of computerised systems used in clinical trials",
+     "https://www.ema.europa.eu/system/files/documents/regulatory-procedural-guideline/notice-sponsors_computerised-systems-clinical-trials_rev1-en.pdf",
+     "Wed, 28 Oct 2026 16:15:59 +0100"
+    ],
+    [
+     "Guidance on good manufacturing practice and good distribution practice: Questions and answers",
+     "https://www.ema.europa.eu/en/human-regulatory-overview/research-development/compliance-research-development/good-manufacturing-practice/guidance-good-manufacturing-practice-good-distribution-practice-questions-answers",
+     "Wed, 21 Oct 2026 09:49:00 +0200"
+    ],
+    [
+     "Annual report of the Pharmacovigilance Inspectors Working Group for 2025",
+     "https://www.ema.europa.eu/system/files/documents/annual-report/annual-report-pharmacovigilance-inspectors-working-group-2025-en.pdf",
+     "Fri, 09 Oct 2026 16:16:02 +0200"
+    ],
+    [
+     "Questions and answers on the PIP compliance verification procedure at EMA, and on paediatric rewards",
+     "https://www.ema.europa.eu/system/files/documents/regulatory-procedural-guideline/questions-answers-procedure-pip-compliance-verification-en_0.pdf",
+     "Fri, 09 Oct 2026 15:54:00 +0200"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "EU",
+  "agency": "ACT EU",
+  "url": "https://accelerating-clinical-trials.europa.eu/node/2/rss_en",
+  "category": "clinical-trials",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 38381,
+   "s": 0.3,
+   "n": 29,
+   "sample": [
+    [
+     "Improving the use of clinical trial registry data: new paper",
+     "https://accelerating-clinical-trials.europa.eu/newsroom/news/improving-use-clinical-trial-registry-data-new-paper-2026-10-20_en",
+     "Tue, 20 Oct 2026 14:12:00 +0200"
+    ],
+    [
+     "Call for nominations: Multi-stakeholder Platform Advisory Group (2027-2029)",
+     "https://accelerating-clinical-trials.europa.eu/newsroom/news/call-nominations-multi-stakeholder-platform-advisory-group-2027-2029-2026-08-27_en",
+     "Fri, 18 Sep 2026 08:44:47 +0200"
+    ],
+    [
+     "EU tracks progress towards 2030 clinical trial targets",
+     "https://www.ema.europa.eu/en/news/eu-tracks-progress-towards-2030-clinical-trial-targets",
+     "Wed, 20 May 2026 12:31:15 +0200"
+    ],
+    [
+     "ACT EU workplan for 2026-2027 & updated objectives published",
+     "https://accelerating-clinical-trials.europa.eu/newsroom/news/act-eu-workplan-2026-2027-updated-objectives-published-2026-05-08_en",
+     "Mon, 18 May 2026 12:41:16 +0200"
+    ],
+    [
+     "New guidance on the conduct of clinical trials during public health emergencies in the EU",
+     "https://www.ema.europa.eu/en/news/new-guidance-conduct-clinical-trials-during-public-health-emergencies-eu",
+     "Thu, 05 Mar 2026 15:48:02 +0100"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "EU",
+  "agency": "European Commission DG SANTE",
+  "url": "https://health.ec.europa.eu/node/2/rss_en",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 34360,
+   "s": 0.4,
+   "n": 30,
+   "sample": [
+    [
+     "Minutes - SoHO Coordination Board (SCB) (29 September 2026)",
+     "https://health.ec.europa.eu/latest-updates/minutes-soho-coordination-board-scb-29-september-2026-2026-10-28_en",
+     "Wed, 28 Oct 2026 14:02:33 +0100"
+    ],
+    [
+     "Opinion of the Health Security Committee on mosquito-borne diseases",
+     "https://health.ec.europa.eu/latest-updates/opinion-health-security-committee-mosquito-borne-diseases-2026-10-28_en",
+     "Wed, 28 Oct 2026 12:05:25 +0100"
+    ],
+    [
+     "Climate change, public health preparedness and mosquito-borne diseases on the Health Security Committee Plenar",
+     "https://ec.europa.eu/newsroom/sante/newsletter-archives/80820",
+     "Wed, 28 Oct 2026 11:52:58 +0100"
+    ],
+    [
+     "Singapore added to the list of recognised third countries for importation of active substances",
+     "https://ec.europa.eu/newsroom/sante/newsletter-archives/80818",
+     "Wed, 28 Oct 2026 11:27:10 +0100"
+    ],
+    [
+     "Presentations and recording - EUHPP Live Webinar: Pollen season on the rise: are we ready for the next respira",
+     "https://health.ec.europa.eu/latest-updates/presentations-and-recording-euhpp-live-webinar-pollen-season-rise-are-we-ready-next-respiratory-2026-10-28_en",
+     "Wed, 28 Oct 2026 14:26:32 +0100"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "EU",
+  "agency": "European Commission (Union Register)",
+  "url": "https://ec.europa.eu/health/documents/community-register/html/rss/rss_status_h.rss",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 14773,
+   "s": 0.4,
+   "n": 23,
+   "sample": [
+    [
+     "GHRYVELIN (Atnahs Pharma Netherlands B.V.)",
+     "http://ec.europa.eu/health/documents/community-register/html/h1337.htm#proc171217",
+     "Fri, 16 Oct 2026 12:10:00 +0000"
+    ],
+    [
+     "ZINPLAVA (Merck Sharp & Dohme B.V.)",
+     "http://ec.europa.eu/health/documents/community-register/html/h1156.htm#proc170895",
+     "Mon, 28 Sep 2026 12:09:00 +0000"
+    ],
+    [
+     "Aumseqa (SFL Pharmaceuticals Deutschland GmbH)",
+     "http://ec.europa.eu/health/documents/community-register/html/h2006.htm#proc170796",
+     "Fri, 25 Sep 2026 12:09:00 +0000"
+    ],
+    [
+     "Cavoley (CuraTeQ Biologics s.r.o)",
+     "http://ec.europa.eu/health/documents/community-register/html/h2066.htm#proc170705",
+     "Fri, 25 Sep 2026 12:09:00 +0000"
+    ],
+    [
+     "Ibandronic Acid Teva (Teva B.V.)",
+     "http://ec.europa.eu/health/documents/community-register/html/h642.htm#proc170933",
+     "Mon, 21 Sep 2026 12:09:00 +0000"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FDA",
+  "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/recalls/rss.xml",
+  "category": "recalls",
+  "type": "rss",
+  "browser": {
+   "status": 404,
+   "ct": "",
+   "len": 10,
+   "s": 0.1
+  },
+  "honest": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 17958,
+   "s": 0.1,
+   "n": 20,
+   "sample": [
+    [
+     "Taylor Farms Issues Recall for H-E-B Backyard BBQ Chop Salad Kit Due to the Potential Undeclared Soy and Tree ",
+     "http://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/taylor-farms-issues-recall-h-e-b-backyard-bbq-chop-salad-kit-due-potential-undeclared-soy-and-tree",
+     "Tue, 27 Oct 2026 14:18:00 EDT"
+    ],
+    [
+     "HAIFA SMOKED FISH Recalls Cold Smoked Sprats Due to Potential Health Risk",
+     "http://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/haifa-smoked-fish-recalls-cold-smoked-sprats-due-potential-health-risk",
+     "Tue, 27 Oct 2026 11:15:00 EDT"
+    ],
+    [
+     "Tonight We Ride, LLC Issues Voluntary Recall of Ultimate Forza Male Supplement Due to Presence of Undeclared S",
+     "http://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/tonight-we-ride-llc-issues-voluntary-recall-ultimate-forza-male-supplement-due-presence-undeclared",
+     "Sat, 24 Oct 2026 14:23:00 EDT"
+    ],
+    [
+     "Natural Grocers Recalls Natural Grocers Brand Organic 2 Pound Mung Beans Due to Potential Presence of Foreign ",
+     "http://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/natural-grocers-recalls-natural-grocers-brand-organic-2-pound-mung-beans-due-potential-presence",
+     "Thu, 22 Oct 2026 18:59:00 EDT"
+    ],
+    [
+     "WinCo Foods LLC Issues Allergy Alert on Undeclared Sesame in Hoagie Rolls",
+     "http://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/winco-foods-llc-issues-allergy-alert-undeclared-sesame-hoagie-rolls",
+     "Thu, 22 Oct 2026 15:42:00 EDT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FDA CDER",
+  "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drug-recalls/rss.xml",
+  "category": "recalls",
+  "type": "rss",
+  "browser": {
+   "status": 404,
+   "ct": "",
+   "len": 10,
+   "s": 0.1
+  },
+  "honest": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 19729,
+   "s": 0.0,
+   "n": 20,
+   "sample": [
+    [
+     "Wedgewood Pharmacy Issues Recall of Certain Compounded Veterinary  Medications Within Expiry Due to Potential ",
+     "http://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/wedgewood-pharmacy-issues-recall-certain-compounded-veterinary-medications-within-expiry-due",
+     "Wed, 21 Oct 2026 16:24:00 EDT"
+    ],
+    [
+     "Par Health Issues Voluntary Nationwide Recall of Argatroban Injection Due to the Presence of Particulate Matte",
+     "http://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/par-health-issues-voluntary-nationwide-recall-argatroban-injection-due-presence-particulate-matter",
+     "Tue, 13 Oct 2026 10:52:00 EDT"
+    ],
+    [
+     "Par Health Issues Voluntary Nationwide Recall of Two Lots of Brevital® Sodium 500 mg/vial CIV (Methohexital So",
+     "http://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/par-health-issues-voluntary-nationwide-recall-two-lots-brevitalr-sodium-500-mgvial-civ-methohexital",
+     "Thu, 08 Oct 2026 11:08:00 EDT"
+    ],
+    [
+     "Greenwich Rx Issues Voluntary Nationwide Recall of Compounded Glutathione Due to Elevated Endotoxin Levels",
+     "http://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/greenwich-rx-issues-voluntary-nationwide-recall-compounded-glutathione-due-elevated-endotoxin-levels",
+     "Thu, 01 Oct 2026 17:35:00 EDT"
+    ],
+    [
+     "Par Health Issues Voluntary Nationwide Recall of Two Lots of Dexmedetomidine HCl in 0.9% Sodium Chloride Injec",
+     "http://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts/par-health-issues-voluntary-nationwide-recall-two-lots-dexmedetomidine-hcl-09-sodium-chloride",
+     "Fri, 18 Sep 2026 15:14:00 EDT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FDA CDER",
+  "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drugs/rss.xml",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 404,
+   "ct": "",
+   "len": 10,
+   "s": 0.1
+  },
+  "honest": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 12272,
+   "s": 0.1,
+   "n": 20,
+   "sample": [
+    [
+     "Questions and Answers: Reumofan Plus and Reumofan Plus Premium",
+     "http://www.fda.gov/drugs/medication-health-fraud/questions-and-answers-reumofan-plus-and-reumofan-plus-premium",
+     "Wed, 28 Oct 2026 13:04:56 EDT"
+    ],
+    [
+     "Rare Disease Framework",
+     "http://www.fda.gov/industry/fda-rare-disease-innovation-hub/rare-disease-framework",
+     "Wed, 28 Oct 2026 12:05:28 EDT"
+    ],
+    [
+     "Frequently Requested or Proactively Posted Compliance Records",
+     "http://www.fda.gov/drugs/cder-foia-electronic-reading-room/frequently-requested-or-proactively-posted-compliance-records",
+     "Wed, 28 Oct 2026 11:33:14 EDT"
+    ],
+    [
+     "Drug Approvals and Databases",
+     "http://www.fda.gov/drugs/development-approval-process-drugs/drug-approvals-and-databases",
+     "Wed, 28 Oct 2026 10:50:28 EDT"
+    ],
+    [
+     "21st Century Cures Act: MCM-Related Cures Provisions",
+     "http://www.fda.gov/emergency-preparedness-and-response/mcm-legal-regulatory-and-policy-framework/21st-century-cures-act-mcm-related-cures-provisions",
+     "Wed, 28 Oct 2026 10:44:02 EDT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FDA CBER",
+  "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/biologics/rss.xml",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 404,
+   "ct": "",
+   "len": 10,
+   "s": 0.1
+  },
+  "honest": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 13732,
+   "s": 0.1,
+   "n": 20,
+   "sample": [
+    [
+     "Rare Disease Framework",
+     "http://www.fda.gov/industry/fda-rare-disease-innovation-hub/rare-disease-framework",
+     "Wed, 28 Oct 2026 12:05:28 EDT"
+    ],
+    [
+     "Tropical Disease Priority Review Vouchers",
+     "http://www.fda.gov/regulatory-information/search-fda-guidance-documents/tropical-disease-priority-review-vouchers",
+     "Wed, 28 Oct 2026 09:42:08 EDT"
+    ],
+    [
+     "Drugs@FDA Data Files",
+     "http://www.fda.gov/drugs/drug-approvals-and-databases/drugsfda-data-files",
+     "Wed, 28 Oct 2026 09:15:03 EDT"
+    ],
+    [
+     "Manual of Compliance Policy Guides",
+     "http://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/compliance-manuals/manual-compliance-policy-guides",
+     "Tue, 27 Oct 2026 14:04:58 EDT"
+    ],
+    [
+     "What’s New for Biologics",
+     "http://www.fda.gov/vaccines-blood-biologics/news-events-biologics/whats-new-biologics",
+     "Tue, 27 Oct 2026 12:14:43 EDT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FDA CDRH",
+  "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfRES/res-rss.cfm",
+  "category": "recalls",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/html",
+   "len": 1320,
+   "s": 0.2,
+   "n": 0,
+   "sample": []
+  },
+  "honest": {
+   "status": 200,
+   "ct": "text/html",
+   "len": 1320,
+   "s": 0.1,
+   "n": 0,
+   "sample": []
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FDA CDRH",
+  "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn-rss.cfm",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "text/xml;charset=UTF-8",
+   "len": 195771,
+   "s": 0.1,
+   "n": 509,
+   "sample": [
+    [
+     "510(k) No: K253065 - Decision: Substantially Equivalent",
+     "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMN/pmn.cfm?ID=K253065",
+     "Wed, 02 Sep  2026 04:00:00 GMT"
+    ],
+    [
+     "510(k) No: K261311 - Decision: Substantially Equivalent",
+     "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMN/pmn.cfm?ID=K261311",
+     "Wed, 02 Sep  2026 04:00:00 GMT"
+    ],
+    [
+     "510(k) No: K262809 - Decision: Substantially Equivalent",
+     "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMN/pmn.cfm?ID=K262809",
+     "Wed, 02 Sep  2026 04:00:00 GMT"
+    ],
+    [
+     "510(k) No: K261749 - Decision: Substantially Equivalent",
+     "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMN/pmn.cfm?ID=K261749",
+     "Wed, 02 Sep  2026 04:00:00 GMT"
+    ],
+    [
+     "510(k) No: K262364 - Decision: Substantially Equivalent",
+     "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMN/pmn.cfm?ID=K262364",
+     "Wed, 02 Sep  2026 04:00:00 GMT"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FDA OCI",
+  "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/oci-press-releases/rss.xml",
+  "category": "enforcement",
+  "type": "rss",
+  "browser": {
+   "status": 404,
+   "ct": "",
+   "len": 10,
+   "s": 0.1
+  },
+  "honest": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 15398,
+   "s": 0.1,
+   "n": 20,
+   "sample": [
+    [
+     "DOJ Press releases at OCI (Prior Years)",
+     "http://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/doj-press-releases-involving-fda-oci/doj-press-releases-oci-prior-years",
+     "Wed, 21 May 2025 10:59:47 EDT"
+    ],
+    [
+     "Indian National Sentenced for Conspiracy to Distribute Controlled Substances",
+     "http://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/doj-press-releases-involving-fda-oci/indian-national-sentenced-conspiracy-distribute-controlled-substances",
+     "Thu, 06 Feb 2025 15:01:01 EST"
+    ],
+    [
+     "California Man Sentenced for Selling Unapproved Drugs with Intent to Defraud over the Internet",
+     "http://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/doj-press-releases-involving-fda-oci/california-man-sentenced-selling-unapproved-drugs-intent-defraud-over-internet",
+     "Thu, 06 Feb 2025 14:58:03 EST"
+    ],
+    [
+     "Michigan Man Charged with Drug Distribution and Loan Fraud",
+     "http://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/doj-press-releases-involving-fda-oci/michigan-man-charged-drug-distribution-and-loan-fraud",
+     "Thu, 06 Feb 2025 14:32:49 EST"
+    ],
+    [
+     "Hell’s Kitchen Aesthetician Arrested For Unlawfully Injecting Counterfeit Botox",
+     "http://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/doj-press-releases-involving-fda-oci/hells-kitchen-aesthetician-arrested-unlawfully-injecting-counterfeit-botox",
+     "Thu, 06 Feb 2025 14:00:28 EST"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FDA (openFDA)",
+  "url": "https://api.fda.gov/drug/enforcement.json?sort=report_date:desc&limit=100",
+  "category": "recalls",
+  "type": "json",
+  "browser": {
+   "status": 200,
+   "ct": "application/json; charset=utf-8",
+   "len": 199090,
+   "s": 0.7,
+   "n": 100,
+   "sample": "[{\"status\": \"Ongoing\", \"city\": \"Houston\", \"state\": \"TX\", \"country\": \"United States\", \"classification\": \"Class II\", \"openfda\": {}, \"product_type\": \"Drugs\", \"event_id\": \"99990\", \"recalling_firm\": \"Houston Rx LLC\", \"address_1\": \"15340 Vantage Pkwy E Ste 220\", \"address_2\": \"\", \"postal_code\": \"77032-1901\", \"voluntary_mandated\": \"Voluntary: Firm initiated\", \"initial_firm_notification\": \"Two or more of the following: Email, Fax, Letter, Press Release, Telephone, Visit\", \"distribution_pattern\": \"Nationwide in the USA.\", \"recall_number\": \"D-0041-2027\", \"product_description\": \"Sermorelin, 1 mg/mL, 10 ml"
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FDA (openFDA)",
+  "url": "https://api.fda.gov/drug/shortages.json?sort=update_date:desc&limit=100",
+  "category": "shortages",
+  "type": "json",
+  "browser": {
+   "status": 200,
+   "ct": "application/json; charset=utf-8",
+   "len": 182841,
+   "s": 0.5,
+   "n": 100,
+   "sample": "[{\"update_type\": \"Reverified\", \"initial_posting_date\": \"02/20/2018\", \"package_ndc\": \"70069-752-25\", \"generic_name\": \"Bupivacaine Hydrochloride Injection\", \"contact_info\": \"732-554-1037\", \"availability\": \"Available\", \"openfda\": {\"application_number\": [\"ANDA217792\"], \"brand_name\": [\"BUPIVACAINE HYDROCHLORIDE\"], \"generic_name\": [\"BUPIVACAINE HYDROCHLORIDE\"], \"manufacturer_name\": [\"Somerset Therapeutics, LLC\"], \"product_ndc\": [\"70069-752\", \"70069-753\"], \"product_type\": [\"HUMAN PRESCRIPTION DRUG\"], \"route\": [\"INFILTRATION\", \"PERINEURAL\"], \"substance_name\": [\"BUPIVACAINE HYDROCHLORIDE\"], \"rxcui\": [\""
+  }
+ },
+ {
+  "country": "US",
+  "agency": "CMS",
+  "url": "https://www.cms.gov/newsroom/rss-feeds",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 15075,
+   "s": 0.2,
+   "n": 10,
+   "sample": [
+    [
+     "<a href=\"https://www.cms.gov/newsroom/press-releases/trump-administration-announces-nearly-186-million-expand-",
+     "https://www.cms.gov/%3Ca%20href%3D%22/newsroom/press-releases/trump-administration-announces-nearly-186-million-expand-rural-healthcare-access-modernize%22%20hreflang%3D%22en%22%3ETrump%20Administration%20Announces%20Nearly%20%24186%20Million%20to%20Expand%20Rural%20Healthcare%20Access%2C%20Modernize%20Technology%2C%20and%20Grow%20the%20Healthcare%20Workforce%20Across%20Idaho%3C/a%3E",
+     "Wed, 10/28/2026 - 08:28"
+    ],
+    [
+     "<a href=\"https://www.cms.gov/newsroom/press-releases/trump-administration-announces-nearly-219-million-expand-",
+     "https://www.cms.gov/%3Ca%20href%3D%22/newsroom/press-releases/trump-administration-announces-nearly-219-million-expand-rural-healthcare-workforce-advance%22%20hreflang%3D%22en%22%3ETrump%20Administration%20Announces%20Nearly%20%24219%20Million%20to%20Expand%20the%20Rural%20Healthcare%20Workforce%20and%20Advance%20Technology-Enabled%20Care%20Across%20Georgia%3C/a%3E",
+     "Fri, 10/23/2026 - 08:28"
+    ],
+    [
+     "<a href=\"https://www.cms.gov/newsroom/press-releases/cms-states-launch-275-million-initiative-recruit-retain-n",
+     "https://www.cms.gov/%3Ca%20href%3D%22/newsroom/press-releases/cms-states-launch-275-million-initiative-recruit-retain-nurses-nursing-homes%22%20hreflang%3D%22en%22%3ECMS%20and%20States%20Launch%20%24275%20Million%20Initiative%20to%20Recruit%20and%20Retain%20Nurses%20in%20Nursing%20Homes%20%3C/a%3E",
+     "Fri, 10/23/2026 - 16:33"
+    ],
+    [
+     "<a href=\"https://www.cms.gov/newsroom/press-releases/trump-administration-announces-more-193-million-expand-pr",
+     "https://www.cms.gov/%3Ca%20href%3D%22/newsroom/press-releases/trump-administration-announces-more-193-million-expand-preventive-care-bring-specialty-care-closer%22%20hreflang%3D%22en%22%3ETrump%20Administration%20Announces%20More%20Than%20%24193%20Million%20to%20Expand%20Preventive%20Care%20and%20Bring%20Specialty%20Care%20Closer%20to%20Rural%20Florida%3C/a%3E",
+     "Fri, 10/23/2026 - 12:01"
+    ],
+    [
+     "<a href=\"https://www.cms.gov/newsroom/press-releases/cms-proposes-new-verification-requirements-implement-law-",
+     "https://www.cms.gov/%3Ca%20href%3D%22/newsroom/press-releases/cms-proposes-new-verification-requirements-implement-law-combats-exchange-fraud-protects-taxpayer%22%20hreflang%3D%22en%22%3ECMS%20Proposes%20New%20Verification%20Requirements%20to%20Implement%20Law%20that%20Combats%20Exchange%20Fraud%20and%20Protects%20Taxpayer%20Dollars%3C/a%3E",
+     "Fri, 10/23/2026 - 16:37"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "NIH",
+  "url": "https://www.nih.gov/news-releases/feed.xml",
+  "category": "news",
+  "type": "rss",
+  "browser": {
+   "status": 403,
+   "ct": "text/html; charset=UTF-8",
+   "len": 5482,
+   "s": 0.1
+  },
+  "honest": {
+   "status": 403,
+   "ct": "text/html; charset=UTF-8",
+   "len": 5482,
+   "s": 0.1
+  }
+ },
+ {
+  "country": "US",
+  "agency": "ClinicalTrials.gov",
+  "url": "https://clinicaltrials.gov/api/v2/studies?sort=StudyFirstPostDate:desc&pageSize=100&fields=NCTId,BriefTitle,StudyFirstPostDate,OverallStatus,Condition,LeadSponsorName",
+  "category": "clinical-trials",
+  "type": "json",
+  "browser": {
+   "status": 200,
+   "ct": "application/json",
+   "len": 46708,
+   "s": 0.2,
+   "n": 0,
+   "sample": "[]"
+  },
+  "honest": {
+   "status": 200,
+   "ct": "application/json",
+   "len": 46708,
+   "s": 0.1,
+   "n": 0,
+   "sample": "[]"
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FTC",
+  "url": "https://www.ftc.gov/feeds/press-release-competition.xml",
+  "category": "enforcement",
+  "type": "rss",
+  "browser": {
+   "status": 404,
+   "ct": "text/html",
+   "len": 1301,
+   "s": 0.2
+  },
+  "honest": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 128354,
+   "s": 0.5,
+   "n": 30,
+   "sample": [
+    [
+     "FTC Bureau of Competition Statement on Termination of PlayPower’s Acquisition of Rival Playground Manufacturer",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-bureau-competition-statement-termination-playpowers-acquisition-rival-playground-manufacturer",
+     "Tue, 27 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "FTC Sues to Block PlayPower’s Acquisition of Rival Playground Manufacturer Burke",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-sues-block-playpowers-acquisition-rival-playground-manufacturer-burke",
+     "Mon, 19 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "FTC Order Preserves Competition in Digital Advertising Ecosystem as Part of Publicis’s Acquisition of LiveRamp",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-order-preserves-competition-digital-advertising-ecosystem-part-publiciss-acquisition-liveramp",
+     "Mon, 19 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "FTC, States Ask Federal Court to Hold Martin Shkreli in Contempt for Allegedly Violating Lifetime Ban from Pha",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-states-ask-federal-court-hold-martin-shkreli-contempt-allegedly-violating-lifetime",
+     "Tue, 13 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "FTC Secures Fair Pricing Protections by Taking Action Against Major Wholesale T-Shirt Distributors",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-secures-fair-pricing-protections-taking-action-against-major-wholesale-t-shirt-distributors",
+     "Thu, 08 Oct 2026 08:00:00 -0400"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FTC",
+  "url": "https://www.ftc.gov/feeds/press-release-consumer-protection.xml",
+  "category": "enforcement",
+  "type": "rss",
+  "browser": {
+   "status": 404,
+   "ct": "text/html",
+   "len": 1301,
+   "s": 0.0
+  },
+  "honest": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 150774,
+   "s": 0.3,
+   "n": 30,
+   "sample": [
+    [
+     "FTC and State Partners Sue Dollar General for Charging Consumers More than Advertised for Many Products",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-state-partners-sue-dollar-general-charging-consumers-more-advertised-many-products",
+     "Mon, 26 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "FTC Sues Perpetrators of Government Impersonation Scheme Over Deceptive Ads, Misleading Promises and Fake Revi",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-sues-perpetrators-government-impersonation-scheme-over-deceptive-ads-misleading-promises-fake",
+     "Thu, 22 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "Court Permanently Shuts Down Illegal Debt Relief Operation Following FTC Allegation That Scheme’s Operators Im",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/court-permanently-shuts-down-illegal-debt-relief-operation-following-ftc-allegation-schemes",
+     "Thu, 22 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "FTC Issues Annual Report to Congress on Agency’s Actions to Protect Older Adults",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-issues-annual-report-congress-agencys-actions-protect-older-adults",
+     "Mon, 19 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "FTC Sends More than $9.8 Million to Consumers Harmed by Walmart’s Failure to Stop Scammers that Used its Wire ",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-sends-more-98-million-consumers-harmed-walmarts-failure-stop-scammers-used-its-wire-transfer",
+     "Thu, 15 Oct 2026 08:00:00 -0400"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "FTC",
+  "url": "https://www.ftc.gov/feeds/press-release.xml",
+  "category": "enforcement",
+  "type": "rss",
+  "browser": {
+   "status": 404,
+   "ct": "text/html",
+   "len": 1301,
+   "s": 0.0
+  },
+  "honest": {
+   "status": 200,
+   "ct": "application/rss+xml; charset=utf-8",
+   "len": 11709,
+   "s": 0.1,
+   "n": 10,
+   "sample": [
+    [
+     "FTC Bureau of Competition Statement on Termination of PlayPower’s Acquisition of Rival Playground Manufacturer",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-bureau-competition-statement-termination-playpowers-acquisition-rival-playground-manufacturer",
+     "Tue, 27 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "FTC and State Partners Sue Dollar General for Charging Consumers More than Advertised for Many Products",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-state-partners-sue-dollar-general-charging-consumers-more-advertised-many-products",
+     "Mon, 26 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "FTC Sues Perpetrators of Government Impersonation Scheme Over Deceptive Ads, Misleading Promises and Fake Revi",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-sues-perpetrators-government-impersonation-scheme-over-deceptive-ads-misleading-promises-fake",
+     "Thu, 22 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "Court Permanently Shuts Down Illegal Debt Relief Operation Following FTC Allegation That Scheme’s Operators Im",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/court-permanently-shuts-down-illegal-debt-relief-operation-following-ftc-allegation-schemes",
+     "Thu, 22 Oct 2026 08:00:00 -0400"
+    ],
+    [
+     "FTC Issues Annual Report to Congress on Agency’s Actions to Protect Older Adults",
+     "https://www.ftc.gov/news-events/news/press-releases/2026/10/ftc-issues-annual-report-congress-agencys-actions-protect-older-adults",
+     "Mon, 19 Oct 2026 08:00:00 -0400"
+    ]
+   ]
+  }
+ },
+ {
+  "country": "US",
+  "agency": "DEA Diversion",
+  "url": "https://www.federalregister.gov/api/v1/documents.json?conditions[agencies][]=drug-enforcement-administration&order=newest&per_page=50",
+  "category": "enforcement",
+  "type": "json",
+  "browser": {
+   "status": 200,
+   "ct": "application/json; charset=utf-8",
+   "len": 71719,
+   "s": 0.2,
+   "n": 50,
+   "sample": "[{\"title\": \"Vida Janson, M.D.; Decision and Order\", \"type\": \"Notice\", \"abstract\": null, \"document_number\": \"2026-21799\", \"html_url\": \"https://www.federalregister.gov/documents/2026/10/26/2026-21799/vida-janson-md-decision-and-order\", \"pdf_url\": \"https://www.govinfo.gov/content/pkg/FR-2026-10-26/pdf/2026-21799.pdf\", \"public_inspection_pdf_url\": \"https://public-inspection.federalregister.gov/2026-21799.pdf?1792759518\", \"publication_date\": \"2026-10-26\", \"agencies\": [{\"raw_name\": \"DEPARTMENT OF JUSTICE\", \"name\": \"Justice Department\", \"id\": 268, \"url\": \"https://www.federalregister.gov/agencies/just"
+  }
+ }
+]
