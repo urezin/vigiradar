@@ -1,0 +1,609 @@
+{
+ "started": "2026-10-28T15:41:44Z",
+ "results": {
+  "ema_medicines": {
+   "drugs": 2357,
+   "milestones": 231,
+   "statuses": {
+    "Authorised": 1566,
+    "Withdrawn": 372,
+    "Opinion": 28,
+    "Application withdrawn": 268,
+    "Refused": 65,
+    "Revoked": 10,
+    "Suspended": 1,
+    "Opinion under re-examination": 1,
+    "Lapsed": 27,
+    "Expired": 17,
+    "Withdrawn from rolling review": 2
+   },
+   "seconds": 4.1
+  },
+  "ema_referrals": {
+   "milestones": 16,
+   "seconds": 0.5
+  },
+  "ema_dhpc": {
+   "milestones": 22,
+   "seconds": 0.7
+  },
+  "ema_shortages": {
+   "milestones": 32,
+   "seconds": 0.3
+  },
+  "fda_approvals": {
+   "drugs": 153,
+   "milestones": 153,
+   "seconds": 4.8
+  },
+  "fda_adcomm": {
+   "notices": 8,
+   "milestones": 8,
+   "seconds": 0.1
+  },
+  "sec_pdufa": {
+   "hits": 400,
+   "processed": 250,
+   "found": 197,
+   "skipped_seen": 0,
+   "errors": [],
+   "seconds": 99.1
+  }
+ },
+ "counts": {
+  "drugs": {
+   "EU": 2357,
+   "US": 153
+  },
+  "milestones": {
+   "adcomm": 8,
+   "chmp_opinion_neg": 8,
+   "chmp_opinion_pos": 95,
+   "dhpc": 22,
+   "ec_decision": 86,
+   "ec_expected": 26,
+   "eu_refusal": 6,
+   "eu_withdrawal": 10,
+   "fda_approval": 153,
+   "pdufa": 129,
+   "prac_recommendation": 1,
+   "referral_ec": 4,
+   "referral_opinion": 7,
+   "referral_start": 4,
+   "shortage": 32
+  }
+ },
+ "samples": {
+  "pdufa": {
+   "total": 129,
+   "future": 56,
+   "sample_future": [
+    {
+     "date": "2026-10-30",
+     "title": "INO-3107: PDUFA target action date",
+     "detail": "Inovio Pharmaceuticals, Inc. (INO); filed 2026-08-12",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1055726/000105572626000024/ino-63026x8kex991.htm"
+    },
+    {
+     "date": "2026-10-30",
+     "title": "Product: PDUFA target action date",
+     "detail": "Inovio Pharmaceuticals, Inc. (INO); filed 2026-03-12",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1055726/000105572626000009/ino-123125x8kex991.htm"
+    },
+    {
+     "date": "2026-11-01",
+     "title": "AG-236: PDUFA target action date",
+     "detail": "Agios Pharmaceuticals, Inc. (AGIO); filed 2026-07-30",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922226000115/agio-73026xfyxex991earning.htm"
+    },
+    {
+     "date": "2026-11-01",
+     "title": "Product: PDUFA target action date",
+     "detail": "Agios Pharmaceuticals, Inc. (AGIO); filed 2026-07-30",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922226000115/agio-73026xfyxex991earning.htm"
+    },
+    {
+     "date": "2026-11-14",
+     "title": "osimertinib: PDUFA target action date",
+     "detail": "Summit Therapeutics Inc. (SMMT); filed 2026-09-29",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1599298/000119312526405776/d178892dex991.htm"
+    },
+    {
+     "date": "2026-11-14",
+     "title": "Product: PDUFA target action date",
+     "detail": "Summit Therapeutics Inc. (SMMT); filed 2026-09-15",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1599298/000159929826000081/a2026_prx0915xharmoniltf.htm"
+    },
+    {
+     "date": "2026-11-14",
+     "title": "ivonescimab: PDUFA target action date",
+     "detail": "Summit Therapeutics Inc. (SMMT); filed 2026-07-23",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1599298/000159929826000067/a2026_prx0723xq22026earn.htm"
+    },
+    {
+     "date": "2026-11-14",
+     "title": "Product: PDUFA target action date",
+     "detail": "Bioxcel Therapeutics, Inc. (BTAI); filed 2026-05-15",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1720893/000110465926061773/tm2614679d1_ex99-1.htm"
+    },
+    {
+     "date": "2026-11-14",
+     "title": "Product: PDUFA target action date",
+     "detail": "Cytokinetics Inc (CYTK); filed 2026-05-05",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1061983/000119312526206420/d124879dex991.htm"
+    },
+    {
+     "date": "2026-11-27",
+     "title": "BBP-418: PDUFA target action date",
+     "detail": "Bridgebio Pharma, Inc. (BBIO); filed 2026-08-10",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1743881/000174388126000026/bbio-20260630xex991.htm"
+    },
+    {
+     "date": "2026-11-27",
+     "title": "zidesamtinib: PDUFA target action date",
+     "detail": "Royalty Pharma Plc (RPRX); filed 2026-08-05",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1802768/000180276826000014/rprx-20260630rpplcpressxre.htm"
+    },
+    {
+     "date": "2026-11-30",
+     "title": "Product: PDUFA target action date",
+     "detail": "Zai Lab Ltd (ZLAB); filed 2026-08-06",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1704292/000162828026053791/zlab-202686x8kex991.htm"
+    }
+   ],
+   "sample_recent": [
+    {
+     "date": "2027-05-27",
+     "title": "obexelimab: PDUFA target action date",
+     "detail": "Zenas Biopharma, Inc. (ZBIO); filed 2026-08-13"
+    },
+    {
+     "date": "2027-05-13",
+     "title": "Product: PDUFA target action date",
+     "detail": "Bristol Myers Squibb Co (BMY); filed 2026-07-30"
+    },
+    {
+     "date": "2027-05-08",
+     "title": "Product: PDUFA target action date",
+     "detail": "Bridgebio Pharma, Inc. (BBIO); filed 2026-08-10"
+    },
+    {
+     "date": "2027-05-07",
+     "title": "Attruby: PDUFA target action date",
+     "detail": "Bridgebio Pharma, Inc. (BBIO); filed 2026-08-31"
+    },
+    {
+     "date": "2027-05-01",
+     "title": "AXS-14: PDUFA target action date",
+     "detail": "Axsome Therapeutics, Inc. (AXSM); filed 2026-08-10"
+    },
+    {
+     "date": "2027-05-01",
+     "title": "AXS-05: PDUFA target action date",
+     "detail": "Axsome Therapeutics, Inc. (AXSM); filed 2026-08-10"
+    }
+   ]
+  },
+  "adcomm": {
+   "total": 8,
+   "future": 2,
+   "sample_future": [
+    {
+     "date": "2026-10-30",
+     "title": "Dermatologic and Ophthalmic Drugs Advisory Committee",
+     "detail": "The Food and Drug Administration (FDA) announces a forthcoming public advisory committee meeting of the Dermatologic and Ophthalmic Drugs Advisory Committee (the Committee). The general function of the Committee is to provide advice and recommendations to FDA on regulatory issues. The meeting will be open to the public. FDA is establishing a docket for public comment on this document.",
+     "source_url": "https://www.federalregister.gov/documents/2026/09/25/2026-19700/dermatologic-and-ophthalmic-drugs-advisory-committee-notice-of-meeting-establishment-of-a-public"
+    },
+    {
+     "date": "2026-11-19",
+     "title": "Microbiology Devices Panel of the Medical Devices Advisory Committee",
+     "detail": "The Food and Drug Administration (FDA) announces a forthcoming public advisory committee meeting of the Microbiology Devices Panel of the Medical Devices Advisory Committee (the Committee). The general function of the Committee is to provide advice and recommendations to FDA. In addition, the Committee will meet to discuss and provide advice to FDA on examining the scientific, clinical, and public health dimensions of the use of pathogen-agnostic sequencing as it relates to emergency preparedness and response efforts, and to support discussion of opportunities, implementation considerations, a",
+     "source_url": "https://www.federalregister.gov/documents/2026/09/16/2026-18920/microbiology-devices-panel-of-the-medical-devices-advisory-committee-notice-of-meeting-establishment"
+    }
+   ],
+   "sample_recent": [
+    {
+     "date": "2026-11-19",
+     "title": "Microbiology Devices Panel of the Medical Devices Advisory Committee",
+     "detail": "The Food and Drug Administration (FDA) announces a forthcoming public advisory committee meeting of the Microbiology Devices Panel of the Medical Devices Advisory Committee (the Committee). The general function of the Committee is to provide advice and recommendations to FDA. In addition, the Committee will meet to discuss and provide advice to FDA on examining the scientific, clinical, and public health dimensions of the use of pathogen-agnostic sequencing as it relates to emergency preparedness and response efforts, and to support discussion of opportunities, implementation considerations, a"
+    },
+    {
+     "date": "2026-10-30",
+     "title": "Dermatologic and Ophthalmic Drugs Advisory Committee",
+     "detail": "The Food and Drug Administration (FDA) announces a forthcoming public advisory committee meeting of the Dermatologic and Ophthalmic Drugs Advisory Committee (the Committee). The general function of the Committee is to provide advice and recommendations to FDA on regulatory issues. The meeting will be open to the public. FDA is establishing a docket for public comment on this document."
+    },
+    {
+     "date": "2026-10-01",
+     "title": "Vaccines and Related Biological Products Advisory Committee",
+     "detail": "The Food and Drug Administration (FDA) announces a forthcoming public advisory committee meeting of the Vaccines and Related Biological Products Advisory Committee (the Committee). The general function of the Committee is to provide advice and recommendations to FDA on regulatory issues. The meeting will be open to the public. FDA is establishing a docket for public comment on this document."
+    },
+    {
+     "date": "2026-09-23",
+     "title": "Molecular and Clinical Genetics Panel of the Medical Devices Advisory Committee",
+     "detail": "The Food and Drug Administration (FDA) announces a forthcoming public advisory committee meeting of the Molecular and Clinical Genetics Panel of the Medical Devices Advisory Committee (the Committee). The general function of the Committee is to provide advice and recommendations to FDA. The meeting will be open to the public. FDA is establishing a docket for public comment."
+    },
+    {
+     "date": "2026-09-16",
+     "title": "Pediatric Advisory Committee (PAC)",
+     "detail": "The Food and Drug Administration (FDA or the Agency) announces a forthcoming public advisory committee meeting of the Pediatric Advisory Committee (PAC). The general function of the committee is to provide advice and recommendations to FDA on pediatric regulatory issues. The meeting will be open to the public. FDA is establishing a docket for public comment on this document."
+    },
+    {
+     "date": "2026-07-30",
+     "title": "Cellular, Tissue, and Gene Therapies Advisory Committee",
+     "detail": "The Food and Drug Administration (FDA) announces a forthcoming public advisory committee meeting of the Cellular, Tissue, and Gene Therapies Advisory Committee (the Committee). The general function of the Committee is to provide advice and recommendations to FDA on regulatory issues. The meeting will be open to the public. FDA is establishing a docket for public comment on this document."
+    }
+   ]
+  },
+  "fda_approval": {
+   "total": 153,
+   "future": 0,
+   "sample_future": [],
+   "sample_recent": [
+    {
+     "date": "2026-10-20",
+     "title": "Hibsago (bepirovirsen) approved by FDA",
+     "detail": "Glaxosmithkline Llc; NDA221276; Novel, Priority review; injection"
+    },
+    {
+     "date": "2026-10-19",
+     "title": "Cienby (sodium ctirate) approved by FDA",
+     "detail": "Fresenius Medcl Care; NDA219455; solution"
+    },
+    {
+     "date": "2026-10-19",
+     "title": "Calrezdy (calcuim chloride) approved by FDA",
+     "detail": "Fresenius Medcl Care; NDA219456; solution"
+    },
+    {
+     "date": "2026-10-16",
+     "title": "Brytly (brytly (apraclonidine)) approved by FDA",
+     "detail": "Alcon Laboratories, Inc.; NDA220341; solution/ drops"
+    },
+    {
+     "date": "2026-10-16",
+     "title": "Yulzety (rivaroxaban) approved by FDA",
+     "detail": "Rosemont Pharms; NDA221033; suspension"
+    },
+    {
+     "date": "2026-10-15",
+     "title": "Evoxac (cevimeline hydrochloride) approved by FDA",
+     "detail": "Cosette Pharms Nc; NDA221183; capsule"
+    }
+   ]
+  },
+  "chmp_opinion_pos": {
+   "total": 95,
+   "future": 0,
+   "sample_future": [],
+   "sample_recent": [
+    {
+     "date": "2026-10-15",
+     "title": "Fovlussea (ranibizumab): CHMP positive opinion",
+     "detail": "Accord Healthcare S.L.U.. Biosimilar"
+    },
+    {
+     "date": "2026-10-15",
+     "title": "Neuzafy (filgrastim): CHMP positive opinion",
+     "detail": "CuraTeQ Biologics (Malta) Limited. Biosimilar"
+    },
+    {
+     "date": "2026-10-15",
+     "title": "Foundayo (Orforglipron): CHMP positive opinion",
+     "detail": "Eli Lilly Nederland B.V"
+    },
+    {
+     "date": "2026-10-15",
+     "title": "Kizfizo (temozolomide): CHMP positive opinion",
+     "detail": "ORPHELIA Pharma. Orphan"
+    },
+    {
+     "date": "2026-10-15",
+     "title": "Yuviwel (Navepegritide): CHMP positive opinion",
+     "detail": "Ascendis Pharma Growth Disorders A/S. Orphan"
+    },
+    {
+     "date": "2026-10-15",
+     "title": "Rasonque (Daraxonrasib): CHMP positive opinion",
+     "detail": "Revolution Medicines Netherlands B.V.. Orphan"
+    }
+   ]
+  },
+  "chmp_opinion_neg": {
+   "total": 8,
+   "future": 0,
+   "sample_future": [],
+   "sample_recent": [
+    {
+     "date": "2026-10-15",
+     "title": "Yartemlea (Narsoplimab): CHMP negative opinion",
+     "detail": "Omeros Ireland Limited"
+    },
+    {
+     "date": "2026-09-17",
+     "title": "Xervyteg (Allogeneic faecal microbiota, pooled): CHMP negative opinion",
+     "detail": "MaaT PHARMA"
+    },
+    {
+     "date": "2026-07-23",
+     "title": "Qezzaqar (catequentinib): CHMP negative opinion",
+     "detail": "CATS Consultants GmbH. Orphan"
+    },
+    {
+     "date": "2026-07-23",
+     "title": "KemSu (sufentanil;ketamine): CHMP negative opinion",
+     "detail": "Proveca Pharma Limited"
+    },
+    {
+     "date": "2026-07-23",
+     "title": "Meplyffa (arimoclomol): CHMP negative opinion",
+     "detail": "Zevra Denmark A/S. Orphan"
+    },
+    {
+     "date": "2026-06-25",
+     "title": "Tacquell (Autologous melanoma-derived tumor infiltrating lymphocytes, ex vivo-expanded): CHMP negative opinion",
+     "detail": "Netherlands Cancer Institute"
+    }
+   ]
+  },
+  "ec_expected": {
+   "total": 26,
+   "future": 17,
+   "sample_future": [
+    {
+     "date": "2026-11-23",
+     "title": "Adcomfo (omalizumab): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/adcomfo"
+    },
+    {
+     "date": "2026-11-23",
+     "title": "Frehemgo (denecimig): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/frehemgo"
+    },
+    {
+     "date": "2026-11-23",
+     "title": "Inijaq (tofacitinib): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/inijaq"
+    },
+    {
+     "date": "2026-11-23",
+     "title": "Lifyorli (relacorilant): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/lifyorli"
+    },
+    {
+     "date": "2026-11-23",
+     "title": "Povofortay (povorcitinib): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/povofortay"
+    },
+    {
+     "date": "2026-11-23",
+     "title": "Ruxolitinib Zentiva (ruxolitinib): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/ruxolitinib-zentiva"
+    },
+    {
+     "date": "2026-11-23",
+     "title": "Sepalna (senaparib): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/sepalna"
+    },
+    {
+     "date": "2026-11-23",
+     "title": "Zeydovio (glepaglutide): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/zeydovio"
+    },
+    {
+     "date": "2026-11-23",
+     "title": "Gevalka (ensartinib): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/gevalka"
+    },
+    {
+     "date": "2026-11-23",
+     "title": "Klygefa (gefurulimab): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/klygefa"
+    },
+    {
+     "date": "2026-11-23",
+     "title": "VaxRabeo (rabies vaccine (inactivated) for human): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-09-17) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/vaxrabeo"
+    },
+    {
+     "date": "2026-12-21",
+     "title": "Fovlussea (ranibizumab): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-10-15) + 67 days, the standard Commission decision period. Not an official date.",
+     "source_url": "https://www.ema.europa.eu/en/medicines/human/EPAR/fovlussea"
+    }
+   ],
+   "sample_recent": [
+    {
+     "date": "2026-12-21",
+     "title": "Fovlussea (ranibizumab): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-10-15) + 67 days, the standard Commission decision period. Not an official date."
+    },
+    {
+     "date": "2026-12-21",
+     "title": "Neuzafy (filgrastim): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-10-15) + 67 days, the standard Commission decision period. Not an official date."
+    },
+    {
+     "date": "2026-12-21",
+     "title": "Foundayo (Orforglipron): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-10-15) + 67 days, the standard Commission decision period. Not an official date."
+    },
+    {
+     "date": "2026-12-21",
+     "title": "Kizfizo (temozolomide): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-10-15) + 67 days, the standard Commission decision period. Not an official date."
+    },
+    {
+     "date": "2026-12-21",
+     "title": "Yuviwel (Navepegritide): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-10-15) + 67 days, the standard Commission decision period. Not an official date."
+    },
+    {
+     "date": "2026-12-21",
+     "title": "Rasonque (Daraxonrasib): expected EC decision",
+     "detail": "Estimated as CHMP opinion (2026-10-15) + 67 days, the standard Commission decision period. Not an official date."
+    }
+   ]
+  },
+  "ec_decision": {
+   "total": 86,
+   "future": 0,
+   "sample_future": [],
+   "sample_recent": [
+    {
+     "date": "2026-10-22",
+     "title": "Lynavoy (Linerixibat) approved in the EU",
+     "detail": "Marketing authorisation to GlaxoSmithKline Trading Services Limited. Orphan, Additional monitoring"
+    },
+    {
+     "date": "2026-09-25",
+     "title": "Cavoley (pegfilgrastim) approved in the EU",
+     "detail": "Marketing authorisation to CuraTeQ Biologics s.r.o. Biosimilar, Additional monitoring"
+    },
+    {
+     "date": "2026-09-21",
+     "title": "Nezglyal (leriglitazone) approved in the EU",
+     "detail": "Marketing authorisation to Minoryx Therapeutics S.L.. Orphan, Exceptional circumstances, Additional monitoring"
+    },
+    {
+     "date": "2026-09-18",
+     "title": "Tafamidis Accord (tafamidis) approved in the EU",
+     "detail": "Marketing authorisation to Accord Healthcare S.L.U.. Generic"
+    },
+    {
+     "date": "2026-09-18",
+     "title": "Ruxolitinib Viatris (ruxolitinib hemifumarate) approved in the EU",
+     "detail": "Marketing authorisation to Viatris Limited. Generic"
+    },
+    {
+     "date": "2026-09-18",
+     "title": "Susvimo (ranibizumab) approved in the EU",
+     "detail": "Marketing authorisation to Roche Registration GmbH. Additional monitoring"
+    }
+   ]
+  },
+  "referral_start": {
+   "total": 4,
+   "future": 0,
+   "sample_future": [],
+   "sample_recent": [
+    {
+     "date": "2026-09-03",
+     "title": "Parenteral iron-containing medicinal products: referral started",
+     "detail": "Article 31 referrals; Procedure started"
+    },
+    {
+     "date": "2026-06-25",
+     "title": "Rifadin oral suspension and syrup and associated names: referral started",
+     "detail": "Article 31 referrals; Under evaluation"
+    },
+    {
+     "date": "2026-01-29",
+     "title": "Tavneos: referral started",
+     "detail": "Article 20 procedures; European Commission final decision"
+    },
+    {
+     "date": "2025-10-16",
+     "title": "Melatomed and associated names: referral started",
+     "detail": "Article 29(4) referrals; European Commission final decision"
+    }
+   ]
+  },
+  "prac_recommendation": {
+   "total": 1,
+   "future": 0,
+   "sample_future": [],
+   "sample_recent": [
+    {
+     "date": "2026-02-12",
+     "title": "Levamisole-containing medicinal products: PRAC recommendation",
+     "detail": "Article 31 referrals; CMDh final position"
+    }
+   ]
+  },
+  "dhpc": {
+   "total": 22,
+   "future": 0,
+   "sample_future": [],
+   "sample_recent": [
+    {
+     "date": "2026-10-08",
+     "title": "Ocrevus (ocrelizumab): DHPC sent to healthcare professionals",
+     "detail": "Adverse event, Post-authorisation measure; Multiple Sclerosis"
+    },
+    {
+     "date": "2026-08-20",
+     "title": "Jentadueto (linagliptin, metformin hydrochloride): DHPC sent to healthcare professionals",
+     "detail": "Quality defect; Diabetes Mellitus, Type 2"
+    },
+    {
+     "date": "2026-08-10",
+     "title": "Litfulo (ritlecitinib tosilate): DHPC sent to healthcare professionals",
+     "detail": "Adverse event, Post-authorisation measure, Restriction of indication; Alopecia Areata"
+    },
+    {
+     "date": "2026-08-06",
+     "title": "Desogestrel / etonogestrel (desogestrel, etonogestrel): DHPC sent to healthcare professionals",
+     "detail": "Adverse event, Post-authorisation measure"
+    },
+    {
+     "date": "2026-07-23",
+     "title": "Vyvgart (efgartigimod alfa): DHPC sent to healthcare professionals",
+     "detail": "Quality defect; Myasthenia Gravis, Polyradiculoneuropathy, Chronic Inflammatory Demyelinating"
+    },
+    {
+     "date": "2026-07-16",
+     "title": "Tavneos (avacopan): DHPC sent to healthcare professionals",
+     "detail": "Referral - Article 20 procedure; Microscopic Polyangiitis, Wegener Granulomatosis"
+    }
+   ]
+  },
+  "shortage": {
+   "total": 32,
+   "future": 0,
+   "sample_future": [],
+   "sample_recent": [
+    {
+     "date": "2026-09-22",
+     "title": "Human normal immunoglobulins: shortage ongoing",
+     "detail": "Solution for injection/infusion; Expected resolution: March 2027; Alternatives available: Yes"
+    },
+    {
+     "date": "2026-09-09",
+     "title": "Eskazole / Zentel: shortage ongoing",
+     "detail": "Tablet, Suspension; Expected resolution: 2028; Alternatives available: Yes"
+    },
+    {
+     "date": "2026-09-09",
+     "title": "Natpar: medicine discontinued",
+     "detail": "Powder and solvent for solution for injection; Alternatives available: Yes"
+    },
+    {
+     "date": "2026-09-04",
+     "title": "Visudyne: shortage ongoing",
+     "detail": "Powder for solution for infusion; Expected resolution: 2027; Alternatives available: Yes"
+    },
+    {
+     "date": "2026-09-02",
+     "title": "Brevibloc: shortage ongoing",
+     "detail": "Solution for intravenous injection; Expected resolution: End of 2027; Alternatives available: Yes"
+    },
+    {
+     "date": "2026-08-27",
+     "title": "Paliperidone palmitate: shortage ongoing",
+     "detail": "Alternatives available: Yes"
+    }
+   ]
+  }
+ }
+}
