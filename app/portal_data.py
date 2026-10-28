@@ -749,15 +749,8 @@ FEDREG = "https://www.federalregister.gov/api/v1/documents.json"
 def ingest_fda_adcomm(days_back: int = 120) -> dict:
     """FDA advisory committee meeting notices from the Federal Register API."""
     init()
-    from urllib.parse import urlencode
-    params = [("conditions[agencies][]", "food-and-drug-administration"),
-              ("conditions[type][]", "NOTICE"),
-              ("conditions[term]", '"advisory committee" "notice of meeting"'),
-              ("conditions[publication_date][gte]", (date.today() - timedelta(days=days_back)).isoformat()),
-              ("order", "newest"), ("per_page", "100")]
-    for f in ("title", "publication_date", "html_url", "abstract", "dates", "document_number"):
-        params.append(("fields[]", f))
-    j = _http_get(f"{FEDREG}?{urlencode(params)}", timeout=60).json()
+    from . import relay
+    j = relay.get_json("fedreg-adcomm", lambda u: _http_get(u, timeout=60).json())
     ms = []
     for d in j.get("results", []) or []:
         title = _clean(d.get("title"))

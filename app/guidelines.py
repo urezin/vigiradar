@@ -84,15 +84,9 @@ def _tags(*t) -> str:
 # --- guidelines -------------------------------------------------------------------
 
 def ingest_fda_guidance(days: int = 180) -> dict:
-    from urllib.parse import urlencode
+    from . import relay
     nw.init()
-    params = [("conditions[agencies][]", "food-and-drug-administration"), ("conditions[type][]", "NOTICE"),
-              ("conditions[term]", "guidance availability"),
-              ("conditions[publication_date][gte]", (date.today() - timedelta(days=days)).isoformat()),
-              ("order", "newest"), ("per_page", "200")]
-    for f in ("title", "publication_date", "html_url", "abstract", "document_number"):
-        params.append(("fields[]", f))
-    j = _get(f"{FEDREG}?{urlencode(params)}").json()
+    j = relay.get_json("fedreg-guidance", lambda u: _get(u).json())
     new = 0
     for d in j.get("results", []) or []:
         title = _clean(d.get("title"))

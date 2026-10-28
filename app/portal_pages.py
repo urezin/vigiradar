@@ -970,6 +970,21 @@ def admin_portal_run(steps: str = "ingest,news,analyse", x_admin_token: str = He
     return {"status": "started", "steps": wanted}
 
 
+@router.post("/admin/portal/relay/{key}")
+async def admin_relay(key: str, request: Request, x_admin_token: str = Header(default="")):
+    """Store a JSON document fetched on a GitHub runner for a source that blocks this server (see app/relay.py)."""
+    import json as _json
+    from . import relay
+    _auth(x_admin_token)
+    if key not in relay.URLS:
+        raise HTTPException(404)
+    body = await request.body()
+    data = _json.loads(body)
+    pd.init()
+    pd.analysis_put(f"relay:{key}", key, _json.dumps(data), "relay")
+    return {"stored": key, "results": len(data.get("results", []) or [])}
+
+
 @router.get("/admin/portal/status")
 def admin_portal_status(x_admin_token: str = Header(default="")):
     _auth(x_admin_token)

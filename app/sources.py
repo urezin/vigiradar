@@ -262,7 +262,7 @@ def fetch_raw_items(source: Source, timeout: float = 20.0) -> list[dict]:
         "Accept": "application/rss+xml, application/xml, text/xml, */*",
         "Accept-Language": "en,it;q=0.8,de;q=0.6,fr;q=0.6,es;q=0.6",
     }
-    if "fda.gov" in source.feed_url:
+    if "fda.gov" in source.feed_url or "ftc.gov" in source.feed_url:
         # FDA's bot protection rejects browser-imitating clients; identify honestly instead
         headers = {**headers, "User-Agent": "VigiEye regulatory monitor (+https://vigi-eye.com; info@vigi-eye.com)"}
     with httpx.Client(timeout=timeout, headers=headers, follow_redirects=True) as client:

@@ -420,7 +420,7 @@ def ingest_company(days: int = 4, max_docs: int = 80) -> dict:
     stats = {"hits": len(hits), "new": 0, "skipped": 0, "not_newsworthy": 0, "ai": bool(settings.anthropic_api_key),
              "errors": errors}
     with store._engine.connect() as c:
-        have = {r[0] for r in c.execute(select(news.c.id).where(news.c.kind == "company"))}
+        have = {r[0] for r in c.execute(select(news.c.id).where(news.c.kind.in_(["company", "skip"])))}
     done = 0
     for hid, h in sorted(hits.items(), key=lambda kv: kv[1]["_source"].get("file_date", ""), reverse=True):
         nid = _id("co", hid)

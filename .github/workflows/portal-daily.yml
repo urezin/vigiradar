@@ -36,6 +36,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: app/relay.py
+          sparse-checkout-cone-mode: false
+      - name: Relay sources that block the server (Federal Register)
+        continue-on-error: true
+        run: |
+          python3 app/relay.py | while IFS=$'\t' read -r key url; do
+            if curl -sS --fail --max-time 90 -A "VigiEye regulatory monitor (+https://vigi-eye.com)" "$url" -o /tmp/r.json; then
+              curl -sS --max-time 120 -X POST "$BASE_URL/admin/portal/relay/$key" -H "X-Admin-Token: ${{ secrets.ADMIN_TOKEN }}" \
+                -H "Content-Type: application/json" --data-binary @/tmp/r.json; echo
+            fi
+          done
       - name: Start refresh
         run: |
           STEPS="${{ github.event.inputs.steps }}"
