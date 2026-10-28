@@ -40,6 +40,8 @@ app.include_router(litmonitor_mod.router)
 # Public portal (home, PDUFA, approvals, safety, drugs, companies, insights, ticker)
 # and the EU catalyst calendar + radar. "/" is the portal; the module hub is /hub.
 app.include_router(news_pages_mod.router)
+from . import cp_email as cp_email_mod
+app.include_router(cp_email_mod.router)
 app.include_router(portal_mod.router)
 app.include_router(catalysts_mod.router)
 
@@ -124,7 +126,7 @@ def medical_literature_page(session: str | None = Cookie(default=None, alias=aut
 @app.get("/health")
 def health():
     return {"status": "ok", "billing_enabled": settings.billing_enabled,
-            "ai_enabled": bool(settings.anthropic_api_key)}
+            "ai_enabled": bool(settings.anthropic_api_key), "email_enabled": settings.email_enabled}
 
 
 @app.get("/api/meta")

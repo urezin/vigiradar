@@ -559,9 +559,11 @@ def render_daily(email: str = "") -> tuple[str, str, int]:
         ("PDUFA dates in the next 14 days", pd.milestones_between(t, _ahead(14), ["pdufa"], limit=30)),
         ("FDA advisory committees, next 14 days", pd.milestones_between(t, _ahead(14), ["adcomm"], limit=10)),
     ]
-    news = [r for r in _news(40) if (r.get("date") or "") >= y][:10]
+    from . import news_pages as _np, articles as _arts
+    news = sorted([r for r in _np.stream(limit=400) if (r.get("date") or "") >= y], key=_np._score, reverse=True)[:12]
+    arts = [a for a in _arts.list_articles(20) if (a.get("date") or "") >= _ago(1)][:10]
     calnext = [e for e in cal.load_events() if e["status"] != "past" and e["days"] <= 7]
-    n = sum(len(g[1]) for g in groups) + len(news) + len(calnext)
+    n = sum(len(g[1]) for g in groups) + len(news) + len(calnext) + len(arts)
 
     def li(m):
         href = _drug_href(m)
@@ -574,15 +576,22 @@ def render_daily(email: str = "") -> tuple[str, str, int]:
                 f'<span style="color:#64748b">{_e(m.get("detail"))}</span></td></tr>')
 
     sections = ""
+    if arts:
+        sections += ('<h3 style="font:600 16px system-ui;margin:22px 0 4px">Today\'s analysis &amp; opinion</h3><table style="width:100%;border-collapse:collapse">'
+                     + "".join(f'<tr><td style="padding:9px 0;border-bottom:1px solid #e6ebf2;font:14px system-ui">'
+                               f'<span style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#be123c">'
+                               f'{"Opinion" if a.get("type") == "opinion" else "Analysis"}</span><br>'
+                               f'<a href="{_base()}/analysis/{_e(a["slug"])}" style="color:#0284c7;font-weight:700;font-size:15px">{_e(a["title"])}</a><br>'
+                               f'<span style="color:#64748b">{_e(a.get("dek"))}</span></td></tr>' for a in arts) + "</table>")
     for title, rows in groups:
         if rows:
             sections += (f'<h3 style="font:600 16px system-ui;margin:22px 0 4px">{_e(title)}</h3>'
                          f'<table style="width:100%;border-collapse:collapse">{"".join(li(m) for m in rows)}</table>')
     if news:
-        sections += ('<h3 style="font:600 16px system-ui;margin:22px 0 4px">Regulatory news</h3><table style="width:100%;border-collapse:collapse">'
+        sections += ('<h3 style="font:600 16px system-ui;margin:22px 0 4px">Top regulatory, safety &amp; quality news</h3><table style="width:100%;border-collapse:collapse">'
                      + "".join(f'<tr><td style="padding:8px 0;border-bottom:1px solid #e6ebf2;font:14px system-ui">'
-                               f'{FLAG.get(r.get("country"), r.get("country", ""))} {_e(r.get("authority"))} · {_e(_fmt(r.get("date", "")))}<br>'
-                               f'<a href="{_e(r.get("source_url") or _base() + "/radar")}" style="color:#0284c7;font-weight:600">{_e(r.get("title"))}</a><br>'
+                               f'{FLAG.get(r.get("country"), r.get("country", ""))} {_e(r.get("publisher"))} · {_e(_fmt(r.get("date", "")))}<br>'
+                               f'<a href="{_base()}{_np._href(r)}" style="color:#0284c7;font-weight:600">{_e(r.get("title"))}</a><br>'
                                f'<span style="color:#64748b">{_e(r.get("summary"))}</span></td></tr>' for r in news) + "</table>")
     if calnext:
         sections += ('<h3 style="font:600 16px system-ui;margin:22px 0 4px">EU calendar, next 7 days</h3><table style="width:100%;border-collapse:collapse">'
@@ -895,8 +904,15 @@ def _run_job(steps: list[str]):
             elif s == "week":
                 _JOB["result"]["week"] = analyse_week()
             elif s == "articles":
-                from . import articles as art_mod
-                _JOB["result"]["articles"] = art_mod.generate_daily()
+                from . import articles as art_mod, earnings as earn_mod
+                _JOB["result"]["articles"] = art_mod.generate_daily(target=10)
+                _JOB["step"] = "earnings"
+                try:
+                    _JOB["result"]["earnings_ingest"] = earn_mod.ingest()
+                except Exception as e:
+                    _JOB["result"]["earnings_ingest"] = {"error": f"{type(e).__name__}: {e}"}
+                _JOB["step"] = "cp_articles"
+                _JOB["result"]["cp_articles"] = art_mod.generate_cp_daily(target=10)
     except Exception as e:
         _JOB["result"]["error"] = f"{type(e).__name__}: {e}"
     finally:

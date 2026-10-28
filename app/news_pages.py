@@ -1046,6 +1046,25 @@ def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
                     headers={"Cache-Control": "public, max-age=600", "Access-Control-Allow-Origin": "*"})
 
 
+@router.get("/api/cp-articles", include_in_schema=False)
+def api_cp_articles(limit: int = 30, kind: str = ""):
+    """CompePharma's editorial (earnings analysis, business analysis, opinion): list without bodies."""
+    arts = art_mod.cp_list(max(1, min(limit, 100)), kind=kind or None)
+    out = [{k: a.get(k) for k in ("slug", "type", "beat", "title", "dek", "date", "company", "ticker", "period", "figures")}
+           for a in arts]
+    return Response(json.dumps({"items": out}, ensure_ascii=False), media_type="application/json",
+                    headers={"Cache-Control": "public, max-age=600", "Access-Control-Allow-Origin": "*"})
+
+
+@router.get("/api/cp-article/{slug}", include_in_schema=False)
+def api_cp_article(slug: str):
+    a = art_mod.cp_get(slug)
+    if not a:
+        raise HTTPException(404)
+    return Response(json.dumps(a, ensure_ascii=False), media_type="application/json",
+                    headers={"Cache-Control": "public, max-age=900", "Access-Control-Allow-Origin": "*"})
+
+
 @router.get("/api/editorial", include_in_schema=False)
 def api_editorial(limit: int = 6):
     arts = art_mod.list_articles(max(1, min(limit, 30)))
