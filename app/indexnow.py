@@ -23,6 +23,12 @@ def key_file():
     return KEY
 
 
+@router.get("/google59c51f9757a51fb0.html", response_class=PlainTextResponse, include_in_schema=False)
+def google_site_verification():
+    """Google Search Console ownership file (keep it: removing it unverifies the site)."""
+    return "google-site-verification: google59c51f9757a51fb0.html"
+
+
 def _submit(base: str, urls: list[str]) -> dict:
     import httpx
     from urllib.parse import urlparse
