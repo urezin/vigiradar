@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service.",
+    "terms": "https://open.fda.gov/terms/",
+    "license": "https://open.fda.gov/license/",
+    "last_updated": "2026-10-21",
+    "results": {
+      "skip": 0,
+      "limit": 2,
+      "total": 18048
+    }
+  },
+  "results": [
+    {
+      "status": "Ongoing",
+      "city": "Houston",
+      "state": "TX",
+      "country": "United States",
+      "classification": "Class II",
+      "openfda": {},
+      "product_type": "Drugs",
+      "event_id": "99990",
+      "recalling_firm": "Houston Rx LLC",
+      "address_1": "15340 Vantage Pkwy E Ste 220",
+      "address_2": "",
+      "postal_code": "77032-1901",
+      "voluntary_mandated": "Voluntary: Firm initiated",
+      "initial_firm_notification": "Two or more of the following: Email, Fax, Letter, Press Release, Telephone, Visit",
+      "distribution_pattern": "Nationwide in the USA.",
+      "recall_number": "D-0041-2027",
+      "product_description": "Sermorelin, 1 mg/mL, 10 ml vial, Sterile injectable solution, RX Only, Houston RX LLC, 15430 Vantage Parkway E STE 220, Houston, TX 77032.",
+      "product_quantity": "7 vials",
+      "reason_for_recall": "Lack of process control",
+      "recall_initiation_date": "20260925",
+      "center_classification_date": "20261013",
+      "report_date": "20261021",
+      "code_info": "Lot# SER-081726-1-10, Beyond Use Date: 10/01/2026.",
+      "more_code_info": ""
+    },
+    {
+      "status": "Ongoing",
+      "city": "Parsippany",
+      "state": "NJ",
+      "country": "United States",
+      "classification": "Class II",
+      "openfda": {
+        "application_number": [
+          "ANDA070184"
+        ],
+        "brand_name": [
+          "METOCLOPRAMIDE"
+        ],
+        "generic_name": [
+          "METOCLOPRAMIDE"
+        ],
+        "manufacturer_name": [
+          "Teva Pharmaceuticals USA, Inc."
+        ],
+        "product_ndc": [
+          "0093-2203",
+          "0093-2204"
+        ],
+        "product_type": [
+          "HUMAN PRESCRIPTION DRUG"
+        ],
+        "route": [
+          "ORAL"
+        ],
+        "substance_name": [
+          "METOCLOPRAMIDE HYDROCHLORIDE"
+        ],
+        "rxcui": [
+          "311666",
+          "311668"
+        ],
+        "spl_id": [
+          "61b5d2d5-1e7b-44ff-a831-1a0de78edecd"
+        ],
+        "spl_set_id": [
+          "e15905e0-e0f6-4c8b-ac19-59724d6c4bf0"
+        ],
+        "package_ndc": [
+          "0093-2204-01",
+          "0093-2204-05",
+          "0093-2203-01",
+          "0093-2203-05",
+          "0093-2203-10"
+        ],
+        "is_original_packager": [
+          true
+        ],
+        "upc": [
+          "0300932203013",
+          "0300932204010"
+        ],
+        "unii": [
+          "W1792A2RVD"
+        ]
+      },
+      "product_type": "Drugs",
+      "event_id": "100013",
+      "recalling_firm": "Teva Pharmaceuticals USA, Inc",
+      "address_1": "400 Interpace Pkwy Bldg A",
+      "address_2": "",
+      "postal_code": "07054-1120",
+      "voluntary_mandated": "Voluntary: Firm initiated",
+      "initial_firm_notification": "Letter",
+      "distribution_pattern": "US Nationwide.",
+      "recall_number": "D-0038-2027",
+      "product_description": "Metoclopramide Tablets, USP, 5 mg, [100 or 500] Tablets per bottle, Rx Only, Manufactured for: Teva Pharmaceuticals, Parsippany, NJ 07054.  NDC 100 Tablets: 0093-2204-01; NDC 500 Tablets: 0093-2204-05",
+      "product_quantity": "240,448 cartons",
+      "reason_for_recall": "Presence of Foreign Tablets/Capsules",
+      "recall_initiation_date": "20260929",
+      "center_classification_date": "20261013",
+      "report_date": "20261021",
+      "code_info": "Lot, expiry: [100 Tablets] Lots 8634085, 8635085, 8636085, exp 07/2027; [500 Tablets] Lot 8633085, exp 07/2027",
+      "more_code_info": ""
+    }
+  ]
+}

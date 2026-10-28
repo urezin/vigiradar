@@ -1,0 +1,147 @@
+{
+ "total": {
+  "value": 40,
+  "relation": "eq"
+ },
+ "first": [
+  {
+   "_index": "edgar_file",
+   "_id": "0001104659-26-100071:capr-20260824xex99d1.htm",
+   "_score": 23.407017,
+   "_source": {
+    "ciks": [
+     "0001133869"
+    ],
+    "period_ending": "2026-08-24",
+    "file_num": [
+     "001-34058"
+    ],
+    "display_names": [
+     "CAPRICOR THERAPEUTICS, INC.  (CAPR)  (CIK 0001133869)"
+    ],
+    "xsl": null,
+    "sequence": "2",
+    "root_forms": [
+     "8-K"
+    ],
+    "file_date": "2026-08-24",
+    "biz_states": [
+     "CA"
+    ],
+    "sics": [
+     "2834"
+    ],
+    "form": "8-K",
+    "adsh": "0001104659-26-100071",
+    "film_num": [
+     "261306665"
+    ],
+    "biz_locations": [
+     "San Diego, CA"
+    ],
+    "file_type": "EX-99.1",
+    "file_description": "EX-99.1",
+    "inc_states": [
+     "DE"
+    ],
+    "items": [
+     "8.01",
+     "9.01"
+    ]
+   }
+  },
+  {
+   "_index": "edgar_file",
+   "_id": "0001193125-26-385355:apmd-ex99_1.htm",
+   "_score": 22.465187,
+   "_source": {
+    "ciks": [
+     "0001745648"
+    ],
+    "period_ending": "2026-09-08",
+    "file_num": [
+     "001-43422"
+    ],
+    "display_names": [
+     "Apnimed, Inc.  (APMD)  (CIK 0001745648)"
+    ],
+    "xsl": null,
+    "sequence": "2",
+    "root_forms": [
+     "8-K"
+    ],
+    "file_date": "2026-09-08",
+    "biz_states": [
+     "MA"
+    ],
+    "sics": [
+     "2834"
+    ],
+    "form": "8-K",
+    "adsh": "0001193125-26-385355",
+    "film_num": [
+     "261365845"
+    ],
+    "biz_locations": [
+     "Cambridge, MA"
+    ],
+    "file_type": "EX-99.1",
+    "file_description": "EX-99.1",
+    "inc_states": [
+     "DE"
+    ],
+    "items": [
+     "2.02",
+     "9.01"
+    ]
+   }
+  },
+  {
+   "_index": "edgar_file",
+   "_id": "0001140361-26-039334:ef20083591_ex99-1.htm",
+   "_score": 22.206928,
+   "_source": {
+    "ciks": [
+     "0001743881"
+    ],
+    "period_ending": "2026-10-06",
+    "file_num": [
+     "001-38959"
+    ],
+    "display_names": [
+     "BridgeBio Pharma, Inc.  (BBIO)  (CIK 0001743881)"
+    ],
+    "xsl": null,
+    "sequence": "5",
+    "root_forms": [
+     "8-K"
+    ],
+    "file_date": "2026-10-13",
+    "biz_states": [
+     "CA"
+    ],
+    "sics": [
+     "2834"
+    ],
+    "form": "8-K",
+    "adsh": "0001140361-26-039334",
+    "film_num": [
+     "261454256"
+    ],
+    "biz_locations": [
+     "Palo Alto, CA"
+    ],
+    "file_type": "EX-99.1",
+    "ma_i_individual": null,
+    "file_description": "EXHIBIT 99.1",
+    "inc_states": [
+     "DE"
+    ],
+    "items": [
+     "8.01",
+     "9.01"
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service.",
+    "terms": "https://open.fda.gov/terms/",
+    "license": "https://open.fda.gov/license/",
+    "last_updated": "2026-10-28",
+    "results": {
+      "skip": 0,
+      "limit": 2,
+      "total": 1604
+    }
+  },
+  "results": [
+    {
+      "update_type": "Reverified",
+      "initial_posting_date": "11/01/2017",
+      "package_ndc": "0703-0018-01",
+      "generic_name": "Hydromorphone Hydrochloride Injection",
+      "contact_info": "800-545-8800",
+      "availability": "Available",
+      "openfda": {
+        "application_number": [
+          "ANDA078591"
+        ],
+        "brand_name": [
+          "HYDROMORPHONE HYDROCHLORIDE"
+        ],
+        "generic_name": [
+          "HYDROMORPHONE HYDROCHLORIDE"
+        ],
+        "manufacturer_name": [
+          "Teva Parenteral Medicines, Inc."
+        ],
+        "product_ndc": [
+          "0703-0018",
+          "0703-0110",
+          "0703-0113"
+        ],
+        "product_type": [
+          "HUMAN PRESCRIPTION DRUG"
+        ],
+        "route": [
+          "INTRAMUSCULAR",
+          "INTRAVENOUS",
+          "SUBCUTANEOUS"
+        ],
+        "substance_name": [
+          "HYDROMORPHONE HYDROCHLORIDE"
+        ],
+        "rxcui": [
+          "1724338",
+          "1724340",
+          "1724341"
+        ],
+        "spl_id": [
+          "540b835a-db66-417c-8507-0c1ed05c95bf"
+        ],
+        "spl_set_id": [
+          "f0b78db9-a38c-41bb-8233-5e93f7f18c5c"
+        ],
+        "package_ndc": [
+          "0703-0110-01",
+          "0703-0110-03",
+          "0703-0113-01",
+          "0703-0113-03",
+          "0703-0018-01"
+        ],
+        "unii": [
+          "L960UP2KRW"
+        ]
+      },
+      "update_date": "10/15/2026",
+      "therapeutic_category": [
+        "Analgesia/Addiction"
+      ],
+      "dosage_form": "Injection",
+      "presentation": "Hydromorphone Hydrochloride, Injection, 10 mg/1 mL (NDC 0703-0018-01)",
+      "company_name": "Teva Pharmaceuticals USA, Inc.",
+      "status": "Current"
+    },
+    {
+      "presentation": "Clinisol 15% Sulfite Free In Plastic Container, Injection, 0.15 (NDC 0338-0502-03)",
+      "update_type": "Reverified",
+      "initial_posting_date": "12/08/2020",
+      "package_ndc": "0338-0502-03",
+      "generic_name": "Amino Acid Injection",
+      "company_name": "Baxter Healthcare",
+      "contact_info": "888-229-0001",
+      "availability": "Available",
+      "update_date": "10/16/2026",
+      "therapeutic_category": [
+        "Gastroenterology"
+      ],
+      "status": "Current",
+      "dosage_form": "Injection"
+    }
+  ]
+}

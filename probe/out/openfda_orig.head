@@ -1,0 +1,234 @@
+{
+  "meta": {
+    "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service.",
+    "terms": "https://open.fda.gov/terms/",
+    "license": "https://open.fda.gov/license/",
+    "last_updated": "2026-10-26",
+    "results": {
+      "skip": 0,
+      "limit": 3,
+      "total": 836
+    }
+  },
+  "results": [
+    {
+      "submissions": [
+        {
+          "submission_type": "ORIG",
+          "submission_number": "1",
+          "submission_status": "AP",
+          "submission_status_date": "20240822",
+          "review_priority": "STANDARD",
+          "submission_class_code": "UNKNOWN"
+        },
+        {
+          "submission_type": "SUPPL",
+          "submission_number": "2",
+          "submission_status": "AP",
+          "submission_status_date": "20261015",
+          "review_priority": "STANDARD",
+          "submission_class_code": "LABELING",
+          "submission_class_code_description": "Labeling"
+        }
+      ],
+      "application_number": "ANDA213191",
+      "sponsor_name": "TEVA PHARMS INC",
+      "openfda": {},
+      "products": [
+        {
+          "product_number": "001",
+          "reference_drug": "No",
+          "brand_name": "MESALAMINE",
+          "active_ingredients": [
+            {
+              "name": "MESALAMINE",
+              "strength": "800MG"
+            }
+          ],
+          "reference_standard": "No",
+          "dosage_form": "TABLET, DELAYED RELEASE",
+          "route": "ORAL",
+          "marketing_status": "Prescription",
+          "te_code": "AB"
+        }
+      ]
+    },
+    {
+      "submissions": [
+        {
+          "submission_type": "ORIG",
+          "submission_number": "1",
+          "submission_status": "AP",
+          "submission_status_date": "20230110",
+          "review_priority": "STANDARD",
+          "submission_class_code": "UNKNOWN"
+        },
+        {
+          "submission_type": "SUPPL",
+          "submission_number": "4",
+          "submission_status": "AP",
+          "submission_status_date": "20260901",
+          "review_priority": "STANDARD",
+          "submission_class_code": "LABELING",
+          "submission_class_code_description": "Labeling"
+        }
+      ],
+      "application_number": "ANDA216038",
+      "sponsor_name": "MEITHEAL",
+      "openfda": {
+        "application_number": [
+          "ANDA216038"
+        ],
+        "brand_name": [
+          "NELARABINE"
+        ],
+        "generic_name": [
+          "NELARABINE"
+        ],
+        "manufacturer_name": [
+          "Meitheal Pharmaceuticals Inc"
+        ],
+        "product_ndc": [
+          "71288-165"
+        ],
+        "product_type": [
+          "HUMAN PRESCRIPTION DRUG"
+        ],
+        "route": [
+          "INTRAVENOUS"
+        ],
+        "substance_name": [
+          "NELARABINE"
+        ],
+        "rxcui": [
+          "603566"
+        ],
+        "spl_id": [
+          "6e728854-7685-4806-8edb-e2a3fc055c7d"
+        ],
+        "spl_set_id": [
+          "21919314-5c25-49ab-beba-099983ed4a71"
+        ],
+        "package_ndc": [
+          "71288-165-52",
+          "71288-165-53",
+          "71288-165-54"
+        ],
+        "nui": [
+          "N0000000233",
+          "N0000175595"
+        ],
+        "pharm_class_moa": [
+          "Nucleic Acid Synthesis Inhibitors [MoA]"
+        ],
+        "pharm_class_epc": [
+          "Nucleoside Metabolic Inhibitor [EPC]"
+        ],
+        "unii": [
+          "60158CV180"
+        ]
+      },
+      "products": [
+        {
+          "product_number": "001",
+          "reference_drug": "No",
+          "brand_name": "NELARABINE",
+          "active_ingredients": [
+            {
+              "name": "NELARABINE",
+              "strength": "250MG/50ML (5MG/ML)"
+            }
+          ],
+          "reference_standard": "No",
+          "dosage_form": "INJECTABLE",
+          "route": "INTRAVENOUS",
+          "marketing_status": "Prescription",
+          "te_code": "AP"
+        }
+      ]
+    },
+    {
+      "submissions": [
+        {
+          "submission_type": "ORIG",
+          "submission_number": "1",
+          "submission_status": "AP",
+          "submission_status_date": "20180919",
+          "review_priority": "STANDARD",
+          "submission_class_code": "UNKNOWN"
+        },
+        {
+          "submission_type": "SUPPL",
+          "submission_number": "2",
+          "submission_status": "AP",
+          "submission_status_date": "20260921",
+          "review_priority": "STANDARD",
+          "submission_class_code": "LABELING",
+          "submission_class_code_description": "Labeling"
+        }
+      ],
+      "application_number": "ANDA206801",
+      "sponsor_name": "FRESENIUS KABI USA",
+      "openfda": {
+        "application_number": [
+          "ANDA206801"
+        ],
+        "brand_name": [
+          "PALONOSETRON"
+        ],
+        "generic_name": [
+          "PALONOSETRON"
+        ],
+        "manufacturer_name": [
+          "Fresenius Kabi USA, LLC"
+        ],
+        "product_ndc": [
+          "63323-673"
+        ],
+        "product_type": [
+          "HUMAN PRESCRIPTION DRUG"
+        ],
+        "route": [
+          "INTRAVENOUS"
+        ],
+        "substance_name": [
+          "PALONOSETRON HYDROCHLORIDE"
+        ],
+        "rxcui": [
+          "2056929"
+        ],
+        "spl_id": [
+          "c1aa6a23-e1b5-441a-a947-55b35d33509b"
+        ],
+        "spl_set_id": [
+          "b93fae8e-2b76-421e-95bc-ba08c211a7ea"
+        ],
+        "package_ndc": [
+          "63323-673-21",
+          "63323-673-89"
+        ],
+        "unii": [
+          "23310D4I19"
+        ]
+      },
+      "products": [
+        {
+          "product_number": "001",
+          "reference_drug": "No",
+          "brand_name": "PALONOSETRON HYDROCHLORIDE",
+          "active_ingredients": [
+            {
+              "name": "PALONOSETRON HYDROCHLORIDE",
+              "strength": "EQ 0.25MG BASE/5ML (EQ 0.05MG BASE/ML)"
+            }
+          ],
+          "reference_standard": "No",
+          "dosage_form": "INJECTABLE",
+          "route": "INTRAVENOUS",
+          "marketing_status": "Prescription",
+          "te_code": "AP"
+        }
+      ]
+    }
+  ]
+}

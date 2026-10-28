@@ -1,0 +1,1 @@
+{"url": "https://api.fda.gov/drug/enforcement.json?sort=report_date:desc&limit=2", "status": 200, "ct": "application/json; charset=utf-8", "len": 4048, "final": "https://api.fda.gov/drug/enforcement.json?sort=report_date:desc&limit=2"}

@@ -1,0 +1,1 @@
+{"url": "https://api.fda.gov/drug/shortages.json?limit=2", "status": 200, "ct": "application/json; charset=utf-8", "len": 2839, "final": "https://api.fda.gov/drug/shortages.json?limit=2"}
