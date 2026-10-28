@@ -2,17 +2,21 @@ name: Data probe (temporary)
 on:
   push:
     branches: [probe-data-sources]
-    paths: [probe/probe.py, .github/workflows/probe.yml]
+    paths: [probe/probe.py, .github/workflows/probe.yml, app/**, tools/**]
 permissions:
   contents: write
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - run: python3 probe/probe.py
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q -r requirements.txt
+      - run: python tools/portal_selftest.py "${SELFTEST_ONLY}"
+        env: {SELFTEST_ONLY: ""}
       - run: |
-          mkdir -p probe/out && cp -r out/* probe/out/
           git config user.name "probe-bot"; git config user.email "noreply@github.com"
-          git add probe/out && git commit -m "probe results" && git push
+          cp selftest.db probe/out2/selftest.db || true
+          git add probe/out2 && git commit -m "selftest results [skip ci]" && git push
