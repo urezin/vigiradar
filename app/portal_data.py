@@ -542,20 +542,44 @@ def _sec_search(phrase: str, start: str, end: str, max_hits: int = 200) -> list[
     return hits
 
 
-_DATELINE = re.compile(r"\b[A-Z][A-Za-z .,'\-]{2,40}?,?\s*(?:\([^)]*\)\s*)?[,\-–—]?\s*(?:" + _MONTHS +
-                       r")\s+\d{1,2},\s+20\d\d\s*(?:/|\()")
+_DATELINE = re.compile(r"\b[A-Z][A-Z.'\-]+(?:\s[A-Z][A-Z.'\-]+){0,3}\s?(?:,\s*[A-Z][A-Za-z.]{1,15}){0,2},?\s*"
+                       r"(?:\([^)]*\)\s*)?[,\-–—]?\s*(?:" + _MONTHS + r")\s+\d{1,2},\s+20\d\d")
+_EX_PREFIX = re.compile(r"^(?:EX-99\.\d+\s+\d+\s+\S+\.htm\s+)?(?:EX-99\.\d+\s+)*(?:Document\s+)?(?:Exhibit\s+99\.\d+\s+)?"
+                        r"(?:Press Release\s+)?", re.I)
+
+
+def clean_exhibit(text: str) -> str:
+    return _EX_PREFIX.sub("", (text or "").strip())
 
 
 def extract_headline(text: str) -> str:
     """Press-release headline: text between 'Exhibit 99.x' and the city/date dateline."""
-    t = text
-    m = re.search(r"Exhibit\s+99\.\d+", t, re.I)
-    if m:
-        t = t[m.end():]
+    t = clean_exhibit(text)
     d = _DATELINE.search(t[:900])
     head = t[: d.start()] if d and d.start() > 25 else t[:220]
     head = re.split(r"\s[–—-]\s(?=[A-Z])", head.strip())[0]
     return re.sub(r"\s+", " ", head).strip(" -–—")[:220]
+
+
+def pdufa_sentence(text: str, date_text: str) -> str:
+    """The sentence of the filing that states the PDUFA date (verbatim, trimmed)."""
+    i = text.find(date_text)
+    if i < 0:
+        return ""
+    j = text.rfind("PDUFA", 0, i + 1)
+    start = max(text.rfind(". ", 0, j if j >= 0 else i), text.rfind(" • ", 0, j if j >= 0 else i),
+                text.rfind("•", 0, j if j >= 0 else i))
+    start = start + 2 if start >= 0 else max(0, i - 300)
+    if i - start > 420:
+        start = i - 420
+    end = text.find(". ", i)
+    end = end + 1 if 0 <= end < i + 300 else i + len(date_text) + 120
+    out = text[start:end].strip(" •-–—")
+    k = out.find(date_text)
+    dl = _DATELINE.search(out, k + len(date_text)) if k >= 0 else None
+    if dl:
+        out = out[:dl.start()].strip(" •-–—,")
+    return ("…" if start > 0 and text[start - 2:start] != ". " else "") + out[:520]
 
 
 def _resolve_pdufa(cached: list[dict]) -> list[dict]:
@@ -596,7 +620,8 @@ def _resolve_pdufa(cached: list[dict]) -> list[dict]:
         detail = "; ".join(x for x in [
             f"{company}" + (f" ({it['ticker']})" if it.get("ticker") else ""), it.get("inn", ""),
             it.get("application", ""), f"status: {it['status']}" if it.get("status") else "",
-            f'"{it["headline"]}"' if it.get("headline") else "", f"filed {it['filed']}"] if x)
+            f'"{it["sentence"]}"' if it.get("sentence") else (f'"{it["headline"]}"' if it.get("headline") else ""),
+            f"filed {it['filed']}"] if x)
         rows.append({"id": _mid("pdufa", key), "date": it["date"], "region": "US", "kind": "pdufa",
                      "title": title, "detail": detail, "drug_name": drug or None, "drug_id": None,
                      "inn": it.get("inn") or None, "company": company, "company_slug": company_slug(company),
@@ -623,8 +648,14 @@ def ingest_sec_pdufa(lookback_days: int = 540, max_docs: int = 250) -> dict:
     ordered = sorted(hits.values(), key=lambda h: h["_source"].get("file_date", ""), reverse=True)
     stats = {"hits": len(ordered), "processed": 0, "ai_mode": bool(settings.anthropic_api_key),
              "skipped_seen": 0, "errors": errors}
+    ai_on = bool(settings.anthropic_api_key)
     with store._engine.connect() as c:
-        seen = {r[0] for r in c.execute(select(sec_seen.c.id))}
+        seen = set()
+        for rid, res in c.execute(select(sec_seen.c.id, sec_seen.c.result)):
+            # once an API key is configured, filings read without AI are read again with AI
+            if ai_on and '"mode": "regex"' in (res or "") and '"items": []' not in (res or ""):
+                continue
+            seen.add(rid)
     for h in ordered:
         if stats["processed"] >= max_docs:
             break
@@ -637,7 +668,7 @@ def ingest_sec_pdufa(lookback_days: int = 540, max_docs: int = 250) -> dict:
             adsh, fn = hid.split(":", 1)
             cik = (src.get("ciks") or ["0"])[0].lstrip("0")
             url = f"https://www.sec.gov/Archives/edgar/data/{cik}/{adsh.replace('-', '')}/{fn}"
-            text = _html_text(_http_get(url, timeout=60).text)
+            text = clean_exhibit(_html_text(_http_get(url, timeout=60).text))
         except Exception as e:
             stats["errors"].append(f"{hid}: {e}")
             continue
@@ -662,13 +693,17 @@ def ingest_sec_pdufa(lookback_days: int = 540, max_docs: int = 250) -> dict:
                                   "inn": (it.get("inn") or "").strip()[:80],
                                   "indication": (it.get("indication") or "").strip()[:120],
                                   "application": (it.get("application") or "").strip()[:10],
-                                  "status": (it.get("status") or "").strip()[:20]})
+                                  "status": (it.get("status") or "").strip()[:20],
+                                  "sentence": pdufa_sentence(text, dm.group(0))})
         if not items:
             for d_ in sorted({f["date"] for f in found}):
-                items.append({"date": d_, "drug": "", "inn": "", "indication": "", "application": "", "status": ""})
+                dt = next(f["date_text"] for f in found if f["date"] == d_)
+                items.append({"date": d_, "drug": "", "inn": "", "indication": "", "application": "",
+                              "status": "", "sentence": pdufa_sentence(text, dt)})
         rec = {"company": company, "ticker": ticker, "filed": src.get("file_date", ""), "url": url,
                "headline": extract_headline(text), "items": items, "mode": "ai" if ai else "regex"}
         with store._engine.begin() as c:
+            c.execute(delete(sec_seen).where(sec_seen.c.id == hid))
             c.execute(insert(sec_seen).values(id=hid, result=json.dumps(rec), seen_at=_now()))
     with store._engine.connect() as c:
         cached = []
