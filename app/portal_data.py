@@ -273,7 +273,7 @@ def ingest_ema_medicines(rows: list[dict] | None = None, horizon_days: int = 400
             kind = "chmp_opinion_neg" if neg else "chmp_opinion_pos"
             ms.append({**base, "id": _mid("op", did, opinion), "date": opinion, "kind": kind,
                        "title": f"{name} ({inn}): CHMP {'negative' if neg else 'positive'} opinion",
-                       "detail": f"{company}. {tags}".strip(" ."), "impact": "high"})
+                       "detail": "; ".join(x for x in [company, tags] if x), "impact": "high"})
             if not neg and not ma:
                 exp = (date.fromisoformat(opinion) + timedelta(days=EC_DECISION_LAG_DAYS)).isoformat()
                 ms.append({**base, "id": _mid("exp", did, opinion), "date": exp, "kind": "ec_expected",
@@ -285,7 +285,8 @@ def ingest_ema_medicines(rows: list[dict] | None = None, horizon_days: int = 400
         if ma and ma >= since:
             ms.append({**base, "id": _mid("ma", did, ma), "date": ma, "kind": "ec_decision",
                        "title": f"{name} ({inn}) approved in the EU",
-                       "detail": f"Marketing authorisation to {company}. {tags}".strip(" ."), "impact": "high"})
+                       "detail": "; ".join(x for x in [f"Marketing authorisation to {company}", tags] if x),
+                       "impact": "high"})
         if refusal and refusal >= since:
             ms.append({**base, "id": _mid("ref", did, refusal), "date": refusal, "kind": "eu_refusal",
                        "title": f"{name} ({inn}): EU marketing authorisation refused",
@@ -583,6 +584,12 @@ def pdufa_sentence(text: str, date_text: str) -> str:
     return ("…" if start > 0 and text[start - 2:start] != ". " else "") + out[:520]
 
 
+def _drug_key(drug: str) -> str:
+    """'ivonescimab (SMT112)' and 'Ivonescimab' -> 'ivonescimab'."""
+    d = re.sub(r"\(.*?\)|[®™]", " ", drug or "").strip().lower()
+    return slugify(d.split()[0] if d.split() else drug, 40)
+
+
 def _resolve_pdufa(cached: list[dict]) -> list[dict]:
     """Turn cached per-filing extractions into one current row per company+drug (or per company
     when the drug name isn't known). The newest filing wins, so extended dates replace old ones."""
@@ -594,7 +601,7 @@ def _resolve_pdufa(cached: list[dict]) -> list[dict]:
         cs = company_slug(c["company"])
         for it in c.get("items", []):
             if it.get("drug"):
-                key = f"{cs}|{slugify(it['drug'])}"
+                key = f"{cs}|{_drug_key(it['drug'])}"
                 if key not in best:
                     best[key] = {**it, **{k: c[k] for k in ("company", "ticker", "filed", "url", "headline")}}
                     named_dates.setdefault(cs, set()).add(it["date"])
@@ -611,8 +618,14 @@ def _resolve_pdufa(cached: list[dict]) -> list[dict]:
                 continue
             key = f"{cs}|date-{it['date']}"
             best.setdefault(key, {**it, **{k: c[k] for k in ("company", "ticker", "filed", "url", "headline")}})
-    rows = []
-    for key, it in best.items():
+    rows, seen_cd = [], set()
+    for key, it in sorted(best.items(), key=lambda kv: kv[1].get("filed", ""), reverse=True):
+        cd = (company_slug(it["company"]), it["date"], _drug_key(it.get("drug") or ""))
+        if cd in seen_cd:
+            continue
+        seen_cd.add(cd)
+        if it.get("sentence") and len(it["sentence"]) > 320:
+            it = {**it, "sentence": it["sentence"][:317].rsplit(" ", 1)[0] + "…"}
         company, drug = it["company"], it.get("drug") or ""
         if drug:
             title = f"{drug}: PDUFA target action date" + (f" ({it['indication']})" if it.get("indication") else "")

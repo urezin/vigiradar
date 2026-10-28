@@ -469,7 +469,8 @@ def admin_send_weekly(dry_run: bool = True, x_admin_token: str = Header(default=
 def radar_page():
     from . import main as _main   # late import: reuse the live/sample switch
     rows, src = _main._current_updates()
-    rows = rows[:40]
+    from .portal_pages import _relevant
+    rows = [r for r in rows if _relevant(r)][:40]
     items = "".join(
         f'<div class="upd"><div class="chips"><span class="chip">{_e(r.get("country"))}</span>'
         f'<span class="chip">{_e(r.get("authority") or r.get("auth"))}</span><span class="chip">{_e(r.get("subject"))}</span>'

@@ -157,11 +157,20 @@ def _safe(fn, default):
         return default
 
 
+def _relevant(r: dict) -> bool:
+    from .sources import eurlex_relevant
+    if "eur-lex" in (r.get("authority") or "").lower():
+        # stored before the feed filter existed; also drop rows whose own summary says "no bearing"
+        s = (r.get("summary") or "").lower()
+        return eurlex_relevant(r.get("title", ""), "") and "no bearing" not in s and "no stated bearing" not in s
+    return True
+
+
 def _news(limit=8, country=None):
     from . import main as _main
     try:
         rows, _ = _main._current_updates(country=country)
-        return rows[:limit]
+        return [r for r in rows if _relevant(r)][:limit]
     except Exception:
         return []
 
@@ -883,6 +892,22 @@ def _run_job(steps: list[str]):
         _JOB["result"]["error"] = f"{type(e).__name__}: {e}"
     finally:
         _JOB.update(running=False, finished=datetime.now(timezone.utc).isoformat(), step=None)
+
+
+@router.get("/api/portal/stats")
+def portal_stats():
+    """Public data-freshness check: counts per record type and the last refresh outcome."""
+    res = _JOB.get("result") or {}
+    ing = res.get("ingest") or {}
+    summary = {k: ({"error": v["error"]} if isinstance(v, dict) and v.get("error") else
+                   {kk: vv for kk, vv in (v or {}).items() if kk in ("drugs", "milestones", "notices", "hits",
+                                                                      "processed", "filings_with_dates", "ai_mode", "seconds")})
+               for k, v in ing.items()}
+    an = res.get("analyse") or {}
+    return {"counts": _safe(pd.counts, {}), "last_run": {"started": _JOB.get("started"), "finished": _JOB.get("finished"),
+            "running": _JOB.get("running"), "step": _JOB.get("step"), "ingest": summary,
+            "analyse": {k: an.get(k) for k in ("candidates", "generated", "unchanged", "error") if k in an},
+            "error": res.get("error")}}
 
 
 @router.post("/admin/portal/run")

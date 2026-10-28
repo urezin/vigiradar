@@ -95,6 +95,20 @@ _NOISE_PREFIXES = (
 )
 
 
+# EUR-Lex's Official Journal feed carries all EU law (fisheries, tariffs, food names...).
+# Keep only acts that plausibly concern medicines, devices, health or PV.
+_EURLEX_KEEP = ("medicin", "pharmac", "medical device", "in vitro diagnostic", "clinical trial", "health",
+                "drug", "vaccin", "blood", "tissue", "cell", "human use", "veterinary", "biocid",
+                "european medicines agency", "ema ", "orphan", "paediatric", "pediatric", "falsified",
+                "substance", "hta", "health technology", "cosmetic", "narcotic", "precursor", "radiat",
+                "ehds", "health data", "artificial intelligence", "gmp", "good manufacturing")
+
+
+def eurlex_relevant(title: str, summary: str = "") -> bool:
+    t = f"{title} {summary}".lower()
+    return any(k in t for k in _EURLEX_KEEP)
+
+
 def _is_noise(title: str) -> bool:
     t = (title or "").strip().lower()
     return any(t.startswith(p) for p in _NOISE_PREFIXES)
@@ -138,6 +152,8 @@ def fetch_raw_items(source: Source, timeout: float = 20.0) -> list[dict]:
         desc = (getattr(e, "summary", "") or getattr(e, "description", "") or "").strip()
         published = (getattr(e, "published", "") or getattr(e, "updated", "") or "").strip()
         if not title or _is_noise(title):
+            continue
+        if source.id.startswith("eurlex") and not eurlex_relevant(title, desc):
             continue
         items.append({
             "id": item_id(source.id, link, title),
