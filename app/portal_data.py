@@ -545,12 +545,19 @@ def _sec_search(phrase: str, start: str, end: str, max_hits: int = 200) -> list[
 
 _DATELINE = re.compile(r"\b[A-Z][A-Z.'\-]+(?:\s[A-Z][A-Z.'\-]+){0,3}\s?(?:,\s*[A-Z][A-Za-z.]{1,15}){0,2},?\s*"
                        r"(?:\([^)]*\)\s*)?[,\-–—]?\s*(?:" + _MONTHS + r")\s+\d{1,2},\s+20\d\d")
-_EX_PREFIX = re.compile(r"^(?:EX-99\.\d+\s+\d+\s+\S+\.htm\s+)?(?:EX-99\.\d+\s+)*(?:Document\s+)?(?:Exhibit\s+99\.\d+\s+)?"
-                        r"(?:Press Release\s+)?", re.I)
+_EX_MARK = re.compile(r"\b(?:EX-99\.\d+|Exhibit\s+99\.\d+)\b", re.I)
+_LEAD_LABELS = re.compile(r"^(?:\s*(?:Document|FOR IMMEDIATE RELEASE|Press Release|NEWS RELEASE|"
+                          r"\d+\s+\S+\.htm)\b[:\s]*)+", re.I)
 
 
 def clean_exhibit(text: str) -> str:
-    return _EX_PREFIX.sub("", (text or "").strip())
+    """Drop the EDGAR exhibit wrapper ('EX-99.1 2 x.htm EX-99.1 Exhibit 99.1 FOR IMMEDIATE RELEASE ...')."""
+    t = (text or "").strip()
+    head = t[:400]
+    marks = list(_EX_MARK.finditer(head))
+    if marks:
+        t = t[marks[-1].end():]
+    return _LEAD_LABELS.sub("", t).strip()
 
 
 def extract_headline(text: str) -> str:

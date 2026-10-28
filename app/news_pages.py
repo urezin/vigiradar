@@ -54,15 +54,18 @@ def _company_press(limit: int = 800) -> list[dict]:
         rows = nw.latest(limit=limit)
     except Exception:
         rows = []
-    return [{**r, "impact": "high" if r["kind"] == "company" else "med"} for r in rows]
+    return [{**r, "impact": "high" if r["kind"] in ("company", "notice") else "med"} for r in rows]
 
 
-def stream(section: str | None = None, kinds: tuple = ("official", "company", "press"), limit: int = 60,
+ALL_KINDS = ("official", "notice", "guideline", "company", "press")
+
+
+def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60,
            offset: int = 0) -> list[dict]:
     rows = []
     if "official" in kinds:
         rows += _official()
-    if "company" in kinds or "press" in kinds:
+    if any(k in kinds for k in ("company", "press", "notice", "guideline")):
         rows += [r for r in _company_press() if r["kind"] in kinds]
     if section:
         rows = [r for r in rows if r["section"] == section]
@@ -81,9 +84,18 @@ def _href(r: dict) -> str:
 def _badge(r: dict) -> str:
     sec = r.get("section") or "industry"
     s = f'<a class="sec" style="color:{SEC_COLOR.get(sec)}" href="/news/{sec}">{_e(nw.SECTIONS.get(sec, sec))}</a>'
-    if r["kind"] == "official":
+    if r["kind"] in ("official", "notice"):
         src = f'{FLAG.get(r.get("country"), "")} {_e(r.get("publisher"))}'
         kind = '<span class="kb off">Official</span>'
+    elif r["kind"] == "guideline":
+        src = f'{FLAG.get(r.get("country"), "")} {_e(r.get("publisher"))}'
+        tags = []
+        try:
+            tags = json.loads(r.get("tags") or "[]")
+        except Exception:
+            pass
+        st = tags[0] if tags else ""
+        kind = f'<span class="kb gl">Guideline{" · " + _e(st) if st else ""}</span>'
     elif r["kind"] == "company":
         src = _e(r.get("publisher")) + (f' ({_e(r["ticker"])})' if r.get("ticker") else "")
         kind = '<span class="kb co">Company release</span>'
@@ -94,7 +106,7 @@ def _badge(r: dict) -> str:
 
 
 def _card(r: dict, summary: bool = True, big: bool = False) -> str:
-    ext = r["kind"] == "press"
+    ext = r["kind"] in ("press", "notice", "guideline")
     tgt = ' target="_blank" rel="noopener nofollow"' if ext else ""
     title = _e(r["title"]) + (' <span class="ext">↗</span>' if ext else "")
     summ = (f'<p>{_e(r.get("summary"))}</p>' if summary and r.get("summary") else "")
@@ -116,7 +128,7 @@ _NCSS = """
 .meta2{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--mut)}
 .meta2 .sec{font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:11.5px}
 .kb{font-size:11px;padding:1px 7px;border-radius:999px;border:1px solid var(--line)}
-.kb.off{border-color:#38bdf8;color:#0284c7}.kb.co{border-color:#f59e0b;color:#b45309}.kb.pr{color:var(--mut)}
+.kb.off{border-color:#38bdf8;color:#0284c7}.kb.gl{border-color:#7c3aed;color:#7c3aed}.kb.co{border-color:#f59e0b;color:#b45309}.kb.pr{color:var(--mut)}
 .ext{font-size:12px;color:var(--mut)}
 .grid4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:26px}
 @media(max-width:860px){.grid4{grid-template-columns:1fr}}
@@ -169,7 +181,7 @@ def home():
     used = {id(lead)} | {id(r) for r in top}
 
     def sec_items(k, n=5):
-        rows = [r for r in all_rows if r["section"] == k and id(r) not in used and r["kind"] != "press"]
+        rows = [r for r in all_rows if r["section"] == k and id(r) not in used and r["kind"] not in ("press", "guideline")]
         if len(rows) < n:   # top up with press headlines on the same topic
             rows += [r for r in all_rows if r["section"] == k and r["kind"] == "press"][: n - len(rows)]
         return rows[:n]
@@ -181,6 +193,15 @@ def home():
             continue
         blocks.append(f'<section class="block" style="border-color:{SEC_COLOR[k]}"><h2><span>{_e(nw.SECTIONS[k])}</span>'
                       f'<a href="/news/{k}">More →</a></h2>{"".join(_card(r) for r in items)}</section>')
+    guides = [r for r in all_rows if r["kind"] == "guideline"][:6]
+    if guides:
+        blocks.append(f'<section class="block" style="border-color:#7c3aed"><h2><span>New guidelines: ICH, FDA, EMA, MHRA</span>'
+                      f'<a href="/guidelines">Guidelines tracker →</a></h2>{"".join(_card(r) for r in guides)}</section>')
+    prac = [r for r in all_rows if r["section"] == "pharmacovigilance" and r["kind"] in ("official", "notice")
+            and ("prac" in (r["title"] + " " + (r.get("publisher") or "")).lower() or "signal" in r["title"].lower())][:6]
+    if prac:
+        blocks.append(f'<section class="block" style="border-color:#e11d48"><h2><span>Latest from PRAC &amp; signals</span>'
+                      f'<a href="/safety">Safety hub →</a></h2>{"".join(_card(r) for r in prac)}</section>')
     press = [r for r in all_rows if r["kind"] == "press"][:14]
     company = [r for r in all_rows if r["kind"] == "company"][:6]
 
@@ -377,3 +398,104 @@ def sitemap_urls() -> list[tuple[str, str, str]]:
         if r["kind"] in ("official", "company") and r.get("id"):
             urls.append((_href(r), "monthly", "0.6"))
     return urls
+
+
+# --- guidelines tracker ---------------------------------------------------------------
+
+@router.get("/guidelines", response_class=HTMLResponse, include_in_schema=False)
+def guidelines_page(body: str = "", status: str = "", page: int = 1):
+    page = max(1, page)
+    rows = [r for r in _company_press(limit=1500) if r["kind"] == "guideline"]
+    rows.sort(key=lambda r: r["date"], reverse=True)
+
+    def tags(r):
+        try:
+            return json.loads(r.get("tags") or "[]")
+        except Exception:
+            return []
+    if body == "ICH":
+        rows = [r for r in rows if "ICH" in tags(r) or "ICH" in (r.get("publisher") or "")]
+    elif body in ("FDA", "EMA", "MHRA"):
+        rows = [r for r in rows if (r.get("publisher") or "").startswith(body)]
+    if status:
+        rows = [r for r in rows if status in tags(r)]
+    per = 40
+    shown = rows[(page - 1) * per: page * per]
+    cons = [e for e in cal.load_events() if e["status"] != "past" and e.get("type") in ("consultation", "guideline")][:10]
+
+    def tab(label, b, st=""):
+        on = (b == body and st == status)
+        q = "&".join(x for x in [f"body={b}" if b else "", f"status={st}" if st else ""] if x)
+        return f'<a class="{"on" if on else ""}" href="/guidelines{"?" + q if q else ""}">{_e(label)}</a>'
+    tabs = "".join([tab("All", ""), tab("ICH", "ICH"), tab("FDA", "FDA"), tab("EMA", "EMA"), tab("MHRA", "MHRA"),
+                    tab("Drafts & consultations", body, "draft"), tab("Final", body, "final")])
+    items = "".join(_card(r) for r in shown) or '<p class="note">No guidelines match this filter yet.</p>'
+    pager = '<div class="pager">' + (f'<a class="btn ghost" href="/guidelines?body={_e(body)}&status={_e(status)}&page={page-1}">← Newer</a>' if page > 1 else "") + \
+            (f'<a class="btn ghost" href="/guidelines?body={_e(body)}&status={_e(status)}&page={page+1}">Older →</a>' if len(rows) > page * per else "") + "</div>"
+    cons_html = "".join(f'<div class="ms"><div class="top"><b>{_e(_fmt(e["date"]))}</b><span>{_e(e.get("body"))}</span>{cal._countdown(e)}</div>'
+                        f'<h3><a href="/calendar/{_e(e["slug"])}">{_e(e.get("title"))}</a></h3></div>' for e in cons)
+    body_html = f"""{_ticker()}<main class="wrap">
+<h1 style="font-size:30px;margin-top:18px">Guidelines tracker: ICH, FDA, EMA, MHRA</h1>
+<p class="note" style="font-size:15px">New, draft and final guidance as it is published: FDA notices of availability (including the ICH
+guidelines FDA adopts) from the Federal Register, EMA scientific and procedural guidelines and public consultations (including
+ICH texts adopted in the EU), and MHRA guidance. Each entry links to the official document.</p>
+<div class="tabs">{tabs}</div>
+<div class="split" style="margin-top:8px"><div>{items}{pager}</div>
+<aside class="rail">{f'<section class="panel"><h2><span>Consultations &amp; effective dates</span><a href="/calendar">Calendar →</a></h2>{cons_html}</section>' if cons_html else ""}
+<section class="panel"><h2><span>Get new guidelines daily</span></h2>{pp._newsletter_box("guidelines")}</section></aside></div>
+<p class="note">ICH's own website can't be monitored automatically, so ICH guidelines are tracked through FDA's Federal Register
+notices and EMA's guideline feeds, the two routes by which ICH texts take effect in the US and EU.</p></main>"""
+    return _page("Guidelines tracker: new ICH, FDA, EMA & MHRA guidance | VigiEye",
+                 "Track new, draft and final regulatory guidance from ICH, FDA, EMA and MHRA, with public consultations and "
+                 "effective dates, each linked to the official document.", "/guidelines", body_html)
+
+
+# --- safety hub (replaces the data-only safety page) ------------------------------------
+
+@router.get("/safety", response_class=HTMLResponse, include_in_schema=False)
+def safety_hub():
+    t = date.today()
+    pv = stream(section="pharmacovigilance", kinds=("official", "notice", "company"), limit=400)
+
+    def pick(pred, n=8):
+        return [r for r in pv if pred(r)][:n]
+    pub = lambda r: (r.get("publisher") or "").lower()
+    prac = pick(lambda r: "prac" in (r["title"] + " " + pub(r)).lower() or "signal" in r["title"].lower(), 10)
+    mhra = pick(lambda r: "mhra" in pub(r))
+    fda = pick(lambda r: r.get("country") == "US")
+    national = pick(lambda r: r.get("country") in ("DE", "FR", "ES", "IT", "NL", "IE", "SE", "BE"))
+    other = pick(lambda r: r.get("country") in ("CA", "INT"))
+    dhpc = pp._safe(lambda: pd.milestones_between((t - timedelta(days=180)).isoformat(), t.isoformat(), ["dhpc"], limit=10, desc=True), [])
+    refs = pp._safe(lambda: pd.milestones_between((t - timedelta(days=365)).isoformat(), t.isoformat(),
+                                                  ["referral_start", "prac_recommendation", "referral_opinion", "referral_ec"], limit=10, desc=True), [])
+    short = pp._safe(lambda: pd.milestones_between(None, None, ["shortage"], limit=10, desc=True), [])
+    prac_dates = [e for e in cal.load_events() if e["status"] != "past" and e.get("body") == "PRAC"][:4]
+
+    def blk(title, rows, more=None, color="#e11d48"):
+        if not rows:
+            return ""
+        link = f'<a href="{more}">More →</a>' if more else ""
+        return (f'<section class="block" style="border-color:{color}"><h2><span>{_e(title)}</span>{link}</h2>'
+                f'{"".join(_card(r) for r in rows)}</section>')
+    news_blocks = "".join([blk("Latest from PRAC & EU signals", prac, "/news/pharmacovigilance"),
+                           blk("MHRA Drug Safety Update & alerts", mhra),
+                           blk("FDA: MedWatch, safety communications & recalls", fda),
+                           blk("National agencies (ANSM, AEMPS, BfArM, AIFA...)", national),
+                           blk("Health Canada & WHO", other, color="#64748b")])
+    data_blocks = "".join(x for x in [
+        _rail_panel("EU DHPCs (EMA data)", dhpc, "/news/pharmacovigilance"),
+        _rail_panel("EU referrals (EMA data)", refs, "/news/pharmacovigilance"),
+        _rail_panel("Ongoing EU shortages", short, "/news/pharmacovigilance")] if x)
+    pd_html = "".join(f'<div class="ms"><div class="top"><b>{_e(_fmt(e["date"]))}</b>{cal._countdown(e)}</div>'
+                      f'<h3><a href="/calendar/{_e(e["slug"])}">{_e(e.get("title"))}</a></h3></div>' for e in prac_dates)
+    body = f"""{_ticker()}<main class="wrap">{_secnav("pharmacovigilance")}
+<h1 style="font-size:30px;margin-top:14px">Pharmacovigilance &amp; safety hub</h1>
+<p class="note" style="font-size:15px">PRAC outputs and EU signals, DHPCs, referrals and shortages, MHRA Drug Safety Update, FDA MedWatch
+and recalls, and national agency safety news, updated every day from the official sources.</p>
+<div class="split"><div class="grid4" style="grid-template-columns:1fr;margin-top:6px">{news_blocks or '<p class="note">Safety feeds are loading.</p>'}</div>
+<aside class="rail">{f'<section class="panel"><h2><span>Next PRAC meetings</span><a href="/calendar">Calendar →</a></h2>{pd_html}</section>' if pd_html else ""}
+{data_blocks}<section class="panel"><h2><span>VigiEye Daily</span></h2>{pp._newsletter_box("safety")}</section></aside></div>
+<p class="note">{pp.DISCLAIMER}</p></main>"""
+    return _page("Pharmacovigilance & drug safety hub: PRAC, DHPCs, MHRA, FDA MedWatch, recalls | VigiEye",
+                 "Daily pharmacovigilance news: PRAC recommendations and signals, DHPCs, referrals, shortages, MHRA Drug Safety "
+                 "Update, FDA MedWatch and recalls, with official sources.", "/safety", body)

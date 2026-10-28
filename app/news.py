@@ -250,7 +250,10 @@ def ingest_company(days: int = 4, max_docs: int = 60) -> dict:
             qs = urlencode({"q": q, "forms": "8-K", "dateRange": "custom", "startdt": start, "enddt": end})
             j = pd._http_get(f"{SEC_FTS}?{qs}", timeout=60).json()
             for h in (j.get("hits") or {}).get("hits") or []:
-                if (h["_source"].get("file_type") or "").upper().startswith("EX-99"):
+                src_ = h["_source"]
+                desc_ = f'{src_.get("file_description") or ""} {h["_id"]}'.lower()
+                if (src_.get("file_type") or "").upper().startswith("EX-99") and \
+                        not any(x in desc_ for x in ("presentation", "deck", "slides")):
                     hits[h["_id"]] = h
         except Exception as e:
             errors.append(f"{q}: {e}")
@@ -297,8 +300,19 @@ def ingest_company(days: int = 4, max_docs: int = 60) -> dict:
             summary = (brief.get("summary") or "")[:900]
             section = brief.get("section") if brief.get("section") in SECTIONS else classify(headline, text[:1500])
         else:
-            # no AI: the company's own headline, plus nothing else copied
+            # no AI: only clean headlines that clearly announce a regulatory event
             title, summary, section = headline[:300], None, classify(headline, text[:1500])
+            hl = headline.lower()
+            if (len(headline) < 30 or "contact" in hl or "financial results" in hl or "quarter" in hl
+                    or not re.search(r"fda|approv|chmp|pdufa|designation|ema\b|european commission|"
+                                     r"marketing authori[sz]ation|complete response|clinical hold|warning letter|"
+                                     r"reimburse|priority review|breakthrough|fast track|orphan", hl)):
+                with store._engine.begin() as c:
+                    c.execute(insert(news).values(id=nid, kind="skip", section="industry", publisher=company,
+                                                  title=headline[:300] or "-", url=url,
+                                                  date=src.get("file_date", end), ingested_at=_now()))
+                stats["not_newsworthy"] += 1
+                continue
         if not title:
             continue
         _upsert({"id": nid, "kind": "company", "section": section, "publisher": company, "country": "US",

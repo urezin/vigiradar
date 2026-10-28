@@ -324,7 +324,7 @@ document.querySelectorAll('#list .ms').forEach(el=>{{el.style.display=!v||el.tex
 
 # --- safety -----------------------------------------------------------------
 
-@router.get("/safety", response_class=HTMLResponse, include_in_schema=False)
+@router.get("/safety-data", response_class=HTMLResponse, include_in_schema=False)
 def safety_page():
     t = _today()
     prac = _safe(lambda: pd.milestones_between(_ago(365), t, ["prac_recommendation"], limit=60, desc=True), [])
@@ -727,7 +727,7 @@ To show it on every page, use a header plugin such as WPCode ("Header &amp; Foot
 # --- sitemap extension --------------------------------------------------------
 
 def sitemap_urls() -> list[tuple[str, str, str]]:
-    urls = [("/", "daily", "1.0"), ("/pdufa", "daily", "0.9"), ("/approvals", "daily", "0.9"),
+    urls = [("/", "hourly", "1.0"), ("/guidelines", "daily", "0.9"), ("/pdufa", "daily", "0.9"), ("/approvals", "daily", "0.9"),
             ("/safety", "daily", "0.9"), ("/insights", "weekly", "0.7"), ("/newsletter", "monthly", "0.6"),
             ("/drugs", "weekly", "0.6")]
     for region, slug, _ in _safe(pd.all_drug_ids, []):
@@ -885,6 +885,8 @@ def _run_job(steps: list[str]):
                 from . import ingest as ingest_mod, news as news_mod
                 _JOB["result"]["news"] = ingest_mod.run_ingest(per_source=25)
                 _JOB["result"]["press_company"] = news_mod.run_all()
+                from . import guidelines as guide_mod
+                _JOB["result"]["guidelines_safety"] = guide_mod.run_all()
             elif s == "analyse":
                 _JOB["result"]["analyse"] = analyse_drugs(40)
             elif s == "week":
@@ -916,7 +918,8 @@ def portal_stats():
                 {"official_updates": store.count()}
     return {"counts": _safe(pd.counts, {}), "news_counts": _safe(ncounts, {}),
             "news_last_run": {"new": nres.get("new"), "errors": (nres.get("errors") or [])[:10],
-                              "press_company": res.get("press_company")}, "last_run": {"started": _JOB.get("started"), "finished": _JOB.get("finished"),
+                              "press_company": res.get("press_company"),
+                              "guidelines_safety": res.get("guidelines_safety")}, "last_run": {"started": _JOB.get("started"), "finished": _JOB.get("finished"),
             "running": _JOB.get("running"), "step": _JOB.get("step"), "ingest": summary,
             "analyse": {k: an.get(k) for k in ("candidates", "generated", "unchanged", "error") if k in an},
             "error": res.get("error")}}

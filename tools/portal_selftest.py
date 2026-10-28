@@ -11,6 +11,8 @@ if os.environ.get("SELFTEST_NEWS"):
     from app import ingest, news
     out["radar"] = ingest.run_ingest(per_source=12)
     out["news"] = news.run_all()
+    from app import guidelines
+    out["guidelines"] = guidelines.run_all()
 out["counts"] = pd.counts()
 from datetime import date, timedelta
 t = date.today().isoformat()
