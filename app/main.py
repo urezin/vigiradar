@@ -42,6 +42,24 @@ app.include_router(litmonitor_mod.router)
 app.include_router(portal_mod.router)
 app.include_router(catalysts_mod.router)
 
+from starlette.exceptions import HTTPException as _StarletteHTTPException
+
+
+@app.exception_handler(_StarletteHTTPException)
+async def _html_404(request: Request, exc: _StarletteHTTPException):
+    """Friendly HTML 404 for public pages; JSON stays JSON for /api, /admin, /auth, /billing."""
+    p = request.url.path
+    if exc.status_code == 404 and not p.startswith(("/api", "/admin", "/auth", "/billing")) \
+            and "text/html" in (request.headers.get("accept") or "text/html"):
+        page = catalysts_mod._page("Page not found | VigiEye", "Page not found", settings.app_base_url,
+                                   '<main class="wrap article"><h1>Page not found</h1><p>Try the '
+                                   '<a href="/">portal</a>, <a href="/drugs">drug search</a> or the '
+                                   '<a href="/pdufa">PDUFA calendar</a>.</p></main>')
+        page.status_code = 404
+        return page
+    return JSONResponse({"detail": exc.detail}, status_code=exc.status_code, headers=getattr(exc, "headers", None))
+
+
 # in-memory lead store for the MVP (swap for a DB when persistence is needed)
 _LEADS: list[dict] = []
 
