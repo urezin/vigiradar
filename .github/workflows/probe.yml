@@ -1,0 +1,17 @@
+name: Feed probe (temporary)
+on:
+  push:
+    branches: [probe-feeds]
+    paths: [probe/feeds.py, .github/workflows/probe.yml]
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 probe/feeds.py
+      - run: |
+          git config user.name "probe-bot"; git config user.email "noreply@github.com"
+          git add -f probe/out3 && git commit -m "feed probe results [skip ci]" && git push
