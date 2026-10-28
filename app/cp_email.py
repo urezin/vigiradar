@@ -184,4 +184,50 @@ def send_owner(email: str = "", x_admin_token: str = Header(default="")):
     s2, h2, n2 = render_cp_daily(email)
     out["compepharma"] = emailer.send(email, s2, h2).get("status")
     out["items"] = {"vigieye": n1, "compepharma": n2}
+    try:
+        s3, h3 = render_social_kit()
+        if h3:
+            out["social"] = emailer.send(email, s3, h3).get("status")
+    except Exception as e:
+        out["social"] = f"error: {str(e)[:100]}"
     return out
+
+
+_SOCIAL_PROMPT = """You write LinkedIn posts for the founder of two pharma publications: VigiEye (EU/US regulatory,
+pharmacovigilance, quality, market access) and CompePharma (the business of pharma, earnings analysis). Write 3 posts he can
+paste today, each promoting one of the articles below. Each post: a strong first line, 3-5 short lines of genuine insight
+taken only from the article title and standfirst (no invented facts or numbers), a question to invite comments, the link on
+its own line, and 3 relevant hashtags. Professional, no emojis except at most one, no hype words.
+
+ARTICLES:
+{arts}
+
+Return ONLY JSON: [{{"site":"VigiEye or CompePharma","post":"full post text with line breaks as \\n"}}]"""
+
+
+def render_social_kit() -> tuple[str, str]:
+    """Owner-only: three ready-to-paste LinkedIn posts promoting today's articles (organic traffic)."""
+    from . import articles as art
+    if not settings.anthropic_api_key:
+        return "", ""
+    today = date.today().isoformat()
+    ve = [a for a in art.list_articles(20) if a.get("date") == today][:4]
+    cp = [a for a in art.cp_list(20) if a.get("date") == today][:4]
+    lines = [f"- VigiEye | {a['title']} | {a.get('dek', '')} | {_base()}/analysis/{a['slug']}?utm_source=linkedin" for a in ve]
+    lines += [f"- CompePharma | {a['title']} | {a.get('dek', '')} | {CP}/insights/{a['slug']}?utm_source=linkedin" for a in cp]
+    if not lines:
+        return "", ""
+    import anthropic
+    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    msg = client.messages.create(model=settings.anthropic_model, max_tokens=2000,
+                                 messages=[{"role": "user", "content": _SOCIAL_PROMPT.format(arts="\n".join(lines))}])
+    raw = "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
+    posts = json.loads(raw[raw.find("["): raw.rfind("]") + 1])
+    blocks = "".join(f'<div style="border:1px solid #e3e6eb;border-radius:6px;padding:14px 16px;margin:14px 0">'
+                     f'<div style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#64748b">{_e(p.get("site"))}</div>'
+                     f'<div style="white-space:pre-wrap;font:14px/1.5 system-ui;margin-top:6px">{_e(p.get("post"))}</div></div>'
+                     for p in posts if isinstance(p, dict))
+    html_ = (f'<div style="max-width:660px;margin:auto;font:15px system-ui;color:#0d1321"><p style="font:800 20px system-ui">'
+             f'Today\'s LinkedIn posts</p><p style="color:#64748b">Three ready-to-paste posts promoting today\'s VigiEye and '
+             f'CompePharma articles. Edit freely; links carry utm_source=linkedin so you can see the traffic.</p>{blocks}</div>')
+    return f"Your LinkedIn posts for {date.today().strftime('%d %b')}", html_
