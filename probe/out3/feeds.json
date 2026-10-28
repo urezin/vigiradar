@@ -1,0 +1,373 @@
+{
+ "mhra_atom": {
+  "ok": true,
+  "status": 200,
+  "items": 20,
+  "sample": [
+   "2026-10-28T13:23:46Z | Field Safety Notices: 19 to 23 October 2026",
+   "2026-10-27T17:57:40Z | Access, new active substance and biosimilar work sharing initiatives",
+   "2026-10-27T14:19:45Z | MHRA Safety Roundup: October 2026",
+   "2026-10-27T13:46:22Z | Decision: Medical devices given exceptional use authorisations",
+   "2026-10-27T13:30:29Z | Transparency data: MHRA Performance Data"
+  ]
+ },
+ "mhra_dsu": {
+  "ok": true,
+  "status": 200,
+  "items": 50,
+  "sample": [
+   "2026-10-26T14:16:31+00:00 | #MedSafetyWeek (2 to 8 November 2026): Don't ignore suspected side effects, report them! Updates to the Yellow",
+   "2026-10-20T10:01:49+01:00 | IXCHIQ Chikungunya vaccine: UK marketing authorisation withdrawn following safety review",
+   "2026-10-15T09:30:08+01:00 | Antidepressants: new safety measures for all patients to improve communication of the risk of suicidal thought",
+   "2026-09-02T11:00:02+01:00 | Filters should be used during the administration of Parenteral Nutrition for patients in all care settings",
+   "2026-07-21T14:00:37+01:00 | Domperidone: new contraindication in patients with phaeochromocytoma due to the risk of severe hypertension"
+  ]
+ },
+ "mhra_alerts": {
+  "ok": true,
+  "status": 200,
+  "items": 50,
+  "sample": [
+   "2026-10-28T13:23:46+00:00 | Field Safety Notices: 19 to 23 October 2026",
+   "2026-10-27T14:19:45+00:00 | MHRA Safety Roundup: October 2026",
+   "2026-10-26T11:00:01+00:00 | Class 2 Medicines Recall: Xeal Pharma, Clopidogrel Oral Liquids (all strengths), EL(26)A/43",
+   "2026-10-19T15:44:24+01:00 | Field Safety Notices: 5 to 9 October 2026",
+   "2026-10-19T12:07:29+01:00 | Field Safety Notices: 12 to 16 October 2026"
+  ]
+ },
+ "fda_recalls": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "fda_biologics": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "fda_whatsnew_drugs": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "fda_devices": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "fda_safety_comms": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "fda_warning_letters": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "who_news": {
+  "ok": true,
+  "status": 200,
+  "items": 109,
+  "sample": [
+   "Sat, 10 Oct 2026 07:49:45 | New WHO technical package to help countries improve health data for COVID-19 response and beyond",
+   "Sat, 24 Jan 2026 20:09:49 | WHO statement on notification of withdrawal of the United States",
+   "Wed, 23 Jul 2025 10:07:41 | Timor-Leste certified malaria-free by WHO",
+   "Sat, 24 May 2025 17:47:21 | African Union and World Health Organization renew strategic partnership to drive impact and strengthen health ",
+   "Tue, 01 Apr 2025 11:55:48 | Strengthening public health across Lebanon with EIB Global"
+  ]
+ },
+ "ec_health_news": {
+  "ok": true,
+  "status": 200,
+  "items": 30,
+  "sample": [
+   "Wed, 28 Oct 2026 14:02:33 | Minutes - SoHO Coordination Board (SCB) (29 September 2026)",
+   "Wed, 28 Oct 2026 12:05:25 | Opinion of the Health Security Committee on mosquito-borne diseases",
+   "Wed, 28 Oct 2026 11:52:58 | Climate change, public health preparedness and mosquito-borne diseases on the Health Security Committee Plenar",
+   "Wed, 28 Oct 2026 11:27:10 | Singapore added to the list of recognised third countries for importation of active substances",
+   "Wed, 28 Oct 2026 14:26:32 | Presentations and recording - EUHPP Live Webinar: Pollen season on the rise: are we ready for the next respira"
+  ]
+ },
+ "ec_presscorner_health": {
+  "ok": false,
+  "error": "<HTTPError 400: 'Bad Request'>"
+ },
+ "ema_whatsnew": {
+  "ok": true,
+  "status": 200,
+  "items": 538,
+  "sample": [
+   "Wed, 28 Oct 2026 16:45:00 | Quarterly System Demo - Q4 2026, Online, European Medicines Agency, Amsterdam, the Netherlands, Broadcast, fro",
+   "Wed, 28 Oct 2026 16:20:00 | Veterinary medicines European public assessment report (EPAR): Cirbloc, porcine circovirus vaccine (inactivate",
+   "Wed, 28 Oct 2026 16:15:59 | Notice to sponsors on validation and qualification of computerised systems used in clinical trials",
+   "Wed, 28 Oct 2026 16:08:00 | Human medicines European public assessment report (EPAR): Dazparda, insulin aspart, Date of authorisation: 27/",
+   "Wed, 28 Oct 2026 16:00:00 | Meeting of the Medicine Shortages Single Point of Contact (SPOC) Working Party, Online, from 7 December 2027, "
+  ]
+ },
+ "ema_press": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "hpra": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found!'>"
+ },
+ "ansm": {
+  "ok": true,
+  "status": 200,
+  "items": 2,
+  "sample": [
+   "Wed, 28 Oct 2026 10:44:23 | D\u00e9cision du 22/10/2026 - Modification au r\u00e9pertoire des groupes g\u00e9n\u00e9riques mentionn\u00e9 \u00e0 l\u2019article R. 5121-5 du ",
+   "Wed, 28 Oct 2026 14:49:24 | D\u00e9cision du 27/10/2026 - Modification de la liste des m\u00e9dicaments de m\u00e9dication officinale mentionn\u00e9e \u00e0 l\u2019arti"
+  ]
+ },
+ "aemps": {
+  "ok": true,
+  "status": 200,
+  "items": 30,
+  "sample": [
+   "Wed, 28 Oct 2026 15:15:50 | La AEMPS informa de la retirada y recuperaci\u00f3n del lote 20250620 del cosm\u00e9tico Smilekit Teeth Whitening pen",
+   "Tue, 27 Oct 2026 16:16:24 | La AEMPS retira el producto Enerup Premium por contener sildenafilo y no declararlo",
+   "Mon, 26 Oct 2026 11:39:35 | La AEMPS alerta del riesgo de que los animales de compa\u00f1\u00eda entren en contacto con medicamentos t\u00f3picos de uso ",
+   "Mon, 26 Oct 2026 08:12:58 | La AEMPS inicia los IPT de los medicamentos que han obtenido una opini\u00f3n positiva en la reuni\u00f3n del CHMP celeb",
+   "Fri, 23 Oct 2026 12:11:48 | La AEMPS informa del riesgo de bloqueo incompleto de los carros LUNA X5 para elevadores de techo"
+  ]
+ },
+ "swissmedic": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "nice_news": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "nice_guidance": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "gba": {
+  "ok": false,
+  "status": 200,
+  "ct": "text/html; charset=UTF-8",
+  "parse": "ParseError('not well-formed (invalid token): line 105, column 91')",
+  "head": "<!DOCTYPE html>\n<html xml:lang=\"de\" lang=\"de\" xmlns=\"http://www.w3.org/1999/xhtml\" class=\"no-js\">\n    <head>\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n        <meta"
+ },
+ "gba_news": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "has": {
+  "ok": false,
+  "status": 200,
+  "ct": "text/html;charset=UTF-8",
+  "parse": "ParseError('not well-formed (invalid token): line 6, column 69')",
+  "head": "\n\n\r\n\r\n<!DOCTYPE html>\n<html lang=\"fr\" xml:lang=\"fr\" dir=\"ltr\"  xmlns:og=\"http://ogp.me/ns#\"class=\"no-js\" >\n<head>\n  \n\n  <base href=\"https://www.has-sante.fr/\"   />\n  \n  <meta charset=\"UTF-8\" />\n  <met"
+ },
+ "iqwig": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "cms_newsroom": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "icer": {
+  "ok": true,
+  "status": 200,
+  "items": 2,
+  "sample": [
+   "Fri, 15 May 2026 06:00:00 | Join the ICER Scientific Advice Webinar!",
+   "Tue, 07 Jul 2020 14:25:44 | Hello world!"
+  ]
+ },
+ "oig_hhs": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "doj_opa": {
+  "ok": true,
+  "status": 200,
+  "items": 25,
+  "sample": [
+   "Wed, 28 Oct 2026 12:00:00 | Justice Department Releases Eighth Annual Elder Justice Report",
+   "Tue, 27 Oct 2026 12:00:00 | Justice Department Sues to Stop Secret Gender Transitions at Anne Arundel County Public Schools",
+   "Tue, 27 Oct 2026 12:00:00 | American Woman Convicted of Receiving Military Training From ISIS in Syria",
+   "Tue, 27 Oct 2026 12:00:00 | Gainesville Woman Convicted in $8.6M Medicare Fraud Scheme",
+   "Tue, 27 Oct 2026 12:00:00 | Contractor Pleads Guilty to Paying Kickbacks Related to U.S. Postal Service Facilities Repair Contracts"
+  ]
+ },
+ "efpia": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "ec_competition": {
+  "ok": false,
+  "error": "<HTTPError 400: 'Bad Request'>"
+ },
+ "biopharmadive": {
+  "ok": true,
+  "status": 200,
+  "items": 10,
+  "sample": [
+   "Wed, 28 Oct 2026 11:53:00 | Lilly\u2019s \u2018triple-G\u2019 drug tops Novo\u2019s Ozempic in diabetes trial",
+   "Wed, 28 Oct 2026 11:15:00 | FDA unveils guidance for \u2018plug and play\u2019 gene therapies",
+   "Wed, 28 Oct 2026 09:27:00 | Lilly shuffles business structure; Novartis writes off part of Avidity deal",
+   "Tue, 27 Oct 2026 16:53:00 | Ferring to acquire next-gen IVF startup Gameto for up to $1.4B",
+   "Tue, 27 Oct 2026 12:03:00 | Court rejects Novo bid to block Lilly obesity drug ads"
+  ]
+ },
+ "fiercepharma": {
+  "ok": true,
+  "status": 200,
+  "items": 25,
+  "sample": [
+   "Oct 28, 2026 10:52am | ",
+   "Oct 28, 2026 9:51am | ",
+   "Oct 28, 2026 10:15am | ",
+   "Oct 28, 2026 10:09am | ",
+   "Oct 28, 2026 8:14am | "
+  ]
+ },
+ "fiercebiotech": {
+  "ok": true,
+  "status": 200,
+  "items": 25,
+  "sample": [
+   "Oct 28, 2026 10:06am | ",
+   "Oct 27, 2026 4:05pm | ",
+   "Oct 28, 2026 7:46am | ",
+   "Oct 28, 2026 6:34am | ",
+   "Oct 11, 2026 7:49am | "
+  ]
+ },
+ "endpoints": {
+  "ok": true,
+  "status": 200,
+  "items": 24,
+  "sample": [
+   "Wed, 28 Oct 2026 15:25:26 | Analysts press Biogen on lupus drug litifilimab ahead of pivotal readouts",
+   "Wed, 28 Oct 2026 15:15:11 | Pfizer India site closure risks exacerbating cancer drug shortages",
+   "Wed, 28 Oct 2026 14:08:53 | Beijing-based BioGeometry gets $100M+ for AI drug R&D",
+   "Wed, 28 Oct 2026 13:00:06 | Now 78% of scientists say AI will speed drug discovery this year: Signal Survey",
+   "Wed, 28 Oct 2026 10:45:48 | Lilly's triple-G drug retatrutide outshines Novo's Ozempic in diabetes"
+  ]
+ },
+ "statnews": {
+  "ok": true,
+  "status": 200,
+  "items": 20,
+  "sample": [
+   "Wed, 28 Oct 2026 15:14:49 | Senate candidate El-Sayed wants to \u2018grill\u2019 RFK Jr., calls him the \u2018most incompetent HHS secretary ever\u2019",
+   "Wed, 28 Oct 2026 14:52:17 | STAT+: Why every health care AI company must face Epic",
+   "Wed, 28 Oct 2026 13:44:59 | STAT+: Pharmalittle: We\u2019re reading about 340B battles, new results for a Lilly weight loss drug, and more",
+   "Wed, 28 Oct 2026 13:42:44 | STAT+: Lilly\u2019s triple-G drug beats Ozempic in head-to-head study",
+   "Wed, 28 Oct 2026 12:01:13 | What has actually caused the decline in drug overdose deaths?"
+  ]
+ },
+ "raps": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "pharmatimes": {
+  "ok": true,
+  "status": 200,
+  "items": 10,
+  "sample": [
+   "Wed, 28 Oct 2026 09:56:47 | Radiotherapy boosts progression\u2011free survival in advanced lung cancer",
+   "Wed, 28 Oct 2026 09:31:48 | Mad for it",
+   "Tue, 27 Oct 2026 09:29:40 | Microbiotica presents phase 1b data for MB097 at ESMO 2026",
+   "Tue, 27 Oct 2026 09:26:18 | FDA approves Hibsago for chronic hepatitis B",
+   "Mon, 26 Oct 2026 09:27:49 | FDA approves Enspryng for at\u2011home TED treatment"
+  ]
+ },
+ "europeanpharmaceuticalreview": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "pharmaphorum": {
+  "ok": true,
+  "status": 200,
+  "items": 10,
+  "sample": [
+   "Wed, 28 Oct 2026 14:09:01 | Astellas pays $285m for Audax cancer drug, and other deals",
+   "Wed, 28 Oct 2026 13:10:09 | GSK shares come under pressure from weaker vaccine sales",
+   "Wed, 28 Oct 2026 11:50:26 | Lilly's triple G overpowers Ozempic in diabetes trial",
+   "Wed, 28 Oct 2026 10:53:21 | AbbVie bids to join the BCMA crowd with etentamig",
+   "Wed, 28 Oct 2026 09:39:15 | US MCT8 deficiency patients get 1st drug as Emcitate debuts"
+  ]
+ },
+ "biospace": {
+  "ok": false,
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "pmlive": {
+  "ok": true,
+  "status": 200,
+  "items": 10,
+  "sample": [
+   "Wed, 28 Oct 2026 11:30:00 | Novartis presents positive results from two phase 3 trials for relapsing MS",
+   "Wed, 28 Oct 2026 11:15:00 | MHRA approves new oral treatment for moderate-to-severe plaque psoriasis",
+   "Tue, 27 Oct 2026 12:52:09 | New MHRA research published\u202fon needle-free Strep A vaccine",
+   "Tue, 27 Oct 2026 12:05:21 | Spica Therapeutics appoints Jeff Abbey as CEO",
+   "Mon, 26 Oct 2026 12:50:18 | Roche announces phase 3 results for KRAS G12C-mutated non-small cell lung cancer"
+  ]
+ },
+ "fiercehealthcare": {
+  "ok": true,
+  "status": 200,
+  "items": 25,
+  "sample": [
+   "Oct 27, 2026 5:13pm | ",
+   "Oct 28, 2026 8:09am | ",
+   "Oct 28, 2026 9:50am | ",
+   "Oct 27, 2026 4:24pm | ",
+   "Oct 27, 2026 3:28pm | "
+  ]
+ },
+ "pharmaceutical_technology": {
+  "ok": false,
+  "error": "<HTTPError 403: 'Forbidden'>"
+ },
+ "in_pharmatechnologist": {
+  "ok": false,
+  "error": "<HTTPError 410: 'Gone'>"
+ },
+ "outsourcing_pharma": {
+  "ok": false,
+  "error": "<HTTPError 410: 'Gone'>"
+ },
+ "fedreg": {
+  "ok": true,
+  "status": 200
+ },
+ "sec \"CHMP\" \"positive opinion\"": {
+  "total": 0,
+  "sample": []
+ },
+ "sec \"FDA approval\"": {
+  "total": 37,
+  "sample": [
+   "Senti Biosciences Holdings, Inc.  (SNTI)  (CIK 0001854270) 2026-10-26",
+   "UNITED THERAPEUTICS Corp  (UTHR)  (CIK 0001082554) 2026-10-14",
+   "ImmunityBio, Inc.  (IBRX)  (CIK 0001326110) 2026-10-14",
+   "Eton Pharmaceuticals, Inc.  (ETON)  (CIK 0001710340) 2026-10-14"
+  ]
+ },
+ "sec \"Complete Response Letter\"": {
+  "total": 4,
+  "sample": [
+   "Aquestive Therapeutics, Inc.  (AQST)  (CIK 0001398733) 2026-10-15",
+   "Biohaven Ltd.  (BHVN)  (CIK 0001935979) 2026-10-22",
+   "Ensysce Biosciences, Inc.  (ENSC)  (CIK 0001716947) 2026-10-16",
+   "Ensysce Biosciences, Inc.  (ENSC)  (CIK 0001716947) 2026-10-16"
+  ]
+ },
+ "sec \"European Commission\" \"marketing authorization\"": {
+  "total": 0,
+  "sample": []
+ },
+ "sec \"reimbursement\"": {
+  "total": 557,
+  "sample": [
+   "MATTEL INC /DE/  (MAT)  (CIK 0000063276) 2026-10-14",
+   "Macquarie Infrastructure Fund, L.P.  (CIK 0002079966) 2026-10-28",
+   "Orion Group Holdings Inc  (ORN)  (CIK 0001402829) 2026-10-15",
+   "DYNAMIC AEROSPACE SYSTEMS Corp  (BRQL)  (CIK 0001854526) 2026-10-23"
+  ]
+ }
+}
