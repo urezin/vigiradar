@@ -81,7 +81,7 @@ milestones = Table(
 sec_seen = Table(
     "portal_sec_seen", _meta,
     Column("id", String(120), primary_key=True),
-    Column("result", String(20)),
+    Column("result", Text),                              # json: extracted items for this filing
     Column("seen_at", String(40), nullable=False),
 )
 
@@ -526,17 +526,6 @@ def _ai_extract(text: str) -> list[dict] | None:
         return None
 
 
-def _guess_drug(context: str) -> str:
-    """Heuristic drug name near a PDUFA mention when AI is unavailable."""
-    for pat in [r"\b([A-Z][A-Za-z0-9\-]{2,}(?:™|®)?)\s*\(([a-z][a-z\-]+(?:\s[a-z\-]+)?)\)",
-                r"\b(?:for|of)\s+([A-Z]{2,}[\-\s]?\d{2,}[A-Za-z0-9\-]*)",
-                r"\b([a-z]{4,}(?:mab|nib|cel|tide|stat|parin|vir|gene|sen|ran))\b"]:
-        m = re.search(pat, context)
-        if m:
-            return m.group(1).replace("™", "").replace("®", "")
-    return ""
-
-
 def _sec_search(phrase: str, start: str, end: str, max_hits: int = 200) -> list[dict]:
     from urllib.parse import urlencode
     hits, frm = [], 0
@@ -553,13 +542,77 @@ def _sec_search(phrase: str, start: str, end: str, max_hits: int = 200) -> list[
     return hits
 
 
+_DATELINE = re.compile(r"\b[A-Z][A-Za-z .,'\-]{2,40}?,?\s*(?:\([^)]*\)\s*)?[,\-–—]?\s*(?:" + _MONTHS +
+                       r")\s+\d{1,2},\s+20\d\d\s*(?:/|\()")
+
+
+def extract_headline(text: str) -> str:
+    """Press-release headline: text between 'Exhibit 99.x' and the city/date dateline."""
+    t = text
+    m = re.search(r"Exhibit\s+99\.\d+", t, re.I)
+    if m:
+        t = t[m.end():]
+    d = _DATELINE.search(t[:900])
+    head = t[: d.start()] if d and d.start() > 25 else t[:220]
+    head = re.split(r"\s[–—-]\s(?=[A-Z])", head.strip())[0]
+    return re.sub(r"\s+", " ", head).strip(" -–—")[:220]
+
+
+def _resolve_pdufa(cached: list[dict]) -> list[dict]:
+    """Turn cached per-filing extractions into one current row per company+drug (or per company
+    when the drug name isn't known). The newest filing wins, so extended dates replace old ones."""
+    cached = sorted(cached, key=lambda c: c.get("filed", ""), reverse=True)
+    best: dict[str, dict] = {}
+    latest_unnamed_filing: dict[str, str] = {}
+    named_dates: dict[str, set] = {}
+    for c in cached:
+        cs = company_slug(c["company"])
+        for it in c.get("items", []):
+            if it.get("drug"):
+                key = f"{cs}|{slugify(it['drug'])}"
+                if key not in best:
+                    best[key] = {**it, **{k: c[k] for k in ("company", "ticker", "filed", "url", "headline")}}
+                    named_dates.setdefault(cs, set()).add(it["date"])
+    for c in cached:
+        cs = company_slug(c["company"])
+        unnamed = [it for it in c.get("items", []) if not it.get("drug")]
+        if not unnamed:
+            continue
+        if cs in latest_unnamed_filing and latest_unnamed_filing[cs] != c["filed"]:
+            continue          # only the newest unnamed filing per company counts
+        latest_unnamed_filing[cs] = c["filed"]
+        for it in unnamed:
+            if it["date"] in named_dates.get(cs, set()):
+                continue
+            key = f"{cs}|date-{it['date']}"
+            best.setdefault(key, {**it, **{k: c[k] for k in ("company", "ticker", "filed", "url", "headline")}})
+    rows = []
+    for key, it in best.items():
+        company, drug = it["company"], it.get("drug") or ""
+        if drug:
+            title = f"{drug}: PDUFA target action date" + (f" ({it['indication']})" if it.get("indication") else "")
+        else:
+            title = f"{company}: PDUFA target action date"
+        detail = "; ".join(x for x in [
+            f"{company}" + (f" ({it['ticker']})" if it.get("ticker") else ""), it.get("inn", ""),
+            it.get("application", ""), f"status: {it['status']}" if it.get("status") else "",
+            f'"{it["headline"]}"' if it.get("headline") else "", f"filed {it['filed']}"] if x)
+        rows.append({"id": _mid("pdufa", key), "date": it["date"], "region": "US", "kind": "pdufa",
+                     "title": title, "detail": detail, "drug_name": drug or None, "drug_id": None,
+                     "inn": it.get("inn") or None, "company": company, "company_slug": company_slug(company),
+                     "impact": "high", "source_url": it["url"], "source_type": "company_filing",
+                     "source_label": f"{company} 8-K filed {it['filed']} (SEC EDGAR)"})
+    return rows
+
+
 def ingest_sec_pdufa(lookback_days: int = 540, max_docs: int = 250) -> dict:
-    """PDUFA dates companies announced in 8-K exhibits (press releases)."""
+    """PDUFA dates companies announced in 8-K exhibits (press releases).
+    Each filing is downloaded and parsed once (cached in portal_sec_seen); the PDUFA table is
+    rebuilt from the cache every run so the newest statement per product always wins."""
     init()
     end = date.today().isoformat()
     start = (date.today() - timedelta(days=lookback_days)).isoformat()
-    hits = {}
-    errors = []
+    hits, errors = {}, []
     for ph in _PDUFA_PHRASES:
         try:
             for h in _sec_search(ph, start, end):
@@ -567,9 +620,9 @@ def ingest_sec_pdufa(lookback_days: int = 540, max_docs: int = 250) -> dict:
         except Exception as e:
             errors.append(f"search {ph}: {e}")
         time.sleep(0.25)
-    # newest first so the latest statement per drug wins
     ordered = sorted(hits.values(), key=lambda h: h["_source"].get("file_date", ""), reverse=True)
-    stats = {"hits": len(ordered), "processed": 0, "found": 0, "skipped_seen": 0, "errors": errors}
+    stats = {"hits": len(ordered), "processed": 0, "ai_mode": bool(settings.anthropic_api_key),
+             "skipped_seen": 0, "errors": errors}
     with store._engine.connect() as c:
         seen = {r[0] for r in c.execute(select(sec_seen.c.id))}
     for h in ordered:
@@ -589,54 +642,46 @@ def ingest_sec_pdufa(lookback_days: int = 540, max_docs: int = 250) -> dict:
             stats["errors"].append(f"{hid}: {e}")
             continue
         stats["processed"] += 1
-        time.sleep(0.15)   # SEC fair-access: stay well under 10 req/s
+        time.sleep(0.15)   # SEC fair access: well under 10 requests/second
         disp = (src.get("display_names") or [""])[0]
         cm = re.match(r"^(.*?)\s*\(([A-Z0-9.\-, ]+)\)\s*\(CIK", disp)
-        company = (cm.group(1) if cm else disp.split("(CIK")[0]).strip().title()
-        ticker = (cm.group(2).split(",")[0].strip() if cm else "")
-        filed = src.get("file_date", "")
+        company = (cm.group(1) if cm else disp.split("(CIK")[0]).strip()
+        company = company.title() if company.isupper() else company
+        ticker = cm.group(2).split(",")[0].strip() if cm else ""
         found = extract_pdufa_regex(text)
         items = []
         ai = _ai_extract(text) if found else None
         if ai:
+            flat = text.replace(".", "")
             for it in ai:
                 dm = _DATE_RE.search(it.get("pdufa_date_text") or "")
                 iso = _to_iso(*dm.groups()) if dm else None
-                # anti-hallucination: the date text must literally occur in the filing
-                if iso and dm.group(0).replace(".", "") in text.replace(".", ""):
-                    items.append({"date": iso, "drug": (it.get("drug") or "").strip(),
-                                  "inn": (it.get("inn") or "").strip(),
-                                  "indication": (it.get("indication") or "").strip(),
-                                  "application": (it.get("application") or "").strip(),
-                                  "status": (it.get("status") or "").strip()})
+                # anti-hallucination: the date must literally appear in the filing
+                if iso and dm.group(0).replace(".", "") in flat:
+                    items.append({"date": iso, "drug": (it.get("drug") or "").strip()[:80],
+                                  "inn": (it.get("inn") or "").strip()[:80],
+                                  "indication": (it.get("indication") or "").strip()[:120],
+                                  "application": (it.get("application") or "").strip()[:10],
+                                  "status": (it.get("status") or "").strip()[:20]})
         if not items:
-            for f in found:
-                items.append({"date": f["date"], "drug": _guess_drug(f["context"]), "inn": "",
-                              "indication": "", "application": "", "status": ""})
-        for it in items:
-            drug = it["drug"] or "Product"
-            key = f"{company_slug(company)}|{slugify(drug)}"
-            mid = _mid("pdufa", key)
-            # keep the newest filing's statement for each company+drug
-            with store._engine.connect() as c:
-                prev = c.execute(select(milestones.c.detail).where(milestones.c.id == mid)).first()
-            if prev and f"filed {filed}" not in (prev[0] or "") and prev[0] and \
-                    re.search(r"filed (\d{4}-\d{2}-\d{2})", prev[0]) and \
-                    re.search(r"filed (\d{4}-\d{2}-\d{2})", prev[0]).group(1) > filed:
-                continue
-            detail = "; ".join(x for x in [
-                f"{company}" + (f" ({ticker})" if ticker else ""), it["inn"], it["indication"],
-                it["application"], f"status: {it['status']}" if it["status"] else "",
-                f"filed {filed}"] if x)
-            _upsert_milestone({"id": mid, "date": it["date"], "region": "US", "kind": "pdufa",
-                               "title": f"{drug}: PDUFA target action date" + (f" ({it['indication']})" if it["indication"] else ""),
-                               "detail": detail, "drug_name": drug, "drug_id": None, "inn": it["inn"],
-                               "company": company, "company_slug": company_slug(company), "impact": "high",
-                               "source_url": url, "source_type": "company_filing",
-                               "source_label": f"{company} 8-K filed {filed} (SEC EDGAR)"})
-            stats["found"] += 1
+            for d_ in sorted({f["date"] for f in found}):
+                items.append({"date": d_, "drug": "", "inn": "", "indication": "", "application": "", "status": ""})
+        rec = {"company": company, "ticker": ticker, "filed": src.get("file_date", ""), "url": url,
+               "headline": extract_headline(text), "items": items, "mode": "ai" if ai else "regex"}
         with store._engine.begin() as c:
-            c.execute(insert(sec_seen).values(id=hid, result=str(len(items)), seen_at=_now()))
+            c.execute(insert(sec_seen).values(id=hid, result=json.dumps(rec), seen_at=_now()))
+    with store._engine.connect() as c:
+        cached = []
+        for (res,) in c.execute(select(sec_seen.c.result)):
+            try:
+                r = json.loads(res or "{}")
+                if r.get("items"):
+                    cached.append(r)
+            except Exception:
+                pass
+    rows = _resolve_pdufa(cached)
+    stats["filings_with_dates"] = len(cached)
+    stats["milestones"] = _replace_kinds(["pdufa"], rows)
     return stats
 
 

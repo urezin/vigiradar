@@ -19,4 +19,4 @@ jobs:
       - run: |
           git config user.name "probe-bot"; git config user.email "noreply@github.com"
           cp selftest.db probe/out2/selftest.db || true
-          git add probe/out2 && git commit -m "selftest results [skip ci]" && git push
+          git add -f probe/out2 && git commit -m "selftest results [skip ci]" && git push

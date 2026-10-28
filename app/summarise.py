@@ -21,7 +21,7 @@ from . import taxonomy
 log = logging.getLogger("vigiradar.summarise")
 
 _SYSTEM = (
-    "You are a regulatory intelligence analyst for EU pharmacovigilance and "
+    "You are a regulatory intelligence analyst for EU and US pharmacovigilance and "
     "medicines regulation. You write for regulatory-affairs and PV professionals. "
     "Be precise, factual, and never invent specifics not present in the input."
 )

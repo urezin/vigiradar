@@ -21,7 +21,8 @@ from .data import UPDATES, COUNTRIES, SUBJECTS
 from . import (store, ingest as ingest_mod, digest as digest_mod, emailer,
                prices as prices_mod, auth as auth_mod, billing as billing_mod,
                compliance as compliance_mod, medmonitor as medmonitor_mod,
-               litmonitor as litmonitor_mod, catalysts as catalysts_mod)
+               litmonitor as litmonitor_mod, catalysts as catalysts_mod,
+               portal_pages as portal_mod)
 
 log = logging.getLogger("vigiradar")
 
@@ -36,7 +37,9 @@ app.mount("/static", StaticFiles(directory=_STATIC), name="static")
 app.include_router(compliance_mod.router)
 app.include_router(medmonitor_mod.router)
 app.include_router(litmonitor_mod.router)
-# Public, indexable catalyst calendar + radar (the organic-traffic layer).
+# Public portal (home, PDUFA, approvals, safety, drugs, companies, insights, ticker)
+# and the EU catalyst calendar + radar. "/" is the portal; the module hub is /hub.
+app.include_router(portal_mod.router)
 app.include_router(catalysts_mod.router)
 
 # in-memory lead store for the MVP (swap for a DB when persistence is needed)
@@ -51,13 +54,6 @@ class LeadIn(BaseModel):
 class CheckoutIn(BaseModel):
     sku: str
     email: str | None = None
-
-
-@app.get("/", include_in_schema=False)
-def landing():
-    # Homepage is now the modular hub (CompePharma-style): a module store when
-    # signed out, a modular dashboard when signed in.
-    return FileResponse(os.path.join(_STATIC, "hub.html"))
 
 
 @app.get("/hub", include_in_schema=False)
