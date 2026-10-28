@@ -1,5 +1,5 @@
 {
- "started": "2026-10-28T15:41:44Z",
+ "started": "2026-10-28T15:49:06Z",
  "results": {
   "ema_medicines": {
    "drugs": 2357,
@@ -17,24 +17,24 @@
     "Expired": 17,
     "Withdrawn from rolling review": 2
    },
-   "seconds": 4.1
+   "seconds": 8.7
   },
   "ema_referrals": {
    "milestones": 16,
-   "seconds": 0.5
+   "seconds": 0.1
   },
   "ema_dhpc": {
    "milestones": 22,
-   "seconds": 0.7
+   "seconds": 0.1
   },
   "ema_shortages": {
    "milestones": 32,
-   "seconds": 0.3
+   "seconds": 0.1
   },
   "fda_approvals": {
    "drugs": 153,
    "milestones": 153,
-   "seconds": 4.8
+   "seconds": 5.0
   },
   "fda_adcomm": {
    "notices": 8,
@@ -44,10 +44,12 @@
   "sec_pdufa": {
    "hits": 400,
    "processed": 250,
-   "found": 197,
+   "ai_mode": false,
    "skipped_seen": 0,
    "errors": [],
-   "seconds": 99.1
+   "filings_with_dates": 203,
+   "milestones": 93,
+   "seconds": 72.3
   }
  },
  "counts": {
@@ -65,7 +67,7 @@
    "eu_refusal": 6,
    "eu_withdrawal": 10,
    "fda_approval": 153,
-   "pdufa": 129,
+   "pdufa": 93,
    "prac_recommendation": 1,
    "referral_ec": 4,
    "referral_opinion": 7,
@@ -75,112 +77,112 @@
  },
  "samples": {
   "pdufa": {
-   "total": 129,
-   "future": 56,
+   "total": 93,
+   "future": 39,
    "sample_future": [
     {
      "date": "2026-10-30",
-     "title": "INO-3107: PDUFA target action date",
-     "detail": "Inovio Pharmaceuticals, Inc. (INO); filed 2026-08-12",
+     "title": "Inovio Pharmaceuticals, Inc.: PDUFA target action date",
+     "detail": "Inovio Pharmaceuticals, Inc. (INO); \"INOVIO Reports Second Quarter 2026 Financial Results and Recent Business Highlights \u2022 U.S. Food and Drug Administration (FDA) review of Biologics License Application (BLA) for INO-3107 as a treatment for Recurrent Respi\"; filed 2026-08-12",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1055726/000105572626000024/ino-63026x8kex991.htm"
     },
     {
-     "date": "2026-10-30",
-     "title": "Product: PDUFA target action date",
-     "detail": "Inovio Pharmaceuticals, Inc. (INO); filed 2026-03-12",
-     "source_url": "https://www.sec.gov/Archives/edgar/data/1055726/000105572626000009/ino-123125x8kex991.htm"
-    },
-    {
      "date": "2026-11-01",
-     "title": "AG-236: PDUFA target action date",
-     "detail": "Agios Pharmaceuticals, Inc. (AGIO); filed 2026-07-30",
-     "source_url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922226000115/agio-73026xfyxex991earning.htm"
-    },
-    {
-     "date": "2026-11-01",
-     "title": "Product: PDUFA target action date",
-     "detail": "Agios Pharmaceuticals, Inc. (AGIO); filed 2026-07-30",
+     "title": "Agios Pharmaceuticals, Inc.: PDUFA target action date",
+     "detail": "Agios Pharmaceuticals, Inc. (AGIO); \"EX-99.1 2 agio-73026xfyxex991earning.htm EX-99.1 Document Agios Reports Second Quarter 2026 Financial Results and Provides Business Update \u2022 Mitapivat (PYRUKYND\u00ae and AQVESME\u2122) delivered worldwide net revenues of $44.7 mi\"; filed 2026-07-30",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922226000115/agio-73026xfyxex991earning.htm"
     },
     {
      "date": "2026-11-14",
-     "title": "osimertinib: PDUFA target action date",
-     "detail": "Summit Therapeutics Inc. (SMMT); filed 2026-09-29",
+     "title": "Summit Therapeutics Inc.: PDUFA target action date",
+     "detail": "Summit Therapeutics Inc. (SMMT); \"AstraZeneca Makes $2 Billion Strategic Equity Investment in Summit Therapeutics Investment in Preferred Shares Convertible to Common Equity, Equivalent to a Per-Share Price of Summit\u2019s Common Stock of $18.36, Representi\"; filed 2026-09-29",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1599298/000119312526405776/d178892dex991.htm"
     },
     {
      "date": "2026-11-14",
-     "title": "Product: PDUFA target action date",
-     "detail": "Summit Therapeutics Inc. (SMMT); filed 2026-09-15",
-     "source_url": "https://www.sec.gov/Archives/edgar/data/1599298/000159929826000081/a2026_prx0915xharmoniltf.htm"
-    },
-    {
-     "date": "2026-11-14",
-     "title": "ivonescimab: PDUFA target action date",
-     "detail": "Summit Therapeutics Inc. (SMMT); filed 2026-07-23",
-     "source_url": "https://www.sec.gov/Archives/edgar/data/1599298/000159929826000067/a2026_prx0723xq22026earn.htm"
-    },
-    {
-     "date": "2026-11-14",
-     "title": "Product: PDUFA target action date",
-     "detail": "Bioxcel Therapeutics, Inc. (BTAI); filed 2026-05-15",
+     "title": "BioXcel Therapeutics, Inc.: PDUFA target action date",
+     "detail": "BioXcel Therapeutics, Inc. (BTAI); \"Exhibit 99.1 BioXcel Therapeutics Provides Business Update and Reports First Quarter 2026 Financial Results FDA accepted sNDA for IGALMI\u00ae use in at-home (outpatient) setting; set Nov. 14, 2026, as PDUFA date Advancing B\"; filed 2026-05-15",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1720893/000110465926061773/tm2614679d1_ex99-1.htm"
     },
     {
      "date": "2026-11-14",
-     "title": "Product: PDUFA target action date",
-     "detail": "Cytokinetics Inc (CYTK); filed 2026-05-05",
-     "source_url": "https://www.sec.gov/Archives/edgar/data/1061983/000119312526206420/d124879dex991.htm"
+     "title": "Cytokinetics Inc: PDUFA target action date",
+     "detail": "Cytokinetics Inc (CYTK); \"EX-99.1 2 cytk-ex99_1.htm EX-99.1 EX-99.1 Cytokinetics Reports First Quarter 2026 Financial Results and Provides Business Update U.S. Launch of MYQORZO \u00ae (aficamten) in Late January Met with Strong Demand; Over 275 HCPs\"; filed 2026-05-05",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1061983/000119312526206360/cytk-ex99_1.htm"
+    },
+    {
+     "date": "2026-11-22",
+     "title": "Capricor Therapeutics, Inc.: PDUFA target action date",
+     "detail": "Capricor Therapeutics, Inc. (CAPR); \"Capricor Therapeutics Announces Extension of PDUFA Target Action Date as FDA Continues Review of Deramiocel BLA\"; filed 2026-08-24",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1133869/000110465926100071/capr-20260824xex99d1.htm"
     },
     {
      "date": "2026-11-27",
-     "title": "BBP-418: PDUFA target action date",
-     "detail": "Bridgebio Pharma, Inc. (BBIO); filed 2026-08-10",
-     "source_url": "https://www.sec.gov/Archives/edgar/data/1743881/000174388126000026/bbio-20260630xex991.htm"
-    },
-    {
-     "date": "2026-11-27",
-     "title": "zidesamtinib: PDUFA target action date",
-     "detail": "Royalty Pharma Plc (RPRX); filed 2026-08-05",
+     "title": "Royalty Pharma plc: PDUFA target action date",
+     "detail": "Royalty Pharma plc (RPRX); \"EX-99.1 2 rprx-20260630rpplcpressxre.htm EX-99.1 Document Press Release August 5, 2026 R oyalty Pharma reports second quarter 2026 results Portfolio Rece ipts growth o f 6% to $773 million ; Royalty Receipts growth of 14\"; filed 2026-08-05",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1802768/000180276826000014/rprx-20260630rpplcpressxre.htm"
     },
     {
      "date": "2026-11-30",
-     "title": "Product: PDUFA target action date",
-     "detail": "Zai Lab Ltd (ZLAB); filed 2026-08-06",
+     "title": "Cogent Biosciences, Inc.: PDUFA target action date",
+     "detail": "Cogent Biosciences, Inc. (COGT); \"Cogent Biosciences Reports Recent Business Highlights and Second Quarter 2026 Financial Results On track for potential approval of bezuclastinib for GIST patients (PDUFA November 30) and NonAdvSM patients (PDUFA Decembe\"; filed 2026-08-10",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1622229/000119312526341315/cogt-ex99_1.htm"
+    },
+    {
+     "date": "2026-11-30",
+     "title": "Zai Lab Ltd: PDUFA target action date",
+     "detail": "Zai Lab Ltd (ZLAB); \"Zai Lab Announces Second Quarter 2026 Financial Results and Recent Corporate Updates\"; filed 2026-08-06",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1704292/000162828026053791/zlab-202686x8kex991.htm"
+    },
+    {
+     "date": "2026-11-30",
+     "title": "Vertex Pharmaceuticals Inc / Ma: PDUFA target action date",
+     "detail": "Vertex Pharmaceuticals Inc / Ma (VRTX); \"EX-99.1 2 ex-991_q22026.htm EX-99.1 Document Vertex Reports Second Quarter 2026 Financial Results\"; filed 2026-08-03",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/875320/000087532026000256/ex-991_q22026.htm"
+    },
+    {
+     "date": "2026-12-03",
+     "title": "Exelixis, Inc.: PDUFA target action date",
+     "detail": "Exelixis, Inc. (EXEL); \"Contacts: Chris Senner Chief Financial Officer Exelixis, Inc. 650-837-7240 csenner@exelixis.com Andrew Peters SVP, Strategy & Investor Relations Exelixis, Inc. 650-837-7248 apeters@exelixis.com Exelixis Announces Second\"; filed 2026-08-05",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/939767/000093976726000096/exel20260630exhibit991.htm"
+    },
+    {
+     "date": "2026-12-12",
+     "title": "Vanda Pharmaceuticals Inc.: PDUFA target action date",
+     "detail": "Vanda Pharmaceuticals Inc. (VNDA); \"Vanda Pharmaceuticals Reports Second Quarter 2026 Financial Results \u2022 Fanapt \u00ae Q2 2026 net product sales increased 23% to $36.0 million; total prescriptions increased 31% \u2022 Full-year 2026 total revenue guidance of $240\"; filed 2026-08-05",
+     "source_url": "https://www.sec.gov/Archives/edgar/data/1347178/000162828026053308/vnda8-k852026exhibit991.htm"
     }
    ],
    "sample_recent": [
     {
      "date": "2027-05-27",
-     "title": "obexelimab: PDUFA target action date",
-     "detail": "Zenas Biopharma, Inc. (ZBIO); filed 2026-08-13"
+     "title": "Zenas BioPharma, Inc.: PDUFA target action date",
+     "detail": "Zenas BioPharma, Inc. (ZBIO); \"Exhibit 99.1 Zenas BioPharma Reports Second Quarter 2026 Financial Results and Provides Corporate Update\"; filed 2026-08-13"
     },
     {
      "date": "2027-05-13",
-     "title": "Product: PDUFA target action date",
-     "detail": "Bristol Myers Squibb Co (BMY); filed 2026-07-30"
-    },
-    {
-     "date": "2027-05-08",
-     "title": "Product: PDUFA target action date",
-     "detail": "Bridgebio Pharma, Inc. (BBIO); filed 2026-08-10"
-    },
-    {
-     "date": "2027-05-07",
-     "title": "Attruby: PDUFA target action date",
-     "detail": "Bridgebio Pharma, Inc. (BBIO); filed 2026-08-31"
+     "title": "Bristol Myers Squibb Co: PDUFA target action date",
+     "detail": "Bristol Myers Squibb Co (BMY); \"Bristol Myers Squibb Reports Second Quarter Financial Results for 2026 and Raises Full-Year Outlook Strong Performance Underscores Growth Portfolio Momentum and Pipeline Progress \u2022 Second quarter revenues increased 6% (\"; filed 2026-07-30"
     },
     {
      "date": "2027-05-01",
-     "title": "AXS-14: PDUFA target action date",
-     "detail": "Axsome Therapeutics, Inc. (AXSM); filed 2026-08-10"
+     "title": "Axsome Therapeutics, Inc.: PDUFA target action date",
+     "detail": "Axsome Therapeutics, Inc. (AXSM); \"Axsome Therapeutics Reports Second Quarter 2026 Financial Results and Provides Business Update Total 2Q 2026 net product revenue of $218.4 million, representing 46% year-over-year growth AUVELITY \u00ae 2Q 2026 net product sa\"; filed 2026-08-10"
     },
     {
-     "date": "2027-05-01",
-     "title": "AXS-05: PDUFA target action date",
-     "detail": "Axsome Therapeutics, Inc. (AXSM); filed 2026-08-10"
+     "date": "2027-04-28",
+     "title": "Immunome Inc.: PDUFA target action date",
+     "detail": "Immunome Inc. (IMNM); \"Immunome Reports Second Quarter 2026 Financial Results and Provides Business Update August 11, 2026 \u2022 Varegacestat PDUFA target action date set for April 28, 2027, following U.S. FDA acceptance of New Drug Application (\"; filed 2026-08-11"
+    },
+    {
+     "date": "2027-04-23",
+     "title": "Royalty Pharma plc: PDUFA target action date",
+     "detail": "Royalty Pharma plc (RPRX); \"EX-99.1 2 rprx-20260630rpplcpressxre.htm EX-99.1 Document Press Release August 5, 2026 R oyalty Pharma reports second quarter 2026 results Portfolio Rece ipts growth o f 6% to $773 million ; Royalty Receipts growth of 14\"; filed 2026-08-05"
+    },
+    {
+     "date": "2027-04-14",
+     "title": "Inhibrx Biosciences, Inc.: PDUFA target action date",
+     "detail": "Inhibrx Biosciences, Inc. (INBX); \"Inhibrx Reports Second Quarter 2026 Financial Results San Diego, CA, August 13, 2026\"; filed 2026-08-13"
     }
    ]
   },
