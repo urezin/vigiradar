@@ -1,37 +1,11 @@
 {
  "stats": {
-  "hits": 23,
-  "new": 17,
-  "not_pharma": 6,
+  "hits": 14,
+  "new": 12,
+  "not_pharma": 2,
   "errors": []
  },
  "rows": [
-  {
-   "id": "000119312526432665hcaex991htm",
-   "company": "HCA Healthcare, Inc.",
-   "ticker": "HCA",
-   "cik": "860730",
-   "date": "2026-10-27",
-   "period": "Third quarter 2026",
-   "headline": "INVESTOR CONTACT: MEDIA CONTACT: Frank Morgan Harlow Sumerford 615-344-2688 615-344-1851 HCA Healthcare reports THIRD quarter 2026 results Nashville, Tenn., October 27, 2026",
-   "revenue_musd": 59188.0,
-   "url": "https://www.sec.gov/Archives/edgar/data/860730/000119312526432665/hca-ex99_1.htm",
-   "text": "INVESTOR CONTACT: MEDIA CONTACT: Frank Morgan Harlow Sumerford 615-344-2688 615-344-1851 HCA Healthcare reports THIRD quarter 2026 results Nashville, Tenn., October 27, 2026 – HCA Healthcare, Inc. (NYSE: HCA) today announced financial and operating results for the third quarter ended September 30, 2",
-   "ingested_at": "2026-10-28T17:49:19.612560+00:00"
-  },
-  {
-   "id": "000009774526000173q32026earnings8kex991h",
-   "company": "Thermo Fisher Scientific Inc.",
-   "ticker": "TMO",
-   "cik": "97745",
-   "date": "2026-10-21",
-   "period": "Third quarter 2026",
-   "headline": "News Media Contact Information: Sandy Pound Thermo Fisher Scientific Investor Contact Information: Rafael Tejada Thermo Fisher Scientific Phone: 781-622-1223 Phone: 781-622-1356 E-mail: sandy.pound@thermofisher.com E-mai",
-   "revenue_musd": 45000.0,
-   "url": "https://www.sec.gov/Archives/edgar/data/97745/000009774526000173/q32026earnings8kex99_1.htm",
-   "text": "News Media Contact Information: Sandy Pound Thermo Fisher Scientific Investor Contact Information: Rafael Tejada Thermo Fisher Scientific Phone: 781-622-1223 Phone: 781-622-1356 E-mail: sandy.pound@thermofisher.com E-mail: rafael.tejada@thermofisher.com Thermo Fisher Scientific Reports Third Quarter",
-   "ingested_at": "2026-10-28T17:49:22.452157+00:00"
-  },
   {
    "id": "000162828026066601abt2026q3xexhibitx991h",
    "company": "Abbott Laboratories",
@@ -43,7 +17,7 @@
    "revenue_musd": 44328.0,
    "url": "https://www.sec.gov/Archives/edgar/data/1800/000162828026066601/abt-2026q3xexhibitx991.htm",
    "text": "Abbott Reports Third-Quarter 2026 Results and Reaffirms Full-Year EPS Guidance – Third-quarter reported sales growth of 14.5 percent; comparable sales growth of 7.0 percent – Third-quarter GAAP diluted EPS of $0.53; adjusted diluted EPS of $1.42 – Expands portfolio with key new product approvals ABB",
-   "ingested_at": "2026-10-28T17:49:22.701952+00:00"
+   "ingested_at": "2026-10-28T17:53:12.094041+00:00"
   },
   {
    "id": "000162828026067406iqvq3x2026earningspres",
@@ -56,20 +30,7 @@
    "revenue_musd": 32600.0,
    "url": "https://www.sec.gov/Archives/edgar/data/1478242/000162828026067406/iqv-q3x2026earningspressre.htm",
    "text": "IQVIA Reports Third-Quarter 2026 Results • Revenue $4,428 million, up 8.0% year-over-year, up 8.6% at constant currency • GAAP Net Income $350 million, Adjusted EBITDA $1,032 million, up 8.7% year-over-year • GAAP Diluted Earnings per Share $2.10, Adjusted Diluted Earnings per Share $3.34, up 11.3% ",
-   "ingested_at": "2026-10-28T17:49:19.317970+00:00"
-  },
-  {
-   "id": "000092014826000213form8kexhibit9913q26ht",
-   "company": "Labcorp Holdings Inc.",
-   "ticker": "LH",
-   "cik": "920148",
-   "date": "2026-10-28",
-   "period": "Third quarter",
-   "headline": "Contact: Nickolo Russo",
-   "revenue_musd": 13952.0,
-   "url": "https://www.sec.gov/Archives/edgar/data/920148/000092014826000213/form8-kexhibit9913q26.htm",
-   "text": "Contact: Nickolo Russo - Investors Racquel White - Media Investor@labcorp.com Media@labcorp.com Labcorp Reports Strong 2026 Third Quarter Results; Raises Full Year 2026 Guidance • Results from operations for third quarter 2026 versus third quarter 2025: ◦ Revenue: $3.81 billion vs. $3.56 billion, up",
-   "ingested_at": "2026-10-28T17:49:17.822199+00:00"
+   "ingested_at": "2026-10-28T17:53:09.603614+00:00"
   },
   {
    "id": "000088572526000066earningsreleaselivehtm",
@@ -82,7 +43,7 @@
    "revenue_musd": 5138.0,
    "url": "https://www.sec.gov/Archives/edgar/data/885725/000088572526000066/earningsrelease_live.htm",
    "text": "Boston Scientific announces results for third quarter 2026 Marlborough, Mass. (October 28, 2026) -- Boston Scientific Corporation (NYSE: BSX) generated net sales of $5.138 billion during the third quarter of 2026, growing 1.5 percent on a reported, operational 1 and organic 2 basis, all compared to ",
-   "ingested_at": "2026-10-28T17:49:18.213069+00:00"
+   "ingested_at": "2026-10-28T17:53:08.791812+00:00"
   },
   {
    "id": "000166839726000034medp20261021exx991htm",
@@ -95,7 +56,7 @@
    "revenue_musd": 2855.0,
    "url": "https://www.sec.gov/Archives/edgar/data/1668397/000166839726000034/medp-20261021exx991.htm",
    "text": "Investor Contact: David Ruhe 283-227-6472 d.ruhe@medpace.com FOR IMMEDIATE RELEASE Media Contact: Michael Maley 283-227-6367 m.maley@medpace.com Medpace Holdings, Inc. Reports Third Quarter 2026 Results • Revenue of $716.0 million in the third quarter of 2026 increased 8.5% from revenue of $659.9 mi",
-   "ingested_at": "2026-10-28T17:49:22.132444+00:00"
+   "ingested_at": "2026-10-28T17:53:11.569419+00:00"
   },
   {
    "id": "000087504526000094exhibit991q32026pressr",
@@ -108,20 +69,7 @@
    "revenue_musd": 2800.0,
    "url": "https://www.sec.gov/Archives/edgar/data/875045/000087504526000094/exhibit991-q32026pressrele.htm",
    "text": "Cambridge, Mass. – October 28, 2026 Biogen Reports Third Quarter 2026 Results • Third quarter 2026 total revenue of $2.8 billion increased 11% year-over-year; Growth Portfolio 1 revenue of $1.26 billion, increased 49% year-over-year, representing 63% of Core Pharmaceutical 2 revenue, including a str",
-   "ingested_at": "2026-10-28T17:49:17.196483+00:00"
-  },
-  {
-   "id": "000186074226000108ex991q32026htm",
-   "company": "Bausch & Lomb Corp",
-   "ticker": "BLCO",
-   "cik": "1860742",
-   "date": "2026-10-28",
-   "period": "Third quarter",
-   "headline": "Bausch + Lomb Posts Strong Third-Quarter Performance, Raises Full-Year 2026 Guidance • Revenue of $1.375 Billion • Revenue Grew 7% as Reported and 8% on a Constant Currency 1 Basis Compared to the Third Quarter of 2025 •",
-   "revenue_musd": 1375.0,
-   "url": "https://www.sec.gov/Archives/edgar/data/1860742/000186074226000108/ex991q3-2026.htm",
-   "text": "Bausch + Lomb Posts Strong Third-Quarter Performance, Raises Full-Year 2026 Guidance • Revenue of $1.375 Billion • Revenue Grew 7% as Reported and 8% on a Constant Currency 1 Basis Compared to the Third Quarter of 2025 • GAAP Net Income Attributable to Bausch + Lomb Corporation of $32 Million • Adju",
-   "ingested_at": "2026-10-28T17:49:16.677946+00:00"
+   "ingested_at": "2026-10-28T17:53:08.240762+00:00"
   },
   {
    "id": "000173043026000037knsaex99d1htm",
@@ -134,7 +82,7 @@
    "revenue_musd": 1050.0,
    "url": "https://www.sec.gov/Archives/edgar/data/1730430/000173043026000037/knsa-ex99d1.htm",
    "text": "​ ​ ​ ​ Kiniksa Pharmaceuticals Reports Third Quarter 2026 Financial Results and Recent Portfolio Execution – ARCALYST ® (rilonacept) Q3 2026 net product revenue of $286.0 million, representing ~58% year-over-year growth – – ARCALYST 2026 expected net product revenue increased to $1.045 - $1.050 bil",
-   "ingested_at": "2026-10-28T17:49:18.479074+00:00"
+   "ingested_at": "2026-10-28T17:53:09.032808+00:00"
   },
   {
    "id": "000162828026067405rgen20261027xexx991htm",
@@ -147,7 +95,7 @@
    "revenue_musd": 852.0,
    "url": "https://www.sec.gov/Archives/edgar/data/730272/000162828026067405/rgen-20261027xexx991.htm",
    "text": "Repligen Corporation 41 Seyon Street Building #1, Suite 100 Waltham, Massachusetts 02453 Repligen Reports Third Quarter 2026 Financial Results and Updates Full Year 2026 Financial Guidance • Third quarter revenue of $209 million, a year-over-year increase of 11% as reported and 12.5% organic • Close",
-   "ingested_at": "2026-10-28T17:49:21.010107+00:00"
+   "ingested_at": "2026-10-28T17:53:10.926646+00:00"
   },
   {
    "id": "000117184326006856exh991htm",
@@ -160,7 +108,7 @@
    "revenue_musd": 373.6,
    "url": "https://www.sec.gov/Archives/edgar/data/1674632/000117184326006856/exh_991.htm",
    "text": "Beta Bionics Announces Third Quarter 2026 Financial Results and Updates Full Year 2026 Guidance IRVINE, Calif., Oct. 27, 2026 (GLOBE NEWSWIRE) -- Beta Bionics, Inc. (Nasdaq: BBNX), a pioneering leader in the development of advanced diabetes management solutions, today reported its financial results ",
-   "ingested_at": "2026-10-28T17:49:19.835682+00:00"
+   "ingested_at": "2026-10-28T17:53:09.821709+00:00"
   },
   {
    "id": "000112753726000042lung3q26earningsreleas",
@@ -173,20 +121,7 @@
    "revenue_musd": 92.0,
    "url": "https://www.sec.gov/Archives/edgar/data/1127537/000112753726000042/lung3q26earningsrelease102.htm",
    "text": "Pulmonx Reports Third Quarter 2026 Financial Results Redwood City, CA - October 27, 2026 – Pulmonx Corporation (Nasdaq: LUNG) (“Pulmonx” or the “Company”), a global leader in minimally invasive treatments for lung disease, today reported financial results for the third quarter of 2026 ended Septembe",
-   "ingested_at": "2026-10-28T17:49:20.607234+00:00"
-  },
-  {
-   "id": "000180880526000049exhibit991q3268xkearni",
-   "company": "Nautilus Biotechnology, Inc.",
-   "ticker": "NAUT",
-   "cik": "1808805",
-   "date": "2026-10-27",
-   "period": "Third quarter 2026",
-   "headline": "Nautilus Biotechnology Reports Third Quarter 2026 Financial Results",
-   "revenue_musd": 16.9,
-   "url": "https://www.sec.gov/Archives/edgar/data/1808805/000180880526000049/exhibit991-q3268xkearnings.htm",
-   "text": "Nautilus Biotechnology Reports Third Quarter 2026 Financial Results SEATTLE, WA, October 27, 2026 – Nautilus Biotechnology, Inc. (NASDAQ: NAUT), a company pioneering a single-molecule proteome analysis platform, today reported financial results for the third quarter ended September 30, 2026. Third Q",
-   "ingested_at": "2026-10-28T17:49:19.018672+00:00"
+   "ingested_at": "2026-10-28T17:53:10.429293+00:00"
   },
   {
    "id": "000119312526432690d120442dex991htm",
@@ -199,7 +134,7 @@
    "revenue_musd": 13.2,
    "url": "https://www.sec.gov/Archives/edgar/data/1631574/000119312526432690/d120442dex991.htm",
    "text": "Wave Life Sciences Reports Third Quarter 2026 Financial Results and Provides Business Update Planning underway for registrational trial of WVE-006 (RNA editing) in AATD, with an interim analysis for potential accelerated approval based on AATD biomarkers Advancing WVE-007 (INHBE siRNA) across treatm",
-   "ingested_at": "2026-10-28T17:49:20.241126+00:00"
+   "ingested_at": "2026-10-28T17:53:10.140066+00:00"
   },
   {
    "id": "000119312526435081amrnex991htm",
@@ -212,7 +147,7 @@
    "revenue_musd": 2.7,
    "url": "https://www.sec.gov/Archives/edgar/data/897448/000119312526435081/amrn-ex99_1.htm",
    "text": "Amarin Reports 2026 Third Quarter Financial Results, Achieves Positive Net Income DUBLIN, Ireland and BRIDGEWATER, N.J., October 28, 2026 -- Amarin Corporation plc (NASDAQ: AMRN), a company committed to advancing the science of cardiovascular disease worldwide, today announced financial results for ",
-   "ingested_at": "2026-10-28T17:49:17.508486+00:00"
+   "ingested_at": "2026-10-28T17:53:08.569581+00:00"
   },
   {
    "id": "000149315226047579ex991htm",
@@ -225,7 +160,7 @@
    "revenue_musd": 1.22,
    "url": "https://www.sec.gov/Archives/edgar/data/1382574/000149315226047579/ex99-1.htm",
    "text": "Continued Arbli ™ sales growth, combined with REZENOPY ™ commercial launch in August 2026 and initial wholesale shipments, drives significant sequential revenue growth Arbli ™ wholesale unit sales increased 74% sequentially, with recent institutional formulary additions supporting continued commerci",
-   "ingested_at": "2026-10-28T17:49:23.747350+00:00"
+   "ingested_at": "2026-10-28T17:53:12.581464+00:00"
   }
  ]
 }
