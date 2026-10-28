@@ -263,7 +263,7 @@ def _secbar(active: str | None = None) -> str:
         href = f"/news/{k}" if k else "/"
         on = (active == k) if k else active == "home"
         links.append(f'<a class="{"on" if on else ""}" style="--c:{c}" href="{href}">{_e(label)}</a>')
-    for href, label, c, key in (("/safety", "Safety hub", "#be123c", "safety"), ("/guidelines", "Guidelines", "#6d28d9", "guidelines"),
+    for href, label, c, key in (("/analysis", "Analysis & opinion", "#0f172a", "analysis"), ("/safety", "Safety hub", "#be123c", "safety"), ("/guidelines", "Guidelines", "#6d28d9", "guidelines"),
                                 ("/pdufa", "PDUFA", "#0369a1", "pdufa"), ("/approvals", "Approvals", "#0369a1", "approvals"),
                                 ("/calendar", "Calendar", "#0f766e", "calendar")):
         links.append(f'<a class="{"on" if active == key else ""}" style="--c:{c}" href="{href}">{label}</a>')
@@ -276,7 +276,8 @@ def _ticker() -> str:
 
 
 def _page(title, desc, path, body, ld=None):
-    return pp._page(title, desc, path, f"<style>{_NCSS}</style>{body}", ld)
+    from . import articles as _am
+    return pp._page(title, desc, path, f"<style>{_NCSS}{_am.AD_CSS}</style>{body}", ld)
 
 
 def _coming_up(n: int = 8) -> str:
@@ -296,7 +297,8 @@ def _sidebar(section: str | None = None, press: list[dict] | None = None) -> str
     if press:
         heads = (f'<section class="box"><h2>Industry headlines</h2><ul>{"".join(text_item(r) for r in press[:10])}</ul>'
                  f'<p class="by">Links open the publisher. VigiEye does not reproduce their articles.</p></section>')
-    return f'<aside class="side">{nl}{_coming_up()}{heads}</aside>'
+    from . import articles as _am
+    return f'<aside class="side">{_am.ad_html("sidebar-" + (section or "home"))}{nl}{_coming_up()}{heads}</aside>'
 
 
 def _mast(sub: str) -> str:
@@ -320,20 +322,29 @@ def home():
         if r["section"] != (lead or {}).get("section") or len(tops) >= 2:
             tops.append(r)
             used.add(id(r))
-    river = [r for r in editorial if id(r) not in used and r["kind"] != "guideline"][:14]
+    river = [r for r in editorial if id(r) not in used and r["kind"] != "guideline"][:30]
     used |= {id(r) for r in river}
     press = [r for r in rows if r["kind"] == "press"]
 
     def row(k, extra=None):
-        items = sorted([r for r in editorial if r["section"] == k and id(r) not in used], key=_score, reverse=True)[:4]
-        if len(items) < 4:
-            items += [r for r in press if r["section"] == k][: 4 - len(items)]
+        items = sorted([r for r in editorial if r["section"] == k and id(r) not in used], key=_score, reverse=True)[:8]
+        if len(items) < 8:
+            items += [r for r in press if r["section"] == k][: 8 - len(items)]
+        used.update(id(r) for r in items)
         if not items:
             return ""
         return (f'<section class="row" style="--c:{SEC_COLOR[k]}"><div class="row-h"><span style="color:{SEC_COLOR[k]}">{_e(nw.SECTIONS[k])}</span>'
                 f'<a href="{extra or "/news/" + k}">More {_e(nw.SECTIONS[k])} →</a></div>'
                 f'<div class="g4">{"".join(grid_card(r) for r in items)}</div></section>')
     guides = [r for r in rows if r["kind"] == "guideline"][:4]
+    rest = [r for r in rows if id(r) not in used and r["kind"] != "guideline"][:40]
+    more_heads = ""
+    if rest:
+        more_heads = ('<section class="row"><div class="row-h"><span>More news</span><a href="/news">All news →</a></div>'
+                      '<ul class="heads2" style="columns:2;column-gap:28px;list-style:none">'
+                      + "".join(f'<li style="break-inside:avoid;padding:9px 0;border-bottom:1px solid var(--rule)">{_label(r)}'
+                                f'<div style="font-weight:700;margin-top:2px">{_a(r, _e(r["title"]))}</div>{_meta(r)}</li>' for r in rest)
+                      + "</ul></section>")
     guide_row = ""
     if guides:
         guide_row = (f'<section class="row" style="--c:#6d28d9"><div class="row-h"><span style="color:#6d28d9">New guidelines: ICH, FDA, EMA, MHRA</span>'
@@ -345,9 +356,12 @@ def home():
     body = f"""{_ticker()}{_secbar("home")}<main class="wrap">
 {_mast("Regulatory · Pharmacovigilance · Quality · Market access: EU & US pharma, from the official sources")}
 {front or '<p class="note" style="margin-top:20px">The news feeds are loading for the first time. Check back in a few minutes.</p>'}
+<style>{_ACSS}</style>
+{editorial_row(3)}
 <div class="body3"><div><div class="row-h" style="margin-top:0"><span>Latest</span><a href="/news">All news →</a></div>
-{"".join(river_item(r) for r in river)}</div>{_sidebar(None, press)}</div>
-{row("pharmacovigilance", "/safety")}{row("regulatory")}{row("quality")}{row("market-access")}{guide_row}{row("industry")}
+{"".join(river_item(r) for r in river[:8])}{art_mod.ad_html("home-river", "inline")}{"".join(river_item(r) for r in river[8:])}</div>{_sidebar(None, press)}</div>
+{row("pharmacovigilance", "/safety")}{row("regulatory")}{art_mod.ad_html("home-banner", "banner")}{row("quality")}{row("market-access")}{guide_row}{row("industry")}
+{more_heads}
 <p class="note" style="margin-top:28px">{pp.DISCLAIMER}</p></main>"""
     ld = [{"@context": "https://schema.org", "@type": "NewsMediaOrganization", "name": "VigiEye", "url": _base() + "/"},
           {"@context": "https://schema.org", "@type": "WebSite", "name": "VigiEye", "url": _base() + "/",
@@ -486,7 +500,8 @@ def thumb(section: str, seed: str, p: str = ""):
         f'fill="#fff" opacity="{0.04 + (h[i + 3] % 8) / 100:.2f}"/>' for i in range(1, 17, 4))
     lines = "".join(f'<path d="M{(h[i] * 5) % 640} 0 L{(h[i + 1] * 5) % 640} 360" stroke="#fff" stroke-opacity=".06" '
                     f'stroke-width="{1 + h[i] % 3}"/>' for i in range(0, 12, 2))
-    label = re.sub(r"[^A-Z]", "", (p or "").upper())[:4]
+    label = re.sub(r"[^A-Z]", "", (p or "").upper())
+    label = label if label in ("ANALYSIS", "VIEW") else label[:4]
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice">
 <defs><linearGradient id="g" gradientTransform="rotate({ang} .5 .5)"><stop offset="0" stop-color="{c}"/><stop offset="1" stop-color="#0b1220"/></linearGradient></defs>
 <rect width="640" height="360" fill="url(#g)"/>{lines}{circles}
@@ -636,3 +651,104 @@ and recalls, and national agency safety news, updated every day from the officia
     return _page("Pharmacovigilance & drug safety hub: PRAC, DHPCs, MHRA, FDA MedWatch, recalls | VigiEye",
                  "Daily pharmacovigilance news: PRAC recommendations and signals, DHPCs, referrals, shortages, MHRA Drug Safety "
                  "Update, FDA MedWatch and recalls, with official sources.", "/safety", body)
+
+
+# --- analysis & opinion (VigiEye editorial) ------------------------------------------------------
+
+from . import articles as art_mod  # noqa: E402
+
+_ACSS = """
+.op-badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px}
+.op-badge.analysis{background:#0f172a;color:#fff}.op-badge.opinion{background:#facc15;color:#1f2937}
+.feat{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:22px;margin-top:10px}
+@media(max-width:900px){.feat{grid-template-columns:1fr}}
+.acard h3{font:800 20px/1.22 Georgia,'Times New Roman',serif;margin:6px 0}.acard.big h3{font-size:25px}
+.acard p{color:var(--mut);font-size:14.5px}
+.abody h2{font:800 22px/1.25 Georgia,'Times New Roman',serif;margin:26px 0 8px}.abody p{font-size:17.5px;line-height:1.7;margin:10px 0}
+.take{border-left:4px solid #0d9488;background:var(--soft);padding:12px 16px;margin:22px 0}.take li{margin:6px 0 6px 18px}
+.srcs li{font-size:14px;margin:6px 0 6px 18px}
+""" + art_mod.AD_CSS
+
+
+def _art_thumb(a: dict) -> str:
+    sec = a.get("section") if a.get("section") in SEC_COLOR else "industry"
+    seed = hashlib.sha1(a.get("slug", "").encode()).hexdigest()[:10]
+    return f'<img class="th wide" loading="lazy" alt="" src="/thumb/{sec}/{seed}.svg?p={"VIEW" if a.get("type") == "opinion" else "ANALYSIS"}">'
+
+
+def article_card(a: dict, big: bool = False) -> str:
+    t = a.get("type", "analysis")
+    return (f'<article class="acard{" big" if big else ""}"><a href="/analysis/{_e(a["slug"])}">{_art_thumb(a)}</a>'
+            f'<div style="margin-top:10px"><span class="op-badge {t}">{"Opinion · VigiEye View" if t == "opinion" else "Analysis"}</span> '
+            f'<a class="lab" style="color:{SEC_COLOR.get(a.get("section"), "#0f766e")};margin-left:6px" href="/news/{_e(a.get("section"))}">'
+            f'{_e(nw.SECTIONS.get(a.get("section"), ""))}</a></div>'
+            f'<h3><a href="/analysis/{_e(a["slug"])}">{_e(a["title"])}</a></h3><p>{_e(a.get("dek"))}</p>'
+            f'<div class="by">VigiEye editorial · {_e(_fmt(a.get("date", "")))}</div></article>')
+
+
+def editorial_row(n: int = 3) -> str:
+    try:
+        arts = art_mod.list_articles(12)
+    except Exception:
+        arts = []
+    if not arts:
+        return ""
+    op = next((a for a in arts if a.get("type") == "opinion"), None)
+    an = [a for a in arts if a.get("type") != "opinion"]
+    pick = ([an[0]] if an else []) + ([op] if op else []) + an[1:]
+    pick = pick[:n]
+    return (f'<section class="row" style="--c:#0f172a"><div class="row-h"><span>Analysis &amp; opinion</span><a href="/analysis">All analysis →</a></div>'
+            f'<div class="feat">{"".join(article_card(a, i == 0) for i, a in enumerate(pick))}</div></section>')
+
+
+@router.get("/analysis", response_class=HTMLResponse, include_in_schema=False)
+def analysis_index(type: str = ""):
+    arts = art_mod.list_articles(80, type if type in ("analysis", "opinion") else None)
+    cards = "".join(f'<div style="padding:16px 0;border-bottom:1px solid var(--rule)">{article_card(a)}</div>' for a in arts) or \
+        '<p class="note">The first analysis and opinion pieces are published with the next daily refresh.</p>'
+    tabs = "".join(f'<a class="{"on" if (type or "") == k else ""}" href="/analysis{("?type=" + k) if k else ""}">{v}</a>'
+                   for k, v in (("", "All"), ("analysis", "Analysis"), ("opinion", "Opinion")))
+    body = f"""<style>{_ACSS}</style>{_ticker()}{_secbar("analysis")}<main class="wrap">
+<div class="mast"><div><h1 style="font-size:34px">Analysis &amp; opinion</h1><p>In-depth analysis and the VigiEye View on regulatory,
+pharmacovigilance, quality and market-access developments, built from the official records and linked to every source.</p></div>
+<div class="date">{_e(date.today().strftime("%d %B %Y"))}</div></div><div class="tabs">{tabs}</div>
+<div class="body3"><div>{cards}</div><aside class="side">{art_mod.ad_html("analysis-index")}{_coming_up()}</aside></div></main>"""
+    return _page("Pharma regulatory analysis & opinion: PV, regulatory, quality, market access | VigiEye",
+                 "In-depth analysis and opinion on EU and US pharma regulation, pharmacovigilance, quality and market access.",
+                 "/analysis", body)
+
+
+@router.get("/analysis/{slug}", response_class=HTMLResponse, include_in_schema=False)
+def analysis_page(slug: str):
+    a = art_mod.get_article(slug)
+    if not a:
+        raise HTTPException(404)
+    t = a.get("type", "analysis")
+    secs = "".join(f'<h2>{_e(s.get("heading"))}</h2>' + "".join(f"<p>{_e(p)}</p>" for p in (s.get("paragraphs") or []))
+                   for s in a.get("sections", []))
+    take = "".join(f"<li>{_e(x)}</li>" for x in a.get("takeaways", []))
+    srcs = "".join(f'<li><a href="{_e(s.get("url"))}" target="_blank" rel="noopener">{_e(s.get("title"))}</a> '
+                   f'<span class="by">{_e(s.get("publisher"))} · {_e(_fmt(s.get("date", "")))}</span></li>' for s in a.get("sources", []))
+    more = [x for x in art_mod.list_articles(10) if x["slug"] != slug][:3]
+    label = "Opinion · VigiEye View" if t == "opinion" else "Analysis"
+    body = f"""<style>{_ACSS}</style>{_ticker()}{_secbar(a.get("section"))}<main class="wrap"><div class="body3"><article class="article" style="max-width:760px">
+<div style="margin-top:14px"><span class="op-badge {t}">{label}</span> <a class="lab" style="color:{SEC_COLOR.get(a.get("section"))};margin-left:6px" href="/news/{_e(a.get("section"))}">{_e(nw.SECTIONS.get(a.get("section"), ""))}</a></div>
+<h1 style="font:800 38px/1.12 Georgia,'Times New Roman',serif;margin:10px 0">{_e(a["title"])}</h1>
+<p style="font-size:19px;color:var(--mut)">{_e(a.get("dek"))}</p>
+<div class="by">VigiEye editorial · {_e(_fmt(a.get("date", "")))}</div>
+<div style="margin:18px 0">{_art_thumb(a)}</div>
+<div class="abody">{secs}</div>
+{f'<div class="take"><b>What to do</b><ul>{take}</ul></div>' if take else ""}
+{art_mod.ad_html("article-inline", "inline")}
+<h2 style="font-size:18px;margin-top:22px">Sources this {("column" if t == "opinion" else "analysis")} is based on</h2><ul class="srcs">{srcs}</ul>
+<p class="note">{("Opinion: this column argues a position." if t == "opinion" else "")} Written by VigiEye's editorial system with AI assistance
+(model {_e(a.get("model"))}) strictly from the official records listed above. It can contain errors: check the sources before acting.
+Not legal, medical or investment advice.</p>
+{f'<div class="row"><div class="row-h"><span>More analysis &amp; opinion</span><a href="/analysis">All →</a></div><div class="feat">{"".join(article_card(x) for x in more)}</div></div>' if more else ""}
+</article>{_sidebar(a.get("section"), stream(kinds=("press",), limit=20))}</div></main>"""
+    ld = [{"@context": "https://schema.org", "@type": "OpinionNewsArticle" if t == "opinion" else "AnalysisNewsArticle",
+           "headline": a["title"][:110], "description": a.get("dek", ""), "datePublished": a.get("date"),
+           "author": {"@type": "Organization", "name": "VigiEye editorial"},
+           "publisher": {"@type": "Organization", "name": "VigiEye", "url": _base() + "/"},
+           "isBasedOn": [s.get("url") for s in a.get("sources", []) if s.get("url")]}]
+    return _page(f"{a['title'][:90]} | VigiEye {label}", (a.get("dek") or a["title"])[:155], f"/analysis/{slug}", body, ld)

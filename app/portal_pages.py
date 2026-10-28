@@ -727,7 +727,7 @@ To show it on every page, use a header plugin such as WPCode ("Header &amp; Foot
 # --- sitemap extension --------------------------------------------------------
 
 def sitemap_urls() -> list[tuple[str, str, str]]:
-    urls = [("/", "hourly", "1.0"), ("/guidelines", "daily", "0.9"), ("/pdufa", "daily", "0.9"), ("/approvals", "daily", "0.9"),
+    urls = [("/", "hourly", "1.0"), ("/analysis", "daily", "0.9"), ("/guidelines", "daily", "0.9"), ("/pdufa", "daily", "0.9"), ("/approvals", "daily", "0.9"),
             ("/safety", "daily", "0.9"), ("/insights", "weekly", "0.7"), ("/newsletter", "monthly", "0.6"),
             ("/drugs", "weekly", "0.6")]
     for region, slug, _ in _safe(pd.all_drug_ids, []):
@@ -891,6 +891,9 @@ def _run_job(steps: list[str]):
                 _JOB["result"]["analyse"] = analyse_drugs(40)
             elif s == "week":
                 _JOB["result"]["week"] = analyse_week()
+            elif s == "articles":
+                from . import articles as art_mod
+                _JOB["result"]["articles"] = art_mod.generate_daily()
     except Exception as e:
         _JOB["result"]["error"] = f"{type(e).__name__}: {e}"
     finally:
@@ -922,7 +925,7 @@ def portal_stats():
                               "guidelines_safety": res.get("guidelines_safety")}, "last_run": {"started": _JOB.get("started"), "finished": _JOB.get("finished"),
             "running": _JOB.get("running"), "step": _JOB.get("step"), "ingest": summary,
             "analyse": {k: an.get(k) for k in ("candidates", "generated", "unchanged", "error") if k in an},
-            "error": res.get("error")}}
+            "articles": res.get("articles"), "error": res.get("error")}}
 
 
 @router.post("/admin/portal/run")
@@ -931,7 +934,7 @@ def admin_portal_run(steps: str = "ingest,news,analyse", x_admin_token: str = He
     _auth(x_admin_token)
     if _JOB["running"]:
         return {"status": "already running", "job": _JOB}
-    wanted = [s for s in steps.split(",") if s in ("ingest", "news", "analyse", "week")]
+    wanted = [s for s in steps.split(",") if s in ("ingest", "news", "analyse", "week", "articles")]
     threading.Thread(target=_run_job, args=(wanted,), daemon=True).start()
     return {"status": "started", "steps": wanted}
 

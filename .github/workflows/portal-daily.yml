@@ -13,8 +13,8 @@ on:
   workflow_dispatch:
     inputs:
       steps:
-        description: "Steps to run (ingest,news,analyse,week)"
-        default: "ingest,news,analyse"
+        description: "Steps to run (ingest,news,analyse,articles,week)"
+        default: "ingest,news,analyse,articles"
       send:
         description: "Send the daily email (true/false)"
         default: "false"
@@ -31,7 +31,7 @@ jobs:
         run: |
           STEPS="${{ github.event.inputs.steps }}"
           if [ -z "$STEPS" ]; then
-            STEPS="ingest,news,analyse"
+            STEPS="ingest,news,analyse,articles"
             [ "$(date -u +%u)" = "1" ] && STEPS="$STEPS,week"
           fi
           echo "steps: $STEPS"
