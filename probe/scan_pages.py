@@ -32,6 +32,9 @@ URLS = {
  "be_news": "https://www.famhp.be/en/news",
  "cy_phs": "https://www.moh.gov.cy/moh/phs/phs.nsf/index_gr/index_gr?opendocument",
  "oig": "https://oig.hhs.gov/fraud/enforcement/",
+ "at_rss": "https://www.basg.gv.at/whatsnew/rss",
+ "hu_rss": "https://ogyei.gov.hu/rss",
+ "pt_rss_pt": "https://www.infarmed.pt/web/infarmed/rss?p_p_id=rss",
 }
 out = {}
 for k, u in URLS.items():
@@ -43,9 +46,9 @@ for k, u in URLS.items():
             tx = re.sub(r"\s+", " ", H.unescape(re.sub(r"<[^>]+>", " ", x))).strip()
             if len(tx) > 22:
                 links.append([h[:200], tx[:140]])
-        feeds = re.findall(r'href="([^"]*(?:rss|feed|atom)[^"]*)"', t, re.I)[:15]
+        feeds = re.findall(r'(?:href|value|data-url)="([^"]*(?:rss|feed|atom)[^"]*)"', t, re.I)[:40]
         dates = re.findall(r"\b\d{1,2}[./]\d{1,2}[./]20\d\d\b|\b20\d\d-\d\d-\d\d\b", t)[:10]
-        out[k] = {"status": r.status_code, "url": str(r.url), "len": len(t), "links": links[:70], "feeds": feeds, "dates": dates}
+        out[k] = {"status": r.status_code, "url": str(r.url), "len": len(t), "links": links[:800], "feeds": feeds, "dates": dates}
     except Exception as e:
         out[k] = {"error": repr(e)[:200]}
 os.makedirs("probe/out7", exist_ok=True)
