@@ -49,12 +49,15 @@ news = Table(
 
 SECTIONS = {
     "regulatory": "Regulatory",
+    "clinical-trials": "Clinical trials",
     "pharmacovigilance": "Pharmacovigilance",
     "quality": "Quality & compliance",
     "market-access": "Market access",
     "industry": "Industry",
 }
 SECTION_BLURB = {
+    "clinical-trials": "Clinical trials legislation and practice: EU CTR and CTIS, ICH E6(R3) GCP, FDA clinical guidance, "
+                       "ACT EU, inspections, and newly registered industry Phase 3 trials.",
     "pharmacovigilance": "Safety signals, PRAC recommendations, DHPCs, Drug Safety Update, MedWatch and risk minimisation.",
     "regulatory": "Approvals, CHMP opinions, FDA decisions, guidelines, designations and regulatory policy.",
     "market-access": "HTA, pricing and reimbursement: EU HTA Regulation, G-BA, HAS, NICE, ICER, IRA and payers.",
@@ -69,6 +72,11 @@ def norm_section(s: str | None) -> str:
     return SECTION_ALIAS.get(s, s)
 
 _KW = {
+    "clinical-trials": ("clinical trial", "clinical-trial", "ctis", "ctr ", "regulation (eu) no 536/2014", "536/2014",
+                        "good clinical practice", "gcp", "e6(r3)", "ich e6", "investigator", "trial sponsor", "sponsors",
+                        "act eu", "decentralised", "decentralized", "informed consent", "ethics committee", "ide ",
+                        "investigational new drug", " ind ", "clinicaltrials.gov", "trial authorisation", "trial application",
+                        "first-in-human", "eu ct number", "cta ", "trial protocol"),
     "pharmacovigilance": ("pharmacovigilance", "safety signal", "signal", "prac", "dhpc", "drug safety update",
                           "adverse", "side effect", "psur", "risk management plan", "rmp", "pass ", "boxed warning",
                           "safety communication", "medwatch", "risk minimi", "contraindicat", "vigilance",
@@ -98,7 +106,7 @@ _SUBJECT_SECTION = {"Signal management": "pharmacovigilance", "PSUR / PBRER": "p
                     "RMP & PASS": "pharmacovigilance", "Shortages & recalls": "quality",
                     "GVP modules": "pharmacovigilance", "Market access": "market-access",
                     "Compliance & enforcement": "quality", "Falsified medicines": "quality",
-                    "Labelling & SmPC": "regulatory", "Clinical trials (CTR)": "regulatory",
+                    "Labelling & SmPC": "regulatory", "Clinical trials (CTR)": "clinical-trials",
                     "Fees & guidance": "regulatory"}
 
 
@@ -126,6 +134,11 @@ BIZ_BEATS = {
     "industry": "Industry",
 }
 _BIZ_KW = {
+    "clinical-trials": ("clinical trial", "clinical-trial", "ctis", "ctr ", "regulation (eu) no 536/2014", "536/2014",
+                        "good clinical practice", "gcp", "e6(r3)", "ich e6", "investigator", "trial sponsor", "sponsors",
+                        "act eu", "decentralised", "decentralized", "informed consent", "ethics committee", "ide ",
+                        "investigational new drug", " ind ", "clinicaltrials.gov", "trial authorisation", "trial application",
+                        "first-in-human", "eu ct number", "cta ", "trial protocol"),
     "deals": ("acquire", "acquisition", "merger", "buyout", "takeover", "definitive agreement", "license agreement",
               "licensing deal", "licenses", "partnership", "collaboration", "deal", "upfront", "milestone payment",
               "divest", "spin-off", "spinoff", "joint venture", "option to", "royalty"),
@@ -306,6 +319,45 @@ def ingest_ispor() -> dict:
     return stats
 
 
+# --- newly registered industry Phase 3 trials (ClinicalTrials.gov API v2) ------------------
+
+CTGOV = "https://clinicaltrials.gov/api/v2/studies"
+
+
+def ingest_ctgov(days: int = 7, max_items: int = 60) -> dict:
+    """Industry-sponsored Phase 3 interventional studies first posted in the last `days` days."""
+    from urllib.parse import urlencode
+    import httpx
+    init()
+    since = (date.today() - timedelta(days=days)).isoformat()
+    q = {"filter.advanced": f"AREA[Phase]PHASE3 AND AREA[LeadSponsorClass]INDUSTRY AND AREA[StudyType]INTERVENTIONAL "
+                            f"AND AREA[StudyFirstPostDate]RANGE[{since},MAX]",
+         "fields": "NCTId,BriefTitle,LeadSponsorName,Condition,Phase,StudyFirstPostDate,OverallStatus,InterventionName",
+         "pageSize": str(min(max_items, 100)), "sort": "StudyFirstPostDate:desc", "format": "json"}
+    r = httpx.get(f"{CTGOV}?{urlencode(q)}", timeout=40, headers={"User-Agent": "VigiEye regulatory monitor"})
+    r.raise_for_status()
+    studies = r.json().get("studies", []) or []
+    new = 0
+    for st in studies:
+        ps = st.get("protocolSection", {})
+        ident = ps.get("identificationModule", {})
+        nct = ident.get("nctId")
+        title = ident.get("briefTitle") or ""
+        sponsor = (ps.get("sponsorCollaboratorsModule", {}).get("leadSponsor") or {}).get("name", "")
+        conds = ", ".join((ps.get("conditionsModule", {}).get("conditions") or [])[:3])
+        posted = (ps.get("statusModule", {}).get("studyFirstPostDateStruct") or {}).get("date", "")[:10] or date.today().isoformat()
+        interv = ", ".join(i.get("name", "") for i in (ps.get("armsInterventionsModule", {}).get("interventions") or [])[:3])
+        if not nct or not title:
+            continue
+        if _upsert({"id": _id("ctgov", nct), "kind": "trial", "section": "clinical-trials", "publisher": "ClinicalTrials.gov",
+                    "country": "US", "title": f"New Phase 3 trial: {title}"[:300],
+                    "summary": f"{sponsor}. Condition: {conds or 'n/a'}. Intervention: {interv or 'n/a'}. {nct}.",
+                    "url": f"https://clinicaltrials.gov/study/{nct}", "date": posted, "company": sponsor, "ticker": None,
+                    "tags": None}):
+            new += 1
+    return {"studies": len(studies), "new": new}
+
+
 # --- company announcements from SEC filings -----------------------------------------
 
 SEC_FTS = "https://efts.sec.gov/LATEST/search-index"
@@ -323,7 +375,7 @@ for regulatory, pharmacovigilance, market-access and compliance professionals.
 
 Return ONLY JSON: {{"headline":"factual news headline, max 110 chars, in your own words",
 "summary":"2-3 sentences in your own words: what happened, product and indication, regulator/body, date",
-"section":"one of pharmacovigilance|regulatory|market-access|quality|industry",
+"section":"one of pharmacovigilance|regulatory|clinical-trials|market-access|quality|industry",
 "newsworthy":true or false (false only for executive/board appointments, routine financings or offerings,
 conference-presentation notices and investor-event announcements; deals, launches, approvals, manufacturing,
 pricing, legal and earnings with material product news ARE newsworthy)}}.
@@ -461,7 +513,7 @@ def get(nid: str) -> dict | None:
 
 def run_all() -> dict:
     out = {}
-    for name, fn in (("press", ingest_press), ("ispor", ingest_ispor), ("company", ingest_company)):
+    for name, fn in (("press", ingest_press), ("ispor", ingest_ispor), ("ctgov", ingest_ctgov), ("company", ingest_company)):
         t0 = time.time()
         try:
             out[name] = fn()

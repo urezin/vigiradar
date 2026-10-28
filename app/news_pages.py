@@ -34,9 +34,9 @@ _e, _fmt, _base = cal._e, cal._fmt, cal._base
 
 FLAG = {"EU": "🇪🇺", "US": "🇺🇸", "UK": "🇬🇧", "DE": "🇩🇪", "FR": "🇫🇷", "ES": "🇪🇸", "IT": "🇮🇹", "NL": "🇳🇱",
         "IE": "🇮🇪", "SE": "🇸🇪", "BE": "🇧🇪", "INT": "🌐", "CA": "🇨🇦"}
-SEC_COLOR = {"regulatory": "#0369a1", "pharmacovigilance": "#be123c", "quality": "#b45309",
+SEC_COLOR = {"regulatory": "#0369a1", "clinical-trials": "#0e7490", "pharmacovigilance": "#be123c", "quality": "#b45309",
              "market-access": "#6d28d9", "industry": "#0f766e"}
-SEC_ABBR = {"regulatory": "REG", "pharmacovigilance": "PV", "quality": "QA", "market-access": "MA", "industry": "BIO"}
+SEC_ABBR = {"regulatory": "REG", "clinical-trials": "CT", "pharmacovigilance": "PV", "quality": "QA", "market-access": "MA", "industry": "BIO"}
 _PRIORITY_PUB = ("ema", "fda", "mhra", "prac", "european commission", "hma", "cmdh", "who")
 ALL_KINDS = ("official", "notice", "guideline", "company", "press")
 
@@ -76,7 +76,11 @@ def _company_press(limit: int = 1200) -> list[dict]:
         rows = []
     out = []
     for r in rows:
-        out.append({**r, "section": nw.norm_section(r.get("section")), "title": _clean(r.get("title")),
+        sec = nw.norm_section(r.get("section"))
+        if sec in ("regulatory", "industry") and r["kind"] in ("press", "guideline", "notice", "company") and \
+                nw.classify(r.get("title") or "", r.get("summary") or "", "") == "clinical-trials":
+            sec = "clinical-trials"      # items stored before the Clinical trials section existed
+        out.append({**r, "section": sec, "title": _clean(r.get("title")),
                     "summary": _clean(r.get("summary")),
                     "impact": "high" if r["kind"] in ("company", "notice") else "med"})
     return out
@@ -105,6 +109,29 @@ def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60
 def _real_summary(r: dict) -> bool:
     sm, ti = (r.get("summary") or "").strip().lower(), (r.get("title") or "").strip().lower()
     return len(sm) > 70 and sm != ti and not sm.startswith(ti[:40])
+
+
+def _section_extra(section: str | None) -> str:
+    """Clinical trials front: legislation & guidance block + newly registered Phase 3 trials."""
+    if section != "clinical-trials":
+        return ""
+    allr = _company_press(limit=1500)
+    guides = [r for r in allr if r["kind"] == "guideline" and r["section"] == "clinical-trials"][:8]
+    trials = [r for r in allr if r["kind"] == "trial"][:10]
+    cal_ct = [e for e in cal.load_events() if e["status"] != "past" and (e.get("subject") or "").startswith("Clinical trials")][:6]
+    out = ""
+    if guides or cal_ct:
+        cal_html = "".join(f'<li><a href="/calendar/{_e(e["slug"])}">{_e(e.get("title"))}</a><div class="by">{_e(_fmt(e["date"]))} · {_e(e.get("body"))}</div></li>' for e in cal_ct)
+        out += (f'<section class="row" style="--c:#0e7490;margin-top:10px"><div class="row-h"><span style="color:#0e7490">Legislation &amp; guidance</span>'
+                f'<a href="/guidelines">Guidelines tracker →</a></div>{"".join(river_item(r) for r in guides)}'
+                + (f'<div class="box" style="margin-top:12px"><h2 style="font-size:13px;font-weight:900;letter-spacing:.08em;text-transform:uppercase">Key dates</h2><ul style="list-style:none">{cal_html}</ul></div>' if cal_html else "")
+                + '</section>')
+    if trials:
+        li = "".join(f'<li style="padding:9px 0;border-bottom:1px solid var(--rule)"><a href="{_e(r["url"])}" target="_blank" rel="noopener" style="font-weight:700;color:var(--ink)">'
+                     f'{_e(r["title"].replace("New Phase 3 trial: ", ""))} ↗</a><div class="by">{_e(r.get("summary"))} · first posted {_e(_fmt(r["date"]))}</div></li>' for r in trials)
+        out += (f'<section class="row" style="--c:#0e7490"><div class="row-h"><span style="color:#0e7490">Newly registered industry Phase 3 trials</span>'
+                f'<a href="https://clinicaltrials.gov" target="_blank" rel="noopener">ClinicalTrials.gov ↗</a></div><ul style="list-style:none">{li}</ul></section>')
+    return out
 
 
 def _score(r: dict) -> float:
@@ -258,6 +285,7 @@ article h2 a,article h3 a{color:var(--ink)}article h2 a:hover,article h3 a:hover
 
 def _secbar(active: str | None = None) -> str:
     items = [("", "Home", "#0f172a"), ("regulatory", "Regulatory", SEC_COLOR["regulatory"]),
+             ("clinical-trials", "Clinical trials", SEC_COLOR["clinical-trials"]),
              ("pharmacovigilance", "Pharmacovigilance", SEC_COLOR["pharmacovigilance"]),
              ("quality", "Quality & compliance", SEC_COLOR["quality"]),
              ("market-access", "Market access", SEC_COLOR["market-access"]),
@@ -364,7 +392,7 @@ def home():
 {editorial_row(3)}
 <div class="body3"><div><div class="row-h" style="margin-top:0"><span>Latest</span><a href="/news">All news →</a></div>
 {"".join(river_item(r) for r in river[:8])}{art_mod.ad_html("home-river", "inline")}{"".join(river_item(r) for r in river[8:])}</div>{_sidebar(None, press)}</div>
-{row("pharmacovigilance", "/safety")}{row("regulatory")}{art_mod.ad_html("home-banner", "banner")}{row("quality")}{row("market-access")}{guide_row}{row("industry")}
+{row("pharmacovigilance", "/safety")}{row("regulatory")}{row("clinical-trials")}{art_mod.ad_html("home-banner", "banner")}{row("quality")}{row("market-access")}{guide_row}{row("industry")}
 {more_heads}
 <p class="note" style="margin-top:28px">{pp.DISCLAIMER}</p></main>"""
     ld = [{"@context": "https://schema.org", "@type": "NewsMediaOrganization", "name": "VigiEye", "url": _base() + "/"},
@@ -408,7 +436,7 @@ def _section_front(section: str | None, page: int):
     body = f"""{_ticker()}{_secbar(section or "")}<main class="wrap">
 <div class="mast"><div><h1 style="font-size:34px;color:{color}">{_e(title)}</h1><p>{_e(blurb)}</p></div>
 <div class="date">{_e(date.today().strftime("%d %B %Y"))}</div></div>
-<div class="body3"><div>{lead_html}{"".join(river_item(r) for r in rows) or '<p class="note">No stories in this section yet.</p>'}{pager}</div>
+<div class="body3"><div>{lead_html}{_section_extra(section) if page == 1 else ""}{"".join(river_item(r) for r in rows) or '<p class="note">No stories in this section yet.</p>'}{pager}</div>
 {_sidebar(section, press)}</div><p class="note">{pp.DISCLAIMER}</p></main>"""
     return _page(_SEO.get(section, "Pharma regulatory, pharmacovigilance, quality & market access news | VigiEye"),
                  blurb[:155], base + (f"?page={page}" if page > 1 else ""), body)
@@ -488,6 +516,8 @@ _GLYPH = {
     "quality": '<circle r="26" fill="none" stroke="#fff" stroke-width="3"/><path d="M-12 0 L-3 10 L14 -10" fill="none" stroke="#fff" '
                'stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>',
     "market-access": '<path d="M-30 22 H30 M-22 22 V2 M-8 22 V-10 M6 22 V-2 M20 22 V-22" stroke="#fff" stroke-width="5" stroke-linecap="round"/>',
+    "clinical-trials": '<path d="M-10 -30 H10 M-6 -30 V-6 L-24 24 H24 L6 -6 V-30" fill="none" stroke="#fff" stroke-width="3.5" stroke-linejoin="round"/>'
+                       '<path d="M-14 10 H14" stroke="#fff" stroke-width="3"/>',
     "industry": '<path d="M-14 -30 C14 -14 -14 14 14 30 M14 -30 C-14 -14 14 14 -14 30" fill="none" stroke="#fff" stroke-width="3"/>'
                 '<path d="M-9 -18 H9 M-10 0 H10 M-9 18 H9" stroke="#fff" stroke-width="2.5" opacity=".8"/>',
 }
