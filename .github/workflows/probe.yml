@@ -1,0 +1,19 @@
+name: Earnings probe (temporary)
+on:
+  push:
+    branches: [probe-earnings]
+permissions:
+  contents: write
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q -r requirements.txt || pip install -q fastapi sqlalchemy httpx feedparser anthropic pydantic
+      - run: python3 probe/earn.py
+      - run: |
+          git config user.name "probe-bot"; git config user.email "noreply@github.com"
+          git add -f probe/out6 && git commit -m "earnings probe [skip ci]" && git push
