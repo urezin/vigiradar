@@ -70,6 +70,7 @@ subscribers = Table(
     Column("source", String(60)),
     Column("created_at", String(40), nullable=False),
     Column("unsubscribed", String(5)),
+    Column("frequency", String(10)),          # "weekly" (default) | "daily"
 )
 
 # Accounts (SSO). id is deterministic from provider+subject so re-login updates
@@ -102,7 +103,8 @@ def _migrate() -> None:
     error is swallowed on SQLite."""
     for stmt in ("ALTER TABLE prices ADD COLUMN IF NOT EXISTS currency VARCHAR(8)",
                  "ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash VARCHAR(128)",
-                 "ALTER TABLE users ADD COLUMN IF NOT EXISTS password_salt VARCHAR(64)"):
+                 "ALTER TABLE users ADD COLUMN IF NOT EXISTS password_salt VARCHAR(64)",
+                 "ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS frequency VARCHAR(10)"):
         try:
             with _engine.begin() as c:
                 c.execute(text(stmt))
@@ -208,18 +210,22 @@ def prices_countries() -> list[str]:
 
 # --- subscribers ------------------------------------------------------------
 
-def subscriber_add(email: str, source: str = "calendar") -> bool:
-    """Add (or re-activate) a subscriber. Returns True if newly added."""
+def subscriber_add(email: str, source: str = "calendar", frequency: str = "weekly") -> bool:
+    """Add (or re-activate) a subscriber. Returns True if newly added. A daily
+    subscription also covers the weekly email; it is never downgraded."""
     now = datetime.now(timezone.utc).isoformat()
     email = email.strip().lower()
+    frequency = "daily" if frequency == "daily" else "weekly"
     with _engine.begin() as c:
         existing = c.execute(select(subscribers).where(subscribers.c.email == email)).first()
         if existing:
-            c.execute(subscribers.update().where(subscribers.c.email == email)
-                      .values(unsubscribed=""))
+            vals = {"unsubscribed": ""}
+            if frequency == "daily":
+                vals["frequency"] = "daily"
+            c.execute(subscribers.update().where(subscribers.c.email == email).values(**vals))
             return False
-        c.execute(insert(subscribers).values(email=email, source=source[:60],
-                                             created_at=now, unsubscribed=""))
+        c.execute(insert(subscribers).values(email=email, source=source[:60], created_at=now,
+                                             unsubscribed="", frequency=frequency))
         return True
 
 
@@ -229,11 +235,14 @@ def subscriber_remove(email: str) -> None:
                   .values(unsubscribed="1"))
 
 
-def subscribers_active() -> list[str]:
+def subscribers_active(frequency: str | None = None) -> list[str]:
+    """Active subscribers. frequency="daily" -> daily only; "weekly"/None -> everyone."""
+    stmt = select(subscribers.c.email).where(or_(subscribers.c.unsubscribed == "",
+                                                 subscribers.c.unsubscribed.is_(None)))
+    if frequency == "daily":
+        stmt = stmt.where(subscribers.c.frequency == "daily")
     with _engine.connect() as c:
-        return [r[0] for r in c.execute(
-            select(subscribers.c.email).where(or_(subscribers.c.unsubscribed == "",
-                                                  subscribers.c.unsubscribed.is_(None))))]
+        return [r[0] for r in c.execute(stmt)]
 
 
 # --- users / accounts -------------------------------------------------------

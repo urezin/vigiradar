@@ -21,7 +21,8 @@ from .data import UPDATES, COUNTRIES, SUBJECTS
 from . import (store, ingest as ingest_mod, digest as digest_mod, emailer,
                prices as prices_mod, auth as auth_mod, billing as billing_mod,
                compliance as compliance_mod, medmonitor as medmonitor_mod,
-               litmonitor as litmonitor_mod, catalysts as catalysts_mod)
+               litmonitor as litmonitor_mod, catalysts as catalysts_mod,
+               portal_pages as portal_mod)
 
 log = logging.getLogger("vigiradar")
 
@@ -36,8 +37,28 @@ app.mount("/static", StaticFiles(directory=_STATIC), name="static")
 app.include_router(compliance_mod.router)
 app.include_router(medmonitor_mod.router)
 app.include_router(litmonitor_mod.router)
-# Public, indexable catalyst calendar + radar (the organic-traffic layer).
+# Public portal (home, PDUFA, approvals, safety, drugs, companies, insights, ticker)
+# and the EU catalyst calendar + radar. "/" is the portal; the module hub is /hub.
+app.include_router(portal_mod.router)
 app.include_router(catalysts_mod.router)
+
+from starlette.exceptions import HTTPException as _StarletteHTTPException
+
+
+@app.exception_handler(_StarletteHTTPException)
+async def _html_404(request: Request, exc: _StarletteHTTPException):
+    """Friendly HTML 404 for public pages; JSON stays JSON for /api, /admin, /auth, /billing."""
+    p = request.url.path
+    if exc.status_code == 404 and not p.startswith(("/api", "/admin", "/auth", "/billing")) \
+            and "text/html" in (request.headers.get("accept") or "text/html"):
+        page = catalysts_mod._page("Page not found | VigiEye", "Page not found", settings.app_base_url,
+                                   '<main class="wrap article"><h1>Page not found</h1><p>Try the '
+                                   '<a href="/">portal</a>, <a href="/drugs">drug search</a> or the '
+                                   '<a href="/pdufa">PDUFA calendar</a>.</p></main>')
+        page.status_code = 404
+        return page
+    return JSONResponse({"detail": exc.detail}, status_code=exc.status_code, headers=getattr(exc, "headers", None))
+
 
 # in-memory lead store for the MVP (swap for a DB when persistence is needed)
 _LEADS: list[dict] = []
@@ -51,13 +72,6 @@ class LeadIn(BaseModel):
 class CheckoutIn(BaseModel):
     sku: str
     email: str | None = None
-
-
-@app.get("/", include_in_schema=False)
-def landing():
-    # Homepage is now the modular hub (CompePharma-style): a module store when
-    # signed out, a modular dashboard when signed in.
-    return FileResponse(os.path.join(_STATIC, "hub.html"))
 
 
 @app.get("/hub", include_in_schema=False)

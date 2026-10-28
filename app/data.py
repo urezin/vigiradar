@@ -16,6 +16,7 @@ COUNTRIES = {
     "NL": "Netherlands (CBG-MEB)",
     "IE": "Ireland (HPRA)",
     "SE": "Sweden (Läkemedelsverket)",
+    "US": "United States (FDA)",
     # + 19 more member states in production
 }
 

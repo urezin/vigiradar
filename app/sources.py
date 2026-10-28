@@ -58,6 +58,16 @@ SOURCES: list[Source] = [
            "https://www.aifa.gov.it/o/feedrss/rss?structureId=93604&groupId=20142&companyId=20115&baseportalURL=https://www.aifa.gov.it&size=25&excludeCategoryId=104878&locale=it_IT",
            "Signal management"),
     # BfArM (DE): Government Site Builder press-release RSS (German).
+    # United States — FDA official RSS feeds.
+    Source("fda-press", "US", "FDA",
+           "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
+           "Fees & guidance"),
+    Source("fda-medwatch", "US", "FDA MedWatch",
+           "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medwatch/rss.xml",
+           "Shortages & recalls"),
+    Source("fda-drugs", "US", "FDA CDER",
+           "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drugs/rss.xml",
+           "Fees & guidance"),
     Source("bfarm", "DE", "BfArM",
            "https://www.bfarm.de/SiteGlobals/Functions/RSSFeed/DE/Pressemitteilungen/RSSNewsfeed.xml",
            "Signal management"),
