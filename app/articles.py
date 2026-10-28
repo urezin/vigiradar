@@ -31,12 +31,12 @@ log = logging.getLogger("vigiradar.articles")
 
 PQRA_AD = {
     "name": "PQRA",
-    "tagline": "Regulatory, quality and pharmacovigilance consulting for Greece & Cyprus",
+    "tagline": "Regulatory, quality and pharmacovigilance consulting for the pharmaceutical industry",
     "services": ["Regulatory affairs & market access", "Quality management & audit readiness",
                  "Pharmacovigilance & medical information"],
     "proof": "25+ years with EOF and EMA · human and veterinary medicines",
-    "cta": "Book a 30-minute call",
-    "cta_url": "https://calendly.com/dgkikas/30min",
+    "cta": "Visit pqra.gr",
+    "cta_url": "https://www.pqra.gr/",
     "site_url": "https://www.pqra.gr/",
     "email": "info@pqra.gr",
     "phone": "+30 21 0444 1982",
