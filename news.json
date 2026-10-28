@@ -1,22 +1,13 @@
 {
  "running": false,
- "started": "2026-10-28T19:16:41.857135+00:00",
- "finished": "2026-10-28T19:31:16.434183+00:00",
+ "started": "2026-10-28T19:40:16.103944+00:00",
+ "finished": "2026-10-28T19:52:01.287073+00:00",
  "result": {
   "news": {
    "sources": 62,
-   "fetched": 1259,
-   "new": 190,
-   "errors": [
-    {
-     "source": "ftc-competition",
-     "error": "Client error '404 Not Found' for url 'https://www.ftc.gov/feeds/press-release-competition.xml'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
-    },
-    {
-     "source": "ftc-consumer",
-     "error": "Client error '404 Not Found' for url 'https://www.ftc.gov/feeds/press-release-consumer-protection.xml'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
-    }
-   ],
+   "fetched": 1277,
+   "new": 111,
+   "errors": [],
    "by_source": {
     "ema-news": {
      "fetched": 11,
@@ -128,7 +119,7 @@
     },
     "fimea": {
      "fetched": 50,
-     "new": 25
+     "new": 0
     },
     "bfarm-rhb": {
      "fetched": 20,
@@ -168,7 +159,7 @@
     },
     "aifa-en": {
      "fetched": 10,
-     "new": 0
+     "new": 1
     },
     "igj-warnings": {
      "fetched": 20,
@@ -180,7 +171,7 @@
     },
     "sukl-sk": {
      "fetched": 85,
-     "new": 25
+     "new": 17
     },
     "sukl-sk-recalls": {
      "fetched": 32,
@@ -200,19 +191,19 @@
     },
     "infarmed-alerts": {
      "fetched": 20,
-     "new": 20
+     "new": 0
     },
     "infarmed-news": {
      "fetched": 20,
-     "new": 20
+     "new": 0
     },
     "infarmed-press": {
      "fetched": 19,
-     "new": 19
+     "new": 0
     },
     "act-eu": {
      "fetched": 29,
-     "new": 4
+     "new": 0
     },
     "ec-union-register": {
      "fetched": 23,
@@ -232,37 +223,49 @@
     },
     "fda-cber": {
      "fetched": 20,
-     "new": 2
+     "new": 0
     },
     "cms": {
      "fetched": 10,
      "new": 0
     },
+    "ftc-competition": {
+     "fetched": 12,
+     "new": 12
+    },
+    "ftc-consumer": {
+     "fetched": 6,
+     "new": 6
+    },
     "gif-pl": {
      "fetched": 10,
-     "seeded": 10,
-     "scraper": true
+     "new": 0,
+     "scraper": true,
+     "verified": true
     },
     "mt-recalls": {
      "fetched": 40,
-     "seeded": 40,
-     "scraper": true
+     "new": 0,
+     "scraper": true,
+     "verified": true
     },
     "lu-sante": {
      "fetched": 1,
-     "seeded": 1,
-     "scraper": true
+     "new": 0,
+     "scraper": true,
+     "verified": true
     },
     "hhs-oig": {
      "fetched": 21,
-     "seeded": 21,
-     "scraper": true
+     "new": 0,
+     "scraper": true,
+     "verified": true
     }
    },
-   "total_in_store": 2199
+   "total_in_store": 2310
   },
   "translate": {
-   "translated": 58,
+   "translated": 76,
    "irrelevant": 42,
    "errors": 0
   },
@@ -273,58 +276,64 @@
     "seconds": 0.3
    },
    "company": {
-    "error": "IntegrityError: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint \"portal_news_pkey\"\nDETAIL:  Key (id)=(2a92a3fc251f8d07f851) already exists.\n\n[SQL: INSERT INTO portal_news (id, kind, section, publisher, title, url, date, ingested_at) VALUES (%(id)s, %(kind)s, %(section)s, %(publisher)s, %(title)s, %(url)s, %(date)s, %(ingested_at)s)]\n[parameters: {'id': '2a92a3fc251f8d07f851', 'kind': 'skip', 'section': 'industry', 'publisher': 'Arcutis Biotherapeutics, Inc.', 'title': 'Arcut is Appoints Rob Scot t, MD to Board of Directors WESTLAKE VILLAGE, Calif., Oct . 28, 2026', 'url': 'https://www.sec.gov/Archives/edgar/data/1787306/000162828026067752/exhibit991prrobscottmdbo.htm', 'date': '2026-10-28', 'ingested_at': '2026-10-28T19:27:36.717317+00:00'}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)",
-    "seconds": 17.2
+    "hits": 42,
+    "new": 11,
+    "skipped": 29,
+    "not_newsworthy": 2,
+    "ai": true,
+    "errors": [],
+    "seconds": 59.7
    }
   },
   "guidelines_safety": {
    "fda_guidance": {
-    "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.federalregister.gov/api/v1/documents.json?conditions%5Bagencies%5D%5B%5D=food-and-drug-administration&conditions%5Btype%5D%5B%5D=NOTICE&conditions%5Bterm%5D=guidance+availability&conditions%5Bpublication_date%5D%5Bgte%5D=2026-05-01&order=newest&per_page=200&fields%5B%5D=title&fields%5B%5D=publication_date&fields%5B%5D=html_url&fields%5B%5D=abstract&fields%5B%5D=document_number'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
-    "seconds": 0.2
+    "notices": 138,
+    "new": 50,
+    "seconds": 0.5
    },
    "ema_guidelines": {
     "items": 22,
     "new": 0,
-    "seconds": 0.4
+    "seconds": 0.8
    },
    "mhra_guidance": {
     "items": 20,
     "new": 0,
-    "seconds": 0.6
+    "seconds": 0.3
    },
    "ema_prac": {
     "items": 538,
     "kept": 33,
     "new": 0,
-    "seconds": 0.9
+    "seconds": 0.7
    },
    "fda_recalls": {
     "results": 70,
     "new": 0,
-    "seconds": 0.6
+    "seconds": 0.4
    },
    "hc_alerts": {
     "items": 3,
-    "new": 1,
+    "new": 0,
     "seconds": 0.1
    }
   },
   "stories": {
-   "written": 26,
+   "written": 23,
    "skipped": 0,
-   "errors": 4,
+   "errors": 7,
    "ai": true
   },
   "indexnow": {
    "vigieye": {
     "host": "vigi-eye.com",
-    "submitted": 59,
-    "status": 202
+    "submitted": 76,
+    "status": 200
    },
    "compepharma": {
     "host": "compepharma.com",
     "submitted": 15,
-    "status": 202
+    "status": 200
    }
   }
  },
