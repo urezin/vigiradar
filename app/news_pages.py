@@ -58,6 +58,10 @@ def _official(limit: int = 800) -> list[dict]:
         r = {**r, "title": _clean(r.get("title")), "summary": _clean(r.get("summary"))}
         if not pp._relevant(r) or nw.is_junk(r) or r.get("authority") == "FDA CDER":   # page-update feed, removed
             continue
+        if r.get("authority") == "US Department of Justice":
+            from .sources import feed_relevant
+            if not feed_relevant("doj", r["title"], r["summary"]):
+                continue          # stored before the health-care filter existed
         out.append({"kind": "official", "id": r.get("id"), "section": nw.section_for_update(r),
                     "publisher": r.get("authority") or "", "country": r.get("country"), "title": r["title"],
                     "summary": r["summary"], "url": r.get("source_url") or "", "date": r.get("date") or "",
@@ -752,3 +756,62 @@ Not legal, medical or investment advice.</p>
            "publisher": {"@type": "Organization", "name": "VigiEye", "url": _base() + "/"},
            "isBasedOn": [s.get("url") for s in a.get("sources", []) if s.get("url")]}]
     return _page(f"{a['title'][:90]} | VigiEye {label}", (a.get("dek") or a["title"])[:155], f"/analysis/{slug}", body, ld)
+
+
+
+# --- data feed for CompePharma (pharma business portal) --------------------------------------------
+
+@router.get("/api/business-news", include_in_schema=False)
+def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
+    """Pharma business stream for CompePharma: company releases, trade-press headlines, approvals,
+    recalls/warning letters and enforcement, each tagged with a business beat."""
+    since = (date.today() - timedelta(days=max(1, min(days, 120)))).isoformat()
+    rows = [r for r in stream(limit=1500) if r["date"] >= since]
+    # approvals from the regulatory data: novel FDA approvals and EU marketing authorisations
+    appr = pp._safe(lambda: pd.milestones_between(since, date.today().isoformat(), ["fda_approval", "ec_decision"],
+                                                  limit=300, desc=True), [])
+    for m in appr:
+        if m["kind"] == "fda_approval" and m.get("impact") != "high":
+            continue
+        href = pp._drug_href(m)
+        rows.append({"kind": "approval", "id": m["id"], "section": "regulatory", "publisher": "FDA" if m["region"] == "US" else "European Commission",
+                     "country": m["region"], "title": m["title"], "summary": m.get("detail") or "", "url": m.get("source_url"),
+                     "date": m["date"], "impact": "high", "ticker": None, "_href": (_base() + href) if href else None})
+    rows.sort(key=lambda r: r["date"], reverse=True)
+    keep, recalls = [], 0
+    for r in rows:
+        pub = (r.get("publisher") or "").lower()
+        if r["kind"] == "guideline":
+            continue
+        if "enforcement report" in pub:
+            recalls += 1
+            if recalls > 6:
+                continue      # FDA's recall list is long; a few recent ones are enough for business readers
+        if r["kind"] in ("official", "notice") and not (
+                "justice" in pub or "enforcement report" in pub or "mhra alerts" in pub or "recall" in r["title"].lower()):
+            continue          # regulatory/PV notices stay on VigiEye; only business-relevant official items pass
+        b = "launches" if r["kind"] == "approval" else nw.biz_beat(r["title"], r.get("summary") or "")
+        if beat and b != beat:
+            continue
+        keep.append({"id": f'{r["kind"][0]}-{r.get("id") or _seed(r)}', "kind": r["kind"], "beat": b,
+                     "beat_label": nw.BIZ_BEATS.get(b, b), "title": r["title"],
+                     "summary": (r.get("summary") if r["kind"] in ("company", "official", "notice") and _real_summary(r)
+                                 else (r.get("summary") or "") if r["kind"] == "approval" else ""),
+                     "publisher": r.get("publisher"), "country": r.get("country"), "ticker": r.get("ticker"),
+                     "date": r["date"], "source_url": r.get("url"),
+                     "vigieye_url": r.get("_href") or ((_base() + _href(r)) if r["kind"] in ("official", "company") else None),
+                     "score": round(_score(r) if r["kind"] != "approval" else 6.0, 2)})
+        if len(keep) >= max(1, min(limit, 400)):
+            break
+    return Response(json.dumps({"items": keep, "beats": nw.BIZ_BEATS, "generated": date.today().isoformat()},
+                               ensure_ascii=False), media_type="application/json",
+                    headers={"Cache-Control": "public, max-age=600", "Access-Control-Allow-Origin": "*"})
+
+
+@router.get("/api/editorial", include_in_schema=False)
+def api_editorial(limit: int = 6):
+    arts = art_mod.list_articles(max(1, min(limit, 30)))
+    out = [{"slug": a["slug"], "type": a.get("type"), "section": a.get("section"), "title": a["title"],
+            "dek": a.get("dek"), "date": a.get("date"), "url": f"{_base()}/analysis/{a['slug']}"} for a in arts]
+    return Response(json.dumps({"items": out}, ensure_ascii=False), media_type="application/json",
+                    headers={"Cache-Control": "public, max-age=900", "Access-Control-Allow-Origin": "*"})

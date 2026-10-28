@@ -113,6 +113,54 @@ def classify(title: str, text: str = "", default: str = "industry") -> str:
     return best if scores[best] > 0 else default
 
 
+# --- business beats (used by CompePharma, the pharma business portal) ---------------
+BIZ_BEATS = {
+    "deals": "Deals & M&A",
+    "launches": "Approvals & launches",
+    "marketing": "Marketing & sales",
+    "manufacturing": "Manufacturing & supply",
+    "pricing": "Pricing & policy",
+    "legal": "Legal & litigation",
+    "earnings": "Earnings",
+    "pipeline": "Pipeline & R&D",
+    "industry": "Industry",
+}
+_BIZ_KW = {
+    "deals": ("acquire", "acquisition", "merger", "buyout", "takeover", "definitive agreement", "license agreement",
+              "licensing deal", "licenses", "partnership", "collaboration", "deal", "upfront", "milestone payment",
+              "divest", "spin-off", "spinoff", "joint venture", "option to", "royalty"),
+    "launches": ("approv", "launch", "clearance", "authoris", "authoriz", "chmp", "pdufa", "label expansion",
+                 "first patient", "available in", "commercial availability"),
+    "marketing": ("marketing", "sales force", "salesforce", "promotion", "advert", "campaign", "dtc", "direct-to-consumer",
+                  "commercial", "brand", "rep ", "reps", "hcp engagement", "omnichannel", "uptake", "prescri"),
+    "manufacturing": ("manufactur", "plant", "facility", "site", "cdmo", "cmo", "supply", "shortage", "capacity",
+                      "recall", "gmp", "warning letter", "483", "inspection", "api ", "biologics capacity", "fill-finish"),
+    "pricing": ("price", "pricing", "ira", "inflation reduction act", "medicare", "medicaid", "rebate", "pbm",
+                "most favored", "mfn", "tariff", "reimburs", "hta", "nice", "g-ba", "payer", "340b", "cost"),
+    "legal": ("lawsuit", "sued", "court", "litigation", "patent", "settle", "verdict", "jury", "antitrust",
+              "ftc", "doj", "fraud", "kickback", "class action", "injunction", "ruling", "appeal"),
+    "earnings": ("quarter", "q1 ", "q2 ", "q3 ", "q4 ", "earnings", "revenue", "sales grew", "guidance", "financial results",
+                 "net income", "full-year", "fiscal"),
+    "pipeline": ("phase 1", "phase 2", "phase 3", "phase i", "trial", "readout", "data", "topline", "study",
+                 "endpoint", "pivotal", "preclinical", "candidate"),
+}
+
+
+def _hit(w: str, t: str) -> bool:
+    w = w.strip()
+    if len(w) <= 4:      # short tokens (ira, hta, nice, cmo, 483...) must be whole words
+        return re.search(rf"(?<![a-z0-9]){re.escape(w)}(?![a-z0-9])", t) is not None
+    return w in t
+
+
+def biz_beat(title: str, text: str = "") -> str:
+    t = f" {title} {text} ".lower()
+    tl = f" {title} ".lower()
+    scores = {k: sum(1 for w in ws if _hit(w, t)) + 2 * sum(1 for w in ws if _hit(w, tl)) for k, ws in _BIZ_KW.items()}
+    best = max(scores, key=lambda k: scores[k])
+    return best if scores[best] > 0 else "industry"
+
+
 def section_for_update(r: dict) -> str:
     a = (r.get("authority") or "").lower()
     if a in _AUTH_SECTION:
@@ -265,7 +313,10 @@ _SEC_QUERIES = ['"FDA approval"', '"approved by the U.S. Food and Drug Administr
                 '"CHMP"', '"European Commission" approval', '"marketing authorisation"', '"Breakthrough Therapy designation"',
                 '"Fast Track designation"', '"Orphan Drug Designation"', '"Priority Review"', '"accelerated approval"',
                 '"clinical hold"', '"warning letter"', '"Form 483"', '"reimbursement" FDA', '"label expansion"',
-                '"Refuse to File"', '"Advisory Committee"']
+                '"Refuse to File"', '"Advisory Committee"',
+                # business side (for CompePharma): deals, launches, manufacturing
+                '"definitive agreement" pharmaceutical', '"license agreement" pharmaceutical', '"commercial launch"',
+                '"manufacturing facility"', '"acquisition" biopharmaceutical']
 
 _CO_PROMPT = """Below is a press release a pharma/biotech company filed with the SEC. Write a short news brief
 for regulatory, pharmacovigilance, market-access and compliance professionals.
@@ -273,7 +324,9 @@ for regulatory, pharmacovigilance, market-access and compliance professionals.
 Return ONLY JSON: {{"headline":"factual news headline, max 110 chars, in your own words",
 "summary":"2-3 sentences in your own words: what happened, product and indication, regulator/body, date",
 "section":"one of pharmacovigilance|regulatory|market-access|quality|industry",
-"newsworthy":true or false (false for routine financing, earnings with nothing regulatory, executive hires)}}.
+"newsworthy":true or false (false only for executive/board appointments, routine financings or offerings,
+conference-presentation notices and investor-event announcements; deals, launches, approvals, manufacturing,
+pricing, legal and earnings with material product news ARE newsworthy)}}.
 Use only facts in the text. Do not copy sentences from it.
 
 TEXT:
@@ -295,7 +348,7 @@ def _ai_brief(text: str) -> dict | None:
         return None
 
 
-def ingest_company(days: int = 4, max_docs: int = 60) -> dict:
+def ingest_company(days: int = 4, max_docs: int = 80) -> dict:
     """Company press releases (8-K EX-99) mentioning regulatory events, last `days` days."""
     from urllib.parse import urlencode
     from . import portal_data as pd
