@@ -1,0 +1,360 @@
+{
+ "rss": {
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "rss2": {
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "home": {
+  "status": 200,
+  "ct": "text/html; charset=utf-8",
+  "len": 76559,
+  "links": [
+   [
+    "/heor-resources/heor-by-topic-new/digital-health-devices-and-diagnostics",
+    "Digital Health, Devices, and Diagnostics"
+   ],
+   [
+    "/heor-resources/good-practices",
+    "Good Practices Reports &amp; More"
+   ],
+   [
+    "/heor-resources/us-healthcare-system-overview/decision-makers-and-influencers",
+    "Decision Makers and Influencers"
+   ],
+   [
+    "/heor-resources/us-healthcare-system-overview/medical-devices-in-vitro-diagnostics",
+    "Medical Devices and In Vitro Diagnostics"
+   ],
+   [
+    "/strategic-initiatives/more",
+    "Additional Strategic Initiatives"
+   ],
+   [
+    "/conferences-education/conferences/upcoming-conferences",
+    "Upcoming Conferences &amp; Events"
+   ],
+   [
+    "/education-training/webinars/value-assessment-in-the-age-of-covid-19-meeting-the-challenges",
+    "Value Assessment in the Age of COVID-19: Meeting the Challenges"
+   ],
+   [
+    "/education-training/webinars/value-assessment-in-alzheimers-disease-a-focus-on-equity",
+    "Value Assessment in Alzheimer&#39;s Disease: A Focus on Equity"
+   ],
+   [
+    "/publications/journals/value-in-health-regional-issues",
+    "Value in Health Regional Issues"
+   ],
+   [
+    "/member-groups/special-interest-groups/environmental-assessment-in-heor",
+    "Environmental Assessment in HEOR"
+   ],
+   [
+    "/member-groups/special-interest-groups/global-access-to-medical-innovation",
+    "Global Access to Medical Innovation"
+   ],
+   [
+    "/member-groups/special-interest-groups/medical-devices-and-diagnostics",
+    "Medical Devices and Diagnostics"
+   ],
+   [
+    "/member-groups/task-forces/preference-heterogeneity-in-stated-choice-data",
+    "Preference Heterogeneity in Stated Choice Data"
+   ],
+   [
+    "/member-groups/task-forces/real-world-data-source-feasibility-assessment-and-quality-checks",
+    "Real World Data Source Feasibility Assessment and Quality Checks"
+   ],
+   [
+    "/member-groups/councils-roundtables/health-technology-assessment-council",
+    "Health Technology Assessment Council"
+   ],
+   [
+    "/member-groups/global-groups/join-an-ispor-global-member-group",
+    "Join an ISPOR Global Member Group"
+   ],
+   [
+    "/member-groups/new-professionals/professional-development-resources",
+    "Professional Development Resources"
+   ],
+   [
+    "https://www.bcbs.com/about-us/association-news/bcbsa-analysis-ai-coding-tools-affects-healthcare-costs ",
+    "Insurer Data Suggest AI Coding Tools in Hospitals Boost Costs By Nearly $1B"
+   ],
+   [
+    "https://www.npr.org/2026/10/02/g-s1-146042/foreign-aid-united-states-healthcare-america-first",
+    "Questions Remain as Bilateral Health Memorandums of Understanding Take Effect"
+   ],
+   [
+    "https://healthpolicy-watch.news/us-medicare-pricing-policies-could-drive-global-costs-and-hinder-access-worldwide/ ",
+    "US Medicare Pricing Policies Could Drive Global Costs, Hinder Access Worldwide"
+   ],
+   [
+    "https://globalforum.diaglobal.org/issue/september-2026/chinas-path-to-support-innovation-in-medicine-and-patient-benefit-from-development-speed-to-rwe-and-value/ ",
+    "China Taps Real-World Evidence for New Drug Valuation, Informed Decision Making"
+   ],
+   [
+    "https://www.ispor.org/heor-resources/news-top/news/view/2026/10/28/how-to-measure-meaningful-benefit-for-patients-with-rare-diseases",
+    "How to Measure Meaningful Benefit for Patients With Rare Diseases"
+   ],
+   [
+    "https://www.ispor.org/heor-resources/news-top/news/view/2026/10/27/ispor-launches-its-first-interpretive-report-on-the-harper-template",
+    "ISPOR Launches Its First Interpretive Report on the HARPER Template"
+   ],
+   [
+    "https://www.ispor.org/heor-resources/news-top/news/view/2026/10/15/new-research-and-policy-priorities-chart-a-broader-role-for-heor",
+    "New Research and Policy Priorities Chart a Broader Role for HEOR"
+   ],
+   [
+    "https://www.ispor.org/heor-resources/news-top/news/view/2026/09/30/ispor-europe-2026-plenaries-announced",
+    "ISPOR Europe 2026 Plenaries Announced"
+   ],
+   [
+    "/heor-resources/good-practices",
+    "Good Practices Reports &amp; More"
+   ],
+   [
+    "/publications/journals/value-in-health-regional-issues",
+    "Value in Health Regional Issues"
+   ]
+  ],
+  "items": [],
+  "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /> <meta charset=\"utf-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/> <link rel=\"shortcut icon\" href=\"/ResourcePackages/ISPOR/assets/dist/images/favicon2018.ico\" /> <lin"
+ },
+ "news": {
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "pressroom": {
+  "error": "<HTTPError 404: 'Not Found'>"
+ },
+ "heor_news": {
+  "status": 200,
+  "ct": "text/html; charset=utf-8",
+  "len": 79492,
+  "links": [
+   [
+    "/heor-resources/heor-by-topic-new/digital-health-devices-and-diagnostics",
+    "Digital Health, Devices, and Diagnostics"
+   ],
+   [
+    "/heor-resources/good-practices",
+    "Good Practices Reports &amp; More"
+   ],
+   [
+    "/heor-resources/us-healthcare-system-overview/decision-makers-and-influencers",
+    "Decision Makers and Influencers"
+   ],
+   [
+    "/heor-resources/us-healthcare-system-overview/medical-devices-in-vitro-diagnostics",
+    "Medical Devices and In Vitro Diagnostics"
+   ],
+   [
+    "/strategic-initiatives/more",
+    "Additional Strategic Initiatives"
+   ],
+   [
+    "/conferences-education/conferences/upcoming-conferences",
+    "Upcoming Conferences &amp; Events"
+   ],
+   [
+    "/education-training/webinars/value-assessment-in-the-age-of-covid-19-meeting-the-challenges",
+    "Value Assessment in the Age of COVID-19: Meeting the Challenges"
+   ],
+   [
+    "/education-training/webinars/value-assessment-in-alzheimers-disease-a-focus-on-equity",
+    "Value Assessment in Alzheimer&#39;s Disease: A Focus on Equity"
+   ],
+   [
+    "/publications/journals/value-in-health-regional-issues",
+    "Value in Health Regional Issues"
+   ],
+   [
+    "/member-groups/special-interest-groups/environmental-assessment-in-heor",
+    "Environmental Assessment in HEOR"
+   ],
+   [
+    "/member-groups/special-interest-groups/global-access-to-medical-innovation",
+    "Global Access to Medical Innovation"
+   ],
+   [
+    "/member-groups/special-interest-groups/medical-devices-and-diagnostics",
+    "Medical Devices and Diagnostics"
+   ],
+   [
+    "/member-groups/task-forces/preference-heterogeneity-in-stated-choice-data",
+    "Preference Heterogeneity in Stated Choice Data"
+   ],
+   [
+    "/member-groups/task-forces/real-world-data-source-feasibility-assessment-and-quality-checks",
+    "Real World Data Source Feasibility Assessment and Quality Checks"
+   ],
+   [
+    "/member-groups/councils-roundtables/health-technology-assessment-council",
+    "Health Technology Assessment Council"
+   ],
+   [
+    "/member-groups/global-groups/join-an-ispor-global-member-group",
+    "Join an ISPOR Global Member Group"
+   ],
+   [
+    "/member-groups/new-professionals/professional-development-resources",
+    "Professional Development Resources"
+   ],
+   [
+    "/publications/journals/value-in-health-regional-issues",
+    "Value in Health Regional Issues"
+   ],
+   [
+    "/publications/journals/value-outcomes-spotlight/vos-archives",
+    "Value and Outcomes Spotlight Archives"
+   ]
+  ],
+  "items": [],
+  "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /> <meta charset=\"utf-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/> <link rel=\"shortcut icon\" href=\"/ResourcePackages/ISPOR/assets/dist/images/favicon2018.ico\" /> <lin"
+ },
+ "conferences": {
+  "status": 200,
+  "ct": "text/html; charset=utf-8",
+  "len": 89978,
+  "links": [
+   [
+    "/heor-resources/heor-by-topic-new/digital-health-devices-and-diagnostics",
+    "Digital Health, Devices, and Diagnostics"
+   ],
+   [
+    "/heor-resources/good-practices",
+    "Good Practices Reports &amp; More"
+   ],
+   [
+    "/heor-resources/us-healthcare-system-overview/decision-makers-and-influencers",
+    "Decision Makers and Influencers"
+   ],
+   [
+    "/heor-resources/us-healthcare-system-overview/medical-devices-in-vitro-diagnostics",
+    "Medical Devices and In Vitro Diagnostics"
+   ],
+   [
+    "/strategic-initiatives/more",
+    "Additional Strategic Initiatives"
+   ],
+   [
+    "/conferences-education/conferences/upcoming-conferences",
+    "Upcoming Conferences &amp; Events"
+   ],
+   [
+    "/education-training/webinars/value-assessment-in-the-age-of-covid-19-meeting-the-challenges",
+    "Value Assessment in the Age of COVID-19: Meeting the Challenges"
+   ],
+   [
+    "/education-training/webinars/value-assessment-in-alzheimers-disease-a-focus-on-equity",
+    "Value Assessment in Alzheimer&#39;s Disease: A Focus on Equity"
+   ],
+   [
+    "/publications/journals/value-in-health-regional-issues",
+    "Value in Health Regional Issues"
+   ],
+   [
+    "/member-groups/special-interest-groups/environmental-assessment-in-heor",
+    "Environmental Assessment in HEOR"
+   ],
+   [
+    "/member-groups/special-interest-groups/global-access-to-medical-innovation",
+    "Global Access to Medical Innovation"
+   ],
+   [
+    "/member-groups/special-interest-groups/medical-devices-and-diagnostics",
+    "Medical Devices and Diagnostics"
+   ],
+   [
+    "/member-groups/task-forces/preference-heterogeneity-in-stated-choice-data",
+    "Preference Heterogeneity in Stated Choice Data"
+   ],
+   [
+    "/member-groups/task-forces/real-world-data-source-feasibility-assessment-and-quality-checks",
+    "Real World Data Source Feasibility Assessment and Quality Checks"
+   ],
+   [
+    "/member-groups/councils-roundtables/health-technology-assessment-council",
+    "Health Technology Assessment Council"
+   ],
+   [
+    "/member-groups/global-groups/join-an-ispor-global-member-group",
+    "Join an ISPOR Global Member Group"
+   ],
+   [
+    "/member-groups/new-professionals/professional-development-resources",
+    "Professional Development Resources"
+   ],
+   [
+    "/conferences-education/conferences/upcoming-conferences",
+    "Upcoming Conferences &amp; Events"
+   ],
+   [
+    "/conferences-education/conferences/upcoming-conferences/ispor-europe-2026/about/marketing-kit/social-media",
+    "#ISPOREurope\u2014Tweet, Post, Share!"
+   ],
+   [
+    "/conferences-education/conferences/upcoming-conferences/ispor-europe-2026/exhibits-and-sponsorship/poster---exhibit-hall-floorplan",
+    "Poster &amp; Exhibit Hall Floorplan"
+   ],
+   [
+    "/conferences-education/conferences/upcoming-conferences/ispor-2027/about/marketing-kit/social-media",
+    "#ISPORAnnual\u2014Tweet, Post, Share!"
+   ],
+   [
+    "/conferences-education/conferences/upcoming-conferences/ispor-2027/exhibits---sponsorships/exhibitor-directory---floorplan",
+    "Exhibitor Directory &amp; Floorplan"
+   ]
+  ],
+  "items": [],
+  "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /> <meta charset=\"utf-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/> <link rel=\"shortcut icon\" href=\"/ResourcePackages/ISPOR/assets/dist/images/favicon2018.ico\" /> <lin"
+ },
+ "vih_rss": {
+  "status": 200,
+  "ct": "application/rss+xml;charset=UTF-8",
+  "len": 158398,
+  "links": [],
+  "items": [],
+  "head": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n         xmlns=\"http://purl.org/rss/1.0/\"\n         xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n         xmlns:dcterms=\"http://purl.org/dc/terms/\"\n         xmlns:prism=\"http://prismstandard.org/nam"
+ },
+ "vih_rss2": {
+  "error": "<HTTPError 410: 'Gone'>"
+ },
+ "heor_hub": {
+  "status": 200,
+  "ct": "text/html; charset=utf-8",
+  "len": 34381,
+  "links": [
+   [
+    "https://pages.ispor.org/HEOR-News-Desk_HEOR-News-Brief.html",
+    "Subscribe to the HEOR News Desk"
+   ],
+   [
+    "https://becarispublishing.com/digital-content/blog-post/looking-ahead-ispor-europe-2026-heor-heads-vienna",
+    "Looking Ahead to ISPOR Europe 2026: HEOR Heads to Vienna"
+   ],
+   [
+    "https://www.ispor.org/conferences-education/conferences/upcoming-conferences/ispor-europe-2026/short-courses/short-courses/",
+    "ISPOR Short Course Program Open for Registration"
+   ],
+   [
+    "https://www.ispor.org/conferences-education/conferences/upcoming-conferences/ispor-europe-2026/about/registration-information",
+    "Registration Open for ISPOR Europe"
+   ],
+   [
+    "https://www.ispor.org/strategic-initiatives/real-world-evidence/about-real-world-evidence",
+    "&ldquo;About Real-World Evidence&rdquo;"
+   ],
+   [
+    "/good-practice-for-outcomes",
+    "Good Practices for Outcomes Research"
+   ]
+  ],
+  "items": [],
+  "head": " <!DOCTYPE html> <html lang=\"en\"> <head> <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /> <meta charset=\"utf-8\" /> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/> <link rel=\"shortcut icon\" href=\"/ResourcePackages/ISPOR/assets/dist/images/favicon2018.ico\" /> <lin"
+ },
+ "feed": {
+  "error": "<HTTPError 404: 'Not Found'>"
+ }
+}
