@@ -129,13 +129,22 @@ def write_one(r: dict) -> dict | None:
         return None                      # nothing to report from
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     msg = client.messages.create(
-        model=settings.anthropic_model, max_tokens=1200, system=_SYSTEM,
+        model=settings.anthropic_model, max_tokens=1600, system=_SYSTEM,
         messages=[{"role": "user", "content": _PROMPT.format(
             publisher=r.get("publisher") or "", country=r.get("country") or "", date=r.get("date") or "",
             title=r.get("title") or "", summary=(r.get("summary") or "")[:1500], source=src or "(not available)")}])
     text = "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
-    a, b = text.find("{"), text.rfind("}")
-    data = json.loads(text[a:b + 1])
+    from .articles import _parse_json
+    try:
+        data = _parse_json(text)
+    except Exception:
+        msg = client.messages.create(
+            model=settings.anthropic_model, max_tokens=1600, system=_SYSTEM,
+            messages=[{"role": "user", "content": _PROMPT.format(
+                publisher=r.get("publisher") or "", country=r.get("country") or "", date=r.get("date") or "",
+                title=r.get("title") or "", summary=(r.get("summary") or "")[:1500], source=src[:4000] or "(not available)")
+                + "\n\nReturn strictly valid JSON (escape double quotes inside strings)."}])
+        data = _parse_json("".join(b.text for b in msg.content if getattr(b, "type", "") == "text"))
     body = [p.strip() for p in data.get("body") or [] if isinstance(p, str) and p.strip()]
     if not data.get("headline") or not body:
         return None
