@@ -45,6 +45,11 @@ def _get(url: str, timeout: float = 60):
         return r
 
 
+# FDA also regulates food, cosmetics and tobacco; keep medicines, biologics, devices, animal drugs
+_FDA_SKIP = ("seafood", "food", "dietary", "cosmetic", "tobacco", "nicotine", "infant formula", "juice",
+             "allergen", "menu labeling", "produce safety", "egg", "milk", "beverage", "pet food", "feed")
+
+
 def _status(title: str, text: str = "") -> str:
     t = f"{title} {text}".lower()
     if "concept paper" in t:
@@ -91,7 +96,8 @@ def ingest_fda_guidance(days: int = 180) -> dict:
     new = 0
     for d in j.get("results", []) or []:
         title = _clean(d.get("title"))
-        if "guidance" not in title.lower():
+        tl = title.lower()
+        if "guidance" not in tl or any(x in tl for x in _FDA_SKIP):
             continue
         abstract = _clean(d.get("abstract"))
         ich = _is_ich(title, abstract)
@@ -154,7 +160,7 @@ def ingest_mhra_guidance() -> dict:
 
 # --- safety notices --------------------------------------------------------------------
 
-_PRAC_KEEP = ("prac", "signal", "dhpc", "direct healthcare professional communication", "psusa", "periodic safety",
+_PRAC_KEEP = ("prac ", " prac", "signal", "dhpc", "direct healthcare professional communication", "psusa", "periodic safety",
               "referral", "pharmacovigilance", "safety", "risk minimisation", "product information")
 
 
@@ -169,12 +175,17 @@ def ingest_ema_prac() -> dict:
         tl = title.lower()
         if not title or not link or not any(k in tl for k in _PRAC_KEEP):
             continue
-        if any(x in tl for x in ("agenda", "minutes of", "presentation", "webinar", "vacancy")):
+        if re.search(r"good (manufacturing|distribution|clinical) practice|\bgmp\b|\bgdp\b", tl):
+            continue          # 'practice' contains 'prac'; GMP/GDP items are quality, not PRAC
+        if any(x in tl for x in ("agenda", "minutes", "presentation", "webinar", "vacancy", "information session",
+                                 "online,", "since september 2012", "executive steering group", "training", "workshop")):
             continue
         kept += 1
         desc = _clean(getattr(e, "summary", ""))[:700]
+        if re.match(r"^PSUSA/\d+/\d+$", title):
+            title = f"PSUSA outcome published: {title}"
         if _add({"id": nw._id("emaprac", link), "kind": "notice", "section": "pharmacovigilance",
-                 "publisher": "EMA · PRAC" if "prac" in tl or "signal" in tl else "EMA", "country": "EU",
+                 "publisher": "EMA · PRAC" if re.search(r"\bprac\b|\bsignals?\b", tl) else "EMA", "country": "EU",
                  "title": title[:300], "summary": desc or None, "url": link, "date": _edate(e),
                  "tags": _tags("PRAC" if "prac" in tl else "", "signal" if "signal" in tl else "")}):
             new += 1
@@ -196,7 +207,7 @@ def ingest_fda_recalls(days: int = 45) -> dict:
         d = f"{d[:4]}-{d[4:6]}-{d[6:]}" if len(d) == 8 else date.today().isoformat()
         reason = _clean(r.get("reason_for_recall"))[:600]
         title = f"{cls} drug recall: {prod.split(',')[0][:90]} ({firm})"
-        if _add({"id": nw._id("fdarecall", r.get("recall_number")), "kind": "notice", "section": "pharmacovigilance",
+        if _add({"id": nw._id("fdarecall", r.get("recall_number")), "kind": "notice", "section": "quality",
                  "publisher": "FDA enforcement report", "country": "US", "title": title[:300],
                  "summary": f"{reason} Recall {r.get('recall_number')}; status {r.get('status')}; "
                             f"distribution: {_clean(r.get('distribution_pattern'))[:160]}.",
@@ -213,7 +224,8 @@ def ingest_hc_alerts() -> dict:
         n += 1
         title = _clean(getattr(e, "title", ""))
         link = (getattr(e, "link", "") or "").strip()
-        if title and link and _add({"id": nw._id("hc", link), "kind": "notice", "section": "pharmacovigilance",
+        if title and link and _add({"id": nw._id("hc", link), "kind": "notice",
+                                    "section": nw.classify(title, getattr(e, "summary", "") or "", "quality"),
                                     "publisher": "Health Canada", "country": "CA", "title": title[:300],
                                     "summary": _clean(getattr(e, "summary", ""))[:600] or None, "url": link,
                                     "date": _edate(e), "tags": _tags("alert")}):

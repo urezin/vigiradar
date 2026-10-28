@@ -1,5 +1,5 @@
 """
-VigiEye portal pages: the public EU + US biotech regulatory portal.
+VigiEye portal pages: the public EU + US pharma regulatory portal.
 
   /                      portal home (today's approvals, PDUFA dates, safety, news)
   /pdufa                 US PDUFA dates (company-announced, from SEC filings) + FDA AdComms
@@ -216,7 +216,7 @@ def portal_home():
     n_us_appr = len(_safe(lambda: pd.milestones_between(_ago(90), t, ["fda_approval"], limit=2000), []))
     n_eu_appr = len(_safe(lambda: pd.milestones_between(_ago(90), t, ["ec_decision"], limit=2000), []))
     body = f"""<header class="hero"><div class="wrap">
-<h1>EU &amp; US biotech regulatory intelligence, every day</h1>
+<h1>EU &amp; US pharma regulatory intelligence, every day</h1>
 <p>FDA and EU approvals, CHMP opinions, PDUFA dates, PRAC safety actions and regulatory news from EMA, FDA, the
 Commission and national agencies. Every item links to its official source.</p>
 <div class="kpis"><div class="kpi"><b>{n_pdufa}</b><span>upcoming PDUFA dates</span></div>
@@ -247,8 +247,8 @@ Commission and national agencies. Every item links to its official source.</p>
     ld = [{"@context": "https://schema.org", "@type": "WebSite", "name": "VigiEye", "url": _base() + "/",
            "potentialAction": {"@type": "SearchAction", "target": _base() + "/drugs?q={query}",
                                "query-input": "required name=query"}}]
-    return _page("VigiEye: EU & US biotech regulatory news, PDUFA dates, EMA & FDA approvals",
-                 "Daily EU and US biotech regulatory intelligence: FDA and EMA approvals, CHMP opinions, PDUFA dates, "
+    return _page("VigiEye: EU & US pharma regulatory news, PDUFA dates, EMA & FDA approvals",
+                 "Daily EU and US pharma regulatory intelligence: FDA and EMA approvals, CHMP opinions, PDUFA dates, "
                  "PRAC safety actions and regulatory news, each with its official source.", "/", body, ld)
 
 
@@ -499,8 +499,8 @@ def insights_index():
     body = f"""<header class="hero"><div class="wrap"><h1>Insights: weekly in-depth regulatory review</h1>
 <p>Every Monday: what the past week's EU and US approvals, opinions, PDUFA outcomes and safety actions mean, and what to watch next.</p>
 {_newsletter_box("insights")}</div></header><main class="wrap"><section class="panel" style="margin-top:22px">{items}</section></main>"""
-    return _page("Insights: EU & US biotech regulatory week in review | VigiEye",
-                 "Weekly in-depth analysis of EU and US biotech regulation: approvals, CHMP opinions, PDUFA outcomes, "
+    return _page("Insights: EU & US pharma regulatory week in review | VigiEye",
+                 "Weekly in-depth analysis of EU and US pharma regulation: approvals, CHMP opinions, PDUFA outcomes, "
                  "PRAC safety actions and what to watch next.", "/insights", body)
 
 
@@ -515,7 +515,7 @@ def insight_page(week: str):
 <p class="note">AI-generated on {_e(a["created_at"][:10])} from the week's official records on VigiEye (model {_e(a.get("model"))}). It can contain errors: check the linked sources.</p>
 <div class="lock"><h3>Get this every week, and the daily briefing</h3>{_newsletter_box("insight:" + week)}</div></div></main>"""
     return _page(f"EU & US regulatory week in review {week} | VigiEye",
-                 f"In-depth review of EU and US biotech regulatory events for {week}: approvals, opinions, PDUFA dates "
+                 f"In-depth review of EU and US pharma regulatory events for {week}: approvals, opinions, PDUFA dates "
                  "and safety actions.", f"/insights/{week}", body,
                  [{"@context": "https://schema.org", "@type": "Article", "headline": f"EU & US regulatory week in review {week}",
                    "datePublished": a["created_at"][:10], "publisher": {"@type": "Organization", "name": "VigiEye"}}])
@@ -593,7 +593,7 @@ def render_daily(email: str = "") -> tuple[str, str, int]:
     unsub = (f"{_base()}/calendar/unsubscribe?email={cal._q(email)}&t={cal._unsub_token(email)}" if email else "#")
     html = f"""<div style="max-width:640px;margin:auto;font:15px system-ui;color:#0f172a">
 <p style="font:700 20px system-ui;margin:0">👁️ VigiEye Daily</p>
-<p style="color:#64748b;margin-top:4px">{_e(datetime.now(timezone.utc).strftime("%A %d %B %Y"))} · EU &amp; US biotech regulatory briefing</p>
+<p style="color:#64748b;margin-top:4px">{_e(datetime.now(timezone.utc).strftime("%A %d %B %Y"))} · EU &amp; US pharma regulatory briefing</p>
 {sections}
 <p style="margin-top:22px"><a href="{_base()}/" style="color:#0284c7">Portal</a> · <a href="{_base()}/pdufa" style="color:#0284c7">PDUFA calendar</a> ·
 <a href="{_base()}/approvals" style="color:#0284c7">Approvals</a> · <a href="{_base()}/safety" style="color:#0284c7">Safety</a> · <a href="{_base()}/insights" style="color:#0284c7">Insights</a></p>
@@ -607,11 +607,11 @@ You subscribed at vigi-eye.com. <a href="{unsub}" style="color:#94a3b8">Unsubscr
 
 @router.get("/newsletter", response_class=HTMLResponse, include_in_schema=False)
 def newsletter_page():
-    body = f"""<header class="hero"><div class="wrap"><h1>VigiEye Daily: the EU &amp; US biotech regulatory briefing</h1>
+    body = f"""<header class="hero"><div class="wrap"><h1>VigiEye Daily: the EU &amp; US pharma regulatory briefing</h1>
 <p>Every weekday morning: new EU and FDA approvals, CHMP opinions, PRAC safety actions and DHPCs, the PDUFA dates
 coming up in the next two weeks, and the day's regulatory news. Free.</p>{_newsletter_box("newsletter-page")}
 <p style="margin-top:14px"><a href="/newsletter/preview" style="color:#7dd3fc">See today's edition →</a></p></div></header>"""
-    return _page("VigiEye Daily: free EU & US biotech regulatory newsletter",
+    return _page("VigiEye Daily: free EU & US pharma regulatory newsletter",
                  "Free daily email with new EU and FDA approvals, CHMP opinions, PRAC safety actions, upcoming PDUFA dates "
                  "and regulatory news.", "/newsletter", body)
 
@@ -760,7 +760,7 @@ Return ONLY JSON: {{"sections":[{{"heading":"...","paragraphs":["...","..."]}}]}
 "Where it stands", "Regulatory pathway and designations", "Safety and pharmacovigilance", "What to watch".
 2-3 short paragraphs each, plain English. If the records don't cover a heading, say so in one sentence."""
 
-_AN_WEEK = """Write the weekly in-depth review of EU and US biotech regulation for {week}.
+_AN_WEEK = """Write the weekly in-depth review of EU and US pharma regulation for {week}.
 
 RECORDS (official data from the week, plus dates coming up):
 {facts}

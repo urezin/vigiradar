@@ -1,5 +1,5 @@
 """
-VigiEye news layer: the biotech regulatory news portal.
+VigiEye news layer: the pharma regulatory news portal.
 
 Three kinds of item, shown together and sorted into four sections
 (Pharmacovigilance, Regulatory, Market access, Compliance) plus Industry:
@@ -48,32 +48,40 @@ news = Table(
 )
 
 SECTIONS = {
-    "pharmacovigilance": "Pharmacovigilance & safety",
     "regulatory": "Regulatory",
-    "market-access": "Market access & HTA",
-    "compliance": "Compliance & enforcement",
-    "industry": "Industry & pipeline",
+    "pharmacovigilance": "Pharmacovigilance",
+    "quality": "Quality & compliance",
+    "market-access": "Market access",
+    "industry": "Industry",
 }
 SECTION_BLURB = {
-    "pharmacovigilance": "Safety signals, PRAC, DHPCs, drug safety updates, recalls and risk minimisation.",
+    "pharmacovigilance": "Safety signals, PRAC recommendations, DHPCs, Drug Safety Update, MedWatch and risk minimisation.",
     "regulatory": "Approvals, CHMP opinions, FDA decisions, guidelines, designations and regulatory policy.",
     "market-access": "HTA, pricing and reimbursement: EU HTA Regulation, G-BA, HAS, NICE, ICER, IRA and payers.",
-    "compliance": "GMP and inspections, warning letters, fraud and kickback enforcement, promotion and transparency.",
+    "quality": "GMP and GDP, inspections, quality-defect recalls, warning letters, data integrity and enforcement.",
     "industry": "Deals, pipeline readouts and company news from across biotech and pharma.",
 }
+SECTION_ALIAS = {"compliance": "quality"}
+
+
+def norm_section(s: str | None) -> str:
+    s = s or "industry"
+    return SECTION_ALIAS.get(s, s)
 
 _KW = {
     "pharmacovigilance": ("pharmacovigilance", "safety signal", "signal", "prac", "dhpc", "drug safety update",
                           "adverse", "side effect", "psur", "risk management plan", "rmp", "pass ", "boxed warning",
                           "safety communication", "medwatch", "risk minimi", "contraindicat", "vigilance",
-                          "recall", "field safety", "suspected", "#medsafetyweek", "black box", "safety review",
+                          "suspected", "#medsafetyweek", "black box", "safety review",
                           "pharmakovigilanz", "farmacovigilanza", "pharmacovigilance", "sécurité", "seguridad"),
     "market-access": ("reimburs", "pricing", "price", "hta", "health technology assessment", "joint clinical assessment",
                       "g-ba", "iqwig", "amnog", "nutzenbewertung", "has ", "haute autorité", "nice ", "icer",
                       "payer", "formulary", "medicare negotiation", "inflation reduction act", " ira ", "rebate",
                       "cost-effectiveness", "value assessment", "market access", "tender", "eunethta", "pbm",
                       "most favored nation", "mfn", "tariff", "remboursement", "prix"),
-    "compliance": ("gmp", "good manufacturing", "inspection", "warning letter", "form 483", "483",
+    "quality": ("gmp", "good manufacturing", "good distribution", "gdp ", "quality defect", "recall", "field safety",
+                "contaminat", "sterility", "out of specification", "batch", "lot ", "nitrosamine", "impurit",
+                "qualified person", "manufacturing site", "inspection", "warning letter", "form 483", "483",
                    "enforcement", "settle", "fraud", "kickback", "false claims", "sentenced", "indicted", "pleaded",
                    "guilty", "fine", "penalt", "doj", "oig", "data integrity", "non-compliance", "noncompliance",
                    "falsified", "counterfeit", "promotion", "off-label", "sunshine", "transparency", "anti-bribery",
@@ -83,13 +91,13 @@ _KW = {
                    "crl", "label", "indication", "submission", "bla", "nda", "maa", "clinical trial", "regulation",
                    "mhra", "commission", "variation", "biosimilar", "accelerated", "conditional", "ctis", "ich"),
 }
-_AUTH_SECTION = {"mhra drug safety update": "pharmacovigilance", "mhra alerts": "pharmacovigilance",
+_AUTH_SECTION = {"mhra drug safety update": "pharmacovigilance", "mhra alerts": "quality",
                  "fda medwatch": "pharmacovigilance", "g-ba": "market-access", "has": "market-access",
-                 "icer": "market-access", "us department of justice": "compliance"}
+                 "icer": "market-access", "us department of justice": "quality"}
 _SUBJECT_SECTION = {"Signal management": "pharmacovigilance", "PSUR / PBRER": "pharmacovigilance",
-                    "RMP & PASS": "pharmacovigilance", "Shortages & recalls": "pharmacovigilance",
+                    "RMP & PASS": "pharmacovigilance", "Shortages & recalls": "quality",
                     "GVP modules": "pharmacovigilance", "Market access": "market-access",
-                    "Compliance & enforcement": "compliance", "Falsified medicines": "compliance",
+                    "Compliance & enforcement": "quality", "Falsified medicines": "quality",
                     "Labelling & SmPC": "regulatory", "Clinical trials (CTR)": "regulatory",
                     "Fees & guidance": "regulatory"}
 
@@ -114,7 +122,19 @@ def section_for_update(r: dict) -> str:
     # keyword evidence beats the coarse subject, except PV subjects which are reliable
     if subj == "pharmacovigilance" and r.get("subject") in ("Signal management", "PSUR / PBRER", "RMP & PASS"):
         return subj
-    return by_kw or subj
+    if by_kw:
+        return by_kw
+    # no topical evidence: a source's default subject is not proof of a safety story
+    return "regulatory" if subj == "pharmacovigilance" else subj
+
+
+_JUNK_TITLES = re.compile(r"^(participaci[oó]n p[uú]blica|campa[nñ]as institucionales|notas informativas|"
+                          r"agenda|newsletter|suscr|rss|contact|home|inicio|accueil|actualit[eé]s)\b", re.I)
+
+
+def is_junk(r: dict) -> bool:
+    t = (r.get("title") or "").strip()
+    return len(t.split()) < 4 or bool(_JUNK_TITLES.match(t))
 
 
 def init() -> None:
@@ -208,12 +228,12 @@ _SEC_QUERIES = ['"FDA approval"', '"approved by the U.S. Food and Drug Administr
                 '"clinical hold"', '"warning letter"', '"Form 483"', '"reimbursement" FDA', '"label expansion"',
                 '"Refuse to File"', '"Advisory Committee"']
 
-_CO_PROMPT = """Below is a press release a biotech/pharma company filed with the SEC. Write a short news brief
+_CO_PROMPT = """Below is a press release a pharma/biotech company filed with the SEC. Write a short news brief
 for regulatory, pharmacovigilance, market-access and compliance professionals.
 
 Return ONLY JSON: {{"headline":"factual news headline, max 110 chars, in your own words",
 "summary":"2-3 sentences in your own words: what happened, product and indication, regulator/body, date",
-"section":"one of pharmacovigilance|regulatory|market-access|compliance|industry",
+"section":"one of pharmacovigilance|regulatory|market-access|quality|industry",
 "newsworthy":true or false (false for routine financing, earnings with nothing regulatory, executive hires)}}.
 Use only facts in the text. Do not copy sentences from it.
 
@@ -298,7 +318,8 @@ def ingest_company(days: int = 4, max_docs: int = 60) -> dict:
         if brief:
             title = (brief.get("headline") or headline)[:300]
             summary = (brief.get("summary") or "")[:900]
-            section = brief.get("section") if brief.get("section") in SECTIONS else classify(headline, text[:1500])
+            section = norm_section(brief.get("section"))
+            section = section if section in SECTIONS else classify(headline, text[:1500])
         else:
             # no AI: only clean headlines that clearly announce a regulatory event
             title, summary, section = headline[:300], None, classify(headline, text[:1500])

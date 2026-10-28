@@ -1,19 +1,27 @@
 """
-VigiEye news portal pages.
+VigiEye news portal pages, laid out like a trade news site (Fierce-style): lead story,
+top stories, a "Latest" river, section rows of image cards, and a sidebar.
 
-  /                           news-portal home (lead story, four sections, industry headlines, data rails)
-  /news                       all news
-  /news/{section}             pharmacovigilance | regulatory | market-access | compliance | industry
-  /news/item/{u|c}/{id}       article page for an official notice (u) or company release (c)
-  /feed.xml                   RSS of VigiEye's own briefs (official + company)
+Beats: Regulatory, Pharmacovigilance, Quality & compliance, Market access (+ Industry).
+
+  /                           home
+  /news, /news/{section}      section fronts (+ ?page=)
+  /news/item/{u|c}/{id}       article page: official notice (u) or company release (c)
+  /guidelines                 ICH / FDA / EMA / MHRA guidelines tracker
+  /safety                     pharmacovigilance & safety hub
+  /thumb/{section}/{seed}.svg generated story artwork (no third-party images are used)
+  /feed.xml                   RSS of VigiEye's own briefs
 """
 from __future__ import annotations
 
+import hashlib
+import html as _html
 import json
+import re
 from datetime import date, timedelta
 
 from fastapi import APIRouter, HTTPException
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import HTMLResponse, RedirectResponse, Response
 
 from . import catalysts as cal
 from . import news as nw
@@ -25,12 +33,19 @@ router = APIRouter()
 _e, _fmt, _base = cal._e, cal._fmt, cal._base
 
 FLAG = {"EU": "🇪🇺", "US": "🇺🇸", "UK": "🇬🇧", "DE": "🇩🇪", "FR": "🇫🇷", "ES": "🇪🇸", "IT": "🇮🇹", "NL": "🇳🇱",
-        "IE": "🇮🇪", "SE": "🇸🇪", "BE": "🇧🇪", "INT": "🌐"}
-SEC_COLOR = {"pharmacovigilance": "#e11d48", "regulatory": "#0284c7", "market-access": "#7c3aed",
-             "compliance": "#b45309", "industry": "#0f766e"}
+        "IE": "🇮🇪", "SE": "🇸🇪", "BE": "🇧🇪", "INT": "🌐", "CA": "🇨🇦"}
+SEC_COLOR = {"regulatory": "#0369a1", "pharmacovigilance": "#be123c", "quality": "#b45309",
+             "market-access": "#6d28d9", "industry": "#0f766e"}
+SEC_ABBR = {"regulatory": "REG", "pharmacovigilance": "PV", "quality": "QA", "market-access": "MA", "industry": "BIO"}
+_PRIORITY_PUB = ("ema", "fda", "mhra", "prac", "european commission", "hma", "cmdh", "who")
+ALL_KINDS = ("official", "notice", "guideline", "company", "press")
 
 
-# --- the unified stream -----------------------------------------------------------
+# --- the unified stream -----------------------------------------------------------------
+
+def _clean(x: str) -> str:
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", _html.unescape(x or ""))).strip()
+
 
 def _official(limit: int = 800) -> list[dict]:
     try:
@@ -40,28 +55,30 @@ def _official(limit: int = 800) -> list[dict]:
         rows = []
     out = []
     for r in rows:
-        if not pp._relevant(r):
+        r = {**r, "title": _clean(r.get("title")), "summary": _clean(r.get("summary"))}
+        if not pp._relevant(r) or nw.is_junk(r) or r.get("authority") == "FDA CDER":   # page-update feed, removed
             continue
         out.append({"kind": "official", "id": r.get("id"), "section": nw.section_for_update(r),
-                    "publisher": r.get("authority") or "", "country": r.get("country"), "title": r.get("title") or "",
-                    "summary": r.get("summary") or "", "url": r.get("source_url") or "", "date": r.get("date") or "",
-                    "impact": r.get("impact") or "med", "company": None, "ticker": None})
+                    "publisher": r.get("authority") or "", "country": r.get("country"), "title": r["title"],
+                    "summary": r["summary"], "url": r.get("source_url") or "", "date": r.get("date") or "",
+                    "impact": r.get("impact") or "med", "company": None, "ticker": None, "tags": None})
     return out
 
 
-def _company_press(limit: int = 800) -> list[dict]:
+def _company_press(limit: int = 1200) -> list[dict]:
     try:
         rows = nw.latest(limit=limit)
     except Exception:
         rows = []
-    return [{**r, "impact": "high" if r["kind"] in ("company", "notice") else "med"} for r in rows]
+    out = []
+    for r in rows:
+        out.append({**r, "section": nw.norm_section(r.get("section")), "title": _clean(r.get("title")),
+                    "summary": _clean(r.get("summary")),
+                    "impact": "high" if r["kind"] in ("company", "notice") else "med"})
+    return out
 
 
-ALL_KINDS = ("official", "notice", "guideline", "company", "press")
-
-
-def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60,
-           offset: int = 0) -> list[dict]:
+def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60, offset: int = 0) -> list[dict]:
     rows = []
     if "official" in kinds:
         rows += _official()
@@ -70,7 +87,36 @@ def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60
     if section:
         rows = [r for r in rows if r["section"] == section]
     rows.sort(key=lambda r: (r["date"], r["kind"] != "press", r["impact"] == "high"), reverse=True)
-    return rows[offset: offset + limit]
+    # the same notice often arrives through two feeds (e.g. MHRA news + MHRA alerts): keep one
+    seen, out = set(), []
+    for r in rows:
+        k = re.sub(r"[^a-z0-9]+", "", (r.get("title") or "").lower())[:90]
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(r)
+    return out[offset: offset + limit]
+
+
+def _real_summary(r: dict) -> bool:
+    sm, ti = (r.get("summary") or "").strip().lower(), (r.get("title") or "").strip().lower()
+    return len(sm) > 70 and sm != ti and not sm.startswith(ti[:40])
+
+
+def _score(r: dict) -> float:
+    """Editorial weight for lead/top-story selection."""
+    pub = (r.get("publisher") or "").lower()
+    s = {"company": 3, "notice": 2.5, "official": 2, "guideline": 1.5, "press": 0}.get(r["kind"], 0)
+    s += 3 if any(p in pub for p in _PRIORITY_PUB) else 0
+    s += 2 if r.get("country") in ("EU", "US", "UK") else (-1.5 if r.get("country") in ("CA", "INT") else 0)
+    s += 2 if _real_summary(r) else -2
+    s += 1.5 if r.get("impact") == "high" else 0
+    s += 1 if r["section"] in ("pharmacovigilance", "regulatory", "quality", "market-access") else -1
+    try:
+        age = (date.today() - date.fromisoformat(r["date"])).days
+    except Exception:
+        age = 30
+    return s - 0.6 * max(age, 0)
 
 
 def _href(r: dict) -> str:
@@ -81,67 +127,147 @@ def _href(r: dict) -> str:
     return r.get("url") or "#"
 
 
-def _badge(r: dict) -> str:
-    sec = r.get("section") or "industry"
-    s = f'<a class="sec" style="color:{SEC_COLOR.get(sec)}" href="/news/{sec}">{_e(nw.SECTIONS.get(sec, sec))}</a>'
+def _is_ext(r: dict) -> bool:
+    return r["kind"] in ("press", "notice", "guideline")
+
+
+def _seed(r: dict) -> str:
+    return hashlib.sha1((r.get("id") or r.get("title") or "").encode()).hexdigest()[:10]
+
+
+def _thumb(r: dict, cls: str = "") -> str:
+    sec = r["section"] if r["section"] in SEC_COLOR else "industry"
+    pub = re.sub(r"[^A-Za-z]", "", (r.get("publisher") or "V"))[:4].upper() or "V"
+    return f'<img class="th {cls}" loading="lazy" alt="" src="/thumb/{sec}/{_seed(r)}.svg?p={_e(pub)}">'
+
+
+def _kind_label(r: dict) -> str:
     if r["kind"] in ("official", "notice"):
-        src = f'{FLAG.get(r.get("country"), "")} {_e(r.get("publisher"))}'
-        kind = '<span class="kb off">Official</span>'
-    elif r["kind"] == "guideline":
-        src = f'{FLAG.get(r.get("country"), "")} {_e(r.get("publisher"))}'
-        tags = []
+        return "Official"
+    if r["kind"] == "guideline":
         try:
-            tags = json.loads(r.get("tags") or "[]")
+            st = (json.loads(r.get("tags") or "[]") or [""])[0]
         except Exception:
-            pass
-        st = tags[0] if tags else ""
-        kind = f'<span class="kb gl">Guideline{" · " + _e(st) if st else ""}</span>'
-    elif r["kind"] == "company":
-        src = _e(r.get("publisher")) + (f' ({_e(r["ticker"])})' if r.get("ticker") else "")
-        kind = '<span class="kb co">Company release</span>'
-    else:
-        src = _e(r.get("publisher"))
-        kind = '<span class="kb pr">Press</span>'
-    return f'<div class="meta2">{s}<span>·</span>{kind}<span>{src}</span><span>·</span><span>{_e(_fmt(r["date"]))}</span></div>'
+            st = ""
+        return "Guideline" + (f" · {st}" if st else "")
+    return {"company": "Company release", "press": "Press"}.get(r["kind"], "")
 
 
-def _card(r: dict, summary: bool = True, big: bool = False) -> str:
-    ext = r["kind"] in ("press", "notice", "guideline")
-    tgt = ' target="_blank" rel="noopener nofollow"' if ext else ""
-    title = _e(r["title"]) + (' <span class="ext">↗</span>' if ext else "")
-    summ = (f'<p>{_e(r.get("summary"))}</p>' if summary and r.get("summary") else "")
-    cls = "story big" if big else "story"
-    return f'<article class="{cls}">{_badge(r)}<h3><a href="{_e(_href(r))}"{tgt}>{title}</a></h3>{summ}</article>'
+def _src(r: dict) -> str:
+    pub = _e(r.get("publisher"))
+    if r["kind"] == "company" and r.get("ticker"):
+        pub += f" ({_e(r['ticker'])})"
+    return f'{FLAG.get(r.get("country"), "")} {pub}'.strip()
+
+
+def _label(r: dict) -> str:
+    sec = r["section"]
+    return (f'<a class="lab" style="color:{SEC_COLOR.get(sec, "#0f766e")}" href="/news/{sec}">'
+            f'{_e(nw.SECTIONS.get(sec, sec))}</a><span class="kd">{_e(_kind_label(r))}</span>')
+
+
+def _meta(r: dict) -> str:
+    return f'<div class="by">{_src(r)} · {_e(_fmt(r["date"]))}</div>'
+
+
+def _a(r: dict, inner: str) -> str:
+    tgt = ' target="_blank" rel="noopener nofollow"' if _is_ext(r) else ""
+    ext = ' <span class="ext" title="Opens the source">↗</span>' if _is_ext(r) and not inner.startswith("<img") else ""
+    return f'<a href="{_e(_href(r))}"{tgt}>{inner}{ext}</a>'
+
+
+def lead_card(r: dict) -> str:
+    summ = f"<p>{_e(r.get('summary'))}</p>" if _real_summary(r) else ""
+    return (f'<article class="lead-card">{_a(r, _thumb(r, "wide"))}<div class="lc-body">{_label(r)}'
+            f'<h2 class="h-lead">{_a(r, _e(r["title"]))}</h2>{summ}{_meta(r)}</div></article>')
+
+
+def mini_card(r: dict) -> str:
+    return f'<article class="mini">{_a(r, _thumb(r, "sq"))}<div>{_label(r)}<h3>{_a(r, _e(r["title"]))}</h3>{_meta(r)}</div></article>'
+
+
+def river_item(r: dict) -> str:
+    summ = f'<p>{_e(r.get("summary"))}</p>' if _real_summary(r) else ""
+    return (f'<article class="river">{_a(r, _thumb(r, "rv"))}<div>{_label(r)}<h3>{_a(r, _e(r["title"]))}</h3>'
+            f'{summ}{_meta(r)}</div></article>')
+
+
+def grid_card(r: dict) -> str:
+    return f'<article class="gcard">{_a(r, _thumb(r, "wide"))}{_label(r)}<h3>{_a(r, _e(r["title"]))}</h3>{_meta(r)}</article>'
+
+
+def text_item(r: dict) -> str:
+    return f'<li>{_a(r, _e(r["title"]))}<div class="by">{_src(r)} · {_e(_fmt(r["date"]))}</div></li>'
 
 
 _NCSS = """
-.ticker-strip{background:#050c17;padding:8px 0;border-bottom:1px solid #1e2d44}
-.secnav{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 4px}
-.secnav a{padding:6px 12px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;color:var(--ink);font-weight:600}
-.secnav a.on{color:#fff;border-color:transparent}
-.lead{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:26px;margin-top:18px}
-@media(max-width:860px){.lead{grid-template-columns:1fr}}
-.story{padding:12px 0;border-bottom:1px solid var(--line)}.story:last-child{border-bottom:0}
-.story h3{font-size:16px;line-height:1.35;margin-top:3px}.story h3 a{color:var(--ink)}
-.story.big h3{font-size:26px;line-height:1.2;letter-spacing:-.01em}.story.big p{font-size:16.5px}
-.story p{color:var(--mut);font-size:14px;margin-top:4px}
-.meta2{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--mut)}
-.meta2 .sec{font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:11.5px}
-.kb{font-size:11px;padding:1px 7px;border-radius:999px;border:1px solid var(--line)}
-.kb.off{border-color:#38bdf8;color:#0284c7}.kb.gl{border-color:#7c3aed;color:#7c3aed}.kb.co{border-color:#f59e0b;color:#b45309}.kb.pr{color:var(--mut)}
-.ext{font-size:12px;color:var(--mut)}
-.grid4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:26px}
-@media(max-width:860px){.grid4{grid-template-columns:1fr}}
-.block{border-top:3px solid var(--accent);padding-top:10px}
-.block h2{font-size:19px;display:flex;justify-content:space-between;align-items:baseline}
-.block h2 a{font-size:13px;font-weight:600}
-.split{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:26px;margin-top:28px}
-@media(max-width:860px){.split{grid-template-columns:1fr}}
-.rail .panel{margin-bottom:18px}
-.heads{columns:2;column-gap:26px}@media(max-width:640px){.heads{columns:1}}
-.heads .story{break-inside:avoid}
+:root{--paper:#ffffff;--rule:#e5e7eb}
+@media (prefers-color-scheme: dark){:root{--paper:#060c18;--rule:#1f2a3a}}
+body{background:var(--paper)}
+.ticker-strip{background:#050c17;padding:7px 0;border-bottom:1px solid #1e2d44}
+.secbar{border-bottom:1px solid var(--rule);background:var(--paper);position:sticky;top:58px;z-index:4}
+.secbar .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.secbar a{padding:12px 12px;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);
+  border-bottom:3px solid transparent;white-space:nowrap}
+.secbar a:hover,.secbar a.on{border-bottom-color:var(--c,#0f172a);text-decoration:none}
+.mast{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:20px 0 12px;border-bottom:3px solid var(--ink);flex-wrap:wrap}
+.mast h1{font:900 40px/1 Georgia,'Times New Roman',serif;letter-spacing:-.02em}
+.mast h1 b{color:#0d9488}.mast p{color:var(--mut);font-size:14px;margin-top:6px}
+.mast .date{font-size:12.5px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.th{display:block;width:100%;background:#0f172a;border-radius:4px;object-fit:cover}
+.th.wide{aspect-ratio:16/9;height:auto}.th.sq{width:96px;height:72px;flex:none}.th.rv{width:170px;height:106px;flex:none}
+@media(max-width:640px){.th.rv{width:104px;height:72px}}
+.lab{font-weight:800;font-size:11.5px;text-transform:uppercase;letter-spacing:.07em}
+.kd{font-size:11px;color:var(--mut);margin-left:8px;text-transform:uppercase;letter-spacing:.05em}
+.by{font-size:12.5px;color:var(--mut);margin-top:4px}
+.ext{font-size:.75em;color:var(--mut)}
+article h2 a,article h3 a{color:var(--ink)}article h2 a:hover,article h3 a:hover{color:var(--accent);text-decoration:none}
+.front{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;margin-top:22px}
+@media(max-width:900px){.front{grid-template-columns:1fr}}
+.lead-card .lc-body{padding-top:12px}.h-lead{font:800 31px/1.15 Georgia,'Times New Roman',serif;letter-spacing:-.01em;margin:6px 0 8px}
+.lead-card p{font-size:16.5px;color:var(--ink);opacity:.85}
+.tops h2,.side h2,.row-h{font-weight:900;font-size:13px;letter-spacing:.08em;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:6px;margin-bottom:6px}
+.mini{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--rule)}.mini:last-child{border-bottom:0}
+.mini h3{font-size:15.5px;line-height:1.3;margin-top:3px}
+.body3{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:30px;margin-top:30px}
+@media(max-width:900px){.body3{grid-template-columns:1fr}}
+.river{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.river h3{font:800 19px/1.25 Georgia,'Times New Roman',serif;margin-top:3px}.river p{color:var(--mut);font-size:14.5px;margin-top:5px;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.row{margin-top:34px}.row-h{display:flex;justify-content:space-between;align-items:baseline;border-color:var(--c,#0f172a)}
+.row-h a{font-size:12px;letter-spacing:.04em}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:10px}
+@media(max-width:1000px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.g4{grid-template-columns:1fr}}
+.gcard h3{font-size:16px;line-height:1.3;margin-top:4px}.gcard .lab{display:inline-block;margin-top:10px}
+.side .box{border:1px solid var(--rule);border-radius:6px;padding:14px;margin-bottom:20px;background:var(--paper)}
+.side ul{list-style:none}.side li{padding:9px 0;border-bottom:1px solid var(--rule);font-size:14px;font-weight:600;line-height:1.35}
+.side li:last-child{border-bottom:0}.side li a{color:var(--ink)}
+.side .nl-box{background:#0b1626;color:#e5e7eb;border-color:#0b1626}.side .nl-box h2{border-color:#e5e7eb;color:#fff}
+.side .nl-box p{color:#cbd5e1;font-size:13.5px}
+.side .sub input{min-width:0}
+.cu{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--rule);font-size:13.5px}.cu:last-child{border-bottom:0}
+.cu b{flex:none;width:52px;color:var(--accent);font-size:12.5px}.cu a{color:var(--ink);font-weight:600}
 .pager{display:flex;gap:10px;margin:18px 0}
+.hub{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 26px}@media(max-width:760px){.hub{grid-template-columns:1fr}}
 """
+
+
+def _secbar(active: str | None = None) -> str:
+    items = [("", "Home", "#0f172a"), ("regulatory", "Regulatory", SEC_COLOR["regulatory"]),
+             ("pharmacovigilance", "Pharmacovigilance", SEC_COLOR["pharmacovigilance"]),
+             ("quality", "Quality & compliance", SEC_COLOR["quality"]),
+             ("market-access", "Market access", SEC_COLOR["market-access"]),
+             ("industry", "Industry", SEC_COLOR["industry"])]
+    links = []
+    for k, label, c in items:
+        href = f"/news/{k}" if k else "/"
+        on = (active == k) if k else active == "home"
+        links.append(f'<a class="{"on" if on else ""}" style="--c:{c}" href="{href}">{_e(label)}</a>')
+    for href, label, c, key in (("/safety", "Safety hub", "#be123c", "safety"), ("/guidelines", "Guidelines", "#6d28d9", "guidelines"),
+                                ("/pdufa", "PDUFA", "#0369a1", "pdufa"), ("/approvals", "Approvals", "#0369a1", "approvals"),
+                                ("/calendar", "Calendar", "#0f766e", "calendar")):
+        links.append(f'<a class="{"on" if active == key else ""}" style="--c:{c}" href="{href}">{label}</a>')
+    return f'<nav class="secbar" aria-label="Sections"><div class="wrap">{"".join(links)}</div></nav>'
 
 
 def _ticker() -> str:
@@ -149,189 +275,142 @@ def _ticker() -> str:
             'data-limit="24" data-title="Coming up" async></script></div></div>')
 
 
-def _secnav(active: str | None = None) -> str:
-    links = [f'<a class="{"on" if active is None else ""}" href="/news" style="{"background:var(--ink)" if active is None else ""}">All news</a>']
-    for k, v in nw.SECTIONS.items():
-        on = k == active
-        links.append(f'<a class="{"on" if on else ""}" href="/news/{k}" '
-                     f'style="{"background:" + SEC_COLOR[k] if on else "color:" + SEC_COLOR[k]}">{_e(v)}</a>')
-    return f'<nav class="secnav" aria-label="Sections">{"".join(links)}</nav>'
-
-
 def _page(title, desc, path, body, ld=None):
     return pp._page(title, desc, path, f"<style>{_NCSS}</style>{body}", ld)
 
 
-def _rail_panel(title: str, items: list[dict], more: str, show_days: bool = False) -> str:
+def _coming_up(n: int = 8) -> str:
+    items = pp.ticker_items(n)
     if not items:
         return ""
-    return pp._panel(title, items, more, show_days=show_days)
+    rows = "".join(f'<div class="cu"><b>{_e(_fmt(i["date"])[4:10])}</b><div><a href="{_e(i["url"].replace(_base(), ""))}">'
+                   f'{_e(i["title"])}</a><div class="by">{FLAG.get(i["region"], "")} {_e(i["label"])}</div></div></div>' for i in items)
+    return (f'<section class="box"><h2>Coming up</h2>{rows}'
+            f'<p class="by"><a href="/pdufa">PDUFA calendar</a> · <a href="/calendar">EU calendar</a></p></section>')
 
 
-# --- home -------------------------------------------------------------------------
+def _sidebar(section: str | None = None, press: list[dict] | None = None) -> str:
+    nl = (f'<section class="box nl-box"><h2>VigiEye Daily</h2><p>Regulatory, pharmacovigilance, quality and market-access news '
+          f'with approvals and PDUFA dates, every weekday morning. Free.</p>{pp._newsletter_box("sidebar:" + (section or "home"))}</section>')
+    heads = ""
+    if press:
+        heads = (f'<section class="box"><h2>Industry headlines</h2><ul>{"".join(text_item(r) for r in press[:10])}</ul>'
+                 f'<p class="by">Links open the publisher. VigiEye does not reproduce their articles.</p></section>')
+    return f'<aside class="side">{nl}{_coming_up()}{heads}</aside>'
+
+
+def _mast(sub: str) -> str:
+    return (f'<div class="mast"><div><h1>Vigi<b>Eye</b></h1><p>{_e(sub)}</p></div>'
+            f'<div class="date">{_e(date.today().strftime("%A %d %B %Y"))}</div></div>')
+
+
+# --- home ----------------------------------------------------------------------------------
 
 @router.get("/", response_class=HTMLResponse, include_in_schema=False)
 def home():
-    t = date.today().isoformat()
-    all_rows = stream(limit=600)
-    briefs = [r for r in all_rows if r["kind"] in ("official", "company") and r.get("summary")]
-    lead_pool = [r for r in briefs if r["impact"] == "high"] or briefs
-    lead = lead_pool[0] if lead_pool else None
-    top = [r for r in briefs if r is not lead][:6]
-    used = {id(lead)} | {id(r) for r in top}
+    rows = stream(limit=900)
+    editorial = [r for r in rows if r["kind"] != "press"]
+    ranked = sorted([r for r in editorial if _real_summary(r)], key=_score, reverse=True)
+    lead = ranked[0] if ranked else (editorial[0] if editorial else None)
+    used = {id(lead)} if lead else set()
+    tops = []
+    for r in ranked[1:]:
+        if len(tops) >= 4:
+            break
+        if r["section"] != (lead or {}).get("section") or len(tops) >= 2:
+            tops.append(r)
+            used.add(id(r))
+    river = [r for r in editorial if id(r) not in used and r["kind"] != "guideline"][:14]
+    used |= {id(r) for r in river}
+    press = [r for r in rows if r["kind"] == "press"]
 
-    def sec_items(k, n=5):
-        rows = [r for r in all_rows if r["section"] == k and id(r) not in used and r["kind"] not in ("press", "guideline")]
-        if len(rows) < n:   # top up with press headlines on the same topic
-            rows += [r for r in all_rows if r["section"] == k and r["kind"] == "press"][: n - len(rows)]
-        return rows[:n]
-
-    blocks = []
-    for k in ("pharmacovigilance", "regulatory", "market-access", "compliance"):
-        items = sec_items(k)
+    def row(k, extra=None):
+        items = sorted([r for r in editorial if r["section"] == k and id(r) not in used], key=_score, reverse=True)[:4]
+        if len(items) < 4:
+            items += [r for r in press if r["section"] == k][: 4 - len(items)]
         if not items:
-            continue
-        blocks.append(f'<section class="block" style="border-color:{SEC_COLOR[k]}"><h2><span>{_e(nw.SECTIONS[k])}</span>'
-                      f'<a href="/news/{k}">More →</a></h2>{"".join(_card(r) for r in items)}</section>')
-    guides = [r for r in all_rows if r["kind"] == "guideline"][:6]
+            return ""
+        return (f'<section class="row" style="--c:{SEC_COLOR[k]}"><div class="row-h"><span style="color:{SEC_COLOR[k]}">{_e(nw.SECTIONS[k])}</span>'
+                f'<a href="{extra or "/news/" + k}">More {_e(nw.SECTIONS[k])} →</a></div>'
+                f'<div class="g4">{"".join(grid_card(r) for r in items)}</div></section>')
+    guides = [r for r in rows if r["kind"] == "guideline"][:4]
+    guide_row = ""
     if guides:
-        blocks.append(f'<section class="block" style="border-color:#7c3aed"><h2><span>New guidelines: ICH, FDA, EMA, MHRA</span>'
-                      f'<a href="/guidelines">Guidelines tracker →</a></h2>{"".join(_card(r) for r in guides)}</section>')
-    prac = [r for r in all_rows if r["section"] == "pharmacovigilance" and r["kind"] in ("official", "notice")
-            and ("prac" in (r["title"] + " " + (r.get("publisher") or "")).lower() or "signal" in r["title"].lower())][:6]
-    if prac:
-        blocks.append(f'<section class="block" style="border-color:#e11d48"><h2><span>Latest from PRAC &amp; signals</span>'
-                      f'<a href="/safety">Safety hub →</a></h2>{"".join(_card(r) for r in prac)}</section>')
-    press = [r for r in all_rows if r["kind"] == "press"][:14]
-    company = [r for r in all_rows if r["kind"] == "company"][:6]
-
-    pdufa = pp._safe(lambda: pd.milestones_between(t, (date.today() + timedelta(days=60)).isoformat(), ["pdufa"], limit=7), [])
-    expected = pp._safe(lambda: pd.milestones_between(t, (date.today() + timedelta(days=60)).isoformat(), ["ec_expected"], limit=5), [])
-    approvals = [m for m in pp._safe(lambda: pd.milestones_between((date.today() - timedelta(days=45)).isoformat(), t,
-                                                                    ["ec_decision", "fda_approval", "chmp_opinion_pos", "chmp_opinion_neg"],
-                                                                    limit=200, desc=True), [])
-                 if m["kind"] != "fda_approval" or m.get("impact") == "high"][:7]
-    safety = pp._safe(lambda: pd.milestones_between((date.today() - timedelta(days=90)).isoformat(), t,
-                                                     ["dhpc", "prac_recommendation", "referral_start"], limit=6, desc=True), [])
-    adcomm = pp._safe(lambda: pd.milestones_between(t, (date.today() + timedelta(days=60)).isoformat(), ["adcomm"], limit=4), [])
-    cal_next = [e for e in cal.load_events() if e["status"] != "past"][:6]
-
-    lead_html = _card(lead, big=True) if lead else ""
-    lead_box = ""
+        guide_row = (f'<section class="row" style="--c:#6d28d9"><div class="row-h"><span style="color:#6d28d9">New guidelines: ICH, FDA, EMA, MHRA</span>'
+                     f'<a href="/guidelines">Guidelines tracker →</a></div><div class="g4">{"".join(grid_card(r) for r in guides)}</div></section>')
+    front = ""
     if lead:
-        lead_box = f"""<div class="lead"><div>{lead_html}</div><div><h2 style="font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)">Top stories</h2>
-{"".join(_card(r, summary=False) for r in top)}</div></div>"""
-
-    rail = "".join(x for x in [
-        _rail_panel("PDUFA dates ahead", pdufa, "/pdufa", True),
-        _rail_panel("Expected EU decisions", expected, "/approvals?tab=expected", True),
-        _rail_panel("FDA advisory committees", adcomm, "/pdufa#adcomm", True),
-    ] if x)
-    cal_html = "".join(f'<div class="ms"><div class="top"><b>{_e(_fmt(e["date"]))}</b><span>{_e(e.get("body"))}</span>{cal._countdown(e)}</div>'
-                       f'<h3><a href="/calendar/{_e(e["slug"])}">{_e(e.get("title"))}</a></h3></div>' for e in cal_next)
-    if cal_html:
-        rail += f'<section class="panel"><h2><span>EU regulatory calendar</span><a href="/calendar">All →</a></h2>{cal_html}</section>'
-
-    data_row = "".join(x for x in [_rail_panel("Approvals & CHMP opinions", approvals, "/approvals"),
-                                   _rail_panel("Safety actions (EMA data)", safety, "/safety")] if x)
-
-    empty_note = "" if (lead or blocks or press) else \
-        '<p class="note" style="margin-top:22px">The news feeds are loading for the first time. Check back in a few minutes.</p>'
-    body = f"""{_ticker()}
-<main class="wrap">
-{_secnav()}
-{empty_note}{lead_box}
-<div class="grid4">{"".join(blocks)}</div>
-<div class="split">
-<div>{f'<section class="block" style="border-color:#f59e0b"><h2><span>Company announcements</span><a href="/news/industry">More →</a></h2>{"".join(_card(r) for r in company)}</section>' if company else ""}
-{f'<section class="block" style="border-color:var(--mut);margin-top:24px"><h2><span>Industry headlines</span><a href="/news/industry">More →</a></h2><div class="heads">{"".join(_card(r, summary=False) for r in press)}</div><p class="note">Headlines link to the publisher. VigiEye does not reproduce their articles.</p></section>' if press else ""}
-</div>
-<aside class="rail">{rail}</aside></div>
-{f'<div class="cols">{data_row}</div>' if data_row else ""}
-<div class="lock"><h3>VigiEye Daily: the EU &amp; US regulatory briefing, every weekday</h3>
-<p>Pharmacovigilance, regulatory, market access and compliance news, with approvals and PDUFA dates, in one email.</p>{pp._newsletter_box("home")}</div>
-<p class="note">{pp.DISCLAIMER}</p>
-</main>"""
-    ld = [{"@context": "https://schema.org", "@type": "WebSite", "name": "VigiEye", "url": _base() + "/",
+        front = (f'<div class="front"><div>{lead_card(lead)}</div><div class="tops"><h2>Top stories</h2>'
+                 f'{"".join(mini_card(r) for r in tops)}</div></div>')
+    body = f"""{_ticker()}{_secbar("home")}<main class="wrap">
+{_mast("Regulatory · Pharmacovigilance · Quality · Market access: EU & US pharma, from the official sources")}
+{front or '<p class="note" style="margin-top:20px">The news feeds are loading for the first time. Check back in a few minutes.</p>'}
+<div class="body3"><div><div class="row-h" style="margin-top:0"><span>Latest</span><a href="/news">All news →</a></div>
+{"".join(river_item(r) for r in river)}</div>{_sidebar(None, press)}</div>
+{row("pharmacovigilance", "/safety")}{row("regulatory")}{row("quality")}{row("market-access")}{guide_row}{row("industry")}
+<p class="note" style="margin-top:28px">{pp.DISCLAIMER}</p></main>"""
+    ld = [{"@context": "https://schema.org", "@type": "NewsMediaOrganization", "name": "VigiEye", "url": _base() + "/"},
+          {"@context": "https://schema.org", "@type": "WebSite", "name": "VigiEye", "url": _base() + "/",
            "potentialAction": {"@type": "SearchAction", "target": _base() + "/drugs?q={query}",
-                               "query-input": "required name=query"}},
-          {"@context": "https://schema.org", "@type": "NewsMediaOrganization", "name": "VigiEye", "url": _base() + "/"}]
-    return _page("VigiEye: biotech regulatory, pharmacovigilance, market access & compliance news",
-                 "Daily EU and US biotech news for regulatory, pharmacovigilance, market access and compliance teams, "
-                 "with PDUFA dates, EMA and FDA approvals and official sources.", "/", body, ld)
+                               "query-input": "required name=query"}}]
+    return _page("VigiEye: regulatory, pharmacovigilance, quality & market access news for pharma",
+                 "EU and US pharma news for regulatory, pharmacovigilance, quality and market-access professionals: EMA, FDA, "
+                 "MHRA, PRAC, HTA, GMP and enforcement, with official sources.", "/", body, ld)
 
 
-# --- section pages ------------------------------------------------------------------
+# --- section fronts ------------------------------------------------------------------------
 
-_SECTION_RAIL = {
-    "pharmacovigilance": lambda t: [("DHPCs & PRAC (EMA data)", ["dhpc", "prac_recommendation", "referral_start"], -120, "/safety"),
-                                    ("Ongoing EU shortages", ["shortage"], None, "/safety")],
-    "regulatory": lambda t: [("PDUFA dates ahead", ["pdufa"], 60, "/pdufa"),
-                             ("Expected EU decisions", ["ec_expected"], 90, "/approvals?tab=expected"),
-                             ("CHMP opinions", ["chmp_opinion_pos", "chmp_opinion_neg"], -60, "/approvals?tab=chmp")],
-    "market-access": lambda t: [("EU approvals (new to HTA)", ["ec_decision"], -60, "/approvals?tab=eu"),
-                                ("Expected EU decisions", ["ec_expected"], 90, "/approvals?tab=expected")],
-    "compliance": lambda t: [("EU referrals", ["referral_start", "referral_opinion", "referral_ec"], -365, "/safety")],
-    "industry": lambda t: [("PDUFA dates ahead", ["pdufa"], 60, "/pdufa"),
-                           ("Latest approvals", ["ec_decision", "fda_approval"], -30, "/approvals")],
-}
+_SEO = {"pharmacovigilance": "Pharmacovigilance news: PRAC, signals, DHPCs, MHRA, FDA safety | VigiEye",
+        "regulatory": "Pharma regulatory news: FDA, EMA, CHMP, MHRA approvals and guidance | VigiEye",
+        "market-access": "Market access news: EU HTA, G-BA, HAS, NICE, ICER, pricing & reimbursement | VigiEye",
+        "quality": "Pharma quality & compliance news: GMP, GDP, recalls, warning letters, enforcement | VigiEye",
+        "industry": "Pharma & biotech industry news: company announcements and headlines | VigiEye"}
 
 
-def _rail_for(section: str) -> str:
-    t = date.today()
-    out = []
-    for title, kinds, days, more in _SECTION_RAIL.get(section, lambda t: [])(t):
-        if days is None:
-            rows = pp._safe(lambda: pd.milestones_between(None, None, kinds, limit=6, desc=True), [])
-        elif days > 0:
-            rows = pp._safe(lambda: pd.milestones_between(t.isoformat(), (t + timedelta(days=days)).isoformat(), kinds, limit=6), [])
-        else:
-            rows = pp._safe(lambda: pd.milestones_between((t + timedelta(days=days)).isoformat(), t.isoformat(), kinds, limit=6, desc=True), [])
-        if kinds == ["ec_decision", "fda_approval"]:
-            rows = [m for m in rows if m["kind"] != "fda_approval" or m.get("impact") == "high"]
-        out.append(_rail_panel(title, rows, more, show_days=days is not None and days > 0))
-    return "".join(out)
-
-
-def _list_page(section: str | None, page: int):
-    per = 40
+def _section_front(section: str | None, page: int):
+    per = 30
     rows = stream(section=section, limit=per + 1, offset=(page - 1) * per)
     more = len(rows) > per
     rows = rows[:per]
     title = nw.SECTIONS.get(section, "All news") if section else "All news"
-    blurb = nw.SECTION_BLURB.get(section, "Pharmacovigilance, regulatory, market access and compliance news from EU and US regulators, HTA bodies and the biotech industry.")
-    items = "".join(_card(r) for r in rows) or '<p class="note">No stories in this section yet.</p>'
+    blurb = nw.SECTION_BLURB.get(section, "Regulatory, pharmacovigilance, quality and market-access news from EU and US "
+                                          "regulators, HTA bodies and industry.")
+    lead_html = ""
+    if page == 1 and rows:
+        cand = sorted([r for r in rows[:20] if r["kind"] != "press" and _real_summary(r)], key=_score, reverse=True)
+        if cand:
+            lead = cand[0]
+            rows = [r for r in rows if r is not lead]
+            lead_html = f'<div style="margin:18px 0 6px">{lead_card(lead)}</div>'
     base = f"/news/{section}" if section else "/news"
     pager = '<div class="pager">' + (f'<a class="btn ghost" href="{base}?page={page - 1}">← Newer</a>' if page > 1 else "") + \
             (f'<a class="btn ghost" href="{base}?page={page + 1}">Older →</a>' if more else "") + "</div>"
-    rail = _rail_for(section or "industry")
-    body = f"""{_ticker()}<main class="wrap">{_secnav(section)}
-<h1 style="font-size:30px;margin-top:14px">{_e(title)}</h1><p class="note" style="font-size:15px">{_e(blurb)}</p>
-<div class="split" style="margin-top:12px"><div>{items}{pager}</div><aside class="rail">{rail}
-<section class="panel"><h2><span>VigiEye Daily</span></h2><p class="note">This section and the day's data, every weekday morning.</p>{pp._newsletter_box("section:" + (section or "all"))}</section></aside></div>
-<p class="note">{pp.DISCLAIMER}</p></main>"""
-    seo = {"pharmacovigilance": "Pharmacovigilance & drug safety news: PRAC, DHPCs, MHRA, FDA safety | VigiEye",
-           "regulatory": "Biotech regulatory news: FDA, EMA, CHMP, MHRA approvals and guidance | VigiEye",
-           "market-access": "Market access & HTA news: EU HTA, G-BA, HAS, ICER, pricing and reimbursement | VigiEye",
-           "compliance": "Pharma compliance & enforcement news: GMP, warning letters, fraud, DOJ | VigiEye",
-           "industry": "Biotech & pharma industry news: company announcements and headlines | VigiEye"}
-    return _page(seo.get(section, "Biotech regulatory news: pharmacovigilance, regulatory, market access, compliance | VigiEye"),
+    press = stream(kinds=("press",), limit=40)
+    color = SEC_COLOR.get(section or "", "inherit")
+    body = f"""{_ticker()}{_secbar(section or "")}<main class="wrap">
+<div class="mast"><div><h1 style="font-size:34px;color:{color}">{_e(title)}</h1><p>{_e(blurb)}</p></div>
+<div class="date">{_e(date.today().strftime("%d %B %Y"))}</div></div>
+<div class="body3"><div>{lead_html}{"".join(river_item(r) for r in rows) or '<p class="note">No stories in this section yet.</p>'}{pager}</div>
+{_sidebar(section, press)}</div><p class="note">{pp.DISCLAIMER}</p></main>"""
+    return _page(_SEO.get(section, "Pharma regulatory, pharmacovigilance, quality & market access news | VigiEye"),
                  blurb[:155], base + (f"?page={page}" if page > 1 else ""), body)
 
 
 @router.get("/news", response_class=HTMLResponse, include_in_schema=False)
 def news_all(page: int = 1):
-    return _list_page(None, max(1, page))
+    return _section_front(None, max(1, page))
 
 
-@router.get("/news/{section}", response_class=HTMLResponse, include_in_schema=False)
+@router.get("/news/{section}", include_in_schema=False)
 def news_section(section: str, page: int = 1):
+    if section in nw.SECTION_ALIAS:
+        return RedirectResponse(f"/news/{nw.SECTION_ALIAS[section]}", status_code=301)
     if section not in nw.SECTIONS:
         raise HTTPException(404)
-    return _list_page(section, max(1, page))
+    return _section_front(section, max(1, page))
 
 
-# --- article pages ------------------------------------------------------------------
+# --- article pages --------------------------------------------------------------------------
 
 @router.get("/news/item/{kind}/{nid}", response_class=HTMLResponse, include_in_schema=False)
 def news_item(kind: str, nid: str):
@@ -343,61 +422,116 @@ def news_item(kind: str, nid: str):
             u = None
         if not u:
             raise HTTPException(404)
+        u = {**u, "title": _clean(u.get("title")), "summary": _clean(u.get("summary"))}
         r = {"kind": "official", "id": u["id"], "section": nw.section_for_update(u), "publisher": u.get("authority"),
-             "country": u.get("country"), "title": u.get("title"), "summary": u.get("summary"),
-             "url": u.get("source_url"), "date": u.get("date"), "impact": u.get("impact"), "company": None, "ticker": None}
+             "country": u.get("country"), "title": u["title"], "summary": u["summary"], "url": u.get("source_url"),
+             "date": u.get("date"), "impact": u.get("impact"), "company": None, "ticker": None, "tags": None}
     elif kind == "c":
         n = nw.get(nid)
         if not n or n["kind"] != "company":
             raise HTTPException(404)
-        r = {**n, "impact": "high"}
+        r = {**n, "section": nw.norm_section(n.get("section")), "impact": "high"}
     else:
         raise HTTPException(404)
-    related = [x for x in stream(section=r["section"], limit=12) if x.get("id") != r.get("id")][:8]
+    related = [x for x in stream(section=r["section"], limit=14) if x.get("id") != r.get("id")][:6]
     src_label = "Read the official notice" if r["kind"] == "official" else "Read the company's press release (SEC filing)"
     summary = r.get("summary") or ""
     note = ("Summary written by VigiEye from the official notice." if r["kind"] == "official" else
             "Brief written by VigiEye from the company's press release filed with the SEC. Claims are the company's own.")
     if not summary:
-        note = "Headline as published by the company. Open the filing for details."
-    body = f"""{_ticker()}<main class="wrap"><div class="split"><div class="article" style="max-width:none">
-{_secnav(r["section"])}
-{_badge(r)}
-<h1 style="font-size:32px;line-height:1.18;margin-top:8px">{_e(r["title"])}</h1>
-{f'<p class="detail" style="margin-top:14px">{_e(summary)}</p>' if summary else ""}
+        note = "Headline as published. Open the source for details."
+    press = stream(kinds=("press",), limit=20)
+    body = f"""{_ticker()}{_secbar(r["section"])}<main class="wrap"><div class="body3"><article class="article" style="max-width:760px">
+<div style="margin-top:8px">{_label(r)}</div>
+<h1 style="font:800 36px/1.15 Georgia,'Times New Roman',serif;margin:8px 0 10px">{_e(r["title"])}</h1>
+{_meta(r)}
+<div style="margin:18px 0">{_thumb(r, "wide")}</div>
+{f'<p class="detail" style="font-size:18px">{_e(summary)}</p>' if summary else ""}
 <p style="margin-top:18px"><a class="btn" href="{_e(r.get("url"))}" target="_blank" rel="noopener">{_e(src_label)} ↗</a></p>
 <p class="note">{_e(note)} AI-assisted; check the source before acting.</p>
-<h2>More in {_e(nw.SECTIONS.get(r["section"], ""))}</h2>{"".join(_card(x, summary=False) for x in related)}
-</div><aside class="rail">{_rail_for(r["section"])}
-<section class="panel"><h2><span>VigiEye Daily</span></h2>{pp._newsletter_box("item")}</section></aside></div></main>"""
+<div class="row" style="--c:{SEC_COLOR.get(r["section"])}"><div class="row-h"><span>More {_e(nw.SECTIONS.get(r["section"], ""))}</span>
+<a href="/news/{r["section"]}">All →</a></div><div class="g4" style="grid-template-columns:repeat(3,minmax(0,1fr))">{"".join(grid_card(x) for x in related)}</div></div>
+</article>{_sidebar(r["section"], press)}</div></main>"""
     ld = [{"@context": "https://schema.org", "@type": "NewsArticle", "headline": r["title"][:110],
            "datePublished": r.get("date"), "description": summary[:300],
+           "image": [f"{_base()}/thumb/{r['section']}/{_seed(r)}.svg"],
            "publisher": {"@type": "Organization", "name": "VigiEye", "url": _base() + "/"},
            "isBasedOn": r.get("url"), "articleSection": nw.SECTIONS.get(r["section"], "")}]
     return _page(f"{r['title'][:90]} | VigiEye", (summary or r["title"])[:155], f"/news/item/{kind}/{nid}", body, ld)
 
 
-# --- RSS of VigiEye's own briefs -------------------------------------------------------
+# --- generated story artwork --------------------------------------------------------------------
+
+_GLYPH = {
+    "pharmacovigilance": '<path d="M-36 0 H-16 L-10 -14 L-2 14 L6 -6 L10 0 H36" fill="none" stroke="#fff" stroke-width="3.5" stroke-linejoin="round"/>'
+                         '<circle r="30" fill="none" stroke="#fff" stroke-width="2.5" opacity=".7"/>',
+    "regulatory": '<rect x="-24" y="-30" width="48" height="60" rx="4" fill="none" stroke="#fff" stroke-width="3"/>'
+                  '<path d="M-14 -14 H14 M-14 -2 H14 M-14 10 H4" stroke="#fff" stroke-width="3" stroke-linecap="round"/>',
+    "quality": '<circle r="26" fill="none" stroke="#fff" stroke-width="3"/><path d="M-12 0 L-3 10 L14 -10" fill="none" stroke="#fff" '
+               'stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>',
+    "market-access": '<path d="M-30 22 H30 M-22 22 V2 M-8 22 V-10 M6 22 V-2 M20 22 V-22" stroke="#fff" stroke-width="5" stroke-linecap="round"/>',
+    "industry": '<path d="M-14 -30 C14 -14 -14 14 14 30 M14 -30 C-14 -14 14 14 -14 30" fill="none" stroke="#fff" stroke-width="3"/>'
+                '<path d="M-9 -18 H9 M-10 0 H10 M-9 18 H9" stroke="#fff" stroke-width="2.5" opacity=".8"/>',
+}
+
+
+@router.get("/thumb/{section}/{seed}.svg", include_in_schema=False)
+def thumb(section: str, seed: str, p: str = ""):
+    sec = section if section in SEC_COLOR else "industry"
+    h = hashlib.sha1(seed.encode()).digest()
+    c = SEC_COLOR[sec]
+    ang = h[0] % 180
+    circles = "".join(
+        f'<circle cx="{40 + (h[i] * 3) % 560}" cy="{20 + (h[i + 1] * 2) % 300}" r="{20 + h[i + 2] % 90}" '
+        f'fill="#fff" opacity="{0.04 + (h[i + 3] % 8) / 100:.2f}"/>' for i in range(1, 17, 4))
+    lines = "".join(f'<path d="M{(h[i] * 5) % 640} 0 L{(h[i + 1] * 5) % 640} 360" stroke="#fff" stroke-opacity=".06" '
+                    f'stroke-width="{1 + h[i] % 3}"/>' for i in range(0, 12, 2))
+    label = re.sub(r"[^A-Z]", "", (p or "").upper())[:4]
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice">
+<defs><linearGradient id="g" gradientTransform="rotate({ang} .5 .5)"><stop offset="0" stop-color="{c}"/><stop offset="1" stop-color="#0b1220"/></linearGradient></defs>
+<rect width="640" height="360" fill="url(#g)"/>{lines}{circles}
+<g transform="translate(320 170) scale(2.2)">{_GLYPH[sec]}</g>
+<text x="24" y="336" font-family="system-ui,Segoe UI,sans-serif" font-size="22" font-weight="800" fill="#fff" opacity=".85" letter-spacing="3">{SEC_ABBR[sec]}{(" · " + label) if label else ""}</text>
+</svg>"""
+    return Response(svg, media_type="image/svg+xml", headers={"Cache-Control": "public, max-age=604800, immutable"})
+
+
+# --- RSS of VigiEye's own briefs ------------------------------------------------------------------
 
 @router.get("/feed.xml", include_in_schema=False)
 def rss():
-    rows = [r for r in stream(limit=80) if r["kind"] != "press"]
+    rows = [r for r in stream(limit=100) if r["kind"] in ("official", "company")]
     items = "".join(
         f"<item><title>{_e(r['title'])}</title><link>{_e(_base() + _href(r))}</link>"
         f"<guid isPermaLink=\"true\">{_e(_base() + _href(r))}</guid><pubDate>{_e(r['date'])}</pubDate>"
         f"<category>{_e(nw.SECTIONS.get(r['section'], ''))}</category><description>{_e(r.get('summary') or '')}</description></item>"
         for r in rows)
     xml = (f'<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>VigiEye</title>'
-           f'<link>{_base()}/</link><description>EU &amp; US biotech regulatory, PV, market access and compliance news</description>{items}</channel></rss>')
+           f'<link>{_base()}/</link><description>EU &amp; US pharma regulatory, PV, quality and market access news</description>{items}</channel></rss>')
     return Response(xml, media_type="application/rss+xml; charset=utf-8")
 
 
 def sitemap_urls() -> list[tuple[str, str, str]]:
-    urls = [("/news", "hourly", "0.9")] + [(f"/news/{k}", "hourly", "0.9") for k in nw.SECTIONS]
-    for r in stream(limit=600):
+    urls = [("/news", "hourly", "0.9"), ("/safety", "daily", "0.9")] + [(f"/news/{k}", "hourly", "0.9") for k in nw.SECTIONS]
+    for r in stream(limit=800):
         if r["kind"] in ("official", "company") and r.get("id"):
             urls.append((_href(r), "monthly", "0.6"))
     return urls
+
+
+# helpers used by the guidelines tracker and safety hub below
+def _rail_panel(title: str, items: list[dict], more: str, show_days: bool = False) -> str:
+    if not items:
+        return ""
+    return pp._panel(title, items, more, show_days=show_days)
+
+
+def _card(r: dict, summary: bool = True, big: bool = False) -> str:
+    return river_item(r)
+
+
+def _secnav(active: str | None = None) -> str:
+    return _secbar(active)
 
 
 # --- guidelines tracker ---------------------------------------------------------------
@@ -434,15 +568,15 @@ def guidelines_page(body: str = "", status: str = "", page: int = 1):
             (f'<a class="btn ghost" href="/guidelines?body={_e(body)}&status={_e(status)}&page={page+1}">Older →</a>' if len(rows) > page * per else "") + "</div>"
     cons_html = "".join(f'<div class="ms"><div class="top"><b>{_e(_fmt(e["date"]))}</b><span>{_e(e.get("body"))}</span>{cal._countdown(e)}</div>'
                         f'<h3><a href="/calendar/{_e(e["slug"])}">{_e(e.get("title"))}</a></h3></div>' for e in cons)
-    body_html = f"""{_ticker()}<main class="wrap">
-<h1 style="font-size:30px;margin-top:18px">Guidelines tracker: ICH, FDA, EMA, MHRA</h1>
+    body_html = f"""{_ticker()}{_secbar("guidelines")}<main class="wrap">
+<div class="mast"><div><h1 style="font-size:34px;color:#6d28d9">Guidelines tracker: ICH, FDA, EMA, MHRA</h1></div><div class="date">{_e(date.today().strftime("%d %B %Y"))}</div></div>
 <p class="note" style="font-size:15px">New, draft and final guidance as it is published: FDA notices of availability (including the ICH
 guidelines FDA adopts) from the Federal Register, EMA scientific and procedural guidelines and public consultations (including
 ICH texts adopted in the EU), and MHRA guidance. Each entry links to the official document.</p>
 <div class="tabs">{tabs}</div>
-<div class="split" style="margin-top:8px"><div>{items}{pager}</div>
-<aside class="rail">{f'<section class="panel"><h2><span>Consultations &amp; effective dates</span><a href="/calendar">Calendar →</a></h2>{cons_html}</section>' if cons_html else ""}
-<section class="panel"><h2><span>Get new guidelines daily</span></h2>{pp._newsletter_box("guidelines")}</section></aside></div>
+<div class="body3" style="margin-top:8px"><div>{items}{pager}</div>
+<aside class="side">{f'<section class="box"><h2>Consultations &amp; effective dates</h2>{cons_html}</section>' if cons_html else ""}
+<section class="box nl-box"><h2>New guidelines, daily</h2>{pp._newsletter_box("guidelines")}</section></aside></div>
 <p class="note">ICH's own website can't be monitored automatically, so ICH guidelines are tracked through FDA's Federal Register
 notices and EMA's guideline feeds, the two routes by which ICH texts take effect in the US and EU.</p></main>"""
     return _page("Guidelines tracker: new ICH, FDA, EMA & MHRA guidance | VigiEye",
@@ -456,11 +590,13 @@ notices and EMA's guideline feeds, the two routes by which ICH texts take effect
 def safety_hub():
     t = date.today()
     pv = stream(section="pharmacovigilance", kinds=("official", "notice", "company"), limit=400)
+    qa_recalls = [r for r in stream(section="quality", kinds=("official", "notice"), limit=200)
+                  if "recall" in r["title"].lower() or "alert" in (r.get("publisher") or "").lower()][:8]
 
     def pick(pred, n=8):
         return [r for r in pv if pred(r)][:n]
     pub = lambda r: (r.get("publisher") or "").lower()
-    prac = pick(lambda r: "prac" in (r["title"] + " " + pub(r)).lower() or "signal" in r["title"].lower(), 10)
+    prac = pick(lambda r: bool(re.search(r"\bprac\b|\bsignals?\b", (r["title"] + " " + pub(r)).lower())), 10)
     mhra = pick(lambda r: "mhra" in pub(r))
     fda = pick(lambda r: r.get("country") == "US")
     national = pick(lambda r: r.get("country") in ("DE", "FR", "ES", "IT", "NL", "IE", "SE", "BE"))
@@ -475,12 +611,13 @@ def safety_hub():
         if not rows:
             return ""
         link = f'<a href="{more}">More →</a>' if more else ""
-        return (f'<section class="block" style="border-color:{color}"><h2><span>{_e(title)}</span>{link}</h2>'
-                f'{"".join(_card(r) for r in rows)}</section>')
+        return (f'<section class="row" style="--c:{color};margin-top:22px"><div class="row-h"><span style="color:{color}">{_e(title)}</span>{link}</div>'
+                f'{"".join(river_item(r) for r in rows)}</section>')
     news_blocks = "".join([blk("Latest from PRAC & EU signals", prac, "/news/pharmacovigilance"),
                            blk("MHRA Drug Safety Update & alerts", mhra),
                            blk("FDA: MedWatch, safety communications & recalls", fda),
                            blk("National agencies (ANSM, AEMPS, BfArM, AIFA...)", national),
+                           blk("Quality-defect recalls (FDA, MHRA)", qa_recalls, "/news/quality", "#b45309"),
                            blk("Health Canada & WHO", other, color="#64748b")])
     data_blocks = "".join(x for x in [
         _rail_panel("EU DHPCs (EMA data)", dhpc, "/news/pharmacovigilance"),
@@ -488,13 +625,13 @@ def safety_hub():
         _rail_panel("Ongoing EU shortages", short, "/news/pharmacovigilance")] if x)
     pd_html = "".join(f'<div class="ms"><div class="top"><b>{_e(_fmt(e["date"]))}</b>{cal._countdown(e)}</div>'
                       f'<h3><a href="/calendar/{_e(e["slug"])}">{_e(e.get("title"))}</a></h3></div>' for e in prac_dates)
-    body = f"""{_ticker()}<main class="wrap">{_secnav("pharmacovigilance")}
-<h1 style="font-size:30px;margin-top:14px">Pharmacovigilance &amp; safety hub</h1>
+    body = f"""{_ticker()}{_secbar("safety")}<main class="wrap">
+<div class="mast"><div><h1 style="font-size:34px;color:#be123c">Pharmacovigilance &amp; safety hub</h1></div><div class="date">{_e(date.today().strftime("%d %B %Y"))}</div></div>
 <p class="note" style="font-size:15px">PRAC outputs and EU signals, DHPCs, referrals and shortages, MHRA Drug Safety Update, FDA MedWatch
 and recalls, and national agency safety news, updated every day from the official sources.</p>
-<div class="split"><div class="grid4" style="grid-template-columns:1fr;margin-top:6px">{news_blocks or '<p class="note">Safety feeds are loading.</p>'}</div>
-<aside class="rail">{f'<section class="panel"><h2><span>Next PRAC meetings</span><a href="/calendar">Calendar →</a></h2>{pd_html}</section>' if pd_html else ""}
-{data_blocks}<section class="panel"><h2><span>VigiEye Daily</span></h2>{pp._newsletter_box("safety")}</section></aside></div>
+<div class="body3" style="margin-top:6px"><div>{news_blocks or '<p class="note">Safety feeds are loading.</p>'}</div>
+<aside class="side">{f'<section class="panel"><h2><span>Next PRAC meetings</span><a href="/calendar">Calendar →</a></h2>{pd_html}</section>' if pd_html else ""}
+{data_blocks}<section class="box nl-box"><h2>VigiEye Daily</h2>{pp._newsletter_box("safety")}</section></aside></div>
 <p class="note">{pp.DISCLAIMER}</p></main>"""
     return _page("Pharmacovigilance & drug safety hub: PRAC, DHPCs, MHRA, FDA MedWatch, recalls | VigiEye",
                  "Daily pharmacovigilance news: PRAC recommendations and signals, DHPCs, referrals, shortages, MHRA Drug Safety "

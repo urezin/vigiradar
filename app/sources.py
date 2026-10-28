@@ -65,9 +65,6 @@ SOURCES: list[Source] = [
     Source("fda-medwatch", "US", "FDA MedWatch",
            "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medwatch/rss.xml",
            "Shortages & recalls"),
-    Source("fda-drugs", "US", "FDA CDER",
-           "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drugs/rss.xml",
-           "Fees & guidance"),
     # United Kingdom — MHRA (GOV.UK Atom feeds)
     Source("mhra-news", "UK", "MHRA",
            "https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency.atom",
@@ -128,8 +125,8 @@ _EURLEX_KEEP = ("medicin", "pharmac", "medical device", "in vitro diagnostic", "
 
 
 _DOJ_KEEP = ("health care fraud", "healthcare fraud", "pharmac", "drug", "opioid", "medicare", "medicaid",
-             "kickback", "false claims", "fda", "medical device", "compounding", "clinic", "physician",
-             "hospital", "telemedicine", "laborator", "biotech", "counterfeit")
+             "fda", "medical device", "compounding", "physician", "telemedicine", "laborator", "biotech",
+             "counterfeit medic", "prescription", "fentanyl", "tricare")
 _WHO_KEEP = ("medicine", "vaccin", "regulat", "prequalif", "safety", "antimicrobial", "falsified",
              "substandard", "essential", "pharma", "drug", "health product", "biosimilar", "clinical trial")
 
