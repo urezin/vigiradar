@@ -40,6 +40,12 @@ _QUERIES = ['"financial results" "net product revenue"', '"financial results" "p
             '"third quarter 2026" revenue FDA', '"fourth quarter" "full year" revenue FDA patients',
             '"first quarter" "financial results" FDA patients', '"second quarter" "financial results" FDA patients',
             '"worldwide revenues" pharmaceutical', '"reported revenue" biopharmaceutical quarter']
+# large drugmakers' CIKs (results releases are queried for these directly)
+_BIG = ["78003", "310158", "200406", "59478", "14272", "1551152", "318154", "882095", "872589", "875320", "875045",
+        "1682852", "1555280", "1792044", "1821825", "818686", "1178670", "879169", "1048477", "1232524", "1800",
+        "10456", "10795", "1739104", "1585364"]
+# SIC codes kept: drugs, biologics, diagnostics substances, R&D labs, medical devices, drug wholesale
+_SICS = {"2833", "2834", "2835", "2836", "8731", "3841", "3842", "3845", "5122", "2844"}
 _PHARMA = re.compile(r"\b(fda|ema|patients|therap|clinical|pharma|biopharm|drug|medicine|vaccine|oncology|indication)", re.I)
 _RESULTS = re.compile(r"(quarter|full[- ]year).{0,80}(results|revenue)", re.I | re.S)
 _MONEY = re.compile(r"\$\s?([\d,]+(?:\.\d+)?)\s*(billion|million)", re.I)
@@ -85,16 +91,20 @@ def ingest(days: int = 10, max_docs: int = 60) -> dict:
     start = (date.today() - timedelta(days=days)).isoformat()
     end = date.today().isoformat()
     hits, errors = {}, []
-    for q in _QUERIES:
+    reqs = [{"q": q} for q in _QUERIES] + [{"q": '"quarter" results', "ciks": ",".join(c.zfill(10) for c in _BIG[i:i + 8])}
+                                           for i in range(0, len(_BIG), 8)]
+    for rq in reqs:
+        q = rq["q"]
         try:
-            qs = urlencode({"q": q, "forms": "8-K", "dateRange": "custom", "startdt": start, "enddt": end})
+            qs = urlencode({**rq, "forms": "8-K", "dateRange": "custom", "startdt": start, "enddt": end})
             j = pd._http_get(f"{SEC_FTS}?{qs}", timeout=60).json()
             for h in (j.get("hits") or {}).get("hits") or []:
                 s = h["_source"]
                 d = f'{s.get("file_description") or ""} {h["_id"]}'.lower()
                 items = " ".join(s.get("items") or [])
+                sics = set(s.get("sics") or [])
                 if (s.get("file_type") or "").upper().startswith("EX-99") and "presentation" not in d and \
-                        (not items or "2.02" in items):
+                        (not items or "2.02" in items) and (not sics or sics & _SICS):
                     hits[h["_id"]] = h
         except Exception as e:
             errors.append(f"{q}: {e}")
