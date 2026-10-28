@@ -1,0 +1,112 @@
+{
+ "at_news": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "at_dhpc": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "hr_news": {
+  "error": "ConnectTimeout('timed out')"
+ },
+ "hr_rss_page": {
+  "error": "ConnectTimeout('timed out')"
+ },
+ "hr_dhpc": {
+  "error": "ConnectTimeout('timed out')"
+ },
+ "hu_ogyei": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "ie_news": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "ie_safety": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "ie_home": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "lu_news": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "mt_recalls": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "mt_circ": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "mt_press": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "nl_cbg": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "nl_cbg_rss": {
+  "status": 404,
+  "url": "https://www.cbg-meb.nl/actueel/nieuws/rss",
+  "len": 144516,
+  "links": [],
+  "feeds": [],
+  "dates": []
+ },
+ "pl_gif": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "pt_news": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "pt_rss": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "pt_alerts": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "ro_news": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "ro_dhpc": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "is_new": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "se_news": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "se_rss": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "no_dmp": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "lv_zva": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ },
+ "lt_vvkt": {
+  "status": 403,
+  "url": "https://vvkt.lrv.lt/lt/naujienos",
+  "len": 5712,
+  "links": [],
+  "feeds": [],
+  "dates": []
+ },
+ "be_news": {
+  "status": 200,
+  "url": "https://www.famhp.be/en/news",
+  "len": 6690,
+  "links": [],
+  "feeds": [],
+  "dates": []
+ },
+ "cy_phs": {
+  "status": 500,
+  "url": "https://www.moh.gov.cy/moh/phs/phs.nsf/index_gr/index_gr?opendocument",
+  "len": 206,
+  "links": [],
+  "feeds": [],
+  "dates": []
+ },
+ "oig": {
+  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+ }
+}
