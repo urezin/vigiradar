@@ -57,7 +57,7 @@ def summarise_item(item: dict, default_subject: str = "") -> dict:
         client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
         msg = client.messages.create(
             model=settings.anthropic_model,
-            max_tokens=400,
+            max_tokens=800,
             system=_SYSTEM,
             messages=[{"role": "user", "content": _PROMPT.format(
                 authority=item.get("authority", ""),

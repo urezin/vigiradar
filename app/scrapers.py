@@ -29,17 +29,28 @@ class Scraper:
     link_re: str          # regex matched against each <a href>
     default_subject: str
     verified: bool = False  # True = confirmed against the live page
+    language: str = "en"
+    seed_hidden: bool = False   # first run stores existing items hidden, so only later ones appear as news
 
 
 SCRAPERS: list[Scraper] = [
     # Verified against the live listing page.
     Scraper("ansm", "FR", "ANSM",
             "https://ansm.sante.fr/actualites",
-            r"/actualites/[a-z0-9][a-z0-9\-]{8,}$", "Signal management", verified=True),
+            r"/actualites/[a-z0-9][a-z0-9\-]{8,}$", "Signal management", verified=True, language="fr"),
     # AEMPS (ES) — verified live: "informa" bulletins + news articles.
     Scraper("aemps", "ES", "AEMPS",
             "https://www.aemps.gob.es/acciones-informativas/ultima-informacion/",
-            r"/informa/|/acciones-informativas/[a-z0-9\-]{8,}", "Signal management", verified=True),
+            r"/informa/|/acciones-informativas/[a-z0-9\-]{8,}", "Signal management", verified=True, language="es"),
+    # Probed from a GitHub runner on 28 Oct 2026 (server-rendered lists, no RSS).
+    Scraper("gif-pl", "PL", "GIF (Poland)", "https://www.gov.pl/web/gif/komunikaty",
+            r"/web/gif/komunikat-", "Shortages & recalls", verified=True, language="pl", seed_hidden=True),
+    Scraper("mt-recalls", "MT", "Malta Medicines Authority", "https://medicinesauthority.gov.mt/recallsrapidalerts",
+            r"/file\.aspx\?f=\d+", "Shortages & recalls", verified=True, seed_hidden=True),
+    Scraper("lu-sante", "LU", "Luxembourg Health Directorate", "https://santesecu.public.lu/fr/actualites.html",
+            r"/fr/actualites/20\d\d/", "Fees & guidance", verified=True, language="fr", seed_hidden=True),
+    Scraper("hhs-oig", "US", "HHS OIG", "https://oig.hhs.gov/fraud/enforcement/",
+            r"/fraud/enforcement/[a-z0-9\-]{20,}/?$", "Compliance & enforcement", verified=True, seed_hidden=True),
     # NOTE: AIFA (IT) and BfArM (DE) moved to RSS connectors in app/sources.py —
     # their news lists are JavaScript-rendered, so HTML scraping returned nothing.
     # They now consume the agencies' underlying RSS feeds instead.
@@ -57,8 +68,17 @@ def item_id(scraper_id: str, url: str, title: str) -> str:
     return hashlib.sha1(basis).hexdigest()[:16]
 
 
+_PL_MONTHS = {"stycznia": 1, "lutego": 2, "marca": 3, "kwietnia": 4, "maja": 5, "czerwca": 6, "lipca": 7,
+              "sierpnia": 8, "września": 9, "wrzesnia": 9, "października": 10, "pazdziernika": 10, "listopada": 11,
+              "grudnia": 12}
+_PL_RE = re.compile(r"(\d{1,2})\s+(" + "|".join(_PL_MONTHS) + r")\s+(\d{4})", re.I)
+
+
 def _guess_date(text_near: str) -> str:
     text_near = text_near or ""
+    m = _PL_RE.search(text_near)
+    if m:
+        return f"{int(m.group(3)):04d}-{_PL_MONTHS[m.group(2).lower()]:02d}-{int(m.group(1)):02d}"
     m = _DATE_RE.search(text_near)
     if m:
         if m.group(3):   # dd/mm/yyyy or dd.mm.yyyy
@@ -99,7 +119,7 @@ def fetch_raw_items(scraper: Scraper, timeout: float = 20.0, cap: int = 40) -> l
         seen.add(url)
         # best-effort date from surrounding text (list rows often carry a date)
         near = a.find_parent(["article", "li", "div"])
-        date = _guess_date(near.get_text(" ", strip=True) if near else "")
+        date = _guess_date(title) or _guess_date(near.get_text(" ", strip=True) if near else "")
         items.append({
             "id": item_id(scraper.id, url, title),
             "source_id": scraper.id,

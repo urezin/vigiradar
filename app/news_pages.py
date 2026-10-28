@@ -14,6 +14,8 @@ Beats: Regulatory, Pharmacovigilance, Quality & compliance, Market access (+ Ind
 """
 from __future__ import annotations
 
+from sqlalchemy import select
+
 import hashlib
 import html as _html
 import json
@@ -32,7 +34,7 @@ from . import store
 router = APIRouter()
 _e, _fmt, _base = cal._e, cal._fmt, cal._base
 
-FLAG = {"AT": "🇦🇹", "BE": "🇧🇪", "BG": "🇧🇬", "CZ": "🇨🇿", "DK": "🇩🇰", "EE": "🇪🇪", "FI": "🇫🇮", "GR": "🇬🇷", "HU": "🇭🇺", "PT": "🇵🇹", "SK": "🇸🇰", "SI": "🇸🇮", "PL": "🇵🇱", "RO": "🇷🇴", "CA": "🇨🇦", "INT": "🌐", "SE": "🇸🇪", "IE": "🇮🇪", "NL": "🇳🇱", "UK": "🇬🇧", "US": "🇺🇸", "EU": "🇪🇺", "US": "🇺🇸", "UK": "🇬🇧", "DE": "🇩🇪", "FR": "🇫🇷", "ES": "🇪🇸", "IT": "🇮🇹", "NL": "🇳🇱",
+FLAG = {"MT": "🇲🇹", "LU": "🇱🇺", "HR": "🇭🇷", "NO": "🇳🇴", "IS": "🇮🇸", "AT": "🇦🇹", "BE": "🇧🇪", "BG": "🇧🇬", "CZ": "🇨🇿", "DK": "🇩🇰", "EE": "🇪🇪", "FI": "🇫🇮", "GR": "🇬🇷", "HU": "🇭🇺", "PT": "🇵🇹", "SK": "🇸🇰", "SI": "🇸🇮", "PL": "🇵🇱", "RO": "🇷🇴", "CA": "🇨🇦", "INT": "🌐", "SE": "🇸🇪", "IE": "🇮🇪", "NL": "🇳🇱", "UK": "🇬🇧", "US": "🇺🇸", "EU": "🇪🇺", "US": "🇺🇸", "UK": "🇬🇧", "DE": "🇩🇪", "FR": "🇫🇷", "ES": "🇪🇸", "IT": "🇮🇹", "NL": "🇳🇱",
         "IE": "🇮🇪", "SE": "🇸🇪", "BE": "🇧🇪", "INT": "🌐", "CA": "🇨🇦"}
 SEC_COLOR = {"regulatory": "#0369a1", "clinical-trials": "#0e7490", "pharmacovigilance": "#be123c", "quality": "#b45309",
              "market-access": "#6d28d9", "industry": "#0f766e"}
@@ -64,7 +66,7 @@ def _official(limit: int = 800) -> list[dict]:
                 continue          # stored before the health-care filter existed
         out.append({"kind": "official", "id": r.get("id"), "section": nw.section_for_update(r),
                     "publisher": r.get("authority") or "", "country": r.get("country"), "title": r["title"],
-                    "summary": r["summary"], "url": r.get("source_url") or "", "date": r.get("date") or "",
+                    "summary": _tidy(r["summary"]), "url": r.get("source_url") or "", "date": r.get("date") or "",
                     "impact": r.get("impact") or "med", "company": None, "ticker": None, "tags": None})
     return out
 
@@ -81,7 +83,7 @@ def _company_press(limit: int = 1200) -> list[dict]:
                 nw.classify(r.get("title") or "", r.get("summary") or "", "") == "clinical-trials":
             sec = "clinical-trials"      # items stored before the Clinical trials section existed
         out.append({**r, "section": sec, "title": _clean(r.get("title")),
-                    "summary": _clean(r.get("summary")),
+                    "summary": _tidy(_clean(r.get("summary"))),
                     "impact": "high" if r["kind"] in ("company", "notice") else "med"})
     return out
 
@@ -100,7 +102,7 @@ def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60
             if st and st["skip"]:
                 continue
             if st and st["has_body"]:
-                r = {**r, "title": st["headline"], "summary": st["dek"] or r.get("summary"), "story": True}
+                r = {**r, "orig_title": r.get("title"), "title": st["headline"], "summary": st["dek"] or r.get("summary"), "story": True}
             keep.append(r)
         rows = keep
     if section:
@@ -109,7 +111,7 @@ def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60
     # the same notice often arrives through two feeds (e.g. MHRA news + MHRA alerts): keep one
     seen, out = set(), []
     for r in rows:
-        k = re.sub(r"[^a-z0-9]+", "", (r.get("title") or "").lower())[:90]
+        k = re.sub(r"[^a-z0-9]+", "", (r.get("orig_title") or r.get("title") or "").lower())[:90]
         if k in seen:
             continue
         seen.add(k)
@@ -136,6 +138,15 @@ def _story_map() -> dict:
             _SM_CACHE["m"] = {}
         _SM_CACHE["t"] = _t.time()
     return _SM_CACHE["m"]
+
+
+def _tidy(sm: str | None) -> str:
+    """Summaries stored with a length cap can end mid-word: cut back to the last full sentence."""
+    sm = (sm or "").strip()
+    if not sm or sm[-1] in ".!?)\"”":
+        return sm
+    i = max(sm.rfind(". "), sm.rfind("; "))
+    return sm[:i + 1] if i > 60 else sm.rsplit(" ", 1)[0] + "…"
 
 
 def _real_summary(r: dict) -> bool:
@@ -389,7 +400,7 @@ def _sidebar(section: str | None = None, press: list[dict] | None = None) -> str
           f'with approvals and PDUFA dates, every weekday morning. Free.</p>{pp._newsletter_box("sidebar:" + (section or "home"))}</section>')
     nat = [r for r in stream(kinds=("official",), limit=300) if r.get("country") not in ("EU", "US", "UK", "INT", "CA")][:8]
     heads = (f'<section class="box"><h2>Across Europe</h2><ul>{"".join(text_item(r) for r in nat)}</ul>'
-             f'<p class="by">From the national medicines agencies, reported in English by VigiEye.</p></section>') if nat else ""
+             f'<p class="by">From national competent authorities and inspectorates, reported in English by VigiEye.</p></section>') if nat else ""
     from . import articles as _am
     return f'<aside class="side">{_am.ad_html("sidebar-" + (section or "home"))}{nl}{_coming_up()}{heads}</aside>'
 
@@ -461,7 +472,7 @@ def home():
 {_pulse(rows)}
 {f'<section class="band"><div class="wrap">{ed}</div></section>' if ed else ""}
 <section class="band"><div class="wrap"><div class="body3" style="margin-top:0"><div><div class="row-h big"><span>Latest</span><a href="/news">All news →</a></div>
-{"".join(river_item(r) for r in river[:8])}{art_mod.ad_html("home-river", "inline")}{"".join(river_item(r) for r in river[8:])}</div>{_sidebar(None, press)}</div></div></section>
+{"".join(river_item(r) for r in river)}</div>{_sidebar(None, press)}</div></div></section>
 {row("pharmacovigilance", "/safety")}{row("regulatory", band="")}{row("clinical-trials")}
 <section class="band"><div class="wrap">{art_mod.ad_html("home-banner", "banner")}</div></section>
 {row("quality")}{row("market-access", band="")}{guide_band}{row("industry")}
@@ -739,10 +750,43 @@ def rss():
 
 def sitemap_urls() -> list[tuple[str, str, str]]:
     urls = [("/news", "hourly", "0.9"), ("/safety", "daily", "0.9")] + [(f"/news/{k}", "hourly", "0.9") for k in nw.SECTIONS]
-    for r in stream(limit=800):
-        if r["kind"] in ("official", "company") and r.get("id"):
+    for r in stream(limit=1500):
+        if r.get("id") and (r["kind"] in ("official", "company") or r.get("story")):
             urls.append((_href(r), "monthly", "0.6"))
+    urls += [("/analysis", "daily", "0.9")] + [(f"/analysis/{a['slug']}", "monthly", "0.8") for a in art_mod.list_articles(300)]
     return urls
+
+
+@router.get("/news-sitemap.xml", include_in_schema=False)
+def news_sitemap():
+    """Google News sitemap: VigiEye's own articles from the last 2 days."""
+    since = (date.today() - timedelta(days=2)).isoformat()
+    items = [(f"{_base()}/analysis/{a['slug']}", a["title"], a.get("date")) for a in art_mod.list_articles(60) if (a.get("date") or "") >= since]
+    items += [(_base() + _href(r), r["title"], r["date"]) for r in stream(limit=600) if r.get("story") and r["date"] >= since]
+    body = "".join(f"<url><loc>{_e(u)}</loc><news:news><news:publication><news:name>VigiEye</news:name><news:language>en</news:language>"
+                   f"</news:publication><news:publication_date>{_e(d)}</news:publication_date><news:title>{_e(t)}</news:title></news:news></url>"
+                   for u, t, d in items[:1000])
+    return Response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+                    f'xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">{body}</urlset>', media_type="application/xml")
+
+
+def fresh_urls(hours: int = 3) -> list[str]:
+    """VigiEye pages created in the last few hours (for IndexNow)."""
+    from datetime import datetime, timezone
+    from . import stories as _st
+    cut = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
+    out = []
+    try:
+        _st.init()
+        with store._engine.connect() as c:
+            keys = [k for (k,) in c.execute(select(_st.stories.c.key).where(_st.stories.c.created_at >= cut)
+                                            .where(_st.stories.c.lang == "en"))]
+        out += [f"{_base()}/news/item/{k.split(':')[0]}/{k.split(':', 1)[1]}" for k in keys]
+    except Exception:
+        pass
+    today = date.today().isoformat()
+    out += [f"{_base()}/analysis/{a['slug']}" for a in art_mod.list_articles(40) if a.get("date") == today]
+    return out + [f"{_base()}/", f"{_base()}/news", f"{_base()}/analysis"]
 
 
 # helpers used by the guidelines tracker and safety hub below

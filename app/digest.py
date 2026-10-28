@@ -10,7 +10,7 @@ preview endpoint and the scheduled sender.
 """
 from __future__ import annotations
 
-_FLAG = {"AT": "🇦🇹", "BE": "🇧🇪", "BG": "🇧🇬", "CZ": "🇨🇿", "DK": "🇩🇰", "EE": "🇪🇪", "FI": "🇫🇮", "GR": "🇬🇷", "HU": "🇭🇺", "PT": "🇵🇹", "SK": "🇸🇰", "SI": "🇸🇮", "PL": "🇵🇱", "RO": "🇷🇴", "CA": "🇨🇦", "INT": "🌐", "SE": "🇸🇪", "IE": "🇮🇪", "NL": "🇳🇱", "UK": "🇬🇧", "US": "🇺🇸", "EU": "🇪🇺", "DE": "🇩🇪", "FR": "🇫🇷", "ES": "🇪🇸", "IT": "🇮🇹",
+_FLAG = {"MT": "🇲🇹", "LU": "🇱🇺", "HR": "🇭🇷", "NO": "🇳🇴", "IS": "🇮🇸", "AT": "🇦🇹", "BE": "🇧🇪", "BG": "🇧🇬", "CZ": "🇨🇿", "DK": "🇩🇰", "EE": "🇪🇪", "FI": "🇫🇮", "GR": "🇬🇷", "HU": "🇭🇺", "PT": "🇵🇹", "SK": "🇸🇰", "SI": "🇸🇮", "PL": "🇵🇱", "RO": "🇷🇴", "CA": "🇨🇦", "INT": "🌐", "SE": "🇸🇪", "IE": "🇮🇪", "NL": "🇳🇱", "UK": "🇬🇧", "US": "🇺🇸", "EU": "🇪🇺", "DE": "🇩🇪", "FR": "🇫🇷", "ES": "🇪🇸", "IT": "🇮🇹",
          "NL": "🇳🇱", "IE": "🇮🇪", "SE": "🇸🇪", "BE": "🇧🇪", "US": "🇺🇸", "UK": "🇬🇧", "INT": "🌐"}
 _IMPACT_ORDER = {"high": 0, "med": 1, "low": 2}
 _IMPACT_LABEL = {"high": "High impact", "med": "Medium impact", "low": "Low impact"}

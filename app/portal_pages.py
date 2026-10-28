@@ -893,6 +893,12 @@ def _run_job(steps: list[str]):
             elif s == "news":
                 from . import ingest as ingest_mod, news as news_mod
                 _JOB["result"]["news"] = ingest_mod.run_ingest(per_source=25)
+                _JOB["step"] = "translate"
+                try:
+                    _JOB["result"]["translate"] = ingest_mod.translate_titles()
+                except Exception as e:
+                    _JOB["result"]["translate"] = {"error": f"{type(e).__name__}: {e}"}
+                _JOB["step"] = "news"
                 _JOB["result"]["press_company"] = news_mod.run_all()
                 from . import guidelines as guide_mod
                 _JOB["result"]["guidelines_safety"] = guide_mod.run_all()
@@ -913,6 +919,12 @@ def _run_job(steps: list[str]):
                     _JOB["result"]["earnings_ingest"] = {"error": f"{type(e).__name__}: {e}"}
                 _JOB["step"] = "cp_articles"
                 _JOB["result"]["cp_articles"] = art_mod.generate_cp_daily(target=10)
+        _JOB["step"] = "indexnow"
+        try:
+            from . import indexnow as _inx
+            _JOB["result"]["indexnow"] = _inx.ping_fresh(hours=4 if "articles" in steps else 3)
+        except Exception as e:
+            _JOB["result"]["indexnow"] = {"error": str(e)[:120]}
     except Exception as e:
         _JOB["result"]["error"] = f"{type(e).__name__}: {e}"
     finally:

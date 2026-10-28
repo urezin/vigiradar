@@ -22,7 +22,7 @@ COUNTRIES = {
     "AT": "Austria (BASG)", "BE": "Belgium (FAMHP)", "BG": "Bulgaria (BDA)", "CZ": "Czechia (SÚKL)",
     "DK": "Denmark (DKMA)", "EE": "Estonia (Ravimiamet)", "FI": "Finland (Fimea)", "GR": "Greece (EOF)",
     "HU": "Hungary (NNGYK)", "PT": "Portugal (INFARMED)", "SK": "Slovakia (ŠÚKL)", "SI": "Slovenia (JAZMP)",
-    "PL": "Poland (URPL / GIF)", "RO": "Romania (ANMDMR)", "CA": "Canada (Health Canada)",
+    "PL": "Poland (URPL / GIF)", "RO": "Romania (ANMDMR)", "CA": "Canada (Health Canada)", "MT": "Malta (Medicines Authority)", "LU": "Luxembourg (Health Directorate)",
 }
 
 SUBJECTS = [

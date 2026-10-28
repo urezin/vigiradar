@@ -501,7 +501,7 @@ def radar_page():
 def robots():
     return ("User-agent: *\nAllow: /\nDisallow: /app\nDisallow: /api/\nDisallow: /admin/\n"
             "Disallow: /auth/\nDisallow: /billing/\nDisallow: /newsletter/preview\nDisallow: /embed/\n"
-            f"Sitemap: {_base()}/sitemap.xml\n")
+            f"Sitemap: {_base()}/sitemap.xml\nSitemap: {_base()}/news-sitemap.xml\n")
 
 
 @router.get("/sitemap.xml", include_in_schema=False)

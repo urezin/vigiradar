@@ -42,6 +42,8 @@ app.include_router(litmonitor_mod.router)
 app.include_router(news_pages_mod.router)
 from . import cp_email as cp_email_mod
 app.include_router(cp_email_mod.router)
+from . import indexnow as indexnow_mod
+app.include_router(indexnow_mod.router)
 app.include_router(portal_mod.router)
 app.include_router(catalysts_mod.router)
 
