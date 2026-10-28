@@ -1,5 +1,5 @@
 {
- "started": "2026-10-28T15:49:06Z",
+ "started": "2026-10-28T15:54:12Z",
  "results": {
   "ema_medicines": {
    "drugs": 2357,
@@ -17,24 +17,24 @@
     "Expired": 17,
     "Withdrawn from rolling review": 2
    },
-   "seconds": 8.7
+   "seconds": 4.1
   },
   "ema_referrals": {
    "milestones": 16,
-   "seconds": 0.1
+   "seconds": 0.5
   },
   "ema_dhpc": {
    "milestones": 22,
-   "seconds": 0.1
+   "seconds": 0.2
   },
   "ema_shortages": {
    "milestones": 32,
-   "seconds": 0.1
+   "seconds": 0.2
   },
   "fda_approvals": {
    "drugs": 153,
    "milestones": 153,
-   "seconds": 5.0
+   "seconds": 5.2
   },
   "fda_adcomm": {
    "notices": 8,
@@ -49,7 +49,7 @@
    "errors": [],
    "filings_with_dates": 203,
    "milestones": 93,
-   "seconds": 72.3
+   "seconds": 141.9
   }
  },
  "counts": {
@@ -83,73 +83,73 @@
     {
      "date": "2026-10-30",
      "title": "Inovio Pharmaceuticals, Inc.: PDUFA target action date",
-     "detail": "Inovio Pharmaceuticals, Inc. (INO); \"INOVIO Reports Second Quarter 2026 Financial Results and Recent Business Highlights \u2022 U.S. Food and Drug Administration (FDA) review of Biologics License Application (BLA) for INO-3107 as a treatment for Recurrent Respi\"; filed 2026-08-12",
+     "detail": "Inovio Pharmaceuticals, Inc. (INO); \"Food and Drug Administration (FDA) review of Biologics License Application (BLA) for INO-3107 as a treatment for Recurrent Respiratory Papillomatosis (RRP) advancing with a target Prescription Drug User Fee Act (PDUFA) date of October 30, 2026 \u2022 Commercial preparations advancing in anticipation of potential product launch for INO-3107 \u2022 Positive topline results\"; filed 2026-08-12",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1055726/000105572626000024/ino-63026x8kex991.htm"
     },
     {
      "date": "2026-11-01",
      "title": "Agios Pharmaceuticals, Inc.: PDUFA target action date",
-     "detail": "Agios Pharmaceuticals, Inc. (AGIO); \"EX-99.1 2 agio-73026xfyxex991earning.htm EX-99.1 Document Agios Reports Second Quarter 2026 Financial Results and Provides Business Update \u2022 Mitapivat (PYRUKYND\u00ae and AQVESME\u2122) delivered worldwide net revenues of $44.7 mi\"; filed 2026-07-30",
+     "detail": "Agios Pharmaceuticals, Inc. (AGIO); \"\u2026sNDA for mitapivat granted FDA Priority Review in sickle cell disease with PDUFA goal date of November 1, 2026 \u2022 Diversified and expanded late-stage pipeline with licensing of cevidoplenib for immune thrombocytopenia and advanceme\"; filed 2026-07-30",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922226000115/agio-73026xfyxex991earning.htm"
     },
     {
      "date": "2026-11-14",
      "title": "Summit Therapeutics Inc.: PDUFA target action date",
-     "detail": "Summit Therapeutics Inc. (SMMT); \"AstraZeneca Makes $2 Billion Strategic Equity Investment in Summit Therapeutics Investment in Preferred Shares Convertible to Common Equity, Equivalent to a Per-Share Price of Summit\u2019s Common Stock of $18.36, Representi\"; filed 2026-09-29",
+     "detail": "Summit Therapeutics Inc. (SMMT); \"Detailed results of the study were provided in September 2025, and a Biologics License Application (BLA) was submitted to the United States Food and Drug Administration (FDA) for marketing authorization, which the FDA accepted for filing in January 2026; the goal Prescription Drug User Fee Act (PDUFA) date is November 14, 2026.\"; filed 2026-09-29",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1599298/000119312526405776/d178892dex991.htm"
     },
     {
      "date": "2026-11-14",
      "title": "BioXcel Therapeutics, Inc.: PDUFA target action date",
-     "detail": "BioXcel Therapeutics, Inc. (BTAI); \"Exhibit 99.1 BioXcel Therapeutics Provides Business Update and Reports First Quarter 2026 Financial Results FDA accepted sNDA for IGALMI\u00ae use in at-home (outpatient) setting; set Nov. 14, 2026, as PDUFA date Advancing B\"; filed 2026-05-15",
+     "detail": "BioXcel Therapeutics, Inc. (BTAI); \"In the quarter ended on March 31, the FDA accepted the Company\u2019s supplemental New Drug Application (sNDA) for IGALMI\u00ae for at-home use in the acute treatment of agitation associated with bipolar disorders or schizophrenia and assigned a PDUFA target action date of November 14, 2026.\"; filed 2026-05-15",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1720893/000110465926061773/tm2614679d1_ex99-1.htm"
     },
     {
      "date": "2026-11-14",
      "title": "Cytokinetics Inc: PDUFA target action date",
-     "detail": "Cytokinetics Inc (CYTK); \"EX-99.1 2 cytk-ex99_1.htm EX-99.1 EX-99.1 Cytokinetics Reports First Quarter 2026 Financial Results and Provides Business Update U.S. Launch of MYQORZO \u00ae (aficamten) in Late January Met with Strong Demand; Over 275 HCPs\"; filed 2026-05-05",
+     "detail": "Cytokinetics Inc (CYTK); \"\u2026camten) in Late January Met with Strong Demand; Over 275 HCPs Prescribed MYQORZO to an estimated 680 Patients in Q1 ACACIA-HCM Met Dual Primary Endpoints of KCCQ and Maximal Exercise Performance; Full Results to be Presented at Upcoming Medical Congress MYQORZO Approved by the European Commission for Adults with Symptomatic Obstructive HCM; Supplemental NDA for MAPLE-HCM Accepted for Filing by FDA with PDUFA Date of November 14, 2026 Net Product Revenues for MYQORZO of $4.8 Million for Initial Partial Quarter; ~$1.\"; filed 2026-05-05",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1061983/000119312526206360/cytk-ex99_1.htm"
     },
     {
      "date": "2026-11-22",
      "title": "Capricor Therapeutics, Inc.: PDUFA target action date",
-     "detail": "Capricor Therapeutics, Inc. (CAPR); \"Capricor Therapeutics Announces Extension of PDUFA Target Action Date as FDA Continues Review of Deramiocel BLA\"; filed 2026-08-24",
+     "detail": "Capricor Therapeutics, Inc. (CAPR); \"Capricor Therapeutics Announces Extension of PDUFA Target Action Date as FDA Continues Review of Deramiocel BLA \u2013 New PDUFA target action date of November 22, 2026 follows submission of additional Phase 3 HOPE-3 data and analyses supporting a refined proposed indication\"; filed 2026-08-24",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1133869/000110465926100071/capr-20260824xex99d1.htm"
     },
     {
      "date": "2026-11-27",
      "title": "Royalty Pharma plc: PDUFA target action date",
-     "detail": "Royalty Pharma plc (RPRX); \"EX-99.1 2 rprx-20260630rpplcpressxre.htm EX-99.1 Document Press Release August 5, 2026 R oyalty Pharma reports second quarter 2026 results Portfolio Rece ipts growth o f 6% to $773 million ; Royalty Receipts growth of 14\"; filed 2026-08-05",
+     "detail": "Royalty Pharma plc (RPRX); \"In May 2026, Nuvalent announced the FDA accepted its NDA for neladalkib for filing and granted the application Priority Review with a Prescription Drug User Fee Act (PDUFA) date of November 27, 2026.\"; filed 2026-08-05",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1802768/000180276826000014/rprx-20260630rpplcpressxre.htm"
     },
     {
      "date": "2026-11-30",
      "title": "Cogent Biosciences, Inc.: PDUFA target action date",
-     "detail": "Cogent Biosciences, Inc. (COGT); \"Cogent Biosciences Reports Recent Business Highlights and Second Quarter 2026 Financial Results On track for potential approval of bezuclastinib for GIST patients (PDUFA November 30) and NonAdvSM patients (PDUFA Decembe\"; filed 2026-08-10",
+     "detail": "Cogent Biosciences, Inc. (COGT); \"\u2026Potential FDA approval of bezuclastinib in GIST \u2013 PDUFA date of November 30, 2026 \u2022 Potential FDA approval of bezuclastinib in NonAdvSM \u2013 PDUFA date of December 30, 2026 \u2022 Submit Investigational New Dr\"; filed 2026-08-10",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1622229/000119312526341315/cogt-ex99_1.htm"
     },
     {
      "date": "2026-11-30",
      "title": "Zai Lab Ltd: PDUFA target action date",
-     "detail": "Zai Lab Ltd (ZLAB); \"Zai Lab Announces Second Quarter 2026 Financial Results and Recent Corporate Updates\"; filed 2026-08-06",
+     "detail": "Zai Lab Ltd (ZLAB); \"\u2026Povetacicept (pove, APRIL/BAFF): In June 2026, Zai Lab partner Vertex announced that the FDA accepted its BLA submission for pove for accelerated approval in adults with immunoglobulin A nephropathy (IgAN), with a PDUFA target action date of November 30, 2026.\"; filed 2026-08-06",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1704292/000162828026053791/zlab-202686x8kex991.htm"
     },
     {
      "date": "2026-11-30",
      "title": "Vertex Pharmaceuticals Inc / Ma: PDUFA target action date",
-     "detail": "Vertex Pharmaceuticals Inc / Ma (VRTX); \"EX-99.1 2 ex-991_q22026.htm EX-99.1 Document Vertex Reports Second Quarter 2026 Financial Results\"; filed 2026-08-03",
+     "detail": "Vertex Pharmaceuticals Inc / Ma (VRTX); \"FDA accepted the BLA submission for accelerated approval of povetacicept for adults with IgAN and assigned a PDUFA target action date of November 30, 2026.\"; filed 2026-08-03",
      "source_url": "https://www.sec.gov/Archives/edgar/data/875320/000087532026000256/ex-991_q22026.htm"
     },
     {
      "date": "2026-12-03",
      "title": "Exelixis, Inc.: PDUFA target action date",
-     "detail": "Exelixis, Inc. (EXEL); \"Contacts: Chris Senner Chief Financial Officer Exelixis, Inc. 650-837-7240 csenner@exelixis.com Andrew Peters SVP, Strategy & Investor Relations Exelixis, Inc. 650-837-7248 apeters@exelixis.com Exelixis Announces Second\"; filed 2026-08-05",
+     "detail": "Exelixis, Inc. (EXEL); \"The FDA assigned a Prescription Drug User Fee Act (PDUFA) target action date of December 3, 2026.\"; filed 2026-08-05",
      "source_url": "https://www.sec.gov/Archives/edgar/data/939767/000093976726000096/exel20260630exhibit991.htm"
     },
     {
      "date": "2026-12-12",
      "title": "Vanda Pharmaceuticals Inc.: PDUFA target action date",
-     "detail": "Vanda Pharmaceuticals Inc. (VNDA); \"Vanda Pharmaceuticals Reports Second Quarter 2026 Financial Results \u2022 Fanapt \u00ae Q2 2026 net product sales increased 23% to $36.0 million; total prescriptions increased 31% \u2022 Full-year 2026 total revenue guidance of $240\"; filed 2026-08-05",
+     "detail": "Vanda Pharmaceuticals Inc. (VNDA); \"\u2026Quimilza TM (imsidolimab) BLA for GPP under review by the FDA; PDUFA target action date of December 12, 2026 \u2022 NEREUS\u2122 for prevention of vomiting induced by motion became commercially available in Q2 2026 \u2022 Results for three Pha\"; filed 2026-08-05",
      "source_url": "https://www.sec.gov/Archives/edgar/data/1347178/000162828026053308/vnda8-k852026exhibit991.htm"
     }
    ],
@@ -157,32 +157,32 @@
     {
      "date": "2027-05-27",
      "title": "Zenas BioPharma, Inc.: PDUFA target action date",
-     "detail": "Zenas BioPharma, Inc. (ZBIO); \"Exhibit 99.1 Zenas BioPharma Reports Second Quarter 2026 Financial Results and Provides Corporate Update\"; filed 2026-08-13"
+     "detail": "Zenas BioPharma, Inc. (ZBIO); \"Exhibit 99.1 Zenas BioPharma Reports Second Quarter 2026 Financial Results and Provides Corporate Update - Obexelimab BLA submission for the treatment of IgG4-RD accepted by FDA; PDUFA target action date of May 27, 2027 - - New study data confirm bioequivalence of obexelimab single-dose prefilled autoinjector pen compared to prefilled sy\"; filed 2026-08-13"
     },
     {
      "date": "2027-05-13",
      "title": "Bristol Myers Squibb Co: PDUFA target action date",
-     "detail": "Bristol Myers Squibb Co (BMY); \"Bristol Myers Squibb Reports Second Quarter Financial Results for 2026 and Raises Full-Year Outlook Strong Performance Underscores Growth Portfolio Momentum and Pipeline Progress \u2022 Second quarter revenues increased 6% (\"; filed 2026-07-30"
+     "detail": "Bristol Myers Squibb Co (BMY); \"mezigdomide July 13 The FDA accepted a New Drug Application for mezigdomide in combination with carfilzomib and dexamethasone (MeziKd) in patients with relapsed or refractory multiple myeloma (RRMM), granting a PDUFA date of May 13, 2027.\"; filed 2026-07-30"
     },
     {
      "date": "2027-05-01",
      "title": "Axsome Therapeutics, Inc.: PDUFA target action date",
-     "detail": "Axsome Therapeutics, Inc. (AXSM); \"Axsome Therapeutics Reports Second Quarter 2026 Financial Results and Provides Business Update Total 2Q 2026 net product revenue of $218.4 million, representing 46% year-over-year growth AUVELITY \u00ae 2Q 2026 net product sa\"; filed 2026-08-10"
+     "detail": "Axsome Therapeutics, Inc. (AXSM); \"\u2026ing 20% year-over-year growth SYMBRAVO \u00ae 2Q 2026 net product sales of $2.3 million AUVELITY launched for treatment of agitation associated with dementia due to Alzheimer\u2019s disease in June 2026 NDA submission for AXS-12 for cataplexy in narcolepsy accepted by the FDA with PDUFA target action date of May 1, 2027 FOCUS-2 and FOCUS-3 Phase 3 trials of solriamfetol in children and adolescents with ADHD initiated Company to host conference call today at 8:00 AM Eastern\"; filed 2026-08-10"
     },
     {
      "date": "2027-04-28",
      "title": "Immunome Inc.: PDUFA target action date",
-     "detail": "Immunome Inc. (IMNM); \"Immunome Reports Second Quarter 2026 Financial Results and Provides Business Update August 11, 2026 \u2022 Varegacestat PDUFA target action date set for April 28, 2027, following U.S. FDA acceptance of New Drug Application (\"; filed 2026-08-11"
+     "detail": "Immunome Inc. (IMNM); \"\u2026Varegacestat PDUFA target action date set for April 28, 2027, following U.S.\"; filed 2026-08-11"
     },
     {
      "date": "2027-04-23",
      "title": "Royalty Pharma plc: PDUFA target action date",
-     "detail": "Royalty Pharma plc (RPRX); \"EX-99.1 2 rprx-20260630rpplcpressxre.htm EX-99.1 Document Press Release August 5, 2026 R oyalty Pharma reports second quarter 2026 results Portfolio Rece ipts growth o f 6% to $773 million ; Royalty Receipts growth of 14\"; filed 2026-08-05"
+     "detail": "Royalty Pharma plc (RPRX); \"deucrictibant In July 2026, Pharvaris announced that the FDA accepted its NDA for deucrictibant immediate-release for the on-demand treatment of hereditary angioedema attacks and assigned a PDUFA date of April 23, 2027.\"; filed 2026-08-05"
     },
     {
      "date": "2027-04-14",
      "title": "Inhibrx Biosciences, Inc.: PDUFA target action date",
-     "detail": "Inhibrx Biosciences, Inc. (INBX); \"Inhibrx Reports Second Quarter 2026 Financial Results San Diego, CA, August 13, 2026\"; filed 2026-08-13"
+     "detail": "Inhibrx Biosciences, Inc. (INBX); \"Food and Drug Administration (FDA) accepted for filing the Company\u2019s biologics license application (BLA) for the potential approval of ozekibart in conventional chondrosarcoma and assigned a Prescription Drug User Fee Act (PDUFA) goal date of April 14, 2027.\"; filed 2026-08-13"
     }
    ]
   },
