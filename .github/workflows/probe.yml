@@ -1,0 +1,17 @@
+name: Agency feed probe (temporary)
+on:
+  push:
+    branches: [probe-agencies]
+permissions:
+  contents: write
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install httpx feedparser
+      - run: python3 probe/agencies.py
+      - run: |
+          git config user.name "probe-bot"; git config user.email "noreply@github.com"
+          git add -f probe/out5 && git commit -m "agency probe results [skip ci]" && git push
