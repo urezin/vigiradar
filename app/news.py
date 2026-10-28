@@ -134,11 +134,6 @@ BIZ_BEATS = {
     "industry": "Industry",
 }
 _BIZ_KW = {
-    "clinical-trials": ("clinical trial", "clinical-trial", "ctis", "ctr ", "regulation (eu) no 536/2014", "536/2014",
-                        "good clinical practice", "gcp", "e6(r3)", "ich e6", "investigator", "trial sponsor", "sponsors",
-                        "act eu", "decentralised", "decentralized", "informed consent", "ethics committee", "ide ",
-                        "investigational new drug", " ind ", "clinicaltrials.gov", "trial authorisation", "trial application",
-                        "first-in-human", "eu ct number", "cta ", "trial protocol"),
     "deals": ("acquire", "acquisition", "merger", "buyout", "takeover", "definitive agreement", "license agreement",
               "licensing deal", "licenses", "partnership", "collaboration", "deal", "upfront", "milestone payment",
               "divest", "spin-off", "spinoff", "joint venture", "option to", "royalty"),
