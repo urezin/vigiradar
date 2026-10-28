@@ -1,0 +1,332 @@
+{
+ "running": false,
+ "started": "2026-10-28T19:16:41.857135+00:00",
+ "finished": "2026-10-28T19:31:16.434183+00:00",
+ "result": {
+  "news": {
+   "sources": 62,
+   "fetched": 1259,
+   "new": 190,
+   "errors": [
+    {
+     "source": "ftc-competition",
+     "error": "Client error '404 Not Found' for url 'https://www.ftc.gov/feeds/press-release-competition.xml'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
+    },
+    {
+     "source": "ftc-consumer",
+     "error": "Client error '404 Not Found' for url 'https://www.ftc.gov/feeds/press-release-consumer-protection.xml'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
+    }
+   ],
+   "by_source": {
+    "ema-news": {
+     "fetched": 11,
+     "new": 0
+    },
+    "ema-reg-guideline": {
+     "fetched": 10,
+     "new": 0
+    },
+    "ema-scientific-guideline": {
+     "fetched": 6,
+     "new": 0
+    },
+    "ema-consultations": {
+     "fetched": 6,
+     "new": 0
+    },
+    "ema-fees": {
+     "fetched": 0,
+     "new": 0
+    },
+    "ema-inspections": {
+     "fetched": 4,
+     "new": 0
+    },
+    "hma-cmdh": {
+     "fetched": 7,
+     "new": 0
+    },
+    "hma-human": {
+     "fetched": 7,
+     "new": 0
+    },
+    "eurlex-oj-l": {
+     "fetched": 3,
+     "new": 0
+    },
+    "aifa": {
+     "fetched": 25,
+     "new": 0
+    },
+    "fda-press": {
+     "fetched": 20,
+     "new": 0
+    },
+    "fda-medwatch": {
+     "fetched": 20,
+     "new": 0
+    },
+    "mhra-news": {
+     "fetched": 20,
+     "new": 0
+    },
+    "mhra-dsu": {
+     "fetched": 50,
+     "new": 0
+    },
+    "mhra-alerts": {
+     "fetched": 50,
+     "new": 0
+    },
+    "ec-health": {
+     "fetched": 26,
+     "new": 0
+    },
+    "ansm": {
+     "fetched": 14,
+     "new": 0,
+     "scraper": true,
+     "verified": true
+    },
+    "aemps": {
+     "fetched": 13,
+     "new": 0,
+     "scraper": true,
+     "verified": true
+    },
+    "gba": {
+     "fetched": 0,
+     "new": 0
+    },
+    "has": {
+     "fetched": 0,
+     "new": 0
+    },
+    "who": {
+     "fetched": 65,
+     "new": 0
+    },
+    "doj": {
+     "fetched": 4,
+     "new": 0
+    },
+    "bfarm": {
+     "fetched": 20,
+     "new": 0
+    },
+    "sukl-cz": {
+     "fetched": 10,
+     "new": 0
+    },
+    "dkma": {
+     "fetched": 20,
+     "new": 0
+    },
+    "ravimiamet": {
+     "fetched": 100,
+     "new": 25
+    },
+    "fimea": {
+     "fetched": 50,
+     "new": 25
+    },
+    "bfarm-rhb": {
+     "fetched": 20,
+     "new": 0
+    },
+    "bfarm-fsn": {
+     "fetched": 20,
+     "new": 0
+    },
+    "pei-news": {
+     "fetched": 6,
+     "new": 0
+    },
+    "pei-safety": {
+     "fetched": 6,
+     "new": 0
+    },
+    "eof-news": {
+     "fetched": 10,
+     "new": 0
+    },
+    "eof-safety": {
+     "fetched": 10,
+     "new": 0
+    },
+    "eof-recalls": {
+     "fetched": 10,
+     "new": 0
+    },
+    "eof-device-recalls": {
+     "fetched": 10,
+     "new": 0
+    },
+    "nngyk": {
+     "fetched": 10,
+     "new": 0
+    },
+    "aifa-en": {
+     "fetched": 10,
+     "new": 0
+    },
+    "igj-warnings": {
+     "fetched": 20,
+     "new": 0
+    },
+    "igj-docs": {
+     "fetched": 20,
+     "new": 0
+    },
+    "sukl-sk": {
+     "fetched": 85,
+     "new": 25
+    },
+    "sukl-sk-recalls": {
+     "fetched": 32,
+     "new": 0
+    },
+    "jazmp": {
+     "fetched": 100,
+     "new": 25
+    },
+    "basg": {
+     "fetched": 51,
+     "new": 25
+    },
+    "ogyei-rss": {
+     "fetched": 0,
+     "new": 0
+    },
+    "infarmed-alerts": {
+     "fetched": 20,
+     "new": 20
+    },
+    "infarmed-news": {
+     "fetched": 20,
+     "new": 20
+    },
+    "infarmed-press": {
+     "fetched": 19,
+     "new": 19
+    },
+    "act-eu": {
+     "fetched": 29,
+     "new": 4
+    },
+    "ec-union-register": {
+     "fetched": 23,
+     "new": 0
+    },
+    "ema-new-medicines": {
+     "fetched": 6,
+     "new": 0
+    },
+    "fda-recalls": {
+     "fetched": 7,
+     "new": 0
+    },
+    "fda-drug-recalls": {
+     "fetched": 20,
+     "new": 0
+    },
+    "fda-cber": {
+     "fetched": 20,
+     "new": 2
+    },
+    "cms": {
+     "fetched": 10,
+     "new": 0
+    },
+    "gif-pl": {
+     "fetched": 10,
+     "seeded": 10,
+     "scraper": true
+    },
+    "mt-recalls": {
+     "fetched": 40,
+     "seeded": 40,
+     "scraper": true
+    },
+    "lu-sante": {
+     "fetched": 1,
+     "seeded": 1,
+     "scraper": true
+    },
+    "hhs-oig": {
+     "fetched": 21,
+     "seeded": 21,
+     "scraper": true
+    }
+   },
+   "total_in_store": 2199
+  },
+  "translate": {
+   "translated": 58,
+   "irrelevant": 42,
+   "errors": 0
+  },
+  "press_company": {
+   "ctgov": {
+    "studies": 30,
+    "new": 0,
+    "seconds": 0.3
+   },
+   "company": {
+    "error": "IntegrityError: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint \"portal_news_pkey\"\nDETAIL:  Key (id)=(2a92a3fc251f8d07f851) already exists.\n\n[SQL: INSERT INTO portal_news (id, kind, section, publisher, title, url, date, ingested_at) VALUES (%(id)s, %(kind)s, %(section)s, %(publisher)s, %(title)s, %(url)s, %(date)s, %(ingested_at)s)]\n[parameters: {'id': '2a92a3fc251f8d07f851', 'kind': 'skip', 'section': 'industry', 'publisher': 'Arcutis Biotherapeutics, Inc.', 'title': 'Arcut is Appoints Rob Scot t, MD to Board of Directors WESTLAKE VILLAGE, Calif., Oct . 28, 2026', 'url': 'https://www.sec.gov/Archives/edgar/data/1787306/000162828026067752/exhibit991prrobscottmdbo.htm', 'date': '2026-10-28', 'ingested_at': '2026-10-28T19:27:36.717317+00:00'}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)",
+    "seconds": 17.2
+   }
+  },
+  "guidelines_safety": {
+   "fda_guidance": {
+    "error": "HTTPStatusError: Client error '403 Forbidden' for url 'https://www.federalregister.gov/api/v1/documents.json?conditions%5Bagencies%5D%5B%5D=food-and-drug-administration&conditions%5Btype%5D%5B%5D=NOTICE&conditions%5Bterm%5D=guidance+availability&conditions%5Bpublication_date%5D%5Bgte%5D=2026-05-01&order=newest&per_page=200&fields%5B%5D=title&fields%5B%5D=publication_date&fields%5B%5D=html_url&fields%5B%5D=abstract&fields%5B%5D=document_number'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+    "seconds": 0.2
+   },
+   "ema_guidelines": {
+    "items": 22,
+    "new": 0,
+    "seconds": 0.4
+   },
+   "mhra_guidance": {
+    "items": 20,
+    "new": 0,
+    "seconds": 0.6
+   },
+   "ema_prac": {
+    "items": 538,
+    "kept": 33,
+    "new": 0,
+    "seconds": 0.9
+   },
+   "fda_recalls": {
+    "results": 70,
+    "new": 0,
+    "seconds": 0.6
+   },
+   "hc_alerts": {
+    "items": 3,
+    "new": 1,
+    "seconds": 0.1
+   }
+  },
+  "stories": {
+   "written": 26,
+   "skipped": 0,
+   "errors": 4,
+   "ai": true
+  },
+  "indexnow": {
+   "vigieye": {
+    "host": "vigi-eye.com",
+    "submitted": 59,
+    "status": 202
+   },
+   "compepharma": {
+    "host": "compepharma.com",
+    "submitted": 15,
+    "status": 202
+   }
+  }
+ },
+ "step": null
+}
