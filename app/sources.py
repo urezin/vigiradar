@@ -21,6 +21,7 @@ class Source:
     authority: str        # display name, e.g. "EMA", "EUR-Lex", "BfArM"
     feed_url: str
     default_subject: str   # fallback subject if the classifier is unsure
+    language: str = "en"   # non-English items get an English headline from the summariser
 
 
 # Real, current official feeds. EMA exposes ~20 topic feeds; we start with the
@@ -56,7 +57,7 @@ SOURCES: list[Source] = [
     # AIFA (IT): Liferay "Notizia" feed (Italian; the AI summariser handles IT).
     Source("aifa", "IT", "AIFA",
            "https://www.aifa.gov.it/o/feedrss/rss?structureId=93604&groupId=20142&companyId=20115&baseportalURL=https://www.aifa.gov.it&size=25&excludeCategoryId=104878&locale=it_IT",
-           "Signal management"),
+           "Signal management", "it"),
     # BfArM (DE): Government Site Builder press-release RSS (German).
     # United States — FDA official RSS feeds.
     Source("fda-press", "US", "FDA",
@@ -77,12 +78,11 @@ SOURCES: list[Source] = [
     Source("ec-health", "EU", "European Commission (DG SANTE)",
            "https://health.ec.europa.eu/node/2/rss_en", "Fees & guidance"),
     # National agencies with RSS
-    Source("ansm", "FR", "ANSM", "https://ansm.sante.fr/rss/actualites", "Signal management"),
-    Source("aemps", "ES", "AEMPS", "https://www.aemps.gob.es/feed/", "Shortages & recalls"),
+    Source("ansm", "FR", "ANSM", "https://ansm.sante.fr/rss/actualites", "Signal management", "fr"),
+    Source("aemps", "ES", "AEMPS", "https://www.aemps.gob.es/feed/", "Shortages & recalls", "es"),
     # HTA / market access bodies
-    Source("gba", "DE", "G-BA", "https://www.g-ba.de/service/rss/", "Market access"),
-    Source("has", "FR", "HAS", "https://www.has-sante.fr/jcms/fc_2875171/fr/rss", "Market access"),
-    Source("icer", "US", "ICER", "https://icer.org/feed/", "Market access"),
+    Source("gba", "DE", "G-BA", "https://www.g-ba.de/service/rss/", "Market access", "de"),
+    Source("has", "FR", "HAS", "https://www.has-sante.fr/jcms/fc_2875171/fr/rss", "Market access", "fr"),
     # Global
     Source("who", "INT", "WHO", "https://www.who.int/rss-feeds/news-english.xml", "Fees & guidance"),
     # Compliance / enforcement (filtered to health care below)
@@ -90,7 +90,69 @@ SOURCES: list[Source] = [
            "Compliance & enforcement"),
     Source("bfarm", "DE", "BfArM",
            "https://www.bfarm.de/SiteGlobals/Functions/RSSFeed/DE/Pressemitteilungen/RSSNewsfeed.xml",
-           "Signal management"),
+           "Signal management", "de"),
+    # --- National competent authorities (EU/EEA), official RSS feeds verified from a
+    # GitHub runner on 28 Oct 2026. Non-English titles get an English headline from the
+    # summariser; links always go to the agency's own page.
+    Source("sukl-cz", "CZ", "SÚKL", "https://sukl.gov.cz/feed/", "Shortages & recalls", "cs"),
+    Source("dkma", "DK", "DKMA", "https://laegemiddelstyrelsen.dk/da/Feeds/rss-feed", "Shortages & recalls", "da"),
+    Source("ravimiamet", "EE", "Ravimiamet", "https://www.ravimiamet.ee/rss-feeds/rss.xml", "Fees & guidance", "et"),
+    Source("fimea", "FI", "Fimea", "https://fimea.fi/en/current-events/-/asset_publisher/6Fp1W0OnZUR7/rss",
+           "Fees & guidance"),
+    Source("bfarm-rhb", "DE", "BfArM Rote-Hand-Brief",
+           "https://www.bfarm.de/SiteGlobals/Functions/RSSFeed/DE/Pharmakovigilanz/Rote-Hand-Briefe/RSSNewsfeed.xml?nn=591002",
+           "Signal management", "de"),
+    Source("bfarm-fsn", "DE", "BfArM field safety notices",
+           "https://www.bfarm.de/SiteGlobals/Functions/RSSFeed/EN/Kundeninfo/RSSNewsfeed.xml?nn=708434",
+           "Shortages & recalls"),
+    Source("pei-news", "DE", "Paul-Ehrlich-Institut",
+           "https://www.pei.de/SiteGlobals/Functions/RSSFeed/RSSGenerator_Aktuell.xml?nn=165890", "Fees & guidance", "de"),
+    Source("pei-safety", "DE", "Paul-Ehrlich-Institut",
+           "https://www.pei.de/SiteGlobals/Functions/RSSFeed/RSSGenerator_Sicherheitsinformationen.xml?nn=165890",
+           "Signal management", "de"),
+    Source("eof-news", "GR", "EOF", "https://www.eof.gr/category/farmaka/anakoinoseis-farmaka/feed/",
+           "Fees & guidance", "el"),
+    Source("eof-safety", "GR", "EOF", "https://www.eof.gr/category/anakoinoseis-asfaleias/feed/",
+           "Signal management", "el"),
+    Source("eof-recalls", "GR", "EOF",
+           "https://www.eof.gr/category/farmaka/anakliseis-farmakon-anthropinis-xrisis-farmaka/feed/",
+           "Shortages & recalls", "el"),
+    Source("eof-device-recalls", "GR", "EOF",
+           "https://www.eof.gr/category/iatrotexnologika/anakliseis-iatrotexnologikon-iatrotexnologika/feed/",
+           "Shortages & recalls", "el"),
+    Source("nngyk", "HU", "NNGYK", "https://nngyk.gov.hu/hu/tovabbi-hirek.html?format=feed&type=rss",
+           "Fees & guidance", "hu"),
+    Source("aifa-en", "IT", "AIFA",
+           "https://www.aifa.gov.it/o/feedrss/rss?structureId=93604&groupId=20142&companyId=20115&basePortalURL=https://www.aifa.gov.it&size=10&excludeCategoryId=104878&locale=en_US",
+           "Fees & guidance"),
+    Source("igj-warnings", "NL", "IGJ",
+           "https://www.igj.nl/api/rss?query=%7B%22filters%22%3A%5B%7B%22field%22%3A%22information_type%22%2C%22values%22%3A%5B%22Waarschuwing%22%5D%2C%22type%22%3A%22all%22%7D%5D%2C%22resultSearchTerm%22%3A%22%22%7D",
+           "Compliance & enforcement", "nl"),
+    Source("igj-docs", "NL", "IGJ", "https://toezichtdocumenten.igj.nl/api/rss", "Compliance & enforcement", "nl"),
+    Source("sukl-sk", "SK", "ŠÚKL", "https://www.sukl.sk/sk/rss?page_id=1355&days=365", "Fees & guidance", "sk"),
+    Source("sukl-sk-recalls", "SK", "ŠÚKL", "https://www.sukl.sk/sk/rss?page_id=1355&pid=208&days=365",
+           "Shortages & recalls", "sk"),
+    Source("jazmp", "SI", "JAZMP", "https://www.jazmp.si/feed", "Signal management", "sl"),
+    # --- EU institutions
+    Source("act-eu", "EU", "ACT EU", "https://accelerating-clinical-trials.europa.eu/node/2/rss_en",
+           "Clinical trials (CTR)"),
+    Source("ec-union-register", "EU", "European Commission (Union Register)",
+           "https://ec.europa.eu/health/documents/community-register/html/rss/rss_status_h.rss", "Fees & guidance"),
+    Source("ema-new-medicines", "EU", "EMA", "https://www.ema.europa.eu/en/new-human-medicine-new.xml",
+           "Fees & guidance"),
+    # --- United States
+    Source("fda-recalls", "US", "FDA recalls",
+           "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/recalls/rss.xml", "Shortages & recalls"),
+    Source("fda-drug-recalls", "US", "FDA CDER",
+           "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drug-recalls/rss.xml",
+           "Shortages & recalls"),
+    Source("fda-cber", "US", "FDA CBER",
+           "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/biologics/rss.xml", "Fees & guidance"),
+    Source("cms", "US", "CMS", "https://www.cms.gov/newsroom/rss-feeds", "Market access"),
+    Source("ftc-competition", "US", "FTC", "https://www.ftc.gov/feeds/press-release-competition.xml",
+           "Compliance & enforcement"),
+    Source("ftc-consumer", "US", "FTC", "https://www.ftc.gov/feeds/press-release-consumer-protection.xml",
+           "Compliance & enforcement"),
 ]
 
 # ---------------------------------------------------------------------------
@@ -131,8 +193,21 @@ _WHO_KEEP = ("medicine", "vaccin", "regulat", "prequalif", "safety", "antimicrob
              "substandard", "essential", "pharma", "drug", "health product", "biosimilar", "clinical trial")
 
 
+_HEALTH_KEEP = ("pharma", "drug", "medicin", "prescription", "generic", "biosimilar", "patent", "pbm",
+                "pharmacy benefit", "hospital", "health", "medical device", "insulin", "vaccin", "opioid",
+                "clinical", "fda", "biolog", "glp-1", "weight loss", "supplement", "telehealth")
+_FDA_FOOD = ("salad", "cheese", "snack", "chocolate", "cookie", "peanut", "almond", "milk", "flour", "sandwich",
+             "soup", "frozen", "beef", "chicken", "pork", "seafood", "fish", "sauce", "spice", "candy", "cereal",
+             "bakery", "bread", "ice cream", "juice", "tea ", "coffee", "nuts", "egg", "pet food", "dog", "cat ",
+             "undeclared", "listeria", "salmonella", "e. coli", "allergen")
+
+
 def feed_relevant(source_id: str, title: str, desc: str = "") -> bool:
     t = f"{title} {desc}".lower()
+    if source_id.startswith("ftc"):
+        return any(k in t for k in _HEALTH_KEEP)
+    if source_id == "fda-recalls":
+        return not any(k in t for k in _FDA_FOOD)
     if source_id.startswith("eurlex"):
         return eurlex_relevant(title, desc)
     if source_id == "doj":

@@ -36,6 +36,8 @@ Return ONLY a JSON object with exactly these keys:
 - "summary": 1-2 sentences in plain English stating what changed and why it matters. No preamble.
 - "subject": choose the single best fit from this list: {subjects}
 - "impact": one of "high", "med", "low" (high = urgent safety/PRAC/referral/restriction; low = fees/agendas/administrative).
+- "headline": if the title is not in English, a faithful English translation of the title (max 15 words, no added facts); otherwise "".
+- "relevant": false only if the item has nothing to do with medicines, medical devices, clinical trials, pharmacovigilance, quality/GMP, pricing/reimbursement or pharma compliance (e.g. food, cosmetics, staff news, building closures); otherwise true.
 
 JSON only, no markdown fences."""
 
@@ -77,7 +79,9 @@ def summarise_item(item: dict, default_subject: str = "") -> dict:
         if impact not in ("high", "med", "low"):
             impact = "med"
         summary = (data.get("summary") or "").strip() or item.get("title", "")
-        return {"summary": summary, "subject": subject, "impact": impact, "mode": "llm"}
+        headline = (data.get("headline") or "").strip()
+        return {"summary": summary, "subject": subject, "impact": impact, "mode": "llm",
+                "headline": headline[:200] if headline else "", "relevant": data.get("relevant", True) is not False}
     except Exception as e:  # any API/parse failure -> deterministic fallback
         log.warning("summarise fell back to heuristic: %s", e)
         return _fallback(item, default_subject)

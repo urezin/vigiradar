@@ -887,6 +887,9 @@ def _run_job(steps: list[str]):
                 _JOB["result"]["press_company"] = news_mod.run_all()
                 from . import guidelines as guide_mod
                 _JOB["result"]["guidelines_safety"] = guide_mod.run_all()
+                from . import stories as story_mod
+                _JOB["step"] = "stories"
+                _JOB["result"]["stories"] = story_mod.run(limit=30)
             elif s == "analyse":
                 _JOB["result"]["analyse"] = analyse_drugs(40)
             elif s == "week":

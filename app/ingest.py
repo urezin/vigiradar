@@ -62,13 +62,18 @@ def run_ingest(per_source: int = 15, only: list[str] | None = None) -> dict:
             if store.exists(item["id"]):
                 continue
             s = summarise.summarise_item(item, default_subject=src.default_subject)
+            if not s.get("relevant", True):
+                s["mode"] = "irrelevant"     # stored so it is not re-summarised, hidden by store.query
+            title = item["title"]
+            if s.get("headline") and s["headline"].lower() != title.lower():
+                title = f'{s["headline"]} ({src.authority})' if src.language != "en" else title
             store.upsert({
                 "id": item["id"],
                 "country": item["country"],
                 "authority": item["authority"],
                 "subject": s["subject"],
                 "impact": s["impact"],
-                "title": item["title"],
+                "title": title,
                 "summary": s["summary"],
                 "source_url": item["link"],
                 "published": item["published"],

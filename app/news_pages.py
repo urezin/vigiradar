@@ -32,13 +32,13 @@ from . import store
 router = APIRouter()
 _e, _fmt, _base = cal._e, cal._fmt, cal._base
 
-FLAG = {"EU": "🇪🇺", "US": "🇺🇸", "UK": "🇬🇧", "DE": "🇩🇪", "FR": "🇫🇷", "ES": "🇪🇸", "IT": "🇮🇹", "NL": "🇳🇱",
+FLAG = {"AT": "🇦🇹", "BE": "🇧🇪", "BG": "🇧🇬", "CZ": "🇨🇿", "DK": "🇩🇰", "EE": "🇪🇪", "FI": "🇫🇮", "GR": "🇬🇷", "HU": "🇭🇺", "PT": "🇵🇹", "SK": "🇸🇰", "SI": "🇸🇮", "PL": "🇵🇱", "RO": "🇷🇴", "CA": "🇨🇦", "INT": "🌐", "SE": "🇸🇪", "IE": "🇮🇪", "NL": "🇳🇱", "UK": "🇬🇧", "US": "🇺🇸", "EU": "🇪🇺", "US": "🇺🇸", "UK": "🇬🇧", "DE": "🇩🇪", "FR": "🇫🇷", "ES": "🇪🇸", "IT": "🇮🇹", "NL": "🇳🇱",
         "IE": "🇮🇪", "SE": "🇸🇪", "BE": "🇧🇪", "INT": "🌐", "CA": "🇨🇦"}
 SEC_COLOR = {"regulatory": "#0369a1", "clinical-trials": "#0e7490", "pharmacovigilance": "#be123c", "quality": "#b45309",
              "market-access": "#6d28d9", "industry": "#0f766e"}
 SEC_ABBR = {"regulatory": "REG", "clinical-trials": "CT", "pharmacovigilance": "PV", "quality": "QA", "market-access": "MA", "industry": "BIO"}
 _PRIORITY_PUB = ("ema", "fda", "mhra", "prac", "european commission", "hma", "cmdh", "who")
-ALL_KINDS = ("official", "notice", "guideline", "company", "press")
+ALL_KINDS = ("official", "notice", "guideline", "company")
 
 
 # --- the unified stream -----------------------------------------------------------------
@@ -90,11 +90,22 @@ def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60
     rows = []
     if "official" in kinds:
         rows += _official()
-    if any(k in kinds for k in ("company", "press", "notice", "guideline")):
-        rows += [r for r in _company_press() if r["kind"] in kinds]
+    if any(k in kinds for k in ("company", "notice", "guideline")):
+        rows += [r for r in _company_press() if r["kind"] in kinds and r["kind"] != "press"]
+    hm = _story_map()
+    if hm:
+        keep = []
+        for r in rows:
+            st = hm.get(_story_key(r))
+            if st and st["skip"]:
+                continue
+            if st and st["has_body"]:
+                r = {**r, "title": st["headline"], "summary": st["dek"] or r.get("summary"), "story": True}
+            keep.append(r)
+        rows = keep
     if section:
         rows = [r for r in rows if r["section"] == section]
-    rows.sort(key=lambda r: (r["date"], r["kind"] != "press", r["impact"] == "high"), reverse=True)
+    rows.sort(key=lambda r: (r["date"], bool(r.get("story")), r["impact"] == "high"), reverse=True)
     # the same notice often arrives through two feeds (e.g. MHRA news + MHRA alerts): keep one
     seen, out = set(), []
     for r in rows:
@@ -104,6 +115,27 @@ def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60
         seen.add(k)
         out.append(r)
     return out[offset: offset + limit]
+
+
+def _story_key(r: dict) -> str:
+    if r["kind"] == "official":
+        return f"u:{r.get('id')}"
+    return f"{'c' if r['kind'] == 'company' else 'n'}:{r.get('id')}"
+
+
+_SM_CACHE: dict = {"t": 0.0, "m": {}}
+
+
+def _story_map() -> dict:
+    import time as _t
+    if _t.time() - _SM_CACHE["t"] > 120:
+        try:
+            from . import stories as _st
+            _SM_CACHE["m"] = _st.headline_map()
+        except Exception:
+            _SM_CACHE["m"] = {}
+        _SM_CACHE["t"] = _t.time()
+    return _SM_CACHE["m"]
 
 
 def _real_summary(r: dict) -> bool:
@@ -127,8 +159,8 @@ def _section_extra(section: str | None) -> str:
                 + (f'<div class="box" style="margin-top:12px"><h2 style="font-size:13px;font-weight:900;letter-spacing:.08em;text-transform:uppercase">Key dates</h2><ul style="list-style:none">{cal_html}</ul></div>' if cal_html else "")
                 + '</section>')
     if trials:
-        li = "".join(f'<li style="padding:9px 0;border-bottom:1px solid var(--rule)"><a href="{_e(r["url"])}" target="_blank" rel="noopener" style="font-weight:700;color:var(--ink)">'
-                     f'{_e(r["title"].replace("New Phase 3 trial: ", ""))} ↗</a><div class="by">{_e(r.get("summary"))} · first posted {_e(_fmt(r["date"]))}</div></li>' for r in trials)
+        li = "".join(f'<li style="padding:9px 0;border-bottom:1px solid var(--rule)"><a href="/news/item/n/{_e(r["id"])}" style="font-weight:700;color:var(--ink)">'
+                     f'{_e(r["title"].replace("New Phase 3 trial: ", ""))}</a><div class="by">{_e(r.get("summary"))} · first posted {_e(_fmt(r["date"]))}</div></li>' for r in trials)
         out += (f'<section class="row" style="--c:#0e7490"><div class="row-h"><span style="color:#0e7490">Newly registered industry Phase 3 trials</span>'
                 f'<a href="https://clinicaltrials.gov" target="_blank" rel="noopener">ClinicalTrials.gov ↗</a></div><ul style="list-style:none">{li}</ul></section>')
     return out
@@ -155,11 +187,13 @@ def _href(r: dict) -> str:
         return f"/news/item/u/{r['id']}"
     if r["kind"] == "company":
         return f"/news/item/c/{r['id']}"
-    return r.get("url") or "#"
+    if r.get("id"):
+        return f"/news/item/n/{r['id']}"
+    return "#"
 
 
 def _is_ext(r: dict) -> bool:
-    return r["kind"] in ("press", "notice", "guideline")
+    return False          # every story opens on VigiEye; only the article page links the official source
 
 
 def _seed(r: dict) -> str:
@@ -353,10 +387,9 @@ def _coming_up(n: int = 8) -> str:
 def _sidebar(section: str | None = None, press: list[dict] | None = None) -> str:
     nl = (f'<section class="box nl-box"><h2>VigiEye Daily</h2><p>Regulatory, pharmacovigilance, quality and market-access news '
           f'with approvals and PDUFA dates, every weekday morning. Free.</p>{pp._newsletter_box("sidebar:" + (section or "home"))}</section>')
-    heads = ""
-    if press:
-        heads = (f'<section class="box"><h2>Industry headlines</h2><ul>{"".join(text_item(r) for r in press[:10])}</ul>'
-                 f'<p class="by">Links open the publisher. VigiEye does not reproduce their articles.</p></section>')
+    nat = [r for r in stream(kinds=("official",), limit=300) if r.get("country") not in ("EU", "US", "UK", "INT", "CA")][:8]
+    heads = (f'<section class="box"><h2>Across Europe</h2><ul>{"".join(text_item(r) for r in nat)}</ul>'
+             f'<p class="by">From the national medicines agencies, reported in English by VigiEye.</p></section>') if nat else ""
     from . import articles as _am
     return f'<aside class="side">{_am.ad_html("sidebar-" + (section or "home"))}{nl}{_coming_up()}{heads}</aside>'
 
@@ -532,7 +565,7 @@ def _section_front(section: str | None, page: int):
     base = f"/news/{section}" if section else "/news"
     pager = '<div class="pager">' + (f'<a class="btn ghost" href="{base}?page={page - 1}">← Newer</a>' if page > 1 else "") + \
             (f'<a class="btn ghost" href="{base}?page={page + 1}">Older →</a>' if more else "") + "</div>"
-    press = stream(kinds=("press",), limit=40)
+    press = []
     color = SEC_COLOR.get(section or "", "inherit")
     body = f"""{_ticker()}{_secbar(section or "")}<main class="wrap">
 <div class="mast"><div><h1 style="font-size:34px;color:{color}">{_e(title)}</h1><p>{_e(blurb)}</p></div>
@@ -559,6 +592,16 @@ def news_section(section: str, page: int = 1):
 
 # --- article pages --------------------------------------------------------------------------
 
+def _story_html(st: dict) -> str:
+    dek = f'<p class="detail" style="font-size:20px;color:var(--mut);font-style:italic">{_e(st.get("dek"))}</p>' if st.get("dek") else ""
+    body = "".join(f'<p style="font-size:18px;line-height:1.65;margin:0 0 16px">{_e(p)}</p>' for p in st["body"])
+    tk = st.get("takeaways") or []
+    tk_html = (f'<div class="box" style="margin:22px 0;border-left:4px solid var(--c,#0369a1)"><h2 style="font-size:13px;'
+               f'font-weight:900;letter-spacing:.08em;text-transform:uppercase">What it means for your team</h2><ul style="margin:8px 0 0 18px">'
+               + "".join(f'<li style="margin:6px 0">{_e(t)}</li>' for t in tk) + '</ul></div>') if tk else ""
+    return dek + body + tk_html
+
+
 @router.get("/news/item/{kind}/{nid}", response_class=HTMLResponse, include_in_schema=False)
 def news_item(kind: str, nid: str):
     if kind == "u":
@@ -573,28 +616,41 @@ def news_item(kind: str, nid: str):
         r = {"kind": "official", "id": u["id"], "section": nw.section_for_update(u), "publisher": u.get("authority"),
              "country": u.get("country"), "title": u["title"], "summary": u["summary"], "url": u.get("source_url"),
              "date": u.get("date"), "impact": u.get("impact"), "company": None, "ticker": None, "tags": None}
-    elif kind == "c":
+    elif kind in ("c", "n"):
         n = nw.get(nid)
-        if not n or n["kind"] != "company":
+        if not n or n["kind"] in ("press", "skip") or (kind == "c") != (n["kind"] == "company"):
             raise HTTPException(404)
-        r = {**n, "section": nw.norm_section(n.get("section")), "impact": "high"}
+        r = {**n, "section": nw.norm_section(n.get("section")), "impact": "high",
+             "title": _clean(n.get("title")), "summary": _clean(n.get("summary"))}
     else:
         raise HTTPException(404)
+    from . import stories as _st
+    from .official import safe_url
+    story = _st.get(_story_key(r)) if r.get("id") else None
+    if story and story.get("lang") == "skip":
+        story = None
+    if story and story.get("body"):
+        r = {**r, "title": story["headline"]}
     related = [x for x in stream(section=r["section"], limit=14) if x.get("id") != r.get("id")][:6]
-    src_label = "Read the official notice" if r["kind"] == "official" else "Read the company's press release (SEC filing)"
+    src_label = {"official": "Official source", "notice": "Official source", "guideline": "Official guideline text",
+                 "trial": "ClinicalTrials.gov record"}.get(r["kind"], "Company's press release (SEC filing)")
+    src_url = safe_url(r.get("url"))
     summary = r.get("summary") or ""
     note = ("Summary written by VigiEye from the official notice." if r["kind"] == "official" else
             "Brief written by VigiEye from the company's press release filed with the SEC. Claims are the company's own.")
-    if not summary:
-        note = "Headline as published. Open the source for details."
-    press = stream(kinds=("press",), limit=20)
+    if story and story.get("body"):
+        note = (f"Article written by VigiEye from the official source ({r.get('publisher')}). "
+                + ("Claims are the company's own. " if r["kind"] == "company" else ""))
+    elif not summary:
+        note = "Headline as published by the authority."
+    press = None
     body = f"""{_ticker()}{_secbar(r["section"])}<main class="wrap"><div class="body3"><article class="article" style="max-width:760px">
 <div style="margin-top:8px">{_label(r)}</div>
 <h1 style="font:800 36px/1.15 Georgia,'Times New Roman',serif;margin:8px 0 10px">{_e(r["title"])}</h1>
 {_meta(r)}
 <div style="margin:18px 0">{_thumb(r, "wide")}</div>
-{f'<p class="detail" style="font-size:18px">{_e(summary)}</p>' if summary else ""}
-<p style="margin-top:18px"><a class="btn" href="{_e(r.get("url"))}" target="_blank" rel="noopener">{_e(src_label)} ↗</a></p>
+{_story_html(story) if story and story.get("body") else (f'<p class="detail" style="font-size:18px">{_e(summary)}</p>' if summary else "")}
+{f'<p style="margin-top:18px"><a class="btn" href="{_e(src_url)}" target="_blank" rel="noopener">{_e(src_label)}: {_e(r.get("publisher"))} ↗</a></p>' if src_url else ""}
 <p class="note">{_e(note)} AI-assisted; check the source before acting.</p>
 <div class="row" style="--c:{SEC_COLOR.get(r["section"])}"><div class="row-h"><span>More {_e(nw.SECTIONS.get(r["section"], ""))}</span>
 <a href="/news/{r["section"]}">All →</a></div><div class="g4" style="grid-template-columns:repeat(3,minmax(0,1fr))">{"".join(grid_card(x) for x in related)}</div></div>
@@ -603,7 +659,7 @@ def news_item(kind: str, nid: str):
            "datePublished": r.get("date"), "description": summary[:300],
            "image": [f"{_base()}/thumb/{r['section']}/{_seed(r)}.svg"],
            "publisher": {"@type": "Organization", "name": "VigiEye", "url": _base() + "/"},
-           "isBasedOn": r.get("url"), "articleSection": nw.SECTIONS.get(r["section"], "")}]
+           "isBasedOn": src_url, "articleSection": nw.SECTIONS.get(r["section"], "")}]
     return _page(f"{r['title'][:90]} | VigiEye", (summary or r["title"])[:155], f"/news/item/{kind}/{nid}", body, ld)
 
 
@@ -882,8 +938,10 @@ def analysis_page(slug: str):
     secs = "".join(f'<h2>{_e(s.get("heading"))}</h2>' + "".join(f"<p>{_e(p)}</p>" for p in (s.get("paragraphs") or []))
                    for s in a.get("sections", []))
     take = "".join(f"<li>{_e(x)}</li>" for x in a.get("takeaways", []))
-    srcs = "".join(f'<li><a href="{_e(s.get("url"))}" target="_blank" rel="noopener">{_e(s.get("title"))}</a> '
-                   f'<span class="by">{_e(s.get("publisher"))} · {_e(_fmt(s.get("date", "")))}</span></li>' for s in a.get("sources", []))
+    from .official import is_official as _iso
+    srcs = "".join((f'<li><a href="{_e(s.get("url"))}" target="_blank" rel="noopener">{_e(s.get("title"))}</a> ' if _iso(s.get("url"))
+                    else f'<li>{_e(s.get("title"))} ')
+                   + f'<span class="by">{_e(s.get("publisher"))} · {_e(_fmt(s.get("date", "")))}</span></li>' for s in a.get("sources", []))
     more = [x for x in art_mod.list_articles(10) if x["slug"] != slug][:3]
     label = "Opinion · VigiEye View" if t == "opinion" else "Analysis"
     body = f"""<style>{_ACSS}</style>{_ticker()}{_secbar(a.get("section"))}<main class="wrap"><div class="body3"><article class="article" style="max-width:760px">
@@ -900,7 +958,7 @@ def analysis_page(slug: str):
 (model {_e(a.get("model"))}) strictly from the official records listed above. It can contain errors: check the sources before acting.
 Not legal, medical or investment advice.</p>
 {f'<div class="row"><div class="row-h"><span>More analysis &amp; opinion</span><a href="/analysis">All →</a></div><div class="feat">{"".join(article_card(x) for x in more)}</div></div>' if more else ""}
-</article>{_sidebar(a.get("section"), stream(kinds=("press",), limit=20))}</div></main>"""
+</article>{_sidebar(a.get("section"), None)}</div></main>"""
     ld = [{"@context": "https://schema.org", "@type": "OpinionNewsArticle" if t == "opinion" else "AnalysisNewsArticle",
            "headline": a["title"][:110], "description": a.get("dek", ""), "datePublished": a.get("date"),
            "author": {"@type": "Organization", "name": "VigiEye editorial"},
@@ -912,9 +970,38 @@ Not legal, medical or investment advice.</p>
 
 # --- data feed for CompePharma (pharma business portal) --------------------------------------------
 
+@router.get("/api/story/{kind}/{nid}", include_in_schema=False)
+def api_story(kind: str, nid: str):
+    """The VigiEye-written article for one item (used by CompePharma story pages)."""
+    from . import stories as _st
+    from .official import safe_url
+    k = {"u": "u", "o": "u", "c": "c", "n": "n"}.get(kind)
+    st = _st.get(f"{k}:{nid}") if k else None
+    if k == "u":
+        try:
+            store.init()
+            raw = store.get_update(nid)
+        except Exception:
+            raw = None
+        src, pub = (raw or {}).get("source_url"), (raw or {}).get("authority")
+    else:
+        raw = nw.get(nid) if k else None
+        src, pub = (raw or {}).get("url"), (raw or {}).get("publisher")
+    if not raw:
+        raise HTTPException(404)
+    ok = bool(st and st.get("body") and st.get("lang") != "skip")
+    out = {"headline": st["headline"] if ok else _clean(raw.get("title")), "dek": st.get("dek") if ok else "",
+           "body": st["body"] if ok else [], "takeaways": st.get("takeaways") if ok else [],
+           "summary": _clean(raw.get("summary")), "publisher": pub, "source_url": safe_url(src),
+           "vigieye_url": f"{_base()}/news/item/{k}/{nid}"}
+    return Response(json.dumps(out, ensure_ascii=False), media_type="application/json",
+                    headers={"Cache-Control": "public, max-age=900", "Access-Control-Allow-Origin": "*"})
+
+
 @router.get("/api/business-news", include_in_schema=False)
 def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
-    """Pharma business stream for CompePharma: company releases, trade-press headlines, approvals,
+    from .official import safe_url
+    """Pharma business stream for CompePharma: company releases (SEC filings), approvals,
     recalls/warning letters and enforcement, each tagged with a business beat."""
     since = (date.today() - timedelta(days=max(1, min(days, 120)))).isoformat()
     rows = [r for r in stream(limit=1500) if r["date"] >= since]
@@ -949,8 +1036,8 @@ def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
                      "summary": (r.get("summary") if r["kind"] in ("company", "official", "notice") and _real_summary(r)
                                  else (r.get("summary") or "") if r["kind"] == "approval" else ""),
                      "publisher": r.get("publisher"), "country": r.get("country"), "ticker": r.get("ticker"),
-                     "date": r["date"], "source_url": r.get("url"),
-                     "vigieye_url": r.get("_href") or ((_base() + _href(r)) if r["kind"] in ("official", "company") else None),
+                     "date": r["date"], "source_url": safe_url(r.get("url")),
+                     "vigieye_url": r.get("_href") or (_base() + _href(r)),
                      "score": round(_score(r) if r["kind"] != "approval" else 6.0, 2)})
         if len(keep) >= max(1, min(limit, 400)):
             break

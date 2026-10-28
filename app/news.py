@@ -508,7 +508,15 @@ def get(nid: str) -> dict | None:
 
 def run_all() -> dict:
     out = {}
-    for name, fn in (("press", ingest_press), ("ispor", ingest_ispor), ("ctgov", ingest_ctgov), ("company", ingest_company)):
+    # Trade press and ISPOR are no longer ingested or shown (owner's rule: VigiEye writes every story itself and
+    # links only official sources). Existing rows are retired.
+    try:
+        from sqlalchemy import update as _upd
+        with store._engine.begin() as c:
+            c.execute(_upd(news).where(news.c.kind == "press").values(kind="skip"))
+    except Exception:
+        log.exception("retiring press rows failed")
+    for name, fn in (("ctgov", ingest_ctgov), ("company", ingest_company)):
         t0 = time.time()
         try:
             out[name] = fn()

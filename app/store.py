@@ -146,6 +146,7 @@ def query(country: str | None = None, subject: str | None = None,
         stmt = stmt.where(updates.c.subject == subject)
     if impact:
         stmt = stmt.where(updates.c.impact == impact)
+    stmt = stmt.where((updates.c.mode.is_(None)) | (updates.c.mode != "irrelevant"))
     stmt = stmt.order_by(updates.c.date.desc(), updates.c.ingested_at.desc()).limit(limit)
     with _engine.connect() as c:
         return [dict(r._mapping) for r in c.execute(stmt)]

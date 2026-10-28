@@ -65,7 +65,10 @@ def load_events() -> list[dict]:
         raw = []
     today = date.today()
     out, seen = [], set()
+    from .official import is_official
     for r in raw:
+        if r.get("source_url") and not is_official(r["source_url"]):
+            r = {**r, "source_url": ""}       # only official sources are linked (e.g. ISPOR dates shown unlinked)
         try:
             d = date.fromisoformat(r["date"])
         except Exception:
@@ -541,7 +544,7 @@ def event_page(slug: str):
 <span class="chip {_e(ev['impact'])}">{_e(IMPACT_LABEL[ev['impact']])}</span> {_countdown(ev)}</div>
 <dl class="meta"><dt>Date</dt><dd>{_e(when)}</dd><dt>Body</dt><dd>{_e(ev.get('body'))}</dd>
 <dt>Scope</dt><dd>{_e(ev.get('country') or 'EU')}</dd><dt>Subject</dt><dd>{_e(ev.get('subject'))}</dd>
-<dt>Official source</dt><dd><a href="{_e(ev.get('source_url'))}" rel="noopener" target="_blank">{_e(_host(ev.get('source_url','')))}</a></dd></dl>
+<dt>Official source</dt><dd>{f'<a href="{_e(ev.get("source_url"))}" rel="noopener" target="_blank">{_e(_host(ev.get("source_url","")))}</a>' if ev.get("source_url") else _e(ev.get("body") or "Organiser")}</dd></dl>
 <p class="detail">{_e(ev.get('detail'))}</p>
 <p style="margin-top:16px"><a class="btn ghost" href="{_e(gcal)}" target="_blank" rel="noopener">Add to Google Calendar</a>
  <a class="btn ghost" href="/calendar.ics">Subscribe to all dates (iCal)</a></p>

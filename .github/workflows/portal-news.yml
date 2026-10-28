@@ -1,8 +1,8 @@
 name: News refresh every 2 hours
 
 # Keeps VigiEye and CompePharma current without anyone touching them:
-#  - every 2 hours: regulator/agency feeds, trade headlines, SEC company releases,
-#    guidelines, PRAC/recall notices, ClinicalTrials.gov (step "news")
+#  - every 2 hours: regulator and national agency feeds, SEC company releases,
+#    guidelines, PRAC/recall notices, ClinicalTrials.gov, then VigiEye writes the stories (step "news")
 #  - then warms CompePharma so its 10-minute cache picks up the new stories
 # The heavier daily job (EMA/FDA/SEC data, analyses, articles, email) is portal-daily.yml.
 
