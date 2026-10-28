@@ -1,0 +1,21 @@
+name: News selftest (temporary)
+on:
+  push:
+    branches: [probe-news]
+permissions:
+  contents: write
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q -r requirements.txt
+      - run: python tools/portal_selftest.py
+        env: {SELFTEST_NEWS: "1"}
+      - run: |
+          git config user.name "probe-bot"; git config user.email "noreply@github.com"
+          cp selftest.db probe/out2/selftest.db
+          git add -f probe/out2 && git commit -m "news selftest results [skip ci]" && git push
