@@ -1,9 +1,607 @@
 {
  "at_news": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.basg.gv.at/marktbeobachtung/amtliche-nachrichten",
+  "len": 205321,
+  "links": [
+   [
+    "#nav-main",
+    "Navigation (Accesskey 1)"
+   ],
+   [
+    "/marktbeobachtung/oeffentliche-register/medikamente-info-austria",
+    "Medikamente Info Austria"
+   ],
+   [
+    "https://aspregister.basg.gv.at/",
+    "Arzneispezialitätenregister open_in_new"
+   ],
+   [
+    "https://medicineshortage.basg.gv.at/vertriebseinschraenkungen",
+    "Vertriebseinschränkungen open_in_new"
+   ],
+   [
+    "https://medicineshortage.basg.gv.at/parallelexportverbot",
+    "Liste gemäß Verordnung über die Sicherstellung der Arzneimittelversorgung open_in_new"
+   ],
+   [
+    "https://verlautbarung.basg.gv.at/verlautbarung",
+    "BASG-Verlautbarungen open_in_new"
+   ],
+   [
+    "https://abstimmungen.basg.gv.at/abstimmung",
+    "BASG-Abstimmungen open_in_new"
+   ],
+   [
+    "/marktbeobachtung/meldewesen/nebenwirkungsmeldung-human",
+    "Nebenwirkungsmeldung human"
+   ],
+   [
+    "/marktbeobachtung/meldewesen/nebenwirkungsmeldung-veterinaer",
+    "Nebenwirkungsmeldung veterinär"
+   ],
+   [
+    "/marktbeobachtung/meldewesen/vertriebseinschraenkungen",
+    "Vertriebseinschränkungen"
+   ],
+   [
+    "/marktbeobachtung/meldewesen/medizinprodukte-meldungen",
+    "Medizinprodukte Meldungen"
+   ],
+   [
+    "/konsumentinnen/wissenswertes-ueber-arzneimittel",
+    "Wissenswertes über Arzneimittel"
+   ],
+   [
+    "/konsumentinnen/wissenswertes-ueber-arzneimittel/kinder-und-arzneimittel",
+    "Kinder und Arzneimittel"
+   ],
+   [
+    "/konsumentinnen/arzneimittel-im-internet/fernabsatz",
+    "Arzneimittel im Internet/Fernabsatz"
+   ],
+   [
+    "/konsumentinnen/arzneimittel-im-internet/fernabsatz/medikamentenkauf-auf-illegalen-webseiten",
+    "Medikamentenkauf auf illegalen Webseiten"
+   ],
+   [
+    "/konsumentinnen/illegaler-markt/serialisierung-und-verifizierung",
+    "Serialisierung und Verifizierung"
+   ],
+   [
+    "/konsumentinnen/illegaler-markt/raubverlage-und-ihre-auswirkungen",
+    "Raubverlage und ihre Auswirkungen"
+   ],
+   [
+    "/gesundheitsberufe/vertriebseinschraenkungsinfo-msc",
+    "Vertriebseinschränkungsinfo (MSC)"
+   ],
+   [
+    "/gesundheitsberufe/klinische-studien/klinische-pruefungen-von-arzneimitteln",
+    "Klinische Prüfungen von Arzneimitteln"
+   ],
+   [
+    "/gesundheitsberufe/klinische-studien/klinische-pruefung-medizinprodukte",
+    "Klinische Prüfungen von Medizinprodukten und Leistungsstudien von IVDs"
+   ],
+   [
+    "/gesundheitsberufe/klinische-studien/nicht-interventionelle-studien-nis",
+    "Nicht-interventionelle Studien (NIS)"
+   ],
+   [
+    "/fuer-unternehmen/arzneimittel-informationen/compassionate-use-1",
+    "Compassionate Use und Heilversuch/Named Patient Use"
+   ],
+   [
+    "/gesundheitsberufe/blut-und-gewebe",
+    "Blut- und Gewebesicherheit"
+   ],
+   [
+    "/gesundheitsberufe/blutsicherheit/bewilligung-und-inspektion-von-blutspendeeinrichtungen-1",
+    "Bewilligung und Inspektion von Blutspendeeinrichtungen"
+   ],
+   [
+    "/gesundheitsberufe/gewebesicherheit/zertifizierung-bewilligung-und-inspektion-von-gewebeeinrichtungen-1",
+    "Zertifizierung, Bewilligung und Inspektion von Gewebeeinrichtungen"
+   ],
+   [
+    "/gesundheitsberufe/medizinproduktebetreiber",
+    "Medizinproduktebetreiber"
+   ],
+   [
+    "/gesundheitsberufe/selbstbewertung-von-apothekenbetrieben",
+    "Selbstbewertung von Apothekenbetrieben"
+   ],
+   [
+    "/gesundheitsberufe/oesterreichisches-arzneibuch",
+    "Österreichisches Arzneibuch"
+   ],
+   [
+    "/gesundheitsberufe/chmp-meeting-highlights-basg",
+    "CHMP Meeting Highlights-BASG"
+   ],
+   [
+    "/gesundheitsberufe/das-chmp-stellt-sich-vor",
+    "Das CHMP stellt sich vor"
+   ],
+   [
+    "https://eservices.basg.gv.at/",
+    "Login Online Services open_in_new"
+   ],
+   [
+    "https://nebenwirkung.basg.gv.at/",
+    "Online-Nebenwirkungsmeldung open_in_new"
+   ],
+   [
+    "https://kundenregistrierung.basg.gv.at/",
+    "Registrierung Online Services open_in_new"
+   ],
+   [
+    "/fuer-unternehmen/online-service/veterinaer-antibiotika-mengenstromanalyse",
+    "Veterinär Antibiotika Mengenstromanalyse"
+   ],
+   [
+    "/fuer-unternehmen/datenbereitstellung-vertriebseinschraenkungen",
+    "Datenbereitstellung Vertriebseinschränkungen"
+   ],
+   [
+    "/fuer-unternehmen/online-service/antrag-auf-infrastruktursicherungsbeitrag-isb",
+    "Antrag auf Infrastruktursicherungsbeitrag (ISB)"
+   ],
+   [
+    "/fuer-unternehmen/online-service/antrag-auf-entschaedigung-der-mehrkosten-durch-die-bevorratung",
+    "Antrag auf Entschädigung der Mehrkosten durch die Bevorratung"
+   ],
+   [
+    "/fuer-unternehmen/zulassung-life-cycle/elektronische-einreichung",
+    "Elektronische Einreichung"
+   ],
+   [
+    "/fuer-unternehmen/zulassung-life-cycle/elektronische-einreichung/faq-elektronische-einreichung",
+    "FAQ Elektronische Einreichung"
+   ],
+   [
+    "/fuer-unternehmen/zulassung-life-cycle/kommissionsentscheidungen",
+    "Kommissionsentscheidungen"
+   ],
+   [
+    "/fuer-unternehmen/zulassung-life-cycle/veterinaerarzneispezialitaeten",
+    "Veterinärarzneispezialitäten"
+   ],
+   [
+    "/fuer-unternehmen/zulassung-life-cycle/faq-zulassung-life-cycle",
+    "FAQ Zulassung & Life-Cycle"
+   ],
+   [
+    "/fuer-unternehmen/pharmakovigilanz/pharmakovigilanz-inspektion",
+    "Pharmakovigilanz-Inspektion"
+   ],
+   [
+    "/fuer-unternehmen/pharmakovigilanz/leitfaeden",
+    "Leitfaden Pharmakovigilanz"
+   ],
+   [
+    "/fuer-unternehmen/arzneimittel-informationen",
+    "Arzneimittel Informationen"
+   ],
+   [
+    "/fuer-unternehmen/arzneimittel-informationen/beratung-durch-das-basg",
+    "Beratung durch das BASG"
+   ],
+   [
+    "/fuer-unternehmen/arzneimittel-informationen/arzneimittel-fuer-seltene-erkrankungen-orphan",
+    "Arzneimittel für seltene Erkrankungen"
+   ],
+   [
+    "/fuer-unternehmen/arzneimittel-informationen/informationsbeauftragte",
+    "Informationsbeauftragte"
+   ],
+   [
+    "/fuer-unternehmen/arzneiwaren-ein-und-ausfuhr",
+    "Arzneiwaren Ein- und Ausfuhr"
+   ],
+   [
+    "/fuer-unternehmen/medizinprodukte/hersteller",
+    "Hersteller und Bevollmächtigte"
+   ],
+   [
+    "/fuer-unternehmen/medizinprodukte/freiverkaufszertifikate",
+    "Freiverkaufszertifikate"
+   ],
+   [
+    "/fuer-unternehmen/medizinprodukte/exportbestaetigung-fuer-nicht-medizinprodukte",
+    "Exportbestätigung für Nicht-Medizinprodukte"
+   ],
+   [
+    "/fuer-unternehmen/medizinprodukte/registrierung-als-aktor-in-eudamed",
+    "Registrierung als Aktor in EUDAMED"
+   ],
+   [
+    "/fuer-unternehmen/bewilligung-und-zertifizierung",
+    "Bewilligung und Zertifizierung"
+   ],
+   [
+    "/fuer-unternehmen/bewilligung-und-zertifizierung/gute-herstellungs-/-vertriebspraxis-gmp/gdp",
+    "Gute Herstellungs- / Vertriebspraxis"
+   ],
+   [
+    "/fuer-unternehmen/bewilligung-und-zertifizierung/inspektionen-computergestuetzter-systeme-cgs",
+    "Inspektionen Computergestützter Systeme (CGS)"
+   ],
+   [
+    "/fuer-unternehmen/abgrenzung/gutachten-des-abgrenzungsbeirates",
+    "Gutachten des Abgrenzungsbeirates (AGBR)"
+   ],
+   [
+    "/marktbeobachtung/amtliche-nachrichten/detail/dengue-frankreich-4",
+    "Update: Dengue - Frankreich und Überseegebiete"
+   ],
+   [
+    "/marktbeobachtung/amtliche-nachrichten/detail/west-nil-virus-wnv-serbien-5",
+    "Update: West Nil Virus (WNV) – Serbien"
+   ],
+   [
+    "/marktbeobachtung/amtliche-nachrichten/detail/west-nil-virus-wnv-niederlande",
+    "Update: West Nil Virus (WNV) - Niederlande"
+   ],
+   [
+    "/marktbeobachtung/amtliche-nachrichten/detail/maxi-kalz-vitd3-500-mg-400-ie-kautabletten",
+    "Maxi-Kalz Vit.D3 500 mg/400 I.E. - Kautabletten"
+   ],
+   [
+    "/marktbeobachtung/amtliche-nachrichten/detail/west-nil-virus-wnv-frankreich-2",
+    "Update: West Nil Virus (WNV) – Frankreich"
+   ],
+   [
+    "/marktbeobachtung/amtliche-nachrichten/detail/west-nil-virus-wnv-oesterreich-1",
+    "Update: West Nil Virus (WNV) - Österreich"
+   ],
+   [
+    "/marktbeobachtung/amtliche-nachrichten/detail/runder-tisch-zu-freiverkaufszertifikaten-fuer-medizinprodukte",
+    "Runder Tisch zu Freiverkaufszertifikaten für Medizinprodukte"
+   ],
+   [
+    "/marktbeobachtung/amtliche-nachrichten/detail/chikungunya-frankreich-1",
+    "Update: Chikungunya-Frankreich"
+   ],
+   [
+    "/marktbeobachtung/amtliche-nachrichten/detail/heparin-gilvasan-1000-ie-ml-injektions-infusionsloesung-1",
+    "Heparin Gilvasan 1000 IE/ml - Injektions-/Infusionslösung"
+   ],
+   [
+    "/marktbeobachtung/amtliche-nachrichten/detail/dengue-italien-3",
+    "Update: Dengue – Italien"
+   ],
+   [
+    "/marktbeobachtung/meldewesen/vertriebseinschraenkungen",
+    "Vertriebseinschränkungen"
+   ],
+   [
+    "/gesundheitsberufe/sicherheitsinformationen-dhpc",
+    "Sicherheitsinformationen (DHPC)"
+   ],
+   [
+    "/gesundheitsberufe/oesterreichisches-arzneibuch",
+    "Österreichisches Arzneibuch"
+   ]
+  ],
+  "feeds": [
+   "/whatsnew/rss"
+  ],
+  "dates": [
+   "2006-01-01",
+   "2026-10-28",
+   "27.10.2026",
+   "27.10.2026",
+   "27.10.2026",
+   "23.10.2026",
+   "23.10.2026",
+   "22.10.2026",
+   "22.10.2026",
+   "20.10.2026"
+  ]
  },
  "at_dhpc": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.basg.gv.at/gesundheitsberufe/sicherheitsinformationen-dhpc",
+  "len": 204654,
+  "links": [
+   [
+    "#nav-main",
+    "Navigation (Accesskey 1)"
+   ],
+   [
+    "/marktbeobachtung/oeffentliche-register/medikamente-info-austria",
+    "Medikamente Info Austria"
+   ],
+   [
+    "https://aspregister.basg.gv.at/",
+    "Arzneispezialitätenregister open_in_new"
+   ],
+   [
+    "https://medicineshortage.basg.gv.at/vertriebseinschraenkungen",
+    "Vertriebseinschränkungen open_in_new"
+   ],
+   [
+    "https://medicineshortage.basg.gv.at/parallelexportverbot",
+    "Liste gemäß Verordnung über die Sicherstellung der Arzneimittelversorgung open_in_new"
+   ],
+   [
+    "https://verlautbarung.basg.gv.at/verlautbarung",
+    "BASG-Verlautbarungen open_in_new"
+   ],
+   [
+    "https://abstimmungen.basg.gv.at/abstimmung",
+    "BASG-Abstimmungen open_in_new"
+   ],
+   [
+    "/marktbeobachtung/meldewesen/nebenwirkungsmeldung-human",
+    "Nebenwirkungsmeldung human"
+   ],
+   [
+    "/marktbeobachtung/meldewesen/nebenwirkungsmeldung-veterinaer",
+    "Nebenwirkungsmeldung veterinär"
+   ],
+   [
+    "/marktbeobachtung/meldewesen/vertriebseinschraenkungen",
+    "Vertriebseinschränkungen"
+   ],
+   [
+    "/marktbeobachtung/meldewesen/medizinprodukte-meldungen",
+    "Medizinprodukte Meldungen"
+   ],
+   [
+    "/konsumentinnen/wissenswertes-ueber-arzneimittel",
+    "Wissenswertes über Arzneimittel"
+   ],
+   [
+    "/konsumentinnen/wissenswertes-ueber-arzneimittel/kinder-und-arzneimittel",
+    "Kinder und Arzneimittel"
+   ],
+   [
+    "/konsumentinnen/arzneimittel-im-internet/fernabsatz",
+    "Arzneimittel im Internet/Fernabsatz"
+   ],
+   [
+    "/konsumentinnen/arzneimittel-im-internet/fernabsatz/medikamentenkauf-auf-illegalen-webseiten",
+    "Medikamentenkauf auf illegalen Webseiten"
+   ],
+   [
+    "/konsumentinnen/illegaler-markt/serialisierung-und-verifizierung",
+    "Serialisierung und Verifizierung"
+   ],
+   [
+    "/konsumentinnen/illegaler-markt/raubverlage-und-ihre-auswirkungen",
+    "Raubverlage und ihre Auswirkungen"
+   ],
+   [
+    "/gesundheitsberufe/vertriebseinschraenkungsinfo-msc",
+    "Vertriebseinschränkungsinfo (MSC)"
+   ],
+   [
+    "/gesundheitsberufe/klinische-studien/klinische-pruefungen-von-arzneimitteln",
+    "Klinische Prüfungen von Arzneimitteln"
+   ],
+   [
+    "/gesundheitsberufe/klinische-studien/klinische-pruefung-medizinprodukte",
+    "Klinische Prüfungen von Medizinprodukten und Leistungsstudien von IVDs"
+   ],
+   [
+    "/gesundheitsberufe/klinische-studien/nicht-interventionelle-studien-nis",
+    "Nicht-interventionelle Studien (NIS)"
+   ],
+   [
+    "/fuer-unternehmen/arzneimittel-informationen/compassionate-use-1",
+    "Compassionate Use und Heilversuch/Named Patient Use"
+   ],
+   [
+    "/gesundheitsberufe/blut-und-gewebe",
+    "Blut- und Gewebesicherheit"
+   ],
+   [
+    "/gesundheitsberufe/blutsicherheit/bewilligung-und-inspektion-von-blutspendeeinrichtungen-1",
+    "Bewilligung und Inspektion von Blutspendeeinrichtungen"
+   ],
+   [
+    "/gesundheitsberufe/gewebesicherheit/zertifizierung-bewilligung-und-inspektion-von-gewebeeinrichtungen-1",
+    "Zertifizierung, Bewilligung und Inspektion von Gewebeeinrichtungen"
+   ],
+   [
+    "/gesundheitsberufe/medizinproduktebetreiber",
+    "Medizinproduktebetreiber"
+   ],
+   [
+    "/gesundheitsberufe/selbstbewertung-von-apothekenbetrieben",
+    "Selbstbewertung von Apothekenbetrieben"
+   ],
+   [
+    "/gesundheitsberufe/oesterreichisches-arzneibuch",
+    "Österreichisches Arzneibuch"
+   ],
+   [
+    "/gesundheitsberufe/chmp-meeting-highlights-basg",
+    "CHMP Meeting Highlights-BASG"
+   ],
+   [
+    "/gesundheitsberufe/das-chmp-stellt-sich-vor",
+    "Das CHMP stellt sich vor"
+   ],
+   [
+    "https://eservices.basg.gv.at/",
+    "Login Online Services open_in_new"
+   ],
+   [
+    "https://nebenwirkung.basg.gv.at/",
+    "Online-Nebenwirkungsmeldung open_in_new"
+   ],
+   [
+    "https://kundenregistrierung.basg.gv.at/",
+    "Registrierung Online Services open_in_new"
+   ],
+   [
+    "/fuer-unternehmen/online-service/veterinaer-antibiotika-mengenstromanalyse",
+    "Veterinär Antibiotika Mengenstromanalyse"
+   ],
+   [
+    "/fuer-unternehmen/datenbereitstellung-vertriebseinschraenkungen",
+    "Datenbereitstellung Vertriebseinschränkungen"
+   ],
+   [
+    "/fuer-unternehmen/online-service/antrag-auf-infrastruktursicherungsbeitrag-isb",
+    "Antrag auf Infrastruktursicherungsbeitrag (ISB)"
+   ],
+   [
+    "/fuer-unternehmen/online-service/antrag-auf-entschaedigung-der-mehrkosten-durch-die-bevorratung",
+    "Antrag auf Entschädigung der Mehrkosten durch die Bevorratung"
+   ],
+   [
+    "/fuer-unternehmen/zulassung-life-cycle/elektronische-einreichung",
+    "Elektronische Einreichung"
+   ],
+   [
+    "/fuer-unternehmen/zulassung-life-cycle/elektronische-einreichung/faq-elektronische-einreichung",
+    "FAQ Elektronische Einreichung"
+   ],
+   [
+    "/fuer-unternehmen/zulassung-life-cycle/kommissionsentscheidungen",
+    "Kommissionsentscheidungen"
+   ],
+   [
+    "/fuer-unternehmen/zulassung-life-cycle/veterinaerarzneispezialitaeten",
+    "Veterinärarzneispezialitäten"
+   ],
+   [
+    "/fuer-unternehmen/zulassung-life-cycle/faq-zulassung-life-cycle",
+    "FAQ Zulassung & Life-Cycle"
+   ],
+   [
+    "/fuer-unternehmen/pharmakovigilanz/pharmakovigilanz-inspektion",
+    "Pharmakovigilanz-Inspektion"
+   ],
+   [
+    "/fuer-unternehmen/pharmakovigilanz/leitfaeden",
+    "Leitfaden Pharmakovigilanz"
+   ],
+   [
+    "/fuer-unternehmen/arzneimittel-informationen",
+    "Arzneimittel Informationen"
+   ],
+   [
+    "/fuer-unternehmen/arzneimittel-informationen/beratung-durch-das-basg",
+    "Beratung durch das BASG"
+   ],
+   [
+    "/fuer-unternehmen/arzneimittel-informationen/arzneimittel-fuer-seltene-erkrankungen-orphan",
+    "Arzneimittel für seltene Erkrankungen"
+   ],
+   [
+    "/fuer-unternehmen/arzneimittel-informationen/informationsbeauftragte",
+    "Informationsbeauftragte"
+   ],
+   [
+    "/fuer-unternehmen/arzneiwaren-ein-und-ausfuhr",
+    "Arzneiwaren Ein- und Ausfuhr"
+   ],
+   [
+    "/fuer-unternehmen/medizinprodukte/hersteller",
+    "Hersteller und Bevollmächtigte"
+   ],
+   [
+    "/fuer-unternehmen/medizinprodukte/freiverkaufszertifikate",
+    "Freiverkaufszertifikate"
+   ],
+   [
+    "/fuer-unternehmen/medizinprodukte/exportbestaetigung-fuer-nicht-medizinprodukte",
+    "Exportbestätigung für Nicht-Medizinprodukte"
+   ],
+   [
+    "/fuer-unternehmen/medizinprodukte/registrierung-als-aktor-in-eudamed",
+    "Registrierung als Aktor in EUDAMED"
+   ],
+   [
+    "/fuer-unternehmen/bewilligung-und-zertifizierung",
+    "Bewilligung und Zertifizierung"
+   ],
+   [
+    "/fuer-unternehmen/bewilligung-und-zertifizierung/gute-herstellungs-/-vertriebspraxis-gmp/gdp",
+    "Gute Herstellungs- / Vertriebspraxis"
+   ],
+   [
+    "/fuer-unternehmen/bewilligung-und-zertifizierung/inspektionen-computergestuetzter-systeme-cgs",
+    "Inspektionen Computergestützter Systeme (CGS)"
+   ],
+   [
+    "/fuer-unternehmen/abgrenzung/gutachten-des-abgrenzungsbeirates",
+    "Gutachten des Abgrenzungsbeirates (AGBR)"
+   ],
+   [
+    "https://www.ema.europa.eu/en/human-regulatory-overview/post-authorisation/pharmacovigilance-post-authorisation/good-pharmacovigilance-practices-gvp",
+    "Guideline on good pharmacovigilance practices (GVP) Module XV – Safety communication"
+   ],
+   [
+    "/fileadmin/redakteure/06_Gesundheitsberufe/DHPC/2026/260810_Desogestrel-_und_Etonogestrel-haltige_Arzneimittel.pdf",
+    "260810_Desogestrel-_und_Etonogestrel-haltige_Arzneimittel"
+   ],
+   [
+    "/fileadmin/redakteure/06_Gesundheitsberufe/DHPC/2026/260727_Vyvgart_1_000_mg_Injektionsl%C3%B6sung.pdf",
+    "260727_Vyvgart_1_000_mg_Injektionslösung"
+   ],
+   [
+    "/fileadmin/redakteure/06_Gesundheitsberufe/DHPC/2026/260512_Tecovirimat_SIGA.pdf",
+    "260512_Tecovirimat_SIGA"
+   ],
+   [
+    "/fileadmin/redakteure/06_Gesundheitsberufe/DHPC/2026/260209_Arixtra_Fertigspritzen.pdf",
+    "260209_Arixtra_Fertigspritzen"
+   ],
+   [
+    "/fileadmin/redakteure/06_Gesundheitsberufe/DHPC/2025/251216_Tranexams%C3%A4ure_i.v._Formulierungen.pdf",
+    "251216_Tranexamsäure_i.v._Formulierungen"
+   ],
+   [
+    "/marktbeobachtung/meldewesen/vertriebseinschraenkungen",
+    "Vertriebseinschränkungen"
+   ],
+   [
+    "/gesundheitsberufe/sicherheitsinformationen-dhpc",
+    "Sicherheitsinformationen (DHPC)"
+   ],
+   [
+    "/gesundheitsberufe/oesterreichisches-arzneibuch",
+    "Österreichisches Arzneibuch"
+   ],
+   [
+    "#header",
+    "keyboard_arrow_up nach oben"
+   ],
+   [
+    "/marktbeobachtung/oeffentliche-register/medikamente-info-austria",
+    "Medikamente Info Austria"
+   ],
+   [
+    "https://aspregister.basg.gv.at/",
+    "Arzneispezialitätenregister"
+   ],
+   [
+    "https://medicineshortage.basg.gv.at/vertriebseinschraenkungen",
+    "Vertriebseinschränkungen"
+   ]
+  ],
+  "feeds": [
+   "/whatsnew/rss"
+  ],
+  "dates": [
+   "12.10.2026",
+   "13.08.2026",
+   "10.08.2026",
+   "27.07.2026",
+   "16.07.2026",
+   "16.07.2026",
+   "15.06.2026",
+   "03.06.2026",
+   "13.05.2026",
+   "12.05.2026"
+  ]
  },
  "hr_news": {
   "error": "ConnectTimeout('timed out')"
@@ -15,31 +613,1617 @@
   "error": "ConnectTimeout('timed out')"
  },
  "hu_ogyei": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://ogyei.gov.hu/hirek",
+  "len": 132723,
+  "links": [
+   [
+    "https://nngyk.gov.hu/hu/#sp-adatbazisoknyilvantartasok",
+    "Adatbázisok, nyilvántartások"
+   ],
+   [
+    "https://nngyk.gov.hu/hu/#sp-adatbazisoknyilvantartasok",
+    "Adatbázisok, nyilvántartások"
+   ],
+   [
+    "/adatkezelesi_tajekoztato",
+    "Adatkezelési tájékoztató"
+   ],
+   [
+    "/akadalymentessegi_nyilatkozat",
+    "Akadálymentességi nyilatkozat"
+   ],
+   [
+    "#sp-adatbazisoknyilvantartasok",
+    "Adatbázisok, nyilvántartások"
+   ],
+   [
+    "/suti_tajekoztato",
+    "A beállításokról részletes leírást a Süti tájékoztatóban talál."
+   ]
+  ],
+  "feeds": [
+   "/rss"
+  ],
+  "dates": [
+   "2022-08-12",
+   "2021-06-01",
+   "2022-08-12"
+  ]
  },
  "ie_news": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.hpra.ie/news-events/news",
+  "len": 123950,
+  "links": [
+   [
+    "/find-a-medicine/for-human-use/authorised-medicines",
+    "List of medicines for human use"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/authorised-medicines",
+    "List of medicines for animal use"
+   ],
+   [
+    "/find-a-medicine/for-human-use/interchangeable-medicines",
+    "Interchangeable Medicines"
+   ],
+   [
+    "/find-a-medicine/for-human-use/herbal-and-homeopathic-medicines",
+    "Herbal and homeopathic medicines"
+   ],
+   [
+    "/find-a-medicine/for-human-use/general-sales-and-pharmacy-only-sales",
+    "General sales and pharmacy-only sales"
+   ],
+   [
+    "/find-a-medicine/for-human-use/using-the-medicines-list",
+    "Using the medicines list"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/authorised-medicines",
+    "Authorised medicines – HPRA"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/authorised-medicines---all-eu-eea",
+    "Authorised medicines – all EU/EEA"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/veterinary-medicines-information",
+    "Medicines for animal use information"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/shortages-of-veterinary-medicines",
+    "Shortages of medicines for animal use"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/resources-for-vets-and-animal-owners",
+    "Resources for vets and animal owners"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/medicines",
+    "Medicines for human use"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/veterinary-medicines",
+    "Medicines for animal use"
+   ],
+   [
+    "#",
+    "Medicines for human use"
+   ],
+   [
+    "/regulation/human-medicine/marketing-authorisation-holders",
+    "Marketing authorisation holders"
+   ],
+   [
+    "/regulation/human-medicine/wholesalers-and-retailers",
+    "Wholesalers and retailers"
+   ],
+   [
+    "/regulation/human-medicine/clinical-trials",
+    "Clinical trial sponsors"
+   ],
+   [
+    "/regulation/human-medicine/patients-and-healthcare-professionals",
+    "Patients and healthcare professionals"
+   ],
+   [
+    "/regulation/human-medicine/reform-of-the-eu-pharmaceutical-legislation",
+    "Reform of the EU pharmaceutical legislation"
+   ],
+   [
+    "#",
+    "Medicines for animal use"
+   ],
+   [
+    "/regulation/veterinary-medicines/medicines-authorisation",
+    "Medicines authorisation"
+   ],
+   [
+    "/regulation/veterinary-medicines/labelling-and-veterinary-medicinal-product-distribution",
+    "Labelling and distribution"
+   ],
+   [
+    "/regulation/veterinary-medicines/availability-of-veterinary-medicines-in-ireland",
+    "Availability of medicines for animal use"
+   ],
+   [
+    "/regulation/veterinary-medicines/active-substance-registration-for-veterinary-medicines",
+    "Active substance registration"
+   ],
+   [
+    "/regulation/veterinary-medicines/market-compliance-and-surveillance-of-veterinary-medicines",
+    "Market compliance and surveillance"
+   ],
+   [
+    "/regulation/veterinary-medicines/fees-for-medicines-for-animal-use",
+    "Fees – medicines for animal use"
+   ],
+   [
+    "#",
+    "Scientific animal protection"
+   ],
+   [
+    "/regulation/scientific-animal-protection/non-technical-project-summaries",
+    "Non-technical project summaries"
+   ],
+   [
+    "/regulation/scientific-animal-protection/training-requirements-and-courses",
+    "Training requirements and courses"
+   ],
+   [
+    "/regulation/medical-devices/health-institutions-and-healthcare-professionals",
+    "Health institutions and healthcare professionals"
+   ],
+   [
+    "/regulation/medical-devices/manufacturers-and-authorised-representatives",
+    "Manufacturers and authorised representatives"
+   ],
+   [
+    "/regulation/medical-devices/importers-and-distributors",
+    "Importers and distributors"
+   ],
+   [
+    "/regulation/medical-devices/system-and-procedure-pack-producers",
+    "System and procedure pack producers"
+   ],
+   [
+    "/regulation/medical-devices/manufacturing-facilities",
+    "Manufacturing facilities"
+   ],
+   [
+    "/regulation/medical-devices/sponsors-of-clinical-investigations-and-performance-studies",
+    "Sponsors of clinical investigations and performance studies"
+   ],
+   [
+    "/regulation/cosmetics/obligations-of-responsible-persons",
+    "Obligations of responsible persons"
+   ],
+   [
+    "/regulation/organs/organs-establishment-list",
+    "Organs establishment list"
+   ],
+   [
+    "/regulation/controlled-drugs/medical-cannabis-access-programme",
+    "Medical cannabis access programme"
+   ],
+   [
+    "/regulation/precursor-chemicals/requirements-for-operators-and-end-users",
+    "Operators and end users"
+   ],
+   [
+    "/regulation/precursor-chemicals/licensing-and-registration",
+    "Licensing and registration"
+   ],
+   [
+    "#",
+    "Classification and innovation services"
+   ],
+   [
+    "/regulation/classification-and-innovation-services/classification-of-products",
+    "Classification of human health products"
+   ],
+   [
+    "#",
+    "Critical Entities Resilience"
+   ],
+   [
+    "/about-us/our-role/what-and-how-we-regulate",
+    "What and how we regulate"
+   ],
+   [
+    "/about-us/our-role/mission--vision-and-values",
+    "Mission, vision and values"
+   ],
+   [
+    "/about-us/our-role/international-collaboration",
+    "International cooperation"
+   ],
+   [
+    "/about-us/patient-forum/about-the-patient-forum",
+    "About the Patient Forum"
+   ],
+   [
+    "/about-us/our-standards/quality-management",
+    "Quality Management and Benchmarking"
+   ],
+   [
+    "/regulation/human-medicine/clinical-trials",
+    "Clinical trial sponsors"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/medicines/safety-monitoring-of-medicines",
+    "Safety monitoring of medicines"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/medical-devices/comsumer-advice",
+    "Consumer advice for medical devices"
+   ],
+   [
+    "https://online-medicine-safety.hpra.ie/",
+    "Buying prescription medicines online"
+   ],
+   [
+    "/regulation/human-medicine/marketing-authorisation-holders/fees-for-human-medicines",
+    "Fees – medicines for human use"
+   ],
+   [
+    "/regulation/veterinary-medicines/fees-for-medicines-for-animal-use",
+    "Fees – medicines for animal use"
+   ],
+   [
+    "/privacy---data-protection",
+    "Privacy & Data Protection"
+   ]
+  ],
+  "feeds": [],
+  "dates": []
  },
  "ie_safety": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.hpra.ie/safety-information/safety-notices",
+  "len": 151517,
+  "links": [
+   [
+    "/find-a-medicine/for-human-use/authorised-medicines",
+    "List of medicines for human use"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/authorised-medicines",
+    "List of medicines for animal use"
+   ],
+   [
+    "/find-a-medicine/for-human-use/interchangeable-medicines",
+    "Interchangeable Medicines"
+   ],
+   [
+    "/find-a-medicine/for-human-use/herbal-and-homeopathic-medicines",
+    "Herbal and homeopathic medicines"
+   ],
+   [
+    "/find-a-medicine/for-human-use/general-sales-and-pharmacy-only-sales",
+    "General sales and pharmacy-only sales"
+   ],
+   [
+    "/find-a-medicine/for-human-use/using-the-medicines-list",
+    "Using the medicines list"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/authorised-medicines",
+    "Authorised medicines – HPRA"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/authorised-medicines---all-eu-eea",
+    "Authorised medicines – all EU/EEA"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/veterinary-medicines-information",
+    "Medicines for animal use information"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/shortages-of-veterinary-medicines",
+    "Shortages of medicines for animal use"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/resources-for-vets-and-animal-owners",
+    "Resources for vets and animal owners"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/medicines",
+    "Medicines for human use"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/veterinary-medicines",
+    "Medicines for animal use"
+   ],
+   [
+    "#",
+    "Medicines for human use"
+   ],
+   [
+    "/regulation/human-medicine/marketing-authorisation-holders",
+    "Marketing authorisation holders"
+   ],
+   [
+    "/regulation/human-medicine/wholesalers-and-retailers",
+    "Wholesalers and retailers"
+   ],
+   [
+    "/regulation/human-medicine/clinical-trials",
+    "Clinical trial sponsors"
+   ],
+   [
+    "/regulation/human-medicine/patients-and-healthcare-professionals",
+    "Patients and healthcare professionals"
+   ],
+   [
+    "/regulation/human-medicine/reform-of-the-eu-pharmaceutical-legislation",
+    "Reform of the EU pharmaceutical legislation"
+   ],
+   [
+    "#",
+    "Medicines for animal use"
+   ],
+   [
+    "/regulation/veterinary-medicines/medicines-authorisation",
+    "Medicines authorisation"
+   ],
+   [
+    "/regulation/veterinary-medicines/labelling-and-veterinary-medicinal-product-distribution",
+    "Labelling and distribution"
+   ],
+   [
+    "/regulation/veterinary-medicines/availability-of-veterinary-medicines-in-ireland",
+    "Availability of medicines for animal use"
+   ],
+   [
+    "/regulation/veterinary-medicines/active-substance-registration-for-veterinary-medicines",
+    "Active substance registration"
+   ],
+   [
+    "/regulation/veterinary-medicines/market-compliance-and-surveillance-of-veterinary-medicines",
+    "Market compliance and surveillance"
+   ],
+   [
+    "/regulation/veterinary-medicines/fees-for-medicines-for-animal-use",
+    "Fees – medicines for animal use"
+   ],
+   [
+    "#",
+    "Scientific animal protection"
+   ],
+   [
+    "/regulation/scientific-animal-protection/non-technical-project-summaries",
+    "Non-technical project summaries"
+   ],
+   [
+    "/regulation/scientific-animal-protection/training-requirements-and-courses",
+    "Training requirements and courses"
+   ],
+   [
+    "/regulation/medical-devices/health-institutions-and-healthcare-professionals",
+    "Health institutions and healthcare professionals"
+   ],
+   [
+    "/regulation/medical-devices/manufacturers-and-authorised-representatives",
+    "Manufacturers and authorised representatives"
+   ],
+   [
+    "/regulation/medical-devices/importers-and-distributors",
+    "Importers and distributors"
+   ],
+   [
+    "/regulation/medical-devices/system-and-procedure-pack-producers",
+    "System and procedure pack producers"
+   ],
+   [
+    "/regulation/medical-devices/manufacturing-facilities",
+    "Manufacturing facilities"
+   ],
+   [
+    "/regulation/medical-devices/sponsors-of-clinical-investigations-and-performance-studies",
+    "Sponsors of clinical investigations and performance studies"
+   ],
+   [
+    "/regulation/cosmetics/obligations-of-responsible-persons",
+    "Obligations of responsible persons"
+   ],
+   [
+    "/regulation/organs/organs-establishment-list",
+    "Organs establishment list"
+   ],
+   [
+    "/regulation/controlled-drugs/medical-cannabis-access-programme",
+    "Medical cannabis access programme"
+   ],
+   [
+    "/regulation/precursor-chemicals/requirements-for-operators-and-end-users",
+    "Operators and end users"
+   ],
+   [
+    "/regulation/precursor-chemicals/licensing-and-registration",
+    "Licensing and registration"
+   ],
+   [
+    "#",
+    "Classification and innovation services"
+   ],
+   [
+    "/regulation/classification-and-innovation-services/classification-of-products",
+    "Classification of human health products"
+   ],
+   [
+    "#",
+    "Critical Entities Resilience"
+   ],
+   [
+    "/about-us/our-role/what-and-how-we-regulate",
+    "What and how we regulate"
+   ],
+   [
+    "/about-us/our-role/mission--vision-and-values",
+    "Mission, vision and values"
+   ],
+   [
+    "/about-us/our-role/international-collaboration",
+    "International cooperation"
+   ],
+   [
+    "/about-us/patient-forum/about-the-patient-forum",
+    "About the Patient Forum"
+   ],
+   [
+    "/about-us/our-standards/quality-management",
+    "Quality Management and Benchmarking"
+   ],
+   [
+    "getDetailUrl(item.UrlName)",
+    "Medicinal Product Shortages - update - 03 April 2024"
+   ],
+   [
+    "/regulation/human-medicine/clinical-trials",
+    "Clinical trial sponsors"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/medicines/safety-monitoring-of-medicines",
+    "Safety monitoring of medicines"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/medical-devices/comsumer-advice",
+    "Consumer advice for medical devices"
+   ],
+   [
+    "https://online-medicine-safety.hpra.ie/",
+    "Buying prescription medicines online"
+   ],
+   [
+    "/regulation/human-medicine/marketing-authorisation-holders/fees-for-human-medicines",
+    "Fees – medicines for human use"
+   ],
+   [
+    "/regulation/veterinary-medicines/fees-for-medicines-for-animal-use",
+    "Fees – medicines for animal use"
+   ],
+   [
+    "/privacy---data-protection",
+    "Privacy & Data Protection"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "03/04/2024"
+  ]
  },
  "ie_home": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.hpra.ie/",
+  "len": 133300,
+  "links": [
+   [
+    "/find-a-medicine/for-human-use/authorised-medicines",
+    "List of medicines for human use"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/authorised-medicines",
+    "List of medicines for animal use"
+   ],
+   [
+    "/find-a-medicine/for-human-use/interchangeable-medicines",
+    "Interchangeable Medicines"
+   ],
+   [
+    "/find-a-medicine/for-human-use/herbal-and-homeopathic-medicines",
+    "Herbal and homeopathic medicines"
+   ],
+   [
+    "/find-a-medicine/for-human-use/general-sales-and-pharmacy-only-sales",
+    "General sales and pharmacy-only sales"
+   ],
+   [
+    "/find-a-medicine/for-human-use/using-the-medicines-list",
+    "Using the medicines list"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/authorised-medicines",
+    "Authorised medicines – HPRA"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/authorised-medicines---all-eu-eea",
+    "Authorised medicines – all EU/EEA"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/veterinary-medicines-information",
+    "Medicines for animal use information"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/shortages-of-veterinary-medicines",
+    "Shortages of medicines for animal use"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/resources-for-vets-and-animal-owners",
+    "Resources for vets and animal owners"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/medicines",
+    "Medicines for human use"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/veterinary-medicines",
+    "Medicines for animal use"
+   ],
+   [
+    "#",
+    "Medicines for human use"
+   ],
+   [
+    "/regulation/human-medicine/marketing-authorisation-holders",
+    "Marketing authorisation holders"
+   ],
+   [
+    "/regulation/human-medicine/wholesalers-and-retailers",
+    "Wholesalers and retailers"
+   ],
+   [
+    "/regulation/human-medicine/clinical-trials",
+    "Clinical trial sponsors"
+   ],
+   [
+    "/regulation/human-medicine/patients-and-healthcare-professionals",
+    "Patients and healthcare professionals"
+   ],
+   [
+    "/regulation/human-medicine/reform-of-the-eu-pharmaceutical-legislation",
+    "Reform of the EU pharmaceutical legislation"
+   ],
+   [
+    "#",
+    "Medicines for animal use"
+   ],
+   [
+    "/regulation/veterinary-medicines/medicines-authorisation",
+    "Medicines authorisation"
+   ],
+   [
+    "/regulation/veterinary-medicines/labelling-and-veterinary-medicinal-product-distribution",
+    "Labelling and distribution"
+   ],
+   [
+    "/regulation/veterinary-medicines/availability-of-veterinary-medicines-in-ireland",
+    "Availability of medicines for animal use"
+   ],
+   [
+    "/regulation/veterinary-medicines/active-substance-registration-for-veterinary-medicines",
+    "Active substance registration"
+   ],
+   [
+    "/regulation/veterinary-medicines/market-compliance-and-surveillance-of-veterinary-medicines",
+    "Market compliance and surveillance"
+   ],
+   [
+    "/regulation/veterinary-medicines/fees-for-medicines-for-animal-use",
+    "Fees – medicines for animal use"
+   ],
+   [
+    "#",
+    "Scientific animal protection"
+   ],
+   [
+    "/regulation/scientific-animal-protection/non-technical-project-summaries",
+    "Non-technical project summaries"
+   ],
+   [
+    "/regulation/scientific-animal-protection/training-requirements-and-courses",
+    "Training requirements and courses"
+   ],
+   [
+    "/regulation/medical-devices/health-institutions-and-healthcare-professionals",
+    "Health institutions and healthcare professionals"
+   ],
+   [
+    "/regulation/medical-devices/manufacturers-and-authorised-representatives",
+    "Manufacturers and authorised representatives"
+   ],
+   [
+    "/regulation/medical-devices/importers-and-distributors",
+    "Importers and distributors"
+   ],
+   [
+    "/regulation/medical-devices/system-and-procedure-pack-producers",
+    "System and procedure pack producers"
+   ],
+   [
+    "/regulation/medical-devices/manufacturing-facilities",
+    "Manufacturing facilities"
+   ],
+   [
+    "/regulation/medical-devices/sponsors-of-clinical-investigations-and-performance-studies",
+    "Sponsors of clinical investigations and performance studies"
+   ],
+   [
+    "/regulation/cosmetics/obligations-of-responsible-persons",
+    "Obligations of responsible persons"
+   ],
+   [
+    "/regulation/organs/organs-establishment-list",
+    "Organs establishment list"
+   ],
+   [
+    "/regulation/controlled-drugs/medical-cannabis-access-programme",
+    "Medical cannabis access programme"
+   ],
+   [
+    "/regulation/precursor-chemicals/requirements-for-operators-and-end-users",
+    "Operators and end users"
+   ],
+   [
+    "/regulation/precursor-chemicals/licensing-and-registration",
+    "Licensing and registration"
+   ],
+   [
+    "#",
+    "Classification and innovation services"
+   ],
+   [
+    "/regulation/classification-and-innovation-services/classification-of-products",
+    "Classification of human health products"
+   ],
+   [
+    "#",
+    "Critical Entities Resilience"
+   ],
+   [
+    "/about-us/our-role/what-and-how-we-regulate",
+    "What and how we regulate"
+   ],
+   [
+    "/about-us/our-role/mission--vision-and-values",
+    "Mission, vision and values"
+   ],
+   [
+    "/about-us/our-role/international-collaboration",
+    "International cooperation"
+   ],
+   [
+    "/about-us/patient-forum/about-the-patient-forum",
+    "About the Patient Forum"
+   ],
+   [
+    "/about-us/our-standards/quality-management",
+    "Quality Management and Benchmarking"
+   ],
+   [
+    "/find-a-medicine/for-human-use/authorised-medicines",
+    "View all authorised medicines"
+   ],
+   [
+    "/find-a-medicine/for-human-use/interchangeable-medicines",
+    "Interchangeable medicines"
+   ],
+   [
+    "/find-a-medicine/for-animal-use/authorised-medicines",
+    "View all authorised medicines"
+   ],
+   [
+    "/find-a-medicine/for-human-use/medicine-shortages",
+    "Shortages of medicines for human use"
+   ],
+   [
+    "/regulation/guidance-documents",
+    "Regulatory guidance documents"
+   ],
+   [
+    "/regulation/human-medicine/marketing-authorisation-holders/fees-for-human-medicines",
+    "Fees – medicines for human use"
+   ],
+   [
+    "https://assets.hpra.ie/data/docs/default-source/external-guidance-document/aut-g0034-guide-to-labels-and-leaflets-of-human-medicines-v26.pdf?sfvrsn=181b0802_44",
+    "Guide to labels and leaflets of human medicines"
+   ],
+   [
+    "https://assets.hpra.ie/data/docs/default-source/external-guidance-document/guide-to-batch-specific-requests-for-veterinary-medicines.pdf?sfvrsn=8e57fbce_10",
+    "Guide to batch specific requests for veterinary medicines"
+   ],
+   [
+    "https://assets.hpra.ie/data/docs/default-source/external-guidance-document/aut-g0176-guide-to-performance-studies-conducted-in-ireland-v2.pdf?sfvrsn=939e1_22",
+    "Guide to performance studies conducted in Ireland"
+   ],
+   [
+    "/safety-information/safety-notices/article/rifampicin-and-rifampicin-combination---potential-genotoxicity-and-associated-contraceptive-requirements",
+    "Rifampicin and Rifampicin combination – Potential genotoxicity and associated contraceptive requirements"
+   ],
+   [
+    "/safety-information/safety-notices/article/summary-of-field-safety-notices-september-2026",
+    "Summary of Field Safety Notices September 2026"
+   ],
+   [
+    "/safety-information/safety-notices/article/ocrevus-(ocrelizumab)--new-risk-of-drug-induced-liver-injury-and-recommendations-on-monitoring-of-liver-function-before-and-during-treatment",
+    "Ocrevus (ocrelizumab): New risk of drug-induced liver injury and recommendations on monitoring of liver function before and during treatment"
+   ],
+   [
+    "/news-events/news/article/combine-pilot-phase-2---coordinated-assessment-of-combined-clinical-trial-and-medical-device-or-in-vitro-diagnostic-studies",
+    "COMBINE Pilot Phase 2 – coordinated assessment of combined clinical trial and medical device or in vitro diagnostic studies"
+   ],
+   [
+    "/news-events/news/article/hpra-urges-care-when-purchasing-children-s-face-paints-this-halloween",
+    "HPRA urges care when purchasing children’s face paints this Halloween"
+   ],
+   [
+    "/news-events/news/article/save-the-date-for--medsafetyweek--2-8-november-2026",
+    "Reminder: Save the date for #MedSafetyWeek: 2–8 November 2026"
+   ],
+   [
+    "/regulation/human-medicine/clinical-trials",
+    "Clinical trial sponsors"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/medicines/safety-monitoring-of-medicines",
+    "Safety monitoring of medicines"
+   ],
+   [
+    "/safety-information/how-we-monitor-safety/medical-devices/comsumer-advice",
+    "Consumer advice for medical devices"
+   ],
+   [
+    "https://online-medicine-safety.hpra.ie/",
+    "Buying prescription medicines online"
+   ],
+   [
+    "/regulation/human-medicine/marketing-authorisation-holders/fees-for-human-medicines",
+    "Fees – medicines for human use"
+   ],
+   [
+    "/regulation/veterinary-medicines/fees-for-medicines-for-animal-use",
+    "Fees – medicines for animal use"
+   ],
+   [
+    "/privacy---data-protection",
+    "Privacy & Data Protection"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "30/03/2026",
+   "22/10/2024",
+   "14/06/2022",
+   "23/10/2026",
+   "23/10/2026",
+   "22/10/2026"
+  ]
  },
  "lu_news": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://santesecu.public.lu/fr/actualites.html",
+  "len": 78583,
+  "links": [
+   [
+    "#headernav",
+    "Aller au menu principal"
+   ],
+   [
+    "#headernav-mobile",
+    "Aller au menu principal"
+   ],
+   [
+    "//santesecu.public.lu/fr/espace-citoyen/departement-secu.html",
+    "Département Sécurité sociale"
+   ],
+   [
+    "//santesecu.public.lu/fr/espace-professionnel/departement-secu.html",
+    "Département Sécurité sociale"
+   ],
+   [
+    "//santesecu.public.lu/fr/espace-citoyen/departement-secu.html",
+    "Département Sécurité sociale"
+   ],
+   [
+    "//santesecu.public.lu/fr/espace-professionnel/departement-secu.html",
+    "Département Sécurité sociale"
+   ],
+   [
+    "//santesecu.public.lu/fr/actualites/2026/octobre/octobre-rose-2026.html",
+    "Octobre rose 2026: donner la parole aux femmes et rappeler l’importance du dépistage contre le cancer du sein date de publication 30.09.2026"
+   ],
+   [
+    "https://gouvernement.lu/fr/gouvernement/martine-deprez.html",
+    "La ministre de la Santé et de la Sécurité sociale"
+   ],
+   [
+    "https://msan.gouvernement.lu/fr.html",
+    "Le ministère de la Santé et Sécurité sociale"
+   ],
+   [
+    "https://dirsante.gouvernement.lu/fr/la-direction.html",
+    "La Direction de la santé"
+   ],
+   [
+    "https://www.facebook.com/sante.lu",
+    "Facebook du Ministère de la Santé"
+   ],
+   [
+    "https://www.linkedin.com/company/minist%C3%A8re-de-la-sant%C3%A9-luxembourg/",
+    "Linkedin du Ministère de la Santé"
+   ],
+   [
+    "https://www.facebook.com/LuxembourgHealthDirectorate",
+    "Facebook de la Direction de la Santé"
+   ],
+   [
+    "https://www.linkedin.com/company/luxembourg-health-directorate",
+    "Linkedin de la Direction de la Santé"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "2026-09-30",
+   "30.09.2026"
+  ]
  },
  "mt_recalls": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://medicinesauthority.gov.mt/recallsrapidalerts",
+  "len": 144341,
+  "links": [
+   [
+    "committeesworkinggroups?l=1",
+    "Committees and Working Groups"
+   ],
+   [
+    "memberships?l=1",
+    "Heads of Medicines Agencies"
+   ],
+   [
+    "workingmedicinesauthority?l=1",
+    "Working at the Malta Medicines Authority"
+   ],
+   [
+    "procurementfinance?l=1",
+    "Bank and Payment Details"
+   ],
+   [
+    "http://medicinesauthority.gov.mt/publications",
+    "Presentations and Publications"
+   ],
+   [
+    "medicaldevices?l=1",
+    "Medical Devices, Pharmaceutical Collaboration and Entrepreneurship"
+   ],
+   [
+    "http://www.hma.eu/",
+    "Heads of Medicines Agency"
+   ],
+   [
+    "http://www.imi.europa.eu/",
+    "Innovative Medicines Initiative"
+   ],
+   [
+    "http://www.ema.europa.eu/ema/index.jsp?curl=/pages/home/Home_Page.jsp&jsenabled=true",
+    "European Medicines Agency"
+   ],
+   [
+    "mdlegislation?l=1",
+    "Medical Device Legislation"
+   ],
+   [
+    "collaboration?l=1",
+    "Request for Collaborative Agreements"
+   ],
+   [
+    "eumedicinesauthorityconsultations?l=1",
+    "EU & Medicines Authority Consultations"
+   ],
+   [
+    "http://cesp.hma.eu",
+    "EU Common Submission Portal"
+   ],
+   [
+    "newsletter?l=1",
+    "Medicines Authority Notifications"
+   ],
+   [
+    "onlineapplications",
+    "Online Applications (E-Forms)"
+   ],
+   [
+    "form-details?surID=37&cat=3",
+    "Complaints related to Advertising of Medicinal Products"
+   ],
+   [
+    "adrportal?l=1",
+    "Report a Side Effect - Adverse Drug Reaction (ADR)"
+   ],
+   [
+    "http://www.facebook.com/medicinesmalta",
+    "Engage with us on Facebook"
+   ],
+   [
+    "https://plus.google.com/117032671107213095061/posts",
+    "Connect with us on Google"
+   ],
+   [
+    "http://www.youtube.com/medicinesmalta",
+    "Watch our videos on YouTube"
+   ],
+   [
+    "knowmoremedicinesregulation?l=1",
+    "Know more about Medicines Regulation"
+   ],
+   [
+    "noMA",
+    "Know more about access to medicines which do not have a Marketing Authorisation"
+   ],
+   [
+    "biomedprods?l=1",
+    "Biological and Biosimilar Medicinal Products"
+   ],
+   [
+    "http://medicinesauthority.gov.mt/howmonitorsafetyproductpatient",
+    "How we monitor the safety of medicines"
+   ],
+   [
+    "knowmoremedicinessupplychain?l=1",
+    "Know more about the Medicines Supply Chain"
+   ],
+   [
+    "knowaboutusemedicines?l=1",
+    "Know more about Use of Medicines"
+   ],
+   [
+    "informationleafletsmedicines?l=1",
+    "Information Leaflets on Medicines"
+   ],
+   [
+    "searchmedicines?l=1",
+    "Search for your Medicines"
+   ],
+   [
+    "pharmaceuticalactivities?l=1",
+    "Pharmaceutical Activities and Inspections"
+   ],
+   [
+    "recallsrapidalerts?l=1",
+    "Product Quality Defects Reporting"
+   ],
+   [
+    "#",
+    "Health Care Professionals"
+   ],
+   [
+    "searchyourmaltamedicines?l=1",
+    "Search Authorised Medicines in Malta"
+   ],
+   [
+    "reportingadversereactions?l=1",
+    "Adverse Drug Reaction Reporting"
+   ],
+   [
+    "http://medicinesauthority.gov.mt/howmonitorsafetyproduct",
+    "How we monitor the safety of medicinal products"
+   ],
+   [
+    "productrecalls",
+    "Product Quality Defects Reporting"
+   ],
+   [
+    "chainregulation?l=1",
+    "Medicines supply chain and regulation"
+   ],
+   [
+    "medicaldevices?l=1",
+    "Medical Devices, Pharmaceutical Collaboration and Entrepreneurship"
+   ],
+   [
+    "http://www.hma.eu/",
+    "Heads of Medicines Agency"
+   ],
+   [
+    "http://www.imi.europa.eu/",
+    "Innovative Medicines Initiative"
+   ],
+   [
+    "http://www.ema.europa.eu/ema/index.jsp?curl=/pages/home/Home_Page.jsp&jsenabled=true",
+    "European Medicines Agency"
+   ],
+   [
+    "pharmaceuticalactivities",
+    "Pharmaceutical Activities and Inspections"
+   ],
+   [
+    "recallsrapidalerts",
+    "Recalls and Rapid Alerts"
+   ],
+   [
+    "registration",
+    "Registration of Medicinal Products"
+   ],
+   [
+    "reclassification",
+    "Changes to prescription status"
+   ],
+   [
+    "brexit?l=1",
+    "BREXIT - Regulatory considerations"
+   ],
+   [
+    "advancedscientifcinitiatives",
+    "Advanced Scientific Initiatives"
+   ],
+   [
+    "cannabisformedicinalandresearchpurposes?l=1",
+    "Cannabis for Medicinal and Research Purposes"
+   ],
+   [
+    "enforcementmarketsurveillance",
+    "Enforcement and Market Surveillance"
+   ],
+   [
+    "mailto:inspectorate.adm@gov.mt",
+    "inspectorate.adm@gov.mt"
+   ],
+   [
+    "/file.aspx?f=160",
+    "Medicinal Product Defect Reporting Form"
+   ],
+   [
+    "/supplementrecallnotifications",
+    "Illegal supply chain alerts"
+   ],
+   [
+    "/file.aspx?f=7347",
+    "Class III Medicines Recall - ASPIRIN 75MG EC TABLETS"
+   ],
+   [
+    "/file.aspx?f=7536",
+    "Class I Medical Recall - Ozempic 1mg solution for injection in pre-filled pen (semaglutide) - 11/08/2025"
+   ],
+   [
+    "/file.aspx?f=7596",
+    "Class I Medical Recall - Heparin Gilvasan 1000 IU/ml Solution for Injection/Infusion - 24/09/2025"
+   ],
+   [
+    "/file.aspx?f=6042",
+    "Caution in Use - Epiduo 0.1% / 2.5% gel (45 g)"
+   ],
+   [
+    "/file.aspx?f=6142",
+    "Caution in Use - Zestoretic 20mg/12.5mg Tablets - 08/03/2023"
+   ],
+   [
+    "https://www.who.int/news/item/19-07-2023-medical-product-alert-n-5-2023--substandard-(contaminated)-syrup-medicines",
+    "Medical Product Alert - Substandard (contaminated) syrup medicines identified in WHO Region of Africa"
+   ],
+   [
+    "/file.aspx?f=5869",
+    "Caution in Use Notification - Easofen for Children"
+   ],
+   [
+    "/file.aspx?f=5839",
+    "Class II Medicines Recall - Bumetanide 1mg Tablets"
+   ],
+   [
+    "/file.aspx?f=5357",
+    "Class II Medicines Recall -Champix 0.5mg and 1 mg film coated tablets"
+   ],
+   [
+    "/file.aspx?f=5105",
+    "Class IV Drug Alert: Diazepam 2mg/5ml Oral Solution Sugar Free, 100ml"
+   ],
+   [
+    "/file.aspx?f=5028",
+    "Class III Drug Alert: Bromazepam Arena 3mg Tablets"
+   ],
+   [
+    "/file.aspx?f=4997",
+    "Class IV Drug Alert: Micardis 80mg tab"
+   ],
+   [
+    "/file.aspx?f=4998",
+    "Class II Recall of Chlorpromazine hydrochloride 25mg/ml x 2ml (Largactil ®) - Sanofi PL04425/0582"
+   ],
+   [
+    "/file.aspx?f=4999",
+    "Class II Recall of Irinotecan Hydrochloride 20mg/ml Concentrate for solution for Infusion"
+   ],
+   [
+    "/file.aspx?f=4505",
+    "Class I Medical Recall of Avonex 30μg/0.5ml solution for injection"
+   ],
+   [
+    "/file.aspx?f=4139",
+    "Class II Medicines Recall of Voltaren 50mg Tablets, Diovan 80mg Tablets, Diovan 160mg Tablets"
+   ],
+   [
+    "/file.aspx?f=4090",
+    "Class II Medicines Recall of Valsartan"
+   ],
+   [
+    "/file.aspx?f=3970",
+    "Class II Medicines Recall of Valsartan"
+   ],
+   [
+    "/file.aspx?f=3558",
+    "Pentacol 400mg gastroresistant modified-release tablets"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "11/08/2025",
+   "24/09/2025",
+   "08/03/2023",
+   "06/10/2022",
+   "30/09/2021",
+   "24/03/2021",
+   "26/01/2021",
+   "13/01/2021",
+   "02/12/2020",
+   "20/07/2020"
+  ]
  },
  "mt_circ": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://medicinesauthority.gov.mt/news-archive?id=F2",
+  "len": 92229,
+  "links": [
+   [
+    "committeesworkinggroups?l=1",
+    "Committees and Working Groups"
+   ],
+   [
+    "memberships?l=1",
+    "Heads of Medicines Agencies"
+   ],
+   [
+    "workingmedicinesauthority?l=1",
+    "Working at the Malta Medicines Authority"
+   ],
+   [
+    "procurementfinance?l=1",
+    "Bank and Payment Details"
+   ],
+   [
+    "http://medicinesauthority.gov.mt/publications",
+    "Presentations and Publications"
+   ],
+   [
+    "medicaldevices?l=1",
+    "Medical Devices, Pharmaceutical Collaboration and Entrepreneurship"
+   ],
+   [
+    "http://www.hma.eu/",
+    "Heads of Medicines Agency"
+   ],
+   [
+    "http://www.imi.europa.eu/",
+    "Innovative Medicines Initiative"
+   ],
+   [
+    "http://www.ema.europa.eu/ema/index.jsp?curl=/pages/home/Home_Page.jsp&jsenabled=true",
+    "European Medicines Agency"
+   ],
+   [
+    "mdlegislation?l=1",
+    "Medical Device Legislation"
+   ],
+   [
+    "collaboration?l=1",
+    "Request for Collaborative Agreements"
+   ],
+   [
+    "eumedicinesauthorityconsultations?l=1",
+    "EU & Medicines Authority Consultations"
+   ],
+   [
+    "http://cesp.hma.eu",
+    "EU Common Submission Portal"
+   ],
+   [
+    "newsletter?l=1",
+    "Medicines Authority Notifications"
+   ],
+   [
+    "onlineapplications",
+    "Online Applications (E-Forms)"
+   ],
+   [
+    "form-details?surID=37&cat=3",
+    "Complaints related to Advertising of Medicinal Products"
+   ],
+   [
+    "adrportal?l=1",
+    "Report a Side Effect - Adverse Drug Reaction (ADR)"
+   ],
+   [
+    "http://www.facebook.com/medicinesmalta",
+    "Engage with us on Facebook"
+   ],
+   [
+    "https://plus.google.com/117032671107213095061/posts",
+    "Connect with us on Google"
+   ],
+   [
+    "http://www.youtube.com/medicinesmalta",
+    "Watch our videos on YouTube"
+   ],
+   [
+    "knowmoremedicinesregulation?l=1",
+    "Know more about Medicines Regulation"
+   ],
+   [
+    "noMA",
+    "Know more about access to medicines which do not have a Marketing Authorisation"
+   ],
+   [
+    "biomedprods?l=1",
+    "Biological and Biosimilar Medicinal Products"
+   ],
+   [
+    "http://medicinesauthority.gov.mt/howmonitorsafetyproductpatient",
+    "How we monitor the safety of medicines"
+   ],
+   [
+    "knowmoremedicinessupplychain?l=1",
+    "Know more about the Medicines Supply Chain"
+   ],
+   [
+    "knowaboutusemedicines?l=1",
+    "Know more about Use of Medicines"
+   ],
+   [
+    "informationleafletsmedicines?l=1",
+    "Information Leaflets on Medicines"
+   ],
+   [
+    "searchmedicines?l=1",
+    "Search for your Medicines"
+   ],
+   [
+    "pharmaceuticalactivities?l=1",
+    "Pharmaceutical Activities and Inspections"
+   ],
+   [
+    "recallsrapidalerts?l=1",
+    "Product Quality Defects Reporting"
+   ],
+   [
+    "#",
+    "Health Care Professionals"
+   ],
+   [
+    "searchyourmaltamedicines?l=1",
+    "Search Authorised Medicines in Malta"
+   ],
+   [
+    "reportingadversereactions?l=1",
+    "Adverse Drug Reaction Reporting"
+   ],
+   [
+    "http://medicinesauthority.gov.mt/howmonitorsafetyproduct",
+    "How we monitor the safety of medicinal products"
+   ],
+   [
+    "productrecalls",
+    "Product Quality Defects Reporting"
+   ],
+   [
+    "chainregulation?l=1",
+    "Medicines supply chain and regulation"
+   ],
+   [
+    "medicaldevices?l=1",
+    "Medical Devices, Pharmaceutical Collaboration and Entrepreneurship"
+   ],
+   [
+    "http://www.hma.eu/",
+    "Heads of Medicines Agency"
+   ],
+   [
+    "http://www.imi.europa.eu/",
+    "Innovative Medicines Initiative"
+   ],
+   [
+    "http://www.ema.europa.eu/ema/index.jsp?curl=/pages/home/Home_Page.jsp&jsenabled=true",
+    "European Medicines Agency"
+   ],
+   [
+    "pharmaceuticalactivities",
+    "Pharmaceutical Activities and Inspections"
+   ],
+   [
+    "recallsrapidalerts",
+    "Recalls and Rapid Alerts"
+   ],
+   [
+    "registration",
+    "Registration of Medicinal Products"
+   ],
+   [
+    "reclassification",
+    "Changes to prescription status"
+   ],
+   [
+    "brexit?l=1",
+    "BREXIT - Regulatory considerations"
+   ],
+   [
+    "advancedscientifcinitiatives",
+    "Advanced Scientific Initiatives"
+   ],
+   [
+    "cannabisformedicinalandresearchpurposes?l=1",
+    "Cannabis for Medicinal and Research Purposes"
+   ],
+   [
+    "enforcementmarketsurveillance",
+    "Enforcement and Market Surveillance"
+   ],
+   [
+    "mailto:info.medicinesauthority@gov.mt",
+    "info.medicinesauthority@gov.mt"
+   ],
+   [
+    "tel:+35623439000",
+    "00356 2343 9000 (from 7:00 to 15:15)"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "09/09/2022"
+  ]
  },
  "mt_press": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://medicinesauthority.gov.mt/news-archive?id=F3",
+  "len": 101188,
+  "links": [
+   [
+    "committeesworkinggroups?l=1",
+    "Committees and Working Groups"
+   ],
+   [
+    "memberships?l=1",
+    "Heads of Medicines Agencies"
+   ],
+   [
+    "workingmedicinesauthority?l=1",
+    "Working at the Malta Medicines Authority"
+   ],
+   [
+    "procurementfinance?l=1",
+    "Bank and Payment Details"
+   ],
+   [
+    "http://medicinesauthority.gov.mt/publications",
+    "Presentations and Publications"
+   ],
+   [
+    "medicaldevices?l=1",
+    "Medical Devices, Pharmaceutical Collaboration and Entrepreneurship"
+   ],
+   [
+    "http://www.hma.eu/",
+    "Heads of Medicines Agency"
+   ],
+   [
+    "http://www.imi.europa.eu/",
+    "Innovative Medicines Initiative"
+   ],
+   [
+    "http://www.ema.europa.eu/ema/index.jsp?curl=/pages/home/Home_Page.jsp&jsenabled=true",
+    "European Medicines Agency"
+   ],
+   [
+    "mdlegislation?l=1",
+    "Medical Device Legislation"
+   ],
+   [
+    "collaboration?l=1",
+    "Request for Collaborative Agreements"
+   ],
+   [
+    "eumedicinesauthorityconsultations?l=1",
+    "EU & Medicines Authority Consultations"
+   ],
+   [
+    "http://cesp.hma.eu",
+    "EU Common Submission Portal"
+   ],
+   [
+    "newsletter?l=1",
+    "Medicines Authority Notifications"
+   ],
+   [
+    "onlineapplications",
+    "Online Applications (E-Forms)"
+   ],
+   [
+    "form-details?surID=37&cat=3",
+    "Complaints related to Advertising of Medicinal Products"
+   ],
+   [
+    "adrportal?l=1",
+    "Report a Side Effect - Adverse Drug Reaction (ADR)"
+   ],
+   [
+    "http://www.facebook.com/medicinesmalta",
+    "Engage with us on Facebook"
+   ],
+   [
+    "https://plus.google.com/117032671107213095061/posts",
+    "Connect with us on Google"
+   ],
+   [
+    "http://www.youtube.com/medicinesmalta",
+    "Watch our videos on YouTube"
+   ],
+   [
+    "knowmoremedicinesregulation?l=1",
+    "Know more about Medicines Regulation"
+   ],
+   [
+    "noMA",
+    "Know more about access to medicines which do not have a Marketing Authorisation"
+   ],
+   [
+    "biomedprods?l=1",
+    "Biological and Biosimilar Medicinal Products"
+   ],
+   [
+    "http://medicinesauthority.gov.mt/howmonitorsafetyproductpatient",
+    "How we monitor the safety of medicines"
+   ],
+   [
+    "knowmoremedicinessupplychain?l=1",
+    "Know more about the Medicines Supply Chain"
+   ],
+   [
+    "knowaboutusemedicines?l=1",
+    "Know more about Use of Medicines"
+   ],
+   [
+    "informationleafletsmedicines?l=1",
+    "Information Leaflets on Medicines"
+   ],
+   [
+    "searchmedicines?l=1",
+    "Search for your Medicines"
+   ],
+   [
+    "pharmaceuticalactivities?l=1",
+    "Pharmaceutical Activities and Inspections"
+   ],
+   [
+    "recallsrapidalerts?l=1",
+    "Product Quality Defects Reporting"
+   ],
+   [
+    "#",
+    "Health Care Professionals"
+   ],
+   [
+    "searchyourmaltamedicines?l=1",
+    "Search Authorised Medicines in Malta"
+   ],
+   [
+    "reportingadversereactions?l=1",
+    "Adverse Drug Reaction Reporting"
+   ],
+   [
+    "http://medicinesauthority.gov.mt/howmonitorsafetyproduct",
+    "How we monitor the safety of medicinal products"
+   ],
+   [
+    "productrecalls",
+    "Product Quality Defects Reporting"
+   ],
+   [
+    "chainregulation?l=1",
+    "Medicines supply chain and regulation"
+   ],
+   [
+    "medicaldevices?l=1",
+    "Medical Devices, Pharmaceutical Collaboration and Entrepreneurship"
+   ],
+   [
+    "http://www.hma.eu/",
+    "Heads of Medicines Agency"
+   ],
+   [
+    "http://www.imi.europa.eu/",
+    "Innovative Medicines Initiative"
+   ],
+   [
+    "http://www.ema.europa.eu/ema/index.jsp?curl=/pages/home/Home_Page.jsp&jsenabled=true",
+    "European Medicines Agency"
+   ],
+   [
+    "pharmaceuticalactivities",
+    "Pharmaceutical Activities and Inspections"
+   ],
+   [
+    "recallsrapidalerts",
+    "Recalls and Rapid Alerts"
+   ],
+   [
+    "registration",
+    "Registration of Medicinal Products"
+   ],
+   [
+    "reclassification",
+    "Changes to prescription status"
+   ],
+   [
+    "brexit?l=1",
+    "BREXIT - Regulatory considerations"
+   ],
+   [
+    "advancedscientifcinitiatives",
+    "Advanced Scientific Initiatives"
+   ],
+   [
+    "cannabisformedicinalandresearchpurposes?l=1",
+    "Cannabis for Medicinal and Research Purposes"
+   ],
+   [
+    "enforcementmarketsurveillance",
+    "Enforcement and Market Surveillance"
+   ],
+   [
+    "mailto:info.medicinesauthority@gov.mt",
+    "info.medicinesauthority@gov.mt"
+   ],
+   [
+    "tel:+35623439000",
+    "00356 2343 9000 (from 7:00 to 15:15)"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "11/11/2025",
+   "08/08/2025",
+   "21/07/2025",
+   "27/11/2024",
+   "12/03/2023",
+   "09/09/2022",
+   "04/05/2022",
+   "04/04/2022",
+   "04/04/2022"
+  ]
  },
  "nl_cbg": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.cbg-meb.nl/actueel/nieuws",
+  "len": 199418,
+  "links": [
+   [
+    "/",
+    "Naar de homepage van College ter Beoordeling van Geneesmiddelen College ter Beoordeling van Geneesmiddelen"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "2025-10-20",
+   "2025-10-20"
+  ]
  },
  "nl_cbg_rss": {
   "status": 404,
@@ -50,37 +2234,2319 @@
   "dates": []
  },
  "pl_gif": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.gov.pl/web/gif/komunikaty",
+  "len": 26576,
+  "links": [
+   [
+    "#footer-contact",
+    "Przejdź do sekcji Kontakt"
+   ],
+   [
+    "#footer-links",
+    "Przejdź do sekcji Stopka gov.pl"
+   ],
+   [
+    "https://www.mobywatel.gov.pl/mObywatel",
+    "Logowanie do panelu mObywatel"
+   ],
+   [
+    "/web/gov/katalog-jednostek",
+    "Urzędy, instytucje i placówki RP"
+   ],
+   [
+    "/web/gov/uslugi-dla-przedsiebiorcy",
+    "Usługi dla przedsiębiorcy"
+   ],
+   [
+    "https://www.gov.pl/web/ua",
+    "Сайт для громадян України – Serwis dla obywateli Ukrainy"
+   ],
+   [
+    "/web/gov/katalog-jednostek?catalogId=catalog-central-office",
+    "gov.pl Urzędy centralne"
+   ],
+   [
+    "https://www.gov.pl/web/gov/szukaj",
+    "przejdź do wyszukiwarki"
+   ],
+   [
+    "https://www.mobywatel.gov.pl/mObywatel",
+    "Logowanie do panelu mObywatel"
+   ],
+   [
+    "/web/gif",
+    "Główny Inspektorat Farmaceutyczny"
+   ],
+   [
+    "/web/gif/zadania-pif",
+    "Zadania Państwowej Inspekcji Farmaceutycznej"
+   ],
+   [
+    "/web/gif/kompetencje-glownego-inspektora-farmaceytycznego",
+    "Kompetencje Głównego Inspektora Farmaceutycznego"
+   ],
+   [
+    "/web/gif/przeciwdzialanie-korupcji",
+    "Przeciwdziałanie korupcji"
+   ],
+   [
+    "/web/gif/ochrona-danych-osobowych",
+    "Ochrona Danych Osobowych"
+   ],
+   [
+    "/web/gif/wspolpraca-miedzynarodowa",
+    "Współpraca Międzynarodowa"
+   ],
+   [
+    "/web/gif/informacja-dla-pacjentow",
+    "Informacja dla pacjentów"
+   ],
+   [
+    "/web/gif/informacja-dla-przedsiebiorcow",
+    "Informacja dla przedsiębiorców"
+   ],
+   [
+    "/web/gif/informacje-dla-osob-niepelnosprawnych",
+    "Informacje dla osób niepełnosprawnych"
+   ],
+   [
+    "/web/gif/koordynator-ds-dostepnosci",
+    "Koordynator ds. dostępności"
+   ],
+   [
+    "/web/gif/wojewodzkie-inspektoraty-farmaceutyczne",
+    "Wojewódzkie Inspektoraty Farmaceutyczne"
+   ],
+   [
+    "/web/gif/sygnalisci--przyjmowanie-zgloszen-zewnetrznych",
+    "Sygnaliści – przyjmowanie zgłoszeń zewnętrznych"
+   ],
+   [
+    "/web/gif",
+    "Główny Inspektorat Farmaceutyczny"
+   ],
+   [
+    "/web/gif/komunikat-glownego-inspektora-farmaceutycznego-z-dnia-12-marca-2026-r",
+    "Komunikat Głównego Inspektora Farmaceutycznego z dnia 12 marca 2026 r."
+   ],
+   [
+    "/web/gif/komunikat-glownego-inspektora-farmaceutycznego-z-dnia-27-lutego-2026-r",
+    "Komunikat Głównego Inspektora Farmaceutycznego z dnia 27 lutego 2026 r."
+   ],
+   [
+    "/web/gif/komunikat-glownego-inspektora-farmaceutycznego-z-dnia-20-lutego-2026-r",
+    "Komunikat Głównego Inspektora Farmaceutycznego z dnia 20 lutego 2026 r."
+   ],
+   [
+    "/web/gif/komunikat-glownego-inspektora-farmaceutycznego-z-dnia-4-lutego-2026-r",
+    "Komunikat Głównego Inspektora Farmaceutycznego z dnia 4 lutego 2026 r."
+   ],
+   [
+    "/web/gif/komunikat-glownego-inspektora-farmaceutycznego-z-dnia-6-sierpnia-2025-r",
+    "Komunikat Głównego Inspektora Farmaceutycznego z dnia 6 sierpnia 2025 r."
+   ],
+   [
+    "/web/gif/komunikat-glownego-inspektora-farmaceutycznego-z-dnia-12-czerwca-2025-r",
+    "Komunikat Głównego Inspektora Farmaceutycznego z dnia 12 czerwca 2025 r."
+   ],
+   [
+    "/web/gif/komunikat-glownego-inspektora-farmaceutycznego-z-dnia-20-marca-2025-r",
+    "Komunikat Głównego Inspektora Farmaceutycznego z dnia 20 marca 2025 r."
+   ],
+   [
+    "/web/gif/komunikat-glownego-inspektora-farmaceutycznego-z-dnia-30-stycznia-2025-r",
+    "Komunikat Głównego Inspektora Farmaceutycznego z dnia 30 stycznia 2025 r."
+   ],
+   [
+    "/web/gif/komunikat-glownego-inspektora-farmaceutycznego-ws-mozliwosci-nieodplatnego-przekazywania-produktow-leczniczych-przez-apteki-ogolnodostepne-lub-punkty-apteczne",
+    "Komunikat Głównego Inspektora Farmaceutycznego z dnia 20 września 2024 r."
+   ],
+   [
+    "/web/gif/komunikat-glownego-inspektora-farmaceutycznego-z-dnia-22-sierpnia-2024-r",
+    "Komunikat Głównego Inspektora Farmaceutycznego z dnia 22 sierpnia 2024 r."
+   ],
+   [
+    "https://www.google.com/maps?ll=52.245239,21.010928&amp;z=16&amp;t=m&amp;hl=pl-PL&amp;gl=PL&amp;mapclient=embed&amp;q=Senatorska+12+00-001+Warszawa",
+    "Zobacz na mapie Link otworzy się w nowym oknie"
+   ],
+   [
+    "https://gov.pl/web/gif/ochrona-danych-osobowych",
+    "Ochrona Danych Osobowych"
+   ],
+   [
+    "https://archiwum.gif.gov.pl/bip",
+    "Archiwalna strona BIP GIF"
+   ],
+   [
+    "https://www.gov.pl/web/gif/polityka-dotyczaca-cookies",
+    "Polityka dotycząca cookies"
+   ],
+   [
+    "https://www.gov.pl/web/gif/deklaracja-dostepnosci-glownego-inspektoratu-farmaceutycznego",
+    "Deklaracja dostępności Głównego Inspektoratu Farmaceutycznego"
+   ],
+   [
+    "https://www.gov.pl/",
+    "Strona główna gov.pl gov.pl"
+   ],
+   [
+    "/web/gov/deklaracja-dostepnosci-serwisu-govpl",
+    "Deklaracja dostępności serwisu Gov.pl"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "12.03.2026",
+   "27.02.2026",
+   "20.02.2026",
+   "05.02.2026",
+   "06.08.2025",
+   "12.06.2025",
+   "21.03.2025",
+   "31.01.2025",
+   "20.09.2024",
+   "22.08.2024"
+  ]
  },
  "pt_news": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.infarmed.pt/web/infarmed/noticias",
+  "len": 319938,
+  "links": [
+   [
+    "/web/infarmed",
+    "INFARMED - Autoridade Nacional do Medicamento e Produtos de Sa�de I.P."
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;incluir",
+    "Incluir - Pessoas com Doença"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;medicamentos-de-uso-humano",
+    "Medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;prescricao-e-dispensa&#x2f;cedencia-de-base-de-dados-de-medicamentos",
+    "Cedência de base de dados de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;estudos-medicamentos-por-grupo-terapeutico",
+    "Estudos: medicamentos por grupo terapêutico"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-hospitalar",
+    "benchmarking hospitalar\"><em>Benchmarking</em> hospitalar"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-ambulatorio",
+    "benchmarking ambulatório\"><em>Benchmarking</em> ambulatório"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;informacao-de-seguranca",
+    "Informação de segurança"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;vigilancia-de-produtos-cosmeticos",
+    "Vigilância de produtos cosméticos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;vigilancia-de-dispositivos-medicos",
+    "Vigilância de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano",
+    "Medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;efi",
+    "Folheto Informativo eletrónico (eFI): projeto-piloto"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;gestao-da-disponibilidade-do-medicamento",
+    "Gestão da disponibilidade do medicamento"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;avaliacao-tecnico-cientifica",
+    "Avaliação técnico-científica"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;autorizacao-de-introducao-no-mercado",
+    "Autorização de introdução no mercado"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;avaliacao-tecnologias-de-saude",
+    "Avaliação de tecnologias de saúde"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;controlo-laboratorial-de-medicamentos",
+    "Controlo laboratorial de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humanocertificacao-de-medicamentos-de-uso-humano",
+    "Certificação de medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;inspecao-de-medicamentos",
+    "Inspeção de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;medicamentos-terapia-avancada",
+    "Medicamentos de terapia avançada"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;fronteira_sup_alimentares",
+    "Fronteira com suplementos alimentares"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;publicidade-de-medicamentos",
+    "Publicidade de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;medicamento-hospitalar",
+    "Medicamento hospitalar | Farmácia hospitalar"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;canabis-medicinal",
+    "Canábis para fins medicinais"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;terapia-fagica-manipulados-hospitalares",
+    "Terapia fágica | manipulados hospitalares"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cedencia-de-bases-de-dados-de-medicamentos",
+    "Cedência de bases de dados de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;implementacao-dos-novos-regulamentos-de-dm-e-div",
+    "in vitro (DIV)\">Implementação dos novos regulamentos de DM e DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;aquisicao-e-utilizacao-de-dm-e-div",
+    "Aquisição e utilização de DM e DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;autoridade-designacao",
+    "Autoridade de designação"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;avaliacao-da-conformidade",
+    "Avaliação da conformidade"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;classificacao-e-fronteiras",
+    "Classificação e fronteiras"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;gestao-da-disponibilidade-de-dispositivos-medicos",
+    "Gestão da disponibilidade de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;controlo-laboratorial-de-dispositivos-medicos",
+    "Controlo laboratorial de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;inspecao-de-dispositivos-medicos",
+    "Inspeção de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;avaliacao-clinica-de-dm-avaliacao-de-desempenho-de-div",
+    "in vitro (DIV)\">Avaliação clínica de DM / Avaliação de desempenho de DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;registo-de-dm-e-div",
+    "in vitro (DIV)\">Registo de DM e DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;fiscalizacao-do-mercado",
+    "Fiscalização do mercado"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;avaliacao-de-tecnologias-de-saude",
+    "Avaliação de tecnologias de saúde"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;publicidade-de-dispositivos-medicos",
+    "Publicidade de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;relatorio-de-portugal-sobre-a-fiscalizacao",
+    "Relatório de Portugal sobre a fiscalização"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;monitorizacao-do-mercado-de-dispositivos-medicos",
+    "Monitorização do mercado de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;vigilancia-de-dispositivos-medicos",
+    "Vigilância de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;realizacao-de-testes-rapidos",
+    "Testes rápidos de rastreio VIH, VHC e VHB"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;dispositivos-medicos-in-house",
+    "Dispositivos médicos <em>in-house</em>"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;cosmeticos&#x2f;verificacao-da-conformidade",
+    "Verificação da conformidade"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;cosmeticos&#x2f;controlo-laboratorial-de-cosmeticos",
+    "Controlo laboratorial de cosméticos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;publicidade-de-produtos-cosmeticos",
+    "Publicidade de produtos cosméticos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;aquisicao-direta-de-medicamentos",
+    "Aquisição direta de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;atividade-de-intermediacao",
+    "Atividade de intermediação"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;delegados-de-informacao-medica",
+    "Delegados de informação médica"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;distribuidores-por-grosso",
+    "Distribuidores por grosso"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;locais-de-venda-de-medicamentos-nao-sujeitos-a-receita-medica-lvmnsrm",
+    "Locais de venda de medicamentos não sujeitos a receita médica (LVMNSRM)"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;postos-farmaceuticos-moveis",
+    "Postos farmacêuticos móveis"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;reg&#x2e;-dispensa-domicilio",
+    "Registo prévio para dispensa ao domicílio"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;substancias-controladas",
+    "Substâncias controladas"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;licenciamento-mais",
+    "Pedidos de licenciamento+ (formulários e minutas)"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;estrutura-e-organizacao",
+    "Estrutura e organização"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;estrutura-e-organizacao&#x2f;comissoes-tecnicas-especializadas",
+    "Comissões técnicas especializadas"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;areas-de-desenvolvimento-organizacional",
+    "Áreas de desenvolvimento organizacional"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;documentacao_e_informacao",
+    "Documentação e informação"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;documentacao_e_informacao&#x2f;documentos-institucionais",
+    "Documentos institucionais"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;relacoes-internacionais",
+    "Relações internacionais"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;incluir",
+    "Incluir - Pessoas com Doença"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;lista-de-associacoes-de-pessoas-com-doenca-registadas-no-incluir",
+    "Lista de Associações de Pessoas com Doença registadas no Incluir"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;lista-associacoes-de-pessoas-com-doenca-capacitadas",
+    "Lista de Associações de Pessoas com Doença Capacitadas"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;medicamentos-de-uso-humano",
+    "Medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;prescricao-e-dispensa&#x2f;cedencia-de-base-de-dados-de-medicamentos",
+    "Cedência de base de dados de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;estudos-medicamentos-por-grupo-terapeutico",
+    "Estudos: medicamentos por grupo terapêutico"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-hospitalar",
+    "<em>Benchmarking</em> hospitalar"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-ambulatorio",
+    "<em>Benchmarking</em> ambulatório"
+   ]
+  ],
+  "feeds": [
+   "/web/infarmed/rss",
+   "/web/infarmed/rss"
+  ],
+  "dates": [
+   "26/10/2026",
+   "26/10/2026",
+   "23/10/2026",
+   "21/10/2026",
+   "21/10/2026",
+   "20/10/2026",
+   "20/10/2026",
+   "17/10/2026",
+   "15/10/2026",
+   "16/10/2026"
+  ]
  },
  "pt_rss": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.infarmed.pt/web/infarmed/rss",
+  "len": 310290,
+  "links": [
+   [
+    "/web/infarmed",
+    "INFARMED - Autoridade Nacional do Medicamento e Produtos de Sa�de I.P."
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;incluir",
+    "Incluir - Pessoas com Doença"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;medicamentos-de-uso-humano",
+    "Medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;prescricao-e-dispensa&#x2f;cedencia-de-base-de-dados-de-medicamentos",
+    "Cedência de base de dados de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;estudos-medicamentos-por-grupo-terapeutico",
+    "Estudos: medicamentos por grupo terapêutico"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-hospitalar",
+    "benchmarking hospitalar\"><em>Benchmarking</em> hospitalar"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-ambulatorio",
+    "benchmarking ambulatório\"><em>Benchmarking</em> ambulatório"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;informacao-de-seguranca",
+    "Informação de segurança"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;vigilancia-de-produtos-cosmeticos",
+    "Vigilância de produtos cosméticos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;vigilancia-de-dispositivos-medicos",
+    "Vigilância de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano",
+    "Medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;efi",
+    "Folheto Informativo eletrónico (eFI): projeto-piloto"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;gestao-da-disponibilidade-do-medicamento",
+    "Gestão da disponibilidade do medicamento"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;avaliacao-tecnico-cientifica",
+    "Avaliação técnico-científica"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;autorizacao-de-introducao-no-mercado",
+    "Autorização de introdução no mercado"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;avaliacao-tecnologias-de-saude",
+    "Avaliação de tecnologias de saúde"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;controlo-laboratorial-de-medicamentos",
+    "Controlo laboratorial de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humanocertificacao-de-medicamentos-de-uso-humano",
+    "Certificação de medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;inspecao-de-medicamentos",
+    "Inspeção de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;medicamentos-terapia-avancada",
+    "Medicamentos de terapia avançada"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;fronteira_sup_alimentares",
+    "Fronteira com suplementos alimentares"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;publicidade-de-medicamentos",
+    "Publicidade de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;medicamento-hospitalar",
+    "Medicamento hospitalar | Farmácia hospitalar"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;canabis-medicinal",
+    "Canábis para fins medicinais"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;terapia-fagica-manipulados-hospitalares",
+    "Terapia fágica | manipulados hospitalares"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cedencia-de-bases-de-dados-de-medicamentos",
+    "Cedência de bases de dados de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;implementacao-dos-novos-regulamentos-de-dm-e-div",
+    "in vitro (DIV)\">Implementação dos novos regulamentos de DM e DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;aquisicao-e-utilizacao-de-dm-e-div",
+    "Aquisição e utilização de DM e DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;autoridade-designacao",
+    "Autoridade de designação"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;avaliacao-da-conformidade",
+    "Avaliação da conformidade"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;classificacao-e-fronteiras",
+    "Classificação e fronteiras"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;gestao-da-disponibilidade-de-dispositivos-medicos",
+    "Gestão da disponibilidade de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;controlo-laboratorial-de-dispositivos-medicos",
+    "Controlo laboratorial de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;inspecao-de-dispositivos-medicos",
+    "Inspeção de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;avaliacao-clinica-de-dm-avaliacao-de-desempenho-de-div",
+    "in vitro (DIV)\">Avaliação clínica de DM / Avaliação de desempenho de DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;registo-de-dm-e-div",
+    "in vitro (DIV)\">Registo de DM e DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;fiscalizacao-do-mercado",
+    "Fiscalização do mercado"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;avaliacao-de-tecnologias-de-saude",
+    "Avaliação de tecnologias de saúde"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;publicidade-de-dispositivos-medicos",
+    "Publicidade de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;relatorio-de-portugal-sobre-a-fiscalizacao",
+    "Relatório de Portugal sobre a fiscalização"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;monitorizacao-do-mercado-de-dispositivos-medicos",
+    "Monitorização do mercado de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;vigilancia-de-dispositivos-medicos",
+    "Vigilância de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;realizacao-de-testes-rapidos",
+    "Testes rápidos de rastreio VIH, VHC e VHB"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;dispositivos-medicos-in-house",
+    "Dispositivos médicos <em>in-house</em>"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;cosmeticos&#x2f;verificacao-da-conformidade",
+    "Verificação da conformidade"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;cosmeticos&#x2f;controlo-laboratorial-de-cosmeticos",
+    "Controlo laboratorial de cosméticos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;publicidade-de-produtos-cosmeticos",
+    "Publicidade de produtos cosméticos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;aquisicao-direta-de-medicamentos",
+    "Aquisição direta de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;atividade-de-intermediacao",
+    "Atividade de intermediação"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;delegados-de-informacao-medica",
+    "Delegados de informação médica"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;distribuidores-por-grosso",
+    "Distribuidores por grosso"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;locais-de-venda-de-medicamentos-nao-sujeitos-a-receita-medica-lvmnsrm",
+    "Locais de venda de medicamentos não sujeitos a receita médica (LVMNSRM)"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;postos-farmaceuticos-moveis",
+    "Postos farmacêuticos móveis"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;reg&#x2e;-dispensa-domicilio",
+    "Registo prévio para dispensa ao domicílio"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;substancias-controladas",
+    "Substâncias controladas"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;licenciamento-mais",
+    "Pedidos de licenciamento+ (formulários e minutas)"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;estrutura-e-organizacao",
+    "Estrutura e organização"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;estrutura-e-organizacao&#x2f;comissoes-tecnicas-especializadas",
+    "Comissões técnicas especializadas"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;areas-de-desenvolvimento-organizacional",
+    "Áreas de desenvolvimento organizacional"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;documentacao_e_informacao",
+    "Documentação e informação"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;documentacao_e_informacao&#x2f;documentos-institucionais",
+    "Documentos institucionais"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;relacoes-internacionais",
+    "Relações internacionais"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;incluir",
+    "Incluir - Pessoas com Doença"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;lista-de-associacoes-de-pessoas-com-doenca-registadas-no-incluir",
+    "Lista de Associações de Pessoas com Doença registadas no Incluir"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;lista-associacoes-de-pessoas-com-doenca-capacitadas",
+    "Lista de Associações de Pessoas com Doença Capacitadas"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;medicamentos-de-uso-humano",
+    "Medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;prescricao-e-dispensa&#x2f;cedencia-de-base-de-dados-de-medicamentos",
+    "Cedência de base de dados de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;estudos-medicamentos-por-grupo-terapeutico",
+    "Estudos: medicamentos por grupo terapêutico"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-hospitalar",
+    "<em>Benchmarking</em> hospitalar"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-ambulatorio",
+    "<em>Benchmarking</em> ambulatório"
+   ]
+  ],
+  "feeds": [
+   "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;rss",
+   "/web/infarmed/rss",
+   "/web/infarmed/rss",
+   "https://www.infarmed.pt/web/infarmed/rss",
+   "https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.infarmed.pt%2Fweb%2Finfarmed%2Frss&title=%3Cem%3EFeeds%3C%2Fem%3E+INFARMED%2C+I.P.+RSS&description=Infarmed&picture=http%3A%2F%2Fwww.infarmed.pt%2Finfarmed-theme%2Fimages%2Finfarmed-coloured.png",
+   "https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fwww.infarmed.pt%2Fweb%2Finfarmed%2Frss&title=%3Cem%3EFeeds%3C%2Fem%3E+INFARMED%2C+I.P.+RSS&summary=Infarmed",
+   "https://twitter.com/intent/tweet?text=%3Cem%3EFeeds%3C%2Fem%3E+INFARMED%2C+I.P.+RSS&url=http%3A%2F%2Fwww.infarmed.pt%2Fweb%2Finfarmed%2Frss",
+   "mailto:?subject=%3Cem%3EFeeds%3C%2Fem%3E%20INFARMED%2C%20I.P.%20RSS&body=http%3A%2F%2Fwww.infarmed.pt%2Fweb%2Finfarmed%2Frss",
+   "http://pt.wikipedia.org/wiki/RSS",
+   "/web/infarmed/rss-agenda/-/asset_publisher/p30dUPCgMZh6/rss?p_p_cacheability=cacheLevelFull",
+   "/web/infarmed/rss-alertas/-/asset_publisher/grlvtkM7UJK8/rss?p_p_cacheability=cacheLevelFull&_101_INSTANCE_grlvtkM7UJK8_currentURL=%2Fweb%2Finfarmed%2Frss-alertas&_101_INSTANCE_grlvtkM7UJK8_currentURL=%2Fweb%2Finfarmed%2Frss-alertas&_101_INSTANCE_grlvtkM7UJK8_currentURL=%2Fweb%2Finfarmed%2Frss-alertas&_101_INSTANCE_grlvtkM7UJK8_portletAjaxable=1&_101_INSTANCE_grlvtkM7UJK8_portletAjaxable=1&_101_INSTANCE_grlvtkM7UJK8_portletAjaxable=1",
+   "/web/infarmed/rss-comunicados-de-imprensa/-/asset_publisher/19JAuDBUnYuY/rss?p_p_cacheability=cacheLevelFull&_101_INSTANCE_19JAuDBUnYuY_currentURL=%2Fweb%2Finfarmed%2Frss-comunicados-de-imprensa&_101_INSTANCE_19JAuDBUnYuY_currentURL=%2Fweb%2Finfarmed%2Frss-comunicados-de-imprensa&_101_INSTANCE_19JAuDBUnYuY_currentURL=%2Fweb%2Finfarmed%2Frss-comunicados-de-imprensa&_101_INSTANCE_19JAuDBUnYuY_portletAjaxable=1&_101_INSTANCE_19JAuDBUnYuY_portletAjaxable=1&_101_INSTANCE_19JAuDBUnYuY_portletAjaxable=1",
+   "/web/infarmed/rss-noticias/-/asset_publisher/zQws9cSRmjar/rss?p_p_cacheability=cacheLevelFull&_101_INSTANCE_zQws9cSRmjar_currentURL=%2Fweb%2Finfarmed%2Frss-noticias&_101_INSTANCE_zQws9cSRmjar_currentURL=%2Fweb%2Finfarmed%2Frss-noticias&_101_INSTANCE_zQws9cSRmjar_currentURL=%2Fweb%2Finfarmed%2Frss-noticias&_101_INSTANCE_zQws9cSRmjar_portletAjaxable=1&_101_INSTANCE_zQws9cSRmjar_portletAjaxable=1&_101_INSTANCE_zQws9cSRmjar_portletAjaxable=1"
+  ],
+  "dates": []
  },
  "pt_alerts": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.infarmed.pt/web/infarmed/alertas-de-qualidade",
+  "len": 325469,
+  "links": [
+   [
+    "/web/infarmed",
+    "INFARMED - Autoridade Nacional do Medicamento e Produtos de Sa�de I.P."
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;incluir",
+    "Incluir - Pessoas com Doença"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;medicamentos-de-uso-humano",
+    "Medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;prescricao-e-dispensa&#x2f;cedencia-de-base-de-dados-de-medicamentos",
+    "Cedência de base de dados de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;estudos-medicamentos-por-grupo-terapeutico",
+    "Estudos: medicamentos por grupo terapêutico"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-hospitalar",
+    "benchmarking hospitalar\"><em>Benchmarking</em> hospitalar"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-ambulatorio",
+    "benchmarking ambulatório\"><em>Benchmarking</em> ambulatório"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;informacao-de-seguranca",
+    "Informação de segurança"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;vigilancia-de-produtos-cosmeticos",
+    "Vigilância de produtos cosméticos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;vigilancia-de-dispositivos-medicos",
+    "Vigilância de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano",
+    "Medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;efi",
+    "Folheto Informativo eletrónico (eFI): projeto-piloto"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;gestao-da-disponibilidade-do-medicamento",
+    "Gestão da disponibilidade do medicamento"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;avaliacao-tecnico-cientifica",
+    "Avaliação técnico-científica"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;autorizacao-de-introducao-no-mercado",
+    "Autorização de introdução no mercado"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;avaliacao-tecnologias-de-saude",
+    "Avaliação de tecnologias de saúde"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;controlo-laboratorial-de-medicamentos",
+    "Controlo laboratorial de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humanocertificacao-de-medicamentos-de-uso-humano",
+    "Certificação de medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;inspecao-de-medicamentos",
+    "Inspeção de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;medicamentos-terapia-avancada",
+    "Medicamentos de terapia avançada"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;fronteira_sup_alimentares",
+    "Fronteira com suplementos alimentares"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;medicamentos-uso-humano&#x2f;publicidade-de-medicamentos",
+    "Publicidade de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;medicamento-hospitalar",
+    "Medicamento hospitalar | Farmácia hospitalar"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;canabis-medicinal",
+    "Canábis para fins medicinais"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;terapia-fagica-manipulados-hospitalares",
+    "Terapia fágica | manipulados hospitalares"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cedencia-de-bases-de-dados-de-medicamentos",
+    "Cedência de bases de dados de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;implementacao-dos-novos-regulamentos-de-dm-e-div",
+    "in vitro (DIV)\">Implementação dos novos regulamentos de DM e DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;aquisicao-e-utilizacao-de-dm-e-div",
+    "Aquisição e utilização de DM e DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;autoridade-designacao",
+    "Autoridade de designação"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;avaliacao-da-conformidade",
+    "Avaliação da conformidade"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;classificacao-e-fronteiras",
+    "Classificação e fronteiras"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;gestao-da-disponibilidade-de-dispositivos-medicos",
+    "Gestão da disponibilidade de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;controlo-laboratorial-de-dispositivos-medicos",
+    "Controlo laboratorial de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;inspecao-de-dispositivos-medicos",
+    "Inspeção de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;avaliacao-clinica-de-dm-avaliacao-de-desempenho-de-div",
+    "in vitro (DIV)\">Avaliação clínica de DM / Avaliação de desempenho de DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;registo-de-dm-e-div",
+    "in vitro (DIV)\">Registo de DM e DIV"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;fiscalizacao-do-mercado",
+    "Fiscalização do mercado"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;avaliacao-de-tecnologias-de-saude",
+    "Avaliação de tecnologias de saúde"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;publicidade-de-dispositivos-medicos",
+    "Publicidade de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;relatorio-de-portugal-sobre-a-fiscalizacao",
+    "Relatório de Portugal sobre a fiscalização"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;monitorizacao-do-mercado-de-dispositivos-medicos",
+    "Monitorização do mercado de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;vigilancia-de-dispositivos-medicos",
+    "Vigilância de dispositivos médicos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;dispositivos-medicos&#x2f;realizacao-de-testes-rapidos",
+    "Testes rápidos de rastreio VIH, VHC e VHB"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;dispositivos-medicos-in-house",
+    "Dispositivos médicos <em>in-house</em>"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;cosmeticos&#x2f;verificacao-da-conformidade",
+    "Verificação da conformidade"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;cosmeticos&#x2f;controlo-laboratorial-de-cosmeticos",
+    "Controlo laboratorial de cosméticos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;publicidade-de-produtos-cosmeticos",
+    "Publicidade de produtos cosméticos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;aquisicao-direta-de-medicamentos",
+    "Aquisição direta de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;atividade-de-intermediacao",
+    "Atividade de intermediação"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;delegados-de-informacao-medica",
+    "Delegados de informação médica"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;distribuidores-por-grosso",
+    "Distribuidores por grosso"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;locais-de-venda-de-medicamentos-nao-sujeitos-a-receita-medica-lvmnsrm",
+    "Locais de venda de medicamentos não sujeitos a receita médica (LVMNSRM)"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;postos-farmaceuticos-moveis",
+    "Postos farmacêuticos móveis"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;entidades&#x2f;licenciamentos&#x2f;reg&#x2e;-dispensa-domicilio",
+    "Registo prévio para dispensa ao domicílio"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;substancias-controladas",
+    "Substâncias controladas"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;licenciamento-mais",
+    "Pedidos de licenciamento+ (formulários e minutas)"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;estrutura-e-organizacao",
+    "Estrutura e organização"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;estrutura-e-organizacao&#x2f;comissoes-tecnicas-especializadas",
+    "Comissões técnicas especializadas"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;areas-de-desenvolvimento-organizacional",
+    "Áreas de desenvolvimento organizacional"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;documentacao_e_informacao",
+    "Documentação e informação"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;documentacao_e_informacao&#x2f;documentos-institucionais",
+    "Documentos institucionais"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;institucional&#x2f;relacoes-internacionais",
+    "Relações internacionais"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;incluir",
+    "Incluir - Pessoas com Doença"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;lista-de-associacoes-de-pessoas-com-doenca-registadas-no-incluir",
+    "Lista de Associações de Pessoas com Doença registadas no Incluir"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;lista-associacoes-de-pessoas-com-doenca-capacitadas",
+    "Lista de Associações de Pessoas com Doença Capacitadas"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;cidadaos&#x2f;medicamentos-de-uso-humano",
+    "Medicamentos de uso humano"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;prescricao-e-dispensa&#x2f;cedencia-de-base-de-dados-de-medicamentos",
+    "Cedência de base de dados de medicamentos"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;estudos-medicamentos-por-grupo-terapeutico",
+    "Estudos: medicamentos por grupo terapêutico"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-hospitalar",
+    "<em>Benchmarking</em> hospitalar"
+   ],
+   [
+    "https&#x3a;&#x2f;&#x2f;www&#x2e;infarmed&#x2e;pt&#x2f;web&#x2f;infarmed&#x2f;profissionais-de-saude&#x2f;utilizacao-e-despesa&#x2f;benchmarking-ambulatorio",
+    "<em>Benchmarking</em> ambulatório"
+   ]
+  ],
+  "feeds": [
+   "/web/infarmed/rss",
+   "/web/infarmed/rss"
+  ],
+  "dates": [
+   "16/07/2026",
+   "18/07/2026",
+   "16/07/2026",
+   "17/07/2026",
+   "01/06/2026",
+   "03/06/2026",
+   "28/05/2026",
+   "28/05/2026",
+   "05/05/2026",
+   "11/05/2026"
+  ]
  },
  "ro_news": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.anm.ro/medicamente-de-uz-uman/anunturi-importante-medicamente-de-uz-uman/",
+  "len": 602838,
+  "links": [
+   [
+    "https://www.anm.ro/despre-institutie/politica-de-transparenta/",
+    "Politica de transparență"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/politica-referitoare-la-calitate/",
+    "Politica referitoare la calitate"
+   ],
+   [
+    "https://www.anm.ro/agentie/politica-anmdmr-privind-actualizarile-paginii-web/",
+    "Politica privind actualizările paginii web"
+   ],
+   [
+    "https://www.anm.ro/politica-de-securitate-itc/",
+    "Politica de securitate IT&C"
+   ],
+   [
+    "https://www.anm.ro/agentie/protectia-datelor-cu-caracter-personal-gdpr/",
+    "Protecția datelor cu caracter personal – GDPR"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/persoanele-cu-functii-de-conducere-persoane-de-contact/",
+    "Persoanele cu funcții de conducere"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/consiliul-de-administratie/",
+    "Consiliul de Administrație"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/regulament-de-organizare-si-functionare/",
+    "Regulament de organizare și funcționare"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/structura-organizatorica/",
+    "Structura organizatorică"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/agenda-de-integritate-organizationala/",
+    "Agenda de integritate organizațională"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/lista-angajatilor-desemnati-in-grupuri-de-lucru/",
+    "Lista angajaților desemnați în grupuri de lucru"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/legislatie-organizarea-si-functionarea-institutiei/",
+    "Legislație (organizarea și funcționarea instituției)"
+   ],
+   [
+    "https://www.anm.ro/anunturi-importante-covid-19/",
+    "Anunțuri importante COVID-19"
+   ],
+   [
+    "https://www.anm.ro/informatii-studii-clinice-covid-19/",
+    "Informații Studii Clinice COVID-19"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/anunturi-importante-medicamente-de-uz-uman/",
+    "Anunțuri importante – Medicamente de uz uman"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/anunturi-ans-autorizatii-pentru-nevoi-speciale-conform-oms-1351-21-07-2021/",
+    "Anunțuri ANS (Autorizații pentru Nevoi Speciale) conform OMS 1351/21.07.2021"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/legislatie/legi-ordonante-si-hotarari-de-guvern/",
+    "Legislație – Medicamente de uz uman"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/formulare-si-tarife/",
+    "Formulare și tarife – Medicamente de uz uman"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/informatii-despre-nitrozamine-pentru-dapp/",
+    "Informații despre nitrozamine pentru DAPP"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/autorizare-medicamente/autorizatii-de-import-paralel/",
+    "Autorizații de import paralel"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/evaluare-tehnologii-medicale/",
+    "Evaluare Tehnologii Medicale"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/tratamente-de-ultima-instanta/",
+    "Tratamente de ultima instanță"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/farmacovigilenta/raporteaza-o-reactie-adversa/",
+    "Raportează o reacție adversă"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/farmacovigilenta/comunicari-directe-catre-profesionistii-din-domeniul-sanatatii/",
+    "Comunicări directe către profesioniștii din domeniul sanătății"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/transmite-o-sesizare-privind-calitatea-unui-medicament/",
+    "Transmite o sesizare privind calitatea unui medicament"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/informeaza-despre-lipsa-unui-medicament/",
+    "Informează despre lipsa unui medicament"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/notificari-livrari-intracomunitare/",
+    "Notificări livrări intracomunitare"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/autorizare-medicamente/notificari-discontinuitate-medicamente/",
+    "Notificări discontinuitate medicamente"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/publicitate/sponsorizari-medicamente-de-uz-uman/",
+    "Sponsorizări – Medicamente de uz uman"
+   ],
+   [
+    "https://nomenclator.anm.ro/medicamente",
+    "Nomenclatorul medicamentelor de uz uman"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/anunturi-importante-dispozitive-medicale/",
+    "Anunțuri importante – Dispozitive medicale"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/legislatie/legi-ordonante-si-hotarari-de-guvern/",
+    "Legislație – Dispozitive medicale"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/formulare-si-tarife/",
+    "Formulare și tarife – Dispozitive medicale"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/definitii-si-clasificare-dispozitive-medicale/",
+    "Definiții și clasificare dispozitive medicale"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/inregistrare-dispozitive-medicale-in-baza-nationala-de-date/",
+    "Înregistrare dispozitive medicale în baza natională de date"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/eliberare-aviz-de-donatie/",
+    "Eliberare aviz de donație"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/supraveghere-in-utilizare/",
+    "Supraveghere în utilizare"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/investigatii-clinice-si-studii-referitoare-la-performanta/",
+    "Investigații clinice și studii referitoare la performanță"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/emitere-buletin-de-verificare-periodica-aviz-de-utilizare/",
+    "Emitere buletin de verificare periodică / aviz de utilizare"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/emiterea-certificatului-de-libera-vanzare/",
+    "Certificate de liberă vânzare"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/raporteaza-o-intrerupere-sau-o-incetare-in-furnizarea-dispozitivelor-medicale-sau-a-dispozitivelor-medicale-pentru-diagnostic-in-vitro/",
+    "Raportează o întrerupere sau o încetare"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/certificate-de-conformitate-ce-falsificate-copii-falsificate-ale-unor-certificate-de-conformitate-ce-emise-de-organisme-notificate/",
+    "Certificate de conformitate CE falsificate / Copii falsificate ale unor certificate de conformitate"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/desemnare-laboratoare-de-referinta-ale-uniunii-europene/",
+    "Desemnare laboratoare de referință ale Uniunii Europene"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/comunicari-privind-siguranta/",
+    "Comunicări privind siguranța"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/sistemul-de-identificare-unica-a-unui-dispozitiv-sistemul-udi/",
+    "Sistemul de identificare unică a unui dispozitiv – sistemul UDI"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/sponsorizari-dispozitive-medicale/",
+    "Sponsorizări – Dispozitive medicale"
+   ],
+   [
+    "https://dispozitive.anm.ro/",
+    "Baza națională de date cu dispozitive medicale"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/legea-nr-544-2001-privind-liberul-acces-la-informatiile-de-interes-public/",
+    "Legea nr. 544/2001 privind liberul acces la informațiile de interes public"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/hotararea-guvernului-nr-123-2002-pentru-aprobarea-normelor-metodologice-de-aplicare-a-legii-nr-544-2001/",
+    "Hotărârea Guvernului nr. 123/2002 pentru aprobarea Normelor metodologice de aplicare a Legii nr. 544/2001"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/decizia-presedintelui-nr-175-2019-lista-informatiilor-exceptate/",
+    "Decizia Președintelui nr. 175/2019 – Lista informațiilor exceptate"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/numele-si-prenumele-persoanei-responsabile-pentru-legea-5442001/",
+    "Numele și prenumele persoanei responsabile pentru Legea 544/2001"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/formular-de-solicitare-in-baza-legea-5442001/",
+    "Formular de solicitare în baza Legii nr. 544/2001 privind liberul acces la informațiile de interes public, cu modificările și completările u"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/modalitatea-de-contestare-a-deciziei-si-formularele-aferente-pentru-reclamatie-administrativa/",
+    "Modalitatea de contestare a deciziei și formularele aferente pentru reclamație administrativă"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/lista-cu-documentele-de-interes-public-si-lista-cu-documentele-produsegestionate-de-institutie/",
+    "Lista cu documentele de interes public și lista cu documentele produse/gestionate de instituție"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/rapoarte-de-aplicare-a-legii-5442001/",
+    "Rapoarte de aplicare a Legii 544/2001"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/bugetul-cu-sursa-de-finantare/",
+    "Bugetul cu sursa de finanțare"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/situatia-platilor-executia-bugetara/",
+    "Situatia plăților (execuția bugetară)"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/situatia-anuala-a-finantarilor-nerambursabile/",
+    "Situația anuală a finanțărilor nerambursabile"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/situatia-drepturilor-salariale-si-alte-drepturi/",
+    "Situația drepturilor salariale și alte drepturi"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/programul-anual-al-achizitiilor-publice/",
+    "Programul anual al achizițiilor publice"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/centralizatorul-achizitiilor-publice/",
+    "Centralizatorul achizițiilor publice"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/contracte-de-achizitie-publica/",
+    "Contracte de achiziție publică"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/documente-privind-executia-contractelor/",
+    "Documente privind execuția contractelor"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/declaratii-de-interese-ale-membrilor-consiliului-de-administratie/",
+    "Declarații de interese ale membrilor Consiliului de Administrație"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/declaratii-de-interese-ale-membrilor-consiliului-stintific/",
+    "Declarații de interese ale membrilor Consiliului Științific"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/declaratii-de-avere-ale-membrilor-consiliului-de-administratie-al-anmdmr/",
+    "Declaratii de avere ale membrilor Consiliului de Administrație al ANMDMR"
+   ],
+   [
+    "https://www.anm.ro/contact/conturi-bancare-si-cod-fiscal/",
+    "Conturi bancare și Cod fiscal"
+   ],
+   [
+    "https://uploadsp.anm.ro/",
+    "https://uploadsp.anm.ro/"
+   ],
+   [
+    "https://www.ema.europa.eu/en/events/mandatory-use-iso-ich-e2br3-individual-case-safety-reporting-eu-hands-training-course-using-eudravigilance-system-59",
+    "https://www.ema.europa.eu/en/events/mandatory-use-iso-ich-e2br3-individual-case-safety-reporting-eu-hands-training-course-using-eudravigilan"
+   ],
+   [
+    "https://www.ema.europa.eu/en/documents/agenda/agenda-mandatory-use-iso-ich-e2br3-individual-case-safety-reporting-eu-hands-training-course-using-eudravigilance-system-october-2026_en.pdf",
+    "Agenda Curs EudraVigilance"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "21.07.2021",
+   "28.10.2026",
+   "01.01.2027",
+   "23.10.2026",
+   "03.09.2026",
+   "16.04.2026",
+   "26.02.2026",
+   "22.01.2026",
+   "24.12.2025",
+   "23.12.2025"
+  ]
  },
  "ro_dhpc": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.anm.ro/medicamente-de-uz-uman/farmacovigilenta/comunicari-directe-catre-profesionistii-din-domeniul-sanatatii/",
+  "len": 113858,
+  "links": [
+   [
+    "https://www.anm.ro/despre-institutie/politica-de-transparenta/",
+    "Politica de transparență"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/politica-referitoare-la-calitate/",
+    "Politica referitoare la calitate"
+   ],
+   [
+    "https://www.anm.ro/agentie/politica-anmdmr-privind-actualizarile-paginii-web/",
+    "Politica privind actualizările paginii web"
+   ],
+   [
+    "https://www.anm.ro/politica-de-securitate-itc/",
+    "Politica de securitate IT&C"
+   ],
+   [
+    "https://www.anm.ro/agentie/protectia-datelor-cu-caracter-personal-gdpr/",
+    "Protecția datelor cu caracter personal – GDPR"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/persoanele-cu-functii-de-conducere-persoane-de-contact/",
+    "Persoanele cu funcții de conducere"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/consiliul-de-administratie/",
+    "Consiliul de Administrație"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/regulament-de-organizare-si-functionare/",
+    "Regulament de organizare și funcționare"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/structura-organizatorica/",
+    "Structura organizatorică"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/agenda-de-integritate-organizationala/",
+    "Agenda de integritate organizațională"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/lista-angajatilor-desemnati-in-grupuri-de-lucru/",
+    "Lista angajaților desemnați în grupuri de lucru"
+   ],
+   [
+    "https://www.anm.ro/despre-institutie/legislatie-organizarea-si-functionarea-institutiei/",
+    "Legislație (organizarea și funcționarea instituției)"
+   ],
+   [
+    "https://www.anm.ro/anunturi-importante-covid-19/",
+    "Anunțuri importante COVID-19"
+   ],
+   [
+    "https://www.anm.ro/informatii-studii-clinice-covid-19/",
+    "Informații Studii Clinice COVID-19"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/anunturi-importante-medicamente-de-uz-uman/",
+    "Anunțuri importante – Medicamente de uz uman"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/anunturi-ans-autorizatii-pentru-nevoi-speciale-conform-oms-1351-21-07-2021/",
+    "Anunțuri ANS (Autorizații pentru Nevoi Speciale) conform OMS 1351/21.07.2021"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/legislatie/legi-ordonante-si-hotarari-de-guvern/",
+    "Legislație – Medicamente de uz uman"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/formulare-si-tarife/",
+    "Formulare și tarife – Medicamente de uz uman"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/informatii-despre-nitrozamine-pentru-dapp/",
+    "Informații despre nitrozamine pentru DAPP"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/autorizare-medicamente/autorizatii-de-import-paralel/",
+    "Autorizații de import paralel"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/evaluare-tehnologii-medicale/",
+    "Evaluare Tehnologii Medicale"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/tratamente-de-ultima-instanta/",
+    "Tratamente de ultima instanță"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/farmacovigilenta/raporteaza-o-reactie-adversa/",
+    "Raportează o reacție adversă"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/farmacovigilenta/comunicari-directe-catre-profesionistii-din-domeniul-sanatatii/",
+    "Comunicări directe către profesioniștii din domeniul sanătății"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/transmite-o-sesizare-privind-calitatea-unui-medicament/",
+    "Transmite o sesizare privind calitatea unui medicament"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/informeaza-despre-lipsa-unui-medicament/",
+    "Informează despre lipsa unui medicament"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/notificari-livrari-intracomunitare/",
+    "Notificări livrări intracomunitare"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/autorizare-medicamente/notificari-discontinuitate-medicamente/",
+    "Notificări discontinuitate medicamente"
+   ],
+   [
+    "https://www.anm.ro/medicamente-de-uz-uman/publicitate/sponsorizari-medicamente-de-uz-uman/",
+    "Sponsorizări – Medicamente de uz uman"
+   ],
+   [
+    "https://nomenclator.anm.ro/medicamente",
+    "Nomenclatorul medicamentelor de uz uman"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/anunturi-importante-dispozitive-medicale/",
+    "Anunțuri importante – Dispozitive medicale"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/legislatie/legi-ordonante-si-hotarari-de-guvern/",
+    "Legislație – Dispozitive medicale"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/formulare-si-tarife/",
+    "Formulare și tarife – Dispozitive medicale"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/definitii-si-clasificare-dispozitive-medicale/",
+    "Definiții și clasificare dispozitive medicale"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/inregistrare-dispozitive-medicale-in-baza-nationala-de-date/",
+    "Înregistrare dispozitive medicale în baza natională de date"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/eliberare-aviz-de-donatie/",
+    "Eliberare aviz de donație"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/supraveghere-in-utilizare/",
+    "Supraveghere în utilizare"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/investigatii-clinice-si-studii-referitoare-la-performanta/",
+    "Investigații clinice și studii referitoare la performanță"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/emitere-buletin-de-verificare-periodica-aviz-de-utilizare/",
+    "Emitere buletin de verificare periodică / aviz de utilizare"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/emiterea-certificatului-de-libera-vanzare/",
+    "Certificate de liberă vânzare"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/raporteaza-o-intrerupere-sau-o-incetare-in-furnizarea-dispozitivelor-medicale-sau-a-dispozitivelor-medicale-pentru-diagnostic-in-vitro/",
+    "Raportează o întrerupere sau o încetare"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/certificate-de-conformitate-ce-falsificate-copii-falsificate-ale-unor-certificate-de-conformitate-ce-emise-de-organisme-notificate/",
+    "Certificate de conformitate CE falsificate / Copii falsificate ale unor certificate de conformitate"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/desemnare-laboratoare-de-referinta-ale-uniunii-europene/",
+    "Desemnare laboratoare de referință ale Uniunii Europene"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/comunicari-privind-siguranta/",
+    "Comunicări privind siguranța"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/sistemul-de-identificare-unica-a-unui-dispozitiv-sistemul-udi/",
+    "Sistemul de identificare unică a unui dispozitiv – sistemul UDI"
+   ],
+   [
+    "https://www.anm.ro/dispozitive-medicale/sponsorizari-dispozitive-medicale/",
+    "Sponsorizări – Dispozitive medicale"
+   ],
+   [
+    "https://dispozitive.anm.ro/",
+    "Baza națională de date cu dispozitive medicale"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/legea-nr-544-2001-privind-liberul-acces-la-informatiile-de-interes-public/",
+    "Legea nr. 544/2001 privind liberul acces la informațiile de interes public"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/hotararea-guvernului-nr-123-2002-pentru-aprobarea-normelor-metodologice-de-aplicare-a-legii-nr-544-2001/",
+    "Hotărârea Guvernului nr. 123/2002 pentru aprobarea Normelor metodologice de aplicare a Legii nr. 544/2001"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/decizia-presedintelui-nr-175-2019-lista-informatiilor-exceptate/",
+    "Decizia Președintelui nr. 175/2019 – Lista informațiilor exceptate"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/numele-si-prenumele-persoanei-responsabile-pentru-legea-5442001/",
+    "Numele și prenumele persoanei responsabile pentru Legea 544/2001"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/formular-de-solicitare-in-baza-legea-5442001/",
+    "Formular de solicitare în baza Legii nr. 544/2001 privind liberul acces la informațiile de interes public, cu modificările și completările u"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/modalitatea-de-contestare-a-deciziei-si-formularele-aferente-pentru-reclamatie-administrativa/",
+    "Modalitatea de contestare a deciziei și formularele aferente pentru reclamație administrativă"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/lista-cu-documentele-de-interes-public-si-lista-cu-documentele-produsegestionate-de-institutie/",
+    "Lista cu documentele de interes public și lista cu documentele produse/gestionate de instituție"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/rapoarte-de-aplicare-a-legii-5442001/",
+    "Rapoarte de aplicare a Legii 544/2001"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/bugetul-cu-sursa-de-finantare/",
+    "Bugetul cu sursa de finanțare"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/situatia-platilor-executia-bugetara/",
+    "Situatia plăților (execuția bugetară)"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/situatia-anuala-a-finantarilor-nerambursabile/",
+    "Situația anuală a finanțărilor nerambursabile"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/situatia-drepturilor-salariale-si-alte-drepturi/",
+    "Situația drepturilor salariale și alte drepturi"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/programul-anual-al-achizitiilor-publice/",
+    "Programul anual al achizițiilor publice"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/centralizatorul-achizitiilor-publice/",
+    "Centralizatorul achizițiilor publice"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/contracte-de-achizitie-publica/",
+    "Contracte de achiziție publică"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/documente-privind-executia-contractelor/",
+    "Documente privind execuția contractelor"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/declaratii-de-interese-ale-membrilor-consiliului-de-administratie/",
+    "Declarații de interese ale membrilor Consiliului de Administrație"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/declaratii-de-interese-ale-membrilor-consiliului-stintific/",
+    "Declarații de interese ale membrilor Consiliului Științific"
+   ],
+   [
+    "https://www.anm.ro/informatii-de-interes-public/declaratii-de-avere-ale-membrilor-consiliului-de-administratie-al-anmdmr/",
+    "Declaratii de avere ale membrilor Consiliului de Administrație al ANMDMR"
+   ],
+   [
+    "https://www.anm.ro/contact/conturi-bancare-si-cod-fiscal/",
+    "Conturi bancare și Cod fiscal"
+   ],
+   [
+    "https://www.ema.europa.eu/en/documents/scientific-guideline/guideline-good-pharmacovigilance-practices-module-xv-safety-communication-rev-1_en.pdf",
+    "GVP Module XV – Safety communication"
+   ],
+   [
+    "/medicamente-de-uz-uman/farmacovigilenta/raporteaza-o-reactie-adversa/",
+    "Raportează o reacție adversă"
+   ],
+   [
+    "/medicamente-de-uz-uman/farmacovigilenta/raporteaza-o-reactie-adversa/#intrebari-si-raspunsuri",
+    "Informații pentru pacienți privind raportarea reacțiilor adverse (secțiune cu întrebări și răspunsuri)"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "21.07.2021"
+  ]
  },
  "is_new": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 404,
+  "url": "https://island.is/s/lyfjastofnun/frettir",
+  "len": 151353,
+  "links": [
+   [
+    "/s/stafraent-island/personuverndarstefna-island-is",
+    "Persónuverndarstefna IS"
+   ]
+  ],
+  "feeds": [],
+  "dates": []
  },
  "se_news": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.lakemedelsverket.se/sv/nyheter",
+  "len": 286685,
+  "links": [
+   [
+    "mailto:registrator@lakemedelsverket.se",
+    "registrator@lakemedelsverket.se"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "2026-10-13",
+   "2025-07-02",
+   "2025-11-04",
+   "2025-12-03",
+   "2026-01-30",
+   "2026-02-24",
+   "2026-02-24",
+   "2026-10-13"
+  ]
  },
  "se_rss": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 404,
+  "url": "https://www.lakemedelsverket.se/sv/rss/nyheter",
+  "len": 275498,
+  "links": [
+   [
+    "mailto:registrator@lakemedelsverket.se",
+    "registrator@lakemedelsverket.se"
+   ]
+  ],
+  "feeds": [],
+  "dates": [
+   "2026-10-13",
+   "2025-07-02",
+   "2025-11-04",
+   "2025-12-03",
+   "2026-01-30",
+   "2026-02-24",
+   "2026-02-24",
+   "2026-10-13"
+  ]
  },
  "no_dmp": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://www.dmp.no/nyheter",
+  "len": 512105,
+  "links": [
+   [
+    "/en/news",
+    "Show this page in English"
+   ],
+   [
+    "/godkjenning",
+    "Godkjenning av legemidler"
+   ],
+   [
+    "/godkjenning/utvikling-av-legemidler",
+    "Slik utvikles og godkjennes legemidler"
+   ],
+   [
+    "/godkjenning/utvikling-av-legemidler/godkjent-eller-ikke-godkjent-hvilke-statuser-kan-et-legemiddel-ha",
+    "Hvilke statuser kan et legemiddel ha?"
+   ],
+   [
+    "/godkjenning/utvikling-av-legemidler/generisk-legemiddel-og-parallellimportert-legemiddel",
+    "Generisk legemiddel og parallellimportert legemiddel"
+   ],
+   [
+    "/godkjenning/klinisk-utproving",
+    "Klinisk utprøving av legemidler til mennesker"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/regelverk-og-veiledninger-for-klinisk-utproving",
+    "Regelverk og veiledninger"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/clinical-trials-information-system-ctis",
+    "Clinical Trials Information System (CTIS)"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/soknad-om-klinisk-utproving",
+    "Søknad om klinisk utprøving"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/soknad-om-klinisk-utproving/soknadsdokumentasjon",
+    "Søknad om klinisk utprøving - krav til dokumentasjon"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/soknad-om-klinisk-utproving/soknad-om-vesentlig-endring",
+    "Søknad om vesentlig endring"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/soknad-om-klinisk-utproving/lavintervensjonsstudier",
+    "Lavintervensjonsstudier"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/soknad-om-klinisk-utproving/trinnvis-innsendelse-av-soknad-om-klinisk-utproving-article-11-workaround",
+    "Trinnvis innsendelse av søknad om klinisk utprøving (Article 11 workaround)"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/rapportering-mens-studien-pagar",
+    "Rapportering for pågående kliniske studier etter godkjenning"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/rapportering-nar-studien-er-avsluttet",
+    "Rapportering når klinisk studie er avsluttet"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/fast-eu-en-pilot-for-raskere-saksbehandling-av-multinasjonale-kliniske-studier",
+    "FAST-EU En pilot for raskere saksbehandling av multinasjonale kliniske studier"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/soknad-om-klinisk-utproving-av-gmo-i-legemidler-til-mennesker",
+    "Søknad om klinisk utprøving av GMO i legemidler til mennesker"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/soknad-om-compassionate-use-program",
+    "Compassionate Use Program"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/desentraliserte-kliniske-utprovinger",
+    "Desentraliserte kliniske utprøvinger"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/inspeksjoner-av-kliniske-studier",
+    "Inspeksjon av kliniske studier"
+   ],
+   [
+    "/godkjenning/klinisk-utproving/oversikt-over-antallet-sokte-studier-om-klinisk-utproving",
+    "Oversikt over mottatte søknader - klinisk utprøving og innovasjon"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse",
+    "Søknad og oppfølging av markedsføringstillatelse"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/soknad-om-markedsforingstillatelse",
+    "Søknad om markedsføringstillatelse"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/soknad-om-markedsforingstillatelse/avanserte-terapier-sykehusunntak",
+    "Avanserte terapier - sykehusunntak"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/soknad-om-markedsforingstillatelse/nasjonal-prosedyre-ved-soknad-om-markedsforingstillatelse",
+    "Nasjonal prosedyre (NP)"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/soknad-om-markedsforingstillatelse/gjensidig-anerkjennelsesprosedyre-mrp",
+    "Gjensidig anerkjennelsesprosedyre (MRP)"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/soknad-om-markedsforingstillatelse/desentralisert-prosedyre",
+    "Desentralisert prosedyre (DCP)"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/soknad-om-markedsforingstillatelse/innsending-av-soknader-om-markedsforingstillatelse",
+    "Innsending av elektroniske søknader"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/soknad-om-markedsforingstillatelse/utlysning-av-onskede-preparater-for-a-unnga-legemiddelmangel",
+    "Utlysning av ønskede preparater"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/soknad-om-markedsforingstillatelse/pagaende-soknader-om-markedsforingstillatelser",
+    "Pågående søknader om markedsføringstillatelser"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/soknad-om-markedsforingstillatelse/liste-over-nye-markedsforingstillatelser",
+    "Liste over nye markedsføringstillatelser"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/soknad-om-markedsforingstillatelse/nasjonale-mt-soknader-til-dyr-som-er-trukket",
+    "Nasjonale MT søknader til dyr som er trukket"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/fornyelse-av-markedsforingstillatelse",
+    "Fornyelse av markedsføringstillatelse"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/endring-av-markedsforingstillatelse",
+    "Endring av markedsføringstillatelse"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/endring-av-markedsforingstillatelse/overforing-av-mtendret-navn-og-adresse-for-mt-innehaver",
+    "Overføring av MT/endret navn og adresse for MT-innehaver"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/endring-av-markedsforingstillatelse/artikkel-613-notifikasjoner-og-vra-gi15z-np",
+    "Artikkel 61(3)-notifikasjoner og VRA G.I.15z (NP)"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/endring-av-markedsforingstillatelse/arbeidsdelingsprosedyre-worksharing-med-nasjonalt-godkjente-legemidler",
+    "Arbeidsdelingsprosedyre («worksharing»)"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/endring-av-markedsforingstillatelse/grunnkrav-til-endringssoknader-i-nasjonal-prosedyre",
+    "Innsendelse av endringssøknader"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/endring-av-markedsforingstillatelse/respons-fra-DMP-for-endringssoknader",
+    "DMP-svar på ferdigstilte endringssøknader"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/endring-av-markedsforingstillatelse/implementeringsfrist-for-endringer-som-ikke-berorer-norsk-produktinformasjon",
+    "Implementeringsfrist for endringer som ikke berører norsk produktinformasjon"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/relevant-informasjon-for-soknad-og-oppfolging-av-mt",
+    "Relevant informasjon for søknad og oppfølging av MT"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/relevant-informasjon-for-soknad-og-oppfolging-av-mt/veiledning-for-navn-pa-legemidler",
+    "Veiledning ved forslag til navn på legemiddel"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/relevant-informasjon-for-soknad-og-oppfolging-av-mt/avregistrering-midlertidig-utgatt-og-reaktivering",
+    "Avregistrering, midlertidig utgått og reaktivering"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/relevant-informasjon-for-soknad-og-oppfolging-av-mt/batchspesifikke-unntak/soknad-om-batchspesifikke-unntak-relatert-til-kvalitets-do",
+    "Batchspesifikke unntak relatert til kvalitet"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/relevant-informasjon-for-soknad-og-oppfolging-av-mt/databaser-og-digitale-systemet",
+    "Databaser og digitale systemet"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/relevant-informasjon-for-soknad-og-oppfolging-av-mt/termer-i-legemiddelgrunndata--standardisering-i-samarbeid-med-brukere",
+    "Termer i Legemiddelgrunndata"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/relevant-informasjon-for-soknad-og-oppfolging-av-mt/termer-i-legemiddelgrunndata--standardisering-i-samarbeid-med-brukere/substanser-",
+    "Substanser er fellesbetegnelsen for virkestoff og hjelpestoff"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/relevant-informasjon-for-soknad-og-oppfolging-av-mt/termer-i-legemiddelgrunndata--standardisering-i-samarbeid-med-brukere/atc-kodever",
+    "ATC-kodeverk og viktigheten av femte nivå for preparater"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/relevant-informasjon-for-soknad-og-oppfolging-av-mt/termer-i-legemiddelgrunndata--standardisering-i-samarbeid-med-brukere/kosttilskud",
+    "Kosttilskudd til FEST og FHIR-tjenesten"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/utforming-av-preparatomtale-og-pakningsvedlegg",
+    "Preparatomtale og pakningsvedlegg"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/utforming-av-preparatomtale-og-pakningsvedlegg/internasjonale-enheter-ie-og-enhet-e-har-",
+    "Internasjonale enheter (IE) og Enhet (E) har ulik betydning"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/templater-veiledninger",
+    "Templater og veiledninger"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/digitalt-pakningsvedlegg",
+    "Digitalt pakningsvedlegg"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/implementeringsfrist-for-merking-og-pakningsvedlegg",
+    "Implementeringsfrist for merking og pakningsvedlegg"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/implementeringsfrist-for-merking-og-pakningsvedlegg/soknad-om-batchspesifikke-unntak-rel",
+    "Søknad om batchspesifikke unntak relatert til produktinformasjon"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/anbefalinger-om-oppdatering-av-produktinformasjon",
+    "Anbefalinger om oppdateringer"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/anbefalinger-om-oppdatering-av-produktinformasjon/anbefalinger-fra-prac-etter-utredning-",
+    "Norske oversettelser av PRAC-anbefalinger etter utredning av signaler"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/lesbarhetstesting-og-bridging",
+    "Lesbarhetstesting og bridging"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/reseptfrihet-otc",
+    "Legemidler som utleveres uten resept - OTC"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/reseptfrihet-otc/soknad-om-otc-status-og-endring-i-otc-status",
+    "Søknad om OTC-status og endring i OTC-status"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/reseptfrihet-otc/harmonisering-av-pakningsvedlegg-og-merking-for-otc-legemidler-med-virkestoffrapport",
+    "Harmonisering av pakningsvedlegg og merking for OTC-legemidler med virkestoffrapport"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/Plantebaserte-legemidler",
+    "Plantebaserte legemidler"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/Plantebaserte-legemidler/dokumentasjonskrav-ved-soknad-om-markedsforingstillatelse-for-plantebasert-legemiddel",
+    "Dokumentasjonskrav ved søknad om markedsføringstillatelse"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/Plantebaserte-legemidler/sporsmal-og-svar-om-markedsforingstillatelse-for-plantebaserte-legemidler",
+    "Spørsmål og svar om markedsføringstillatelse for plantebaserte legemidler"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/Plantebaserte-legemidler/plantebaserte-legemidler-med-markedsforingstillatelse",
+    "Plantebaserte legemidler med markedsføringstillatelse"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/Plantebaserte-legemidler/plantebaserte-legemidler-europeisk-regelverk-monografier-og-liste",
+    "Europeisk regelverk, monografier og liste"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/Plantebaserte-legemidler/markedsforingstillatelse-for-naturlegemidler",
+    "Markedsføringstillatelse for naturlegemidler"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/Plantebaserte-legemidler/definisjoner-og-markedsadgang-for-plantebaserte-legemidler",
+    "Definisjoner og markedsadgang for plantebaserte legemidler"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/homoopatiske-legemidler",
+    "Homøopatiske legemidler"
+   ],
+   [
+    "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/homoopatiske-legemidler/krav-om-registrering-av-homoopatiske-legemidler",
+    "Krav om registrering av homøopatiske legemidler"
+   ]
+  ],
+  "feeds": [
+   "/css/feedback.css?v=VHbxHKSKHbkBYH9ihonWZBgx-x15KXQeUQtu8PZRNK4",
+   "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/utforming-av-preparatomtale-og-pakningsvedlegg",
+   "/godkjenning/godkjenning-og-oppfolging-av-markedsforingstillatelse/produktinformasjon-templater-og-veiledninger/utforming-av-preparatomtale-og-pakningsvedlegg/internasjonale-enheter-ie-og-enhet-e-har-ulik-betydning"
+  ],
+  "dates": []
  },
  "lv_zva": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 404,
+  "url": "https://www.zva.gov.lv/lv/jaunumi",
+  "len": 266145,
+  "links": [
+   [
+    "#main-content",
+    "Pārlekt uz galveno saturu"
+   ],
+   [
+    "/lv/par-mums/par-agenturu/etikas-kodekss/informacija-par-lobetajiem",
+    "Informācija par lobētājiem"
+   ],
+   [
+    "/lv/par-mums/par-agenturu/starptautiska-sadarbiba",
+    "Starptautiskā sadarbība"
+   ],
+   [
+    "/lv/par-mums/par-agenturu/starptautiska-sadarbiba/starptautiskie-projekti",
+    "Starptautiskie projekti"
+   ],
+   [
+    "/lv/par-mums/par-agenturu/budzets/informacija-par-piemaksam-un-socialajam-garantijam",
+    "Informācija par piemaksām un sociālajām garantijām"
+   ],
+   [
+    "/lv/par-mums/par-agenturu/sikdatnu-politikas-pazinojums-0",
+    "Sīkdatņu politikas paziņojums"
+   ],
+   [
+    "/lv/par-mums/publiskie-iepirkumi/2018/noslegtie-ligumi-2018/preces-pakalpojumi-lidz-eur-10-000",
+    "Preces, pakalpojumi līdz EUR 10 000"
+   ],
+   [
+    "/lv/par-mums/publiskie-iepirkumi/2018/noslegtie-ligumi-2018/buvdarbi-lidz-eur-20-000",
+    "Būvdarbi līdz EUR 20 000"
+   ],
+   [
+    "/lv/par-mums/publiskie-iepirkumi/2018/iepirkumi-publisko-iepirkumu-likuma-9-panta-kartiba",
+    "Iepirkumi publisko iepirkumu likuma 9. panta kārtībā"
+   ],
+   [
+    "/lv/par-mums/publiskie-iepirkumi/iepirkumi-publisko-iepirkumu-likuma-9-panta-kartiba/preces-pakalpojumi-eur-10-000-42-000",
+    "Preces, pakalpojumi EUR 10 000 - 42 000"
+   ],
+   [
+    "/lv/par-mums/publiskie-iepirkumi/iepirkumi-publisko-iepirkumu-likuma-9-panta-kartiba/buvdarbi-eur-20-000-170-000",
+    "Būvdarbi EUR 20 000 - 170 000"
+   ],
+   [
+    "/lv/par-mums/publiskie-iepirkumi/atklatie-konkursi/preces-pakalpojumi-no-eur-42-000",
+    "Preces, pakalpojumi no EUR 42 000"
+   ],
+   [
+    "/lv/par-mums/publiskie-iepirkumi/atklatie-konkursi/buvdarbi-no-eur-170-000",
+    "Būvdarbi no EUR 170 000"
+   ],
+   [
+    "/lv/par-mums/publiskie-iepirkumi/2018/citas-iepirkumu-proceduras",
+    "Citas iepirkumu procedūras"
+   ],
+   [
+    "/lv/par-mums/publiskie-iepirkumi/2018/publisko-iepirkumu-likuma-2-pielikuma-mineto-pakalpojumu-iepirkumi",
+    "Publisko iepirkumu likuma 2. pielikumā minēto pakalpojumu iepirkumi"
+   ],
+   [
+    "/lv/par-mums/publiskie-iepirkumi/arhivs",
+    "Arhīvs (01/2017 - 05/2018)"
+   ],
+   [
+    "/lv/par-mums/darba-piedavajumi/projektu-vaditajs-it-joma",
+    "PROJEKTU VADĪTĀJS - IT jomā"
+   ],
+   [
+    "/node/4362b8c7-e64f-4d6e-990e-1dda4ced7039",
+    "VECĀKAIS EKSPERTS - veselības teholoģiju novērtēšanas jomā"
+   ],
+   [
+    "/lv/vecakais-eksperts-veselibas-tehologiju-novertesanas-joma",
+    "VECĀKAIS EKSPERTS - veselības teholoģiju novērtēšanas jomā"
+   ],
+   [
+    "/lv/par-mums/darba-piedavajumi/arpakalpojuma-ekspertiem",
+    "Ārpakalpojuma ekspertiem"
+   ],
+   [
+    "/lv/par-mums/darba-piedavajumi/aicinam-darba-arstus-farmaceitus-biologus-un-kimikus",
+    "Aicinām darbā ĀRSTUS, FARMACEITUS, BIOLOGUS UN ĶĪMIĶUS"
+   ],
+   [
+    "/lv/par-mums/personas-datu-apstrade/personas-datu-apstrades-informacijas-pieprasijums",
+    "Personas datu apstrādes informācijas pieprasījums"
+   ],
+   [
+    "/lv/publikacijas-un-statistika",
+    "Publikācijas un statistika"
+   ],
+   [
+    "/lv/jaunumi-un-publikacijas/publikacijas/latvijas-republikas-zalu-registrs",
+    "Latvijas Republikas Zāļu reģistrs"
+   ],
+   [
+    "/lv/jaunumi-un-publikacijas/publikacijas/gramata-ievads-farmakovigilance",
+    "Grāmata \"Ievads farmakovigilancē\""
+   ],
+   [
+    "/lv/jaunumi-un-publikacijas/publikacijas/zalu-paterina-statistika",
+    "Zāļu patēriņa statistika"
+   ],
+   [
+    "/lv/jaunumi-un-publikacijas/publikacijas/baltic-statistics-medicines",
+    "Baltic Statistics on Medicines"
+   ],
+   [
+    "/lv/publikacijas-un-statistika/publikacijas/eiropas-antibiotiku-paterina-datubaze",
+    "Eiropas antibiotiku patēriņa datubāze"
+   ],
+   [
+    "/lv/publikacijas-un-statistika/publikacijas/antibakterialo-lidzeklu-paterina-dati",
+    "Antibakteriālo līdzekļu patēriņa dati"
+   ],
+   [
+    "/lv/publikacijas-un-statistika/oficiala-statistika/oficialas-statistikas-publicesanas-kalendars",
+    "Oficiālās statistikas publicēšanas kalendārs"
+   ],
+   [
+    "/lv/publikacijas-un-statistika/oficiala-statistika/zalu-paterina-statistika-gada-griezuma",
+    "Zāļu patēriņa statistika gada griezumā"
+   ],
+   [
+    "/lv/publikacijas-un-statistika/oficiala-statistika/zalu-paterina-statistika-ceturksna-griezuma",
+    "Zāļu patēriņa statistika ceturkšņa griezumā"
+   ],
+   [
+    "/lv/publikacijas-un-statistika/oficiala-statistika/zalu-paterina-statistika-menesa-griezuma",
+    "Zāļu patēriņa statistika mēneša griezumā"
+   ],
+   [
+    "/lv/publikacijas-un-statistika/zalu-paterina-statistika-ddd",
+    "Zāļu patēriņa statistika (DDD)"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai",
+    "Pacientiem un sabiedrībai"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/kampana-zales-nav-konfektes",
+    "Kampaņa \"Zāles nav konfektes\""
+   ],
+   [
+    "/lv/zinot-par-zalu-blaknem-negadijumiem-ar-iericem-biovigilanci",
+    "Ziņot par blakusparādībām"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/zalu-iegade/zalu-pieejamiba-aptiekas",
+    "Zāļu pieejamība aptiekās"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/zalu-iegade/zalu-uzglabasana",
+    "Zāļu lietošana un uzglabāšana"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/zalu-iegade/zalu-aktivas-vielas-izrakstisana-no-2020-gada-1-aprila",
+    "Zāļu aktīvās vielas izrakstīšana no 2020. gada 1. aprīļa"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/zalu-iegade/zalu-ievesana-izvesana-un-sanemsana-pa-pastu",
+    "Zāļu ievešana, izvešana un saņemšana pa pastu"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/zalu-iegade/islaicigi-slegtas-aptiekas",
+    "Īslaicīgi slēgtas aptiekas"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/zalu-iegade/drosuma-pazimes-uz-zalu-iepakojuma",
+    "Drošuma pazīmes uz zāļu iepakojuma"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/zalu-iegade/latvija-neregistretas-zales",
+    "Latvijā nereģistrētas zāles"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/drosums/sanemtie-zinojumi-par-blaknem",
+    "Sanemtie ziņojumi par blaknēm"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/jaunaka-informacija-par-covid-19-vakcinu-drosumu",
+    "Jaunākā informācija par Covid-19 vakcīnu drošumu"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/comirnaty-pfizerbiontech",
+    "Comirnaty (Pfizer/BioNTech)"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/comirnaty-pfizerbiontech/jautajumi-un-atbildes-par-vakcinu-comirnaty-pfizerbiontech",
+    "Jautājumi un atbildes par vakcīnu Comirnaty (Pfizer/BioNTech)"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/comirnaty-pfizerbiontech/drosuma-parskats-un-blakusparadibas",
+    "Drošuma pārskats un blakusparādības"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/spikevax-moderna/jautajumi-un-atbildes-par-vakcinu-spikevax-moderna",
+    "Jautājumi un atbildes par vakcīnu Spikevax (Moderna)"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/zales-pret-covid-19/covid-19-vakcinas/vakcinas/spikevax-moderna/drosuma-parskats-un-blakusparadibas",
+    "Drošuma pārskats un blakusparādības"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/jcovden-janssen/jautajumi-un-atbildes-par-vakcinu-jcovden-janssen",
+    "Jautājumi un atbildes par vakcīnu Jcovden (Janssen)"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/jcovden-janssen/drosuma-parskats-un-blakusparadibas",
+    "Drošuma pārskats un blakusparādības"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/nuvaxovid-novavax/jautajumi-un-atbildes-par-vakcinu-nuvaxovid-novavax",
+    "Jautājumi un atbildes par vakcīnu Nuvaxovid (Novavax)"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/nuvaxovid-novavax/drosuma-parskats-un-blakusparadibas",
+    "Drošuma pārskats un blakusparādības"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/vidprevtyn-beta-sanofi-pasteur",
+    "VidPrevtyn Beta (Sanofi Pasteur)"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/vidprevtyn-beta-sanofi-pasteur/jautajumi-un-atbildes-par-vakcinu-vidprevtyn-beta-sanofi-pasteur",
+    "Jautājumi un atbildes par vakcīnu VidPrevtyn Beta (Sanofi Pasteur)"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/vakcinas/registracijas-procesa-esosas-vakcinas",
+    "Reģistrācijas procesā esošās vakcīnas"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/zales-pret-covid-19/covid-19-vakcinas/latvija-sanemtie-blakusparadibu-zinojumi",
+    "Latvijā saņemtie blakusparādību ziņojumi"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/covid-19-vakcinas/biezak-uzdotie-jautajumi",
+    "Biežāk uzdotie jautājumi"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/publiskie-novertejuma-zinojumi",
+    "Publiskie novertējuma ziņojumi"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/zales/kliniskie-petijumi/klinisko-petijumu-registrs",
+    "Klīnisko pētījumu reģistrs"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/mediciniskas-ierices/zinot-par-negadijumiem-ar-mediciniskam-iericem",
+    "Ziņot par negadījumiem ar medicīniskām ierīcēm"
+   ],
+   [
+    "/lv/pacientiem-un-sabiedribai/asinis-audi-sunas-organi",
+    "Asinis, audi, šūnas, orgāni"
+   ],
+   [
+    "/lv/veselibas-aprupes-specialistiem-un-iestadem",
+    "Veselības aprūpes speciālistiem un iestādēm"
+   ],
+   [
+    "/lv/veselibas-aprupes-specialistiem-un-iestadem/zales/zalu-elektronisko-lietosanas-instrukciju-pilotprojekts-e-pil",
+    "Zāļu elektronisko lietošanas instrukciju pilotprojekts (e-PIL)"
+   ],
+   [
+    "/lv/veselibas-aprupes-specialistiem-un-iestadem/zales/zalu-iegade",
+    "Zāļu iegāde un lietošana"
+   ],
+   [
+    "/lv/veselibas-aprupes-specialistiem-un-iestadem/zales/zalu-iegade/licencetie-farmaceitiskas-darbibas-uznemumi",
+    "Licencētie farmaceitiskās darbības uzņēmumi"
+   ],
+   [
+    "/lv/veselibas-aprupes-specialistiem-un-iestadem/zales/zalu-iegade-un-lietosana/paraleli-importetas-un-izplatitas-zales",
+    "Paralēli importētas un izplatītas zāles"
+   ],
+   [
+    "/lv/veselibas-aprupes-specialistiem-un-iestadem/zales/vakcinas-pret-covid-19/kompensacija-par-blakusparadibu-radito-kaitejumu",
+    "Kompensācija par blakusparādību radīto kaitējumu"
+   ]
+  ],
+  "feeds": [],
+  "dates": []
  },
  "lt_vvkt": {
   "status": 403,
@@ -93,7 +4559,7 @@
  "be_news": {
   "status": 200,
   "url": "https://www.famhp.be/en/news",
-  "len": 6690,
+  "len": 7569,
   "links": [],
   "feeds": [],
   "dates": []
@@ -107,6 +4573,244 @@
   "dates": []
  },
  "oig": {
-  "error": "AttributeError(\"module 'html' has no attribute 'unescape'\")"
+  "status": 200,
+  "url": "https://oig.hhs.gov/fraud/enforcement/",
+  "len": 71729,
+  "links": [
+   [
+    "/",
+    "HHS-OIG U.S. Department of Health and Human Services Office of Inspector General"
+   ],
+   [
+    "https://oig.hhs.gov/fraud/report-fraud/",
+    "Report Fraud, Waste, & Abuse"
+   ],
+   [
+    "/about-oig/downloadable-resources-and-applications/",
+    "Downloadable Resources and Applications"
+   ],
+   [
+    "/about-oig/whistleblower/",
+    "Whistleblower Protection Information"
+   ],
+   [
+    "/reports/all/",
+    "All Reports and Publications"
+   ],
+   [
+    "/reports/sar/",
+    "Semiannual Report to Congress"
+   ],
+   [
+    "/reports/tmcs/",
+    "Top Management and Performance Challenges Facing HHS"
+   ],
+   [
+    "/reports/hcfac/",
+    "Health Care Fraud and Abuse Control Program"
+   ],
+   [
+    "/fraud/fraud-risk-spectrum/",
+    "Fraud Risk and Heightened Scrutiny"
+   ],
+   [
+    "/fraud/medicaid-fraud-control-units-mfcu/",
+    "Medicaid Fraud Control Units"
+   ],
+   [
+    "/fraud/strike-force/",
+    "Medicare Fraud Strike Force"
+   ],
+   [
+    "/fraud/state-false-claims-act-reviews/",
+    "State False Claims Act Reviews"
+   ],
+   [
+    "/fraud/report-fraud/",
+    "Report Fraud, Waste, and Abuse"
+   ],
+   [
+    "/compliance/corporate-integrity-agreements/",
+    "Corporate Integrity Agreements"
+   ],
+   [
+    "/compliance/accountable-care-organizations/",
+    "Accountable Care Organizations"
+   ],
+   [
+    "/compliance/rat-stats/",
+    "RAT-STATS - Statistical Software"
+   ],
+   [
+    "/compliance/safe-harbor-regulations/",
+    "Safe Harbor Regulations"
+   ],
+   [
+    "/compliance/self-disclosure-info/",
+    "Self-Disclosure Information"
+   ],
+   [
+    "/compliance/alerts/",
+    "Special Fraud Alerts, Bulletins, and Other Guidance"
+   ],
+   [
+    "/compliance/physician-education/",
+    "A Roadmap for New Physicians"
+   ],
+   [
+    "/faqs",
+    "Frequently Asked Questions (FAQs)"
+   ],
+   [
+    "/exclusions/leie-quick-tips-instructions/",
+    "LEIE Quick Tips & Instructions"
+   ],
+   [
+    "https://exclusions.oig.hhs.gov/",
+    "Online Searchable Database"
+   ],
+   [
+    "/exclusions/leie-database-supplement-downloads/",
+    "LEIE Database & Supplement Downloads"
+   ],
+   [
+    "/exclusions/special-advisory-bulletin-and-other-guidance/",
+    "Special Advisory Bulletin and Other Guidance"
+   ],
+   [
+    "/exclusions/working-with-federal-and-state-partners-on-health-care-exclusions-2/",
+    "Working With Federal and State Partners on Health Care Exclusions"
+   ],
+   [
+    "/exclusions/guidance-for-state-medicaid-agencies/",
+    "Guidance for State Medicaid Agencies"
+   ],
+   [
+    "https://oig.hhs.gov/faqs/exclusions-faq.asp",
+    "Frequently Asked Questions"
+   ],
+   [
+    "https://oig.hhs.gov/about-oig/contact-us/#exclusions",
+    "Contact the Exclusions Program"
+   ],
+   [
+    "/newsroom/news-releases-articles/",
+    "News Releases & Articles"
+   ],
+   [
+    "/careers/internship-opportunities/",
+    "Internship Opportunities"
+   ],
+   [
+    "/careers/the-fair-chance-to-compete-for-jobs-act/",
+    "The Fair Chance to Compete for Jobs Act"
+   ],
+   [
+    "/careers/office-of-investigations-positions/",
+    "Office of Investigations Positions"
+   ],
+   [
+    "https://oig.hhs.gov/fraud/report-fraud/",
+    "Report Fraud, Waste, & Abuse"
+   ],
+   [
+    "/fraud/enforcement/about/",
+    "About Enforcement Actions"
+   ],
+   [
+    "/fraud/enforcement/civil-monetary-penalty-authorities/",
+    "Civil Monetary Penalty Authorities"
+   ],
+   [
+    "/fraud/enforcement/multiple-individuals-arrested-for-health-care-fraud-conspiracy-following-homeland-security-task-force-investigation/",
+    "Multiple Individuals Arrested for Health Care Fraud Conspiracy following Homeland Security Task Force Investigation"
+   ],
+   [
+    "/fraud/enforcement/dialysis-centers-agree-to-pay-2-million-to-resolve-allegations-of-provider-relief-fund-fraud/",
+    "Dialysis Centers Agree to Pay $2 Million to Resolve Allegations of Provider Relief Fund Fraud"
+   ],
+   [
+    "/fraud/enforcement/gainesville-woman-convicted-in-86m-medicare-fraud-scheme/",
+    "Gainesville Woman Convicted in $8.6M Medicare Fraud Scheme"
+   ],
+   [
+    "/fraud/enforcement/new-york-woman-charged-with-11m-check-cashing-scheme/",
+    "New York Woman Charged With $1.1M Check Cashing Scheme"
+   ],
+   [
+    "/fraud/enforcement/fugitive-fraudster-herb-kimble-sentenced-to-20-years-for-international-healthcare-fraud-scheme/",
+    "Fugitive Fraudster Herb Kimble Sentenced to 20 Years for International Healthcare Fraud Scheme"
+   ],
+   [
+    "/fraud/enforcement/harlingen-couple-sentenced-in-multimillion-dollar-medicare-fraud-scheme/",
+    "Harlingen couple sentenced in multimillion-dollar Medicare fraud scheme"
+   ],
+   [
+    "/fraud/enforcement/telemedicine-company-owner-sentenced-to-20-years-in-prison-for-46m-medicare-fraud-scheme/",
+    "Telemedicine Company Owner Sentenced to 20 Years in Prison for $46M Medicare Fraud Scheme"
+   ],
+   [
+    "/fraud/enforcement/los-angeles-health-care-fraud-takedown-results-in-charges-against-15-defendants-including-6-medical-professionals-nearly-2-billion-in-loss/",
+    "Los Angeles Health Care Fraud Takedown Results in Charges Against 15 Defendants, Including 6 Medical Professionals, Nearly $2 Billion in Los"
+   ],
+   [
+    "/fraud/enforcement/attorney-general-bonta-103-criminal-cases-filed-in-statewide-medi-cal-fraud-enforcement-efforts/",
+    "Attorney General Bonta: 103 Criminal Cases Filed in Statewide Medi-Cal Fraud Enforcement Efforts"
+   ],
+   [
+    "/fraud/enforcement/essex-county-man-sentenced-to-three-years-in-prison-for-3-million-medicaid-fraud-and-tax-offenses/",
+    "Essex County Man Sentenced to Three Years in Prison for $3 Million Medicaid Fraud and Tax Offenses"
+   ],
+   [
+    "/fraud/enforcement/federal-awards-bring-nearly-15-million-to-jefferson-county-during-domestic-violence-awareness-month/",
+    "Federal Awards Bring Nearly $1.5 Million to Jefferson County During Domestic Violence Awareness Month"
+   ],
+   [
+    "/fraud/enforcement/justice-departments-civil-division-and-the-department-of-health-human-services-announce-anti-fraud-healthcare-self-disclosure-pilot-program/",
+    "Justice Department’s Civil Division and the Department of Health & Human Services Announce Anti-Fraud Healthcare Self-Disclosure Pilot Progr"
+   ],
+   [
+    "/fraud/enforcement/missouri-surgeon-and-kansas-medical-device-distributor-sentenced-for-conspiring-to-pay-and-receive-kickbacks-to-induce-use-of-spinal-implants-and-obstructing-a-federal-investigation",
+    "Missouri Surgeon and Kansas Medical Device Distributor Sentenced for Conspiring to Pay and Receive Kickbacks to Induce Use of Spinal Implant"
+   ],
+   [
+    "/fraud/enforcement/new-orleans-man-sentenced-to-7-million-in-restitution-for-health-care-fraud-conspiracy/",
+    "New Orleans Man Sentenced To $7 Million In Restitution For Health Care Fraud Conspiracy"
+   ],
+   [
+    "/fraud/enforcement/illinois-laboratory-owner-charged-in-66m-covid-19-testing-fraud-scheme/",
+    "Illinois Laboratory Owner Charged in $66M COVID-19 Testing Fraud Scheme"
+   ],
+   [
+    "/fraud/enforcement/maryland-man-convicted-of-187m-medicare-fraud-for-respiratory-testing-scheme-targeting-nursing-homes/",
+    "Maryland Man Convicted of $18.7M Medicare Fraud for Respiratory Testing Scheme Targeting Nursing Homes"
+   ],
+   [
+    "/fraud/enforcement/negril-agrees-to-settle-allegations-of-improper-medicaid-billing/",
+    "Negril Agrees to Settle Allegations of Improper Medicaid Billing"
+   ],
+   [
+    "/fraud/enforcement/ag-campbell-secures-1-million-recovery-from-transformative-healthcare-for-allegedly-submitting-false-claims-to-masshealth-and-failing-to-safeguard-sensitive-patient-information/",
+    "AG Campbell Secures $1 Million Recovery From Transformative Healthcare For Allegedly Submitting False Claims To MassHealth And Failing To Sa"
+   ],
+   [
+    "/fraud/enforcement/attorney-general-alan-wilson-announces-two-people-charged-with-stealing-18000-from-vulnerable-adult/",
+    "Attorney General Alan Wilson announces two people charged with stealing $18,000 from vulnerable adult"
+   ],
+   [
+    "/fraud/enforcement/connecticut-physician-and-his-practices-pay-more-than-860k-to-settle-false-claims-act-allegations/",
+    "Connecticut Physician and His Practices Pay More Than $860K to Settle False Claims Act Allegations"
+   ],
+   [
+    "/reports/all/?report-type=Top+Unimp.+Recs&amp;hhs-agency=#results",
+    "All Reports and Publications"
+   ],
+   [
+    "https://cloud.connect.hhs.gov/OIG",
+    "Subscribe to Our Newsletter"
+   ]
+  ],
+  "feeds": [],
+  "dates": []
  }
 }
