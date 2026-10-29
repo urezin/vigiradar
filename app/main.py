@@ -127,8 +127,18 @@ def medical_literature_page(session: str | None = Cookie(default=None, alias=aut
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "billing_enabled": settings.billing_enabled,
-            "ai_enabled": bool(settings.anthropic_api_key), "email_enabled": settings.email_enabled}
+    out = {"status": "ok", "billing_enabled": settings.billing_enabled,
+           "ai_enabled": bool(settings.anthropic_api_key), "email_enabled": settings.email_enabled}
+    try:
+        from . import scheduler, portal_pages
+        out["schedule"] = {"news_last_started": scheduler._get("news").get("started"),
+                           "daily_done_for": scheduler._get("daily").get("done_for"),
+                           "daily_started": scheduler._get("daily").get("started"),
+                           "running": portal_pages._JOB.get("running"), "step": portal_pages._JOB.get("step"),
+                           "loop": scheduler._STARTED.get("loop")}
+    except Exception as e:
+        out["schedule"] = {"error": str(e)[:80]}
+    return out
 
 
 @app.get("/api/meta")
