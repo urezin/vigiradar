@@ -1,7 +1,7 @@
 {
  "running": false,
- "started": "2026-10-29T06:45:07.282974+00:00",
- "finished": "2026-10-29T07:09:33.840718+00:00",
+ "started": "2026-10-29T07:50:46.197366+00:00",
+ "finished": "2026-10-29T07:52:08.237931+00:00",
  "result": {
   "ingest": {
    "ema_medicines": {
@@ -20,7 +20,7 @@
      "Expired": 17,
      "Withdrawn from rolling review": 2
     },
-    "seconds": 23.1
+    "seconds": 20.7
    },
    "ema_referrals": {
     "milestones": 16,
@@ -28,16 +28,16 @@
    },
    "ema_dhpc": {
     "milestones": 21,
-    "seconds": 0.1
+    "seconds": 0.6
    },
    "ema_shortages": {
     "milestones": 32,
-    "seconds": 0.2
+    "seconds": 0.5
    },
    "fda_approvals": {
     "drugs": 155,
     "milestones": 155,
-    "seconds": 4.0
+    "seconds": 4.5
    },
    "fda_adcomm": {
     "notices": 8,
@@ -46,385 +46,14 @@
    },
    "sec_pdufa": {
     "hits": 398,
-    "processed": 27,
+    "processed": 21,
     "ai_mode": true,
-    "skipped_seen": 371,
+    "skipped_seen": 377,
     "errors": [],
     "filings_with_dates": 333,
     "milestones": 144,
-    "seconds": 59.1
+    "seconds": 53.4
    }
-  },
-  "news": {
-   "sources": 62,
-   "fetched": 1275,
-   "new": 2,
-   "errors": [],
-   "by_source": {
-    "ema-news": {
-     "fetched": 11,
-     "new": 0
-    },
-    "ema-reg-guideline": {
-     "fetched": 10,
-     "new": 0
-    },
-    "ema-scientific-guideline": {
-     "fetched": 6,
-     "new": 0
-    },
-    "ema-consultations": {
-     "fetched": 6,
-     "new": 0
-    },
-    "ema-fees": {
-     "fetched": 0,
-     "new": 0
-    },
-    "ema-inspections": {
-     "fetched": 4,
-     "new": 0
-    },
-    "hma-cmdh": {
-     "fetched": 7,
-     "new": 0
-    },
-    "hma-human": {
-     "fetched": 7,
-     "new": 0
-    },
-    "eurlex-oj-l": {
-     "fetched": 3,
-     "new": 0
-    },
-    "aifa": {
-     "fetched": 25,
-     "new": 0
-    },
-    "fda-press": {
-     "fetched": 20,
-     "new": 0
-    },
-    "fda-medwatch": {
-     "fetched": 20,
-     "new": 0
-    },
-    "mhra-news": {
-     "fetched": 20,
-     "new": 0
-    },
-    "mhra-dsu": {
-     "fetched": 50,
-     "new": 0
-    },
-    "mhra-alerts": {
-     "fetched": 50,
-     "new": 0
-    },
-    "ec-health": {
-     "fetched": 26,
-     "new": 0
-    },
-    "ansm": {
-     "fetched": 14,
-     "new": 0,
-     "scraper": true,
-     "verified": true
-    },
-    "aemps": {
-     "fetched": 13,
-     "new": 0,
-     "scraper": true,
-     "verified": true
-    },
-    "gba": {
-     "fetched": 0,
-     "new": 0
-    },
-    "has": {
-     "fetched": 0,
-     "new": 0
-    },
-    "who": {
-     "fetched": 65,
-     "new": 0
-    },
-    "doj": {
-     "fetched": 4,
-     "new": 0
-    },
-    "bfarm": {
-     "fetched": 20,
-     "new": 0
-    },
-    "sukl-cz": {
-     "fetched": 10,
-     "new": 0
-    },
-    "dkma": {
-     "fetched": 20,
-     "new": 0
-    },
-    "ravimiamet": {
-     "fetched": 100,
-     "new": 0
-    },
-    "fimea": {
-     "fetched": 50,
-     "new": 0
-    },
-    "bfarm-rhb": {
-     "fetched": 20,
-     "new": 0
-    },
-    "bfarm-fsn": {
-     "fetched": 20,
-     "new": 0
-    },
-    "pei-news": {
-     "fetched": 6,
-     "new": 0
-    },
-    "pei-safety": {
-     "fetched": 6,
-     "new": 0
-    },
-    "eof-news": {
-     "fetched": 10,
-     "new": 0
-    },
-    "eof-safety": {
-     "fetched": 10,
-     "new": 0
-    },
-    "eof-recalls": {
-     "fetched": 10,
-     "new": 0
-    },
-    "eof-device-recalls": {
-     "fetched": 10,
-     "new": 0
-    },
-    "nngyk": {
-     "fetched": 10,
-     "new": 0
-    },
-    "aifa-en": {
-     "fetched": 10,
-     "new": 2
-    },
-    "igj-warnings": {
-     "fetched": 20,
-     "new": 0
-    },
-    "igj-docs": {
-     "fetched": 20,
-     "new": 0
-    },
-    "sukl-sk": {
-     "fetched": 85,
-     "new": 0
-    },
-    "sukl-sk-recalls": {
-     "fetched": 32,
-     "new": 0
-    },
-    "jazmp": {
-     "fetched": 100,
-     "new": 0
-    },
-    "basg": {
-     "fetched": 51,
-     "new": 0
-    },
-    "ogyei-rss": {
-     "fetched": 0,
-     "new": 0
-    },
-    "infarmed-alerts": {
-     "fetched": 20,
-     "new": 0
-    },
-    "infarmed-news": {
-     "fetched": 20,
-     "new": 0
-    },
-    "infarmed-press": {
-     "fetched": 19,
-     "new": 0
-    },
-    "act-eu": {
-     "fetched": 29,
-     "new": 0
-    },
-    "ec-union-register": {
-     "fetched": 23,
-     "new": 0
-    },
-    "ema-new-medicines": {
-     "fetched": 6,
-     "new": 0
-    },
-    "fda-recalls": {
-     "fetched": 7,
-     "new": 0
-    },
-    "fda-drug-recalls": {
-     "fetched": 20,
-     "new": 0
-    },
-    "fda-cber": {
-     "fetched": 20,
-     "new": 0
-    },
-    "cms": {
-     "fetched": 10,
-     "new": 0
-    },
-    "ftc-competition": {
-     "fetched": 12,
-     "new": 0
-    },
-    "ftc-consumer": {
-     "fetched": 6,
-     "new": 0
-    },
-    "gif-pl": {
-     "fetched": 10,
-     "new": 0,
-     "scraper": true,
-     "verified": true
-    },
-    "mt-recalls": {
-     "fetched": 40,
-     "new": 0,
-     "scraper": true,
-     "verified": true
-    },
-    "lu-sante": {
-     "fetched": 1,
-     "new": 0,
-     "scraper": true,
-     "verified": true
-    },
-    "hhs-oig": {
-     "fetched": 21,
-     "new": 0,
-     "scraper": true,
-     "verified": true
-    }
-   },
-   "total_in_store": 2377
-  },
-  "translate": {
-   "translated": 20,
-   "irrelevant": 9,
-   "errors": 0
-  },
-  "press_company": {
-   "ctgov": {
-    "studies": 25,
-    "new": 0,
-    "seconds": 0.2
-   },
-   "company": {
-    "hits": 58,
-    "new": 0,
-    "skipped": 58,
-    "not_newsworthy": 0,
-    "ai": true,
-    "errors": [],
-    "seconds": 21.9
-   }
-  },
-  "guidelines_safety": {
-   "fda_guidance": {
-    "notices": 135,
-    "new": 0,
-    "seconds": 0.4
-   },
-   "ema_guidelines": {
-    "items": 22,
-    "new": 0,
-    "seconds": 0.9
-   },
-   "mhra_guidance": {
-    "items": 20,
-    "new": 0,
-    "seconds": 0.9
-   },
-   "ema_prac": {
-    "items": 538,
-    "kept": 33,
-    "new": 0,
-    "seconds": 1.1
-   },
-   "fda_recalls": {
-    "results": 70,
-    "new": 0,
-    "seconds": 0.4
-   },
-   "hc_alerts": {
-    "items": 3,
-    "new": 0,
-    "seconds": 0.2
-   }
-  },
-  "stories": {
-   "written": 29,
-   "skipped": 0,
-   "errors": 1,
-   "ai": true
-  },
-  "analyse": {
-   "candidates": 107,
-   "generated": 40,
-   "unchanged": 17,
-   "errors": [
-    "us-bla761481: Expecting ',' delimiter: line 26 column 6 (char 3350)"
-   ]
-  },
-  "articles": {
-   "generated": [
-    "2026-10-29-ema-publishes-cmdh-valproate-conclusions-and-timetable-what-pv-teams-should-chec",
-    "2026-10-29-fda-orders-boxed-warning-on-takeda-s-adzynma-after-antibody-signal-and-a-child-s",
-    "2026-10-29-mhra-s-xeal-clopidogrel-recall-shows-how-a-formulation-error-can-sweep-up-every",
-    "2026-10-29-glaukos-58-launch-driven-surge-and-what-other-access-routes-look-like",
-    "2026-10-29-viking-opens-oral-vk2735-phase-3-sunrise-as-960m-cash-backs-two-late-stage-track",
-    "2026-10-29-prac-publishes-october-signal-recommendations-what-pv-teams-can-act-on-before-th",
-    "2026-10-29-view-validate-the-system-before-you-need-the-data-computerised-systems-are-now-a-tria"
-   ],
-   "errors": [
-    "opinion quality: Expecting ',' delimiter: line 1 column 2833 (char 2832)",
-    "opinion regulatory: Expecting ',' delimiter: line 1 column 3443 (char 3442)",
-    "opinion market-access: Expecting ',' delimiter: line 1 column 4263 (char 4262)",
-    "opinion pharmacovigilance: Expecting ',' delimiter: line 1 column 3365 (char 3364)"
-   ],
-   "at": "2026-10-29T07:04:41.529692+00:00"
-  },
-  "earnings_ingest": {
-   "hits": 27,
-   "new": 7,
-   "not_pharma": 2,
-   "errors": []
-  },
-  "cp_articles": {
-   "generated": [
-    "2026-10-29-medpace-q3-margins-outrun-slowing-revenue-as-awards-rebuild-the-backlog",
-    "2026-10-29-kiniksa-s-arcalyst-tops-286m-in-q3-and-lifts-2026-guidance-as-pipeline-looks-to",
-    "2026-10-29-glaukos-q3-idose-tr-and-epioxa-lift-sales-58-and-swing-the-company-to-non-gaap-p",
-    "2026-10-29-glaukos-q3-211-0m-sales-and-a-first-profit-quarter-lift-2026-and-2027-targets",
-    "2026-10-29-mimedx-s-sanara-bid-enters-ftc-second-request-review-with-hayfin-debt-already-co",
-    "2026-10-29-replimune-s-tudriqev-launch-tests-accelerated-approval-economics-in-advanced-mel",
-    "2026-10-29-b-braun-s-dialog-bloodline-recall-shows-how-one-skipped-step-can-reach-the-clini",
-    "2026-10-29-view-q3-s-growth-belongs-to-focused-franchises-and-big-companies-are-paying-to-get-so",
-    "2026-10-29-view-a-deal-isn-t-a-deal-until-it-s-funded-cleared-and-signed-price-the-path-to-close",
-    "2026-10-29-view-a-batch-isn-t-released-until-its-data-is-treat-serialization-and-software-as-sup"
-   ],
-   "errors": [
-    "earnings Biogen Inc.: invalid JSON from model: Expecting ',' delimiter: line 1 column 6419 (char 6418)"
-   ],
-   "at": "2026-10-29T07:09:32.507423+00:00"
   },
   "indexnow": {
    "vigieye": {
