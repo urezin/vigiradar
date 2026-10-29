@@ -1,0 +1,17 @@
+name: Send the owner's briefing now (manual)
+
+# Sends VigiEye Daily, CompePharma Daily and the LinkedIn posts to OWNER_EMAIL only.
+on:
+  workflow_dispatch: {}
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Send
+        env:
+          OWNER_EMAIL: ${{ secrets.OWNER_EMAIL }}
+        run: |
+          curl -sS --fail-with-body --max-time 300 --retry 2 --retry-delay 30 -X POST -G "https://vigi-eye.com/admin/portal/send-owner" \
+            --data-urlencode "email=$OWNER_EMAIL" -H "X-Admin-Token: ${{ secrets.ADMIN_TOKEN }}"; echo
