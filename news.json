@@ -1,12 +1,12 @@
 {
  "running": false,
- "started": "2026-10-28T22:38:12.221606+00:00",
- "finished": "2026-10-28T22:47:55.584556+00:00",
+ "started": "2026-10-29T05:52:00.780453+00:00",
+ "finished": "2026-10-29T05:59:37.491928+00:00",
  "result": {
   "news": {
    "sources": 62,
-   "fetched": 1277,
-   "new": 64,
+   "fetched": 1275,
+   "new": 1,
    "errors": [],
    "by_source": {
     "ema-news": {
@@ -99,7 +99,7 @@
     },
     "doj": {
      "fetched": 4,
-     "new": 1
+     "new": 0
     },
     "bfarm": {
      "fetched": 20,
@@ -115,7 +115,7 @@
     },
     "ravimiamet": {
      "fetched": 100,
-     "new": 25
+     "new": 0
     },
     "fimea": {
      "fetched": 50,
@@ -127,7 +127,7 @@
     },
     "bfarm-fsn": {
      "fetched": 20,
-     "new": 11
+     "new": 0
     },
     "pei-news": {
      "fetched": 6,
@@ -167,7 +167,7 @@
     },
     "igj-docs": {
      "fetched": 20,
-     "new": 0
+     "new": 1
     },
     "sukl-sk": {
      "fetched": 85,
@@ -179,11 +179,11 @@
     },
     "jazmp": {
      "fetched": 100,
-     "new": 25
+     "new": 0
     },
     "basg": {
      "fetched": 51,
-     "new": 1
+     "new": 0
     },
     "ogyei-rss": {
      "fetched": 0,
@@ -227,7 +227,7 @@
     },
     "cms": {
      "fetched": 10,
-     "new": 1
+     "new": 0
     },
     "ftc-competition": {
      "fetched": 12,
@@ -262,60 +262,60 @@
      "verified": true
     }
    },
-   "total_in_store": 2374
+   "total_in_store": 2375
   },
   "translate": {
-   "translated": 64,
-   "irrelevant": 21,
+   "translated": 26,
+   "irrelevant": 27,
    "errors": 0
   },
   "press_company": {
    "ctgov": {
-    "studies": 30,
+    "studies": 25,
     "new": 0,
-    "seconds": 0.3
+    "seconds": 0.2
    },
    "company": {
     "hits": 58,
-    "new": 15,
-    "skipped": 42,
-    "not_newsworthy": 1,
+    "new": 0,
+    "skipped": 58,
+    "not_newsworthy": 0,
     "ai": true,
     "errors": [],
-    "seconds": 57.7
+    "seconds": 16.6
    }
   },
   "guidelines_safety": {
    "fda_guidance": {
-    "notices": 138,
+    "notices": 135,
     "new": 0,
-    "seconds": 0.4
+    "seconds": 0.5
    },
    "ema_guidelines": {
     "items": 22,
     "new": 0,
-    "seconds": 0.6
+    "seconds": 0.8
    },
    "mhra_guidance": {
     "items": 20,
     "new": 0,
-    "seconds": 0.4
+    "seconds": 0.3
    },
    "ema_prac": {
     "items": 538,
     "kept": 33,
     "new": 0,
-    "seconds": 0.6
+    "seconds": 0.7
    },
    "fda_recalls": {
     "results": 70,
     "new": 0,
-    "seconds": 0.5
+    "seconds": 0.4
    },
    "hc_alerts": {
     "items": 3,
     "new": 0,
-    "seconds": 0.1
+    "seconds": 0.2
    }
   },
   "stories": {
@@ -327,12 +327,12 @@
   "indexnow": {
    "vigieye": {
     "host": "vigi-eye.com",
-    "submitted": 54,
+    "submitted": 28,
     "status": 200
    },
    "compepharma": {
     "host": "compepharma.com",
-    "submitted": 15,
+    "submitted": 2,
     "status": 200
    }
   }
