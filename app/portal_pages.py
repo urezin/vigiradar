@@ -970,6 +970,25 @@ def admin_portal_run(steps: str = "ingest,news,analyse", x_admin_token: str = He
     return {"status": "started", "steps": wanted}
 
 
+@router.post("/admin/portal/tick")
+def admin_portal_tick(owner: str = "", x_admin_token: str = Header(default="")):
+    """Run whatever is due (see app/scheduler.py). Called hourly by GitHub; also wakes a sleeping server."""
+    from . import scheduler
+    _auth(x_admin_token)
+    if owner and "@" in owner:
+        scheduler._put("owner", {"email": owner.strip()})
+    scheduler.start()
+    return scheduler.tick()
+
+
+@router.get("/admin/portal/schedule")
+def admin_portal_schedule(x_admin_token: str = Header(default="")):
+    from . import scheduler
+    _auth(x_admin_token)
+    return {"due": scheduler.due(), "news": scheduler._get("news"), "daily": scheduler._get("daily"),
+            "last": scheduler._get("last_result"), "job": _JOB}
+
+
 @router.post("/admin/portal/relay/{key}")
 async def admin_relay(key: str, request: Request, x_admin_token: str = Header(default="")):
     """Store a JSON document fetched on a GitHub runner for a source that blocks this server (see app/relay.py)."""

@@ -539,3 +539,10 @@ async def billing_webhook(request: Request):
     except Exception as e:
         log.warning("[billing] webhook %s handling failed: %s", etype, e)
     return {"received": True}
+
+
+@app.on_event("startup")
+def _start_scheduler():
+    """Refreshes, daily articles and newsletters run from the app itself (app/scheduler.py)."""
+    from . import scheduler
+    scheduler.start()

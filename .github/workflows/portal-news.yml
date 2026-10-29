@@ -7,8 +7,7 @@ name: News refresh every 2 hours
 # The heavier daily job (EMA/FDA/SEC data, analyses, articles, email) is portal-daily.yml.
 
 on:
-  schedule:
-    - cron: "17 */2 * * *"
+  # Scheduling now lives in the app (app/scheduler.py) + tick.yml; this is for manual runs.
   workflow_dispatch: {}
 
 permissions:

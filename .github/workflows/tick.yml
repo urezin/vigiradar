@@ -1,0 +1,46 @@
+name: Hourly tick (wake server + run what is due)
+
+# The server schedules its own work (app/scheduler.py: news every 2 h, daily run from
+# 04:30 UTC, newsletters after it). This hourly call wakes it if Render put it to sleep,
+# relays the Federal Register (which blocks Render), and starts anything that is due.
+# GitHub cron is best-effort, so missing a few of these is harmless.
+
+on:
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+env:
+  BASE_URL: "https://vigi-eye.com"
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: app/relay.py
+          sparse-checkout-cone-mode: false
+      - name: Wake the server
+        run: curl -sS -o /dev/null -w "VigiEye %{http_code}\n" --max-time 120 --retry 3 --retry-delay 20 "$BASE_URL/health" || true
+      - name: Relay sources that block the server (Federal Register)
+        continue-on-error: true
+        run: |
+          python3 app/relay.py | while IFS=$'\t' read -r key url; do
+            if curl -sS --fail --max-time 90 -A "VigiEye regulatory monitor (+https://vigi-eye.com)" "$url" -o /tmp/r.json; then
+              curl -sS --max-time 120 -X POST "$BASE_URL/admin/portal/relay/$key" -H "X-Admin-Token: ${{ secrets.ADMIN_TOKEN }}" \
+                -H "Content-Type: application/json" --data-binary @/tmp/r.json; echo
+            fi
+          done
+      - name: Tick
+        env:
+          OWNER_EMAIL: ${{ secrets.OWNER_EMAIL }}
+        run: |
+          curl -sS --max-time 120 --retry 2 -X POST -G "$BASE_URL/admin/portal/tick" --data-urlencode "owner=$OWNER_EMAIL" \
+            -H "X-Admin-Token: ${{ secrets.ADMIN_TOKEN }}"; echo
+      - name: Warm CompePharma
+        run: curl -sS -o /dev/null -w "CompePharma %{http_code}\n" --max-time 120 https://compedpharma.onrender.com/ || true
