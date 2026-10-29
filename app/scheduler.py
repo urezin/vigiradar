@@ -25,7 +25,7 @@ from datetime import date, datetime, timedelta, timezone
 log = logging.getLogger("vigiradar.scheduler")
 NEWS_EVERY = timedelta(hours=2)
 DAILY_AT_UTC = (4, 30)
-STALE = timedelta(hours=3)       # a job "started" this long ago without finishing is treated as dead
+STALE = timedelta(minutes=75)    # a job "started" this long ago without finishing (e.g. killed by a deploy) is re-run
 _LOCK = threading.Lock()
 _STARTED = {"loop": False}
 
