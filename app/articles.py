@@ -418,7 +418,14 @@ def generate_cp_daily(target: int = 10, earnings_n: int = 4, opinions: int = 3) 
         n_have[a.get("type", "analysis")] = n_have.get(a.get("type", "analysis"), 0) + 1
     # 1. earnings analyses: biggest new results releases first
     want_e = max(0, earnings_n - n_have["earnings"])
-    rel = [r for r in earn.latest(days=10, limit=60) if r["url"] not in done_src and r.get("text")]
+    covered = {(a.get("company") or "").lower() for a in cp_list(400) if a.get("type") == "earnings"}
+    rel, seen_co = [], set()
+    for r in earn.latest(days=10, limit=60):
+        co = (r.get("company") or "").lower()
+        if r["url"] in done_src or not r.get("text") or co in covered or co in seen_co:
+            continue          # one earnings analysis per company per results release season
+        seen_co.add(co)
+        rel.append(r)
     for r in rel:
         if want_e <= 0:
             break
