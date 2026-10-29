@@ -398,6 +398,29 @@ def _ymd(s: str) -> str | None:
     return f"{m.group(1)}-{m.group(2)}-{m.group(3)}" if m else None
 
 
+# FDA chemical classification codes (Drugs@FDA) -> plain label; only Type 1 is a new molecular entity
+_FDA_TYPES = {"TYPE 1": "New molecular entity", "TYPE 1/4": "New molecular entity", "TYPE 2": "New active ingredient",
+              "TYPE 2/3": "New active ingredient", "TYPE 2/4": "New active ingredient", "TYPE 3": "New dosage form",
+              "TYPE 3/4": "New dosage form", "TYPE 4": "New combination", "TYPE 5": "New formulation or manufacturer",
+              "TYPE 6": "New indication", "TYPE 7": "Previously marketed without approval", "TYPE 8": "Rx-to-OTC switch",
+              "TYPE 9": "New indication (separate NDA)", "TYPE 10": "New indication (separate NDA)"}
+_BIOSIMILAR_MOLECULES = ("adalimumab", "aflibercept", "bevacizumab", "denosumab", "eculizumab", "etanercept",
+                         "filgrastim", "pegfilgrastim", "infliximab", "insulin", "natalizumab", "omalizumab",
+                         "ranibizumab", "rituximab", "tocilizumab", "trastuzumab", "ustekinumab", "golimumab",
+                         "epoetin", "teriparatide", "secukinumab", "pertuzumab", "nivolumab", "pembrolizumab")
+
+
+def _fda_kind(appno: str, cls: str, inn: str) -> tuple[str, bool]:
+    """(label, is_new_medicine). BLAs: a 4-letter-suffixed molecule with an existing reference product is a biosimilar."""
+    if appno.startswith("BLA"):
+        base = (inn or "").split("-")[0].strip()
+        if re.search(r"-[a-z]{4}\b", inn or "") and any(base.startswith(m) for m in _BIOSIMILAR_MOLECULES):
+            return "Biosimilar", False
+        return "New biologic", True
+    label = _FDA_TYPES.get((cls or "").upper().strip(), "")
+    return label, label == "New molecular entity"
+
+
 def ingest_fda_approvals(results: list[dict] | None = None, days: int = 400) -> dict:
     """US original NDA/BLA approvals in the last `days` (generics excluded)."""
     init()
@@ -438,8 +461,8 @@ def ingest_fda_approvals(results: list[dict] | None = None, days: int = 400) -> 
         sponsor = _clean(a.get("sponsor_name")).title()
         cls = orig[0].get("submission_class_code") or ""
         prio = orig[0].get("review_priority") or ""
-        novel = appno.startswith("BLA") or cls in ("TYPE 1", "TYPE 1/4")
-        flags = (["Novel"] if novel else []) + (["Priority review"] if prio.upper() == "PRIORITY" else [])
+        kind_label, novel = _fda_kind(appno, cls, inn)
+        flags = ([kind_label] if kind_label else []) + (["Priority review"] if prio.upper() == "PRIORITY" else [])
         did = "us-" + slugify(appno, 40)
         appnum = re.sub(r"\D", "", appno)
         url = f"https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo={appnum}"
@@ -450,8 +473,17 @@ def ingest_fda_approvals(results: list[dict] | None = None, days: int = 400) -> 
                       "extra": json.dumps({"application_number": appno, "class": cls, "priority": prio,
                                            "forms": forms})})
         n_drugs += 1
+        name = f"{brand or appno} ({inn})" if inn else (brand or appno)
+        if novel:
+            title = f"FDA approves {name}, a new medicine"
+        elif kind_label == "Biosimilar":
+            title = f"FDA approves biosimilar {name}"
+        elif kind_label:
+            title = f"FDA approves {name}: {kind_label.lower()}"
+        else:
+            title = f"FDA approves {name}"
         ms.append({"id": _mid("fda", appno, d), "date": d, "region": "US", "kind": "fda_approval",
-                   "title": f"{brand or appno} ({inn}) approved by FDA" if inn else f"{brand or appno} approved by FDA",
+                   "title": title,
                    "detail": "; ".join(x for x in [sponsor, appno, ", ".join(flags), ", ".join(forms)] if x),
                    "drug_name": brand, "drug_id": did, "inn": inn, "company": sponsor,
                    "company_slug": company_slug(sponsor), "impact": "high" if novel else "med",

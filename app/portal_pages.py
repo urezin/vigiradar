@@ -19,6 +19,8 @@ Admin (X-Admin-Token): /admin/portal/ingest, /admin/portal/status,
 """
 from __future__ import annotations
 
+import re
+
 import hashlib
 import json
 import logging
@@ -82,7 +84,16 @@ table.list th{color:var(--mut);font-weight:600;font-size:12.5px}
 """
 
 
-def _page(title, desc, path, body, ld=None):
+def _page(title, desc, path, body, ld=None, chrome: bool = True):
+    """Data pages (approvals, PDUFA, drugs, safety data) get the news portal's full-width chrome:
+    the Coming-up ticker and the section bar, so the whole site looks and navigates the same."""
+    if chrome:
+        try:
+            from . import news_pages as _np
+            body = (f"<style>{_np._NCSS}.wrap{{max-width:1320px}}main.wrap .panel{{max-width:none}}</style>"
+                    + _np._ticker() + _np._secbar(None) + body)
+        except Exception:
+            pass
     return cal._page(title, desc, f"{_base()}{path}", f"<style>{_PCSS}</style>{body}", ld)
 
 
@@ -287,7 +298,7 @@ document.querySelectorAll('#list .ms').forEach(el=>{{el.style.display=!v||el.tex
 
 # --- approvals --------------------------------------------------------------
 
-_TABS = [("all", "All"), ("eu", "EU approvals"), ("us", "FDA approvals"), ("chmp", "CHMP opinions"),
+_TABS = [("all", "All"), ("new", "New medicines"), ("eu", "EU approvals"), ("us", "FDA approvals"), ("chmp", "CHMP opinions"),
          ("expected", "Expected EU decisions"), ("negative", "Refusals & withdrawals")]
 
 
@@ -302,6 +313,11 @@ def approvals_page(tab: str = "all", days: int = 120):
         rows = _safe(lambda: pd.milestones_between(t, _ahead(180), kinds, limit=500), [])
     else:
         rows = _safe(lambda: pd.milestones_between(_ago(days), t, kinds, limit=800, desc=True), [])
+    if tab == "new":
+        # new active substances only: FDA new molecular entities / new biologics, EU non-generic, non-biosimilar
+        rows = [m for m in rows if (m["kind"] == "fda_approval" and m.get("impact") == "high") or
+                (m["kind"] == "ec_decision" and not re.search(r"generic|biosimilar|hybrid|informed consent",
+                                                              (m.get("detail") or "").lower()))]
     tabs = "".join(f'<a class="{"on" if k == tab else ""}" href="/approvals?tab={k}">{_e(v)}</a>' for k, v in _TABS)
     body = f"""<header class="hero"><div class="wrap"><h1>EU &amp; FDA drug approvals and CHMP opinions</h1>
 <p>New marketing authorisations from the European Commission and FDA, CHMP opinions and expected EU decisions,
@@ -311,7 +327,8 @@ straight from EMA and FDA data.</p>{_newsletter_box("approvals")}</div></header>
 <section class="panel" id="list"><h2><span>{_e(dict(_TABS).get(tab, "All"))}: {len(rows)}</span></h2>
 {"".join(_ms_item(m, tab == "expected") for m in rows) or '<p class="note">Nothing in this period yet.</p>'}</section>
 <p class="note">EU dates are EMA's own records. FDA rows are original NDA/BLA approvals from Drugs@FDA, which excludes
-generics (ANDAs). "Expected EC decision" is an estimate: the CHMP opinion date plus 67 days, the usual Commission
+generics (ANDAs); each is labelled with FDA's own classification (new molecular entity, new dosage form, new formulation,
+biosimilar…), so a new presentation of an existing medicine is not shown as a new drug. "Expected EC decision" is an estimate: the CHMP opinion date plus 67 days, the usual Commission
 decision period.</p>
 <p class="note">{DISCLAIMER}</p></main>
 <script>(function(){{const q=document.getElementById('q');q.addEventListener('input',()=>{{const v=q.value.toLowerCase();

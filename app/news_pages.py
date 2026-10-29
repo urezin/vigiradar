@@ -390,7 +390,7 @@ def _ticker() -> str:
 
 def _page(title, desc, path, body, ld=None):
     from . import articles as _am
-    return pp._page(title, desc, path, f"<style>{_NCSS}{_ACSS}</style>{body}", ld)
+    return pp._page(title, desc, path, f"<style>{_NCSS}{_ACSS}</style>{body}", ld, chrome=False)
 
 
 def _coming_up(n: int = 8) -> str:
