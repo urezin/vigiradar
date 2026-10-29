@@ -222,7 +222,11 @@ def generate_daily(target: int = 10, opinions: int = 4) -> dict:
     pd.init()
     today = date.today().isoformat()
     since = (date.today() - timedelta(days=5)).isoformat()
-    rows = [r for r in np_.stream(limit=1500) if r["date"] >= since and np_._real_summary(r)]
+    from . import news as _nw
+    # VigiEye's editorial stays regulatory: company results, deals and financings are CompePharma's beat
+    rows = [r for r in np_.stream(limit=1500) if r["date"] >= since and np_._real_summary(r)
+            and not (r["kind"] == "company" and _nw.biz_beat(r["title"], r.get("summary") or "") in
+                     ("earnings", "deals", "financing", "pipeline", "marketing"))]
     done_sources = {s.get("url") for a in list_articles(300) for s in a.get("sources", [])[:1]}
     have = _todays("article", today)
     n_op = sum(1 for a in have if a.get("type") == "opinion")

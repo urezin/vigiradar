@@ -1067,7 +1067,7 @@ def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
                      "country": m["region"], "title": m["title"], "summary": m.get("detail") or "", "url": m.get("source_url"),
                      "date": m["date"], "impact": "high", "ticker": None, "_href": (_base() + href) if href else None})
     rows.sort(key=lambda r: r["date"], reverse=True)
-    keep, recalls = [], 0
+    keep, recalls, seen_co = [], 0, set()
     for r in rows:
         pub = (r.get("publisher") or "").lower()
         if r["kind"] == "guideline":
@@ -1080,6 +1080,11 @@ def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
                 "justice" in pub or "enforcement report" in pub or "mhra alerts" in pub or "recall" in r["title"].lower()):
             continue          # regulatory/PV notices stay on VigiEye; only business-relevant official items pass
         b = "launches" if r["kind"] == "approval" else ("financing" if _is_fin(r) else nw.biz_beat(r["title"], r.get("summary") or ""))
+        if r["kind"] == "company":
+            ck = ((r.get("company") or r.get("publisher") or "").lower(), r["date"], b)
+            if ck in seen_co:
+                continue      # one company often files the same news as two exhibits
+            seen_co.add(ck)
         if beat and b != beat:
             continue
         keep.append({"id": f'{r["kind"][0]}-{r.get("id") or _seed(r)}', "kind": r["kind"], "beat": b,
