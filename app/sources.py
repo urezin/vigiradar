@@ -197,9 +197,10 @@ _EURLEX_KEEP = ("medicin", "pharmac", "medical device", "in vitro diagnostic", "
                 "ehds", "health data", "artificial intelligence", "gmp", "good manufacturing")
 
 
-_DOJ_KEEP = ("health care fraud", "healthcare fraud", "pharmac", "drug", "opioid", "medicare", "medicaid",
-             "fda", "medical device", "compounding", "physician", "telemedicine", "laborator", "biotech",
-             "counterfeit medic", "prescription", "fentanyl", "tricare")
+_DOJ_KEEP = ("health care fraud", "healthcare fraud", "pharmac", "medicare", "medicaid", "fda", "food and drug",
+             "medical device", "compounding", "physician", "telemedicine", "laborator", "biotech", "kickback",
+             "counterfeit medic", "prescription drug", "pill mill", "tricare", "hospital", "false claims act")
+_DOJ_DROP = ("cartel", "cocaine", "methamphetamine", "trafficking conspiracy", "firearm", "gang", "homicide")
 _WHO_KEEP = ("medicine", "vaccin", "regulat", "prequalif", "safety", "antimicrobial", "falsified",
              "substandard", "essential", "pharma", "drug", "health product", "biosimilar", "clinical trial")
 
@@ -222,7 +223,7 @@ def feed_relevant(source_id: str, title: str, desc: str = "") -> bool:
     if source_id.startswith("eurlex"):
         return eurlex_relevant(title, desc)
     if source_id == "doj":
-        return any(k in t for k in _DOJ_KEEP)
+        return any(k in t for k in _DOJ_KEEP) and not any(k in t for k in _DOJ_DROP)
     if source_id == "who":
         return any(k in t for k in _WHO_KEEP)
     return True

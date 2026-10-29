@@ -197,7 +197,8 @@ def _score(r: dict) -> float:
         age = (date.today() - date.fromisoformat(r["date"])).days
     except Exception:
         age = 30
-    return s - 0.6 * max(age, 0)
+    s += 1.5 if r.get("story") else 0          # VigiEye has written the article
+    return s - 1.6 * max(age, 0)               # yesterday's lead should not stay the lead
 
 
 def _href(r: dict) -> str:
@@ -1072,6 +1073,8 @@ def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
         pub = (r.get("publisher") or "").lower()
         if r["kind"] == "guideline":
             continue
+        if re.search(r"\bcosmetic|teeth whitening|food supplement|tattoo", (r["title"] or "").lower()):
+            continue          # not pharma business
         if "enforcement report" in pub:
             recalls += 1
             if recalls > 6:
