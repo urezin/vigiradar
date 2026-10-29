@@ -30,6 +30,9 @@ cp_subs = Table("cp_subscribers", _meta,
                 Column("created_at", String(40)), Column("unsubscribed", String(4)))
 
 CP = os.getenv("COMPEPHARMA_URL", "https://compepharma.com").rstrip("/")
+# CompePharma's newsletter is sent as CompePharma (set CP_EMAIL_FROM once compepharma.com is verified in Resend)
+CP_FROM = os.getenv("CP_EMAIL_FROM", "CompePharma <info@compepharma.com>")
+CP_REPLY_TO = os.getenv("CP_EMAIL_REPLY_TO", "info@compepharma.com")
 
 
 def _e(s) -> str:
@@ -160,7 +163,7 @@ def send_cp_daily(dry_run: bool = True, x_admin_token: str = Header(default=""))
     for em in emails:
         s, h, _ = render_cp_daily(em)
         try:
-            emailer.send(em, s, h)
+            emailer.send(em, s, h, sender=CP_FROM, reply_to=CP_REPLY_TO)
             sent += 1
         except Exception as ex:
             errors.append(str(ex)[:120])
@@ -182,7 +185,7 @@ def send_owner(email: str = "", x_admin_token: str = Header(default="")):
     s1, h1, n1 = render_daily(email)
     out["vigieye"] = emailer.send(email, s1, h1).get("status")
     s2, h2, n2 = render_cp_daily(email)
-    out["compepharma"] = emailer.send(email, s2, h2).get("status")
+    out["compepharma"] = emailer.send(email, s2, h2, sender=CP_FROM, reply_to=CP_REPLY_TO).get("status")
     out["items"] = {"vigieye": n1, "compepharma": n2}
     try:
         s3, h3 = render_social_kit()

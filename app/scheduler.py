@@ -84,7 +84,7 @@ def _send_newsletters(today: str) -> dict:
                 s1, h1, _ = render_daily(owner)
                 emailer.send(owner, s1, h1)
                 s2, h2, _ = cp_email.render_cp_daily(owner)
-                emailer.send(owner, s2, h2)
+                emailer.send(owner, s2, h2, sender=cp_email.CP_FROM, reply_to=cp_email.CP_REPLY_TO)
                 try:
                     s3, h3 = cp_email.render_social_kit()
                     if h3:
@@ -105,7 +105,7 @@ def _send_newsletters(today: str) -> dict:
                 time.sleep(0.6)
             for em in cp_email.cp_active():
                 s, h, _ = cp_email.render_cp_daily(em)
-                emailer.send(em, s, h)
+                emailer.send(em, s, h, sender=cp_email.CP_FROM, reply_to=cp_email.CP_REPLY_TO)
                 sent += 1
                 time.sleep(0.6)
         except Exception as e:
