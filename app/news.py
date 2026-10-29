@@ -124,6 +124,7 @@ def classify(title: str, text: str = "", default: str = "industry") -> str:
 # --- business beats (used by CompePharma, the pharma business portal) ---------------
 BIZ_BEATS = {
     "deals": "Deals & M&A",
+    "financing": "Financing",
     "launches": "Approvals & launches",
     "marketing": "Marketing & sales",
     "manufacturing": "Manufacturing & supply",
@@ -133,6 +134,10 @@ BIZ_BEATS = {
     "pipeline": "Pipeline & R&D",
     "industry": "Industry",
 }
+_FIN_KW = ("public offering", "underwritten offering", "private placement", "registered direct", "at-the-market",
+           "ipo", "initial public offering", "series a", "series b", "series c", "series d", "seed round",
+           "financing", "raises $", "raised $", "convertible notes", "senior notes", "credit facility", "term loan",
+           "royalty financing", "royalty monetization", "pipe ", "warrants", "equity investment", "venture", "funding round")
 _BIZ_KW = {
     "deals": ("acquire", "acquisition", "merger", "buyout", "takeover", "definitive agreement", "license agreement",
               "licensing deal", "licenses", "partnership", "collaboration", "deal", "upfront", "milestone payment",
@@ -164,6 +169,8 @@ def _hit(w: str, t: str) -> bool:
 def biz_beat(title: str, text: str = "") -> str:
     t = f" {title} {text} ".lower()
     tl = f" {title} ".lower()
+    if any(_hit(w, tl) for w in _FIN_KW) or sum(1 for w in _FIN_KW if _hit(w, t)) >= 2:
+        return "financing"
     scores = {k: sum(1 for w in ws if _hit(w, t)) + 2 * sum(1 for w in ws if _hit(w, tl)) for k, ws in _BIZ_KW.items()}
     best = max(scores, key=lambda k: scores[k])
     return best if scores[best] > 0 else "industry"
@@ -363,7 +370,11 @@ _SEC_QUERIES = ['"FDA approval"', '"approved by the U.S. Food and Drug Administr
                 '"Refuse to File"', '"Advisory Committee"',
                 # business side (for CompePharma): deals, launches, manufacturing
                 '"definitive agreement" pharmaceutical', '"license agreement" pharmaceutical', '"commercial launch"',
-                '"manufacturing facility"', '"acquisition" biopharmaceutical']
+                '"manufacturing facility"', '"acquisition" biopharmaceutical',
+                # financing (CompePharma only)
+                '"underwritten public offering" biopharmaceutical', '"private placement" pharmaceutical',
+                '"initial public offering" biopharmaceutical', '"Series B" financing therapeutics',
+                '"credit facility" pharmaceutical', '"royalty" "financing agreement"', '"registered direct offering"']
 
 _CO_PROMPT = """Below is a press release a pharma/biotech company filed with the SEC. Write a short news brief
 for regulatory, pharmacovigilance, market-access and compliance professionals.
@@ -371,9 +382,11 @@ for regulatory, pharmacovigilance, market-access and compliance professionals.
 Return ONLY JSON: {{"headline":"factual news headline, max 110 chars, in your own words",
 "summary":"2-3 sentences in your own words: what happened, product and indication, regulator/body, date",
 "section":"one of pharmacovigilance|regulatory|clinical-trials|market-access|quality|industry",
-"newsworthy":true or false (false only for executive/board appointments, routine financings or offerings,
-conference-presentation notices and investor-event announcements; deals, launches, approvals, manufacturing,
-pricing, legal and earnings with material product news ARE newsworthy)}}.
+"financing":true if the release is mainly about raising money (IPO, public or registered offering, private placement,
+venture round, loan, credit facility, royalty financing), else false,
+"newsworthy":true or false (false only for executive/board appointments, conference-presentation notices and
+investor-event announcements; financings, deals, launches, approvals, manufacturing, pricing, legal and earnings
+ARE newsworthy)}}.
 Use only facts in the text. Do not copy sentences from it.
 
 TEXT:
@@ -475,9 +488,10 @@ def ingest_company(days: int = 4, max_docs: int = 80) -> dict:
                 continue
         if not title:
             continue
-        _upsert({"id": nid, "kind": "company", "section": section, "publisher": company, "country": "US",
-                 "title": title, "summary": summary, "url": url, "date": src.get("file_date", end),
-                 "company": company, "ticker": ticker, "tags": None})
+        is_fin = bool(brief and brief.get("financing")) or biz_beat(title, "") == "financing"
+        _upsert({"id": nid, "kind": "company", "section": "industry" if is_fin else section, "publisher": company,
+                 "country": "US", "title": title, "summary": summary, "url": url, "date": src.get("file_date", end),
+                 "company": company, "ticker": ticker, "tags": json.dumps(["financing"]) if is_fin else None})
         stats["new"] += 1
     return stats
 

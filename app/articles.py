@@ -330,7 +330,7 @@ Return ONLY JSON:
 {{"title":"opinion headline, max 95 chars","dek":"one-sentence standfirst, max 200 chars",
 "sections":[{{"heading":"...","paragraphs":["..."]}}],"takeaways":["2-3 things leaders should do"]}}"""
 
-CP_BEATS = {"deals": "deals & M&A", "launches": "approvals & launches", "pricing": "pricing & policy",
+CP_BEATS = {"deals": "deals & M&A", "financing": "financing (IPOs, offerings, venture rounds, debt)", "launches": "approvals & launches", "pricing": "pricing & policy",
             "manufacturing": "manufacturing & supply", "legal": "legal", "marketing": "marketing & sales",
             "pipeline": "pipeline & R&D", "earnings": "earnings", "industry": "industry"}
 
@@ -444,7 +444,7 @@ def generate_cp_daily(target: int = 10, earnings_n: int = 4, opinions: int = 3) 
     biz = [b for b in _biz_rows() if b.get("summary")]
     want_o = max(0, opinions - n_have["opinion"])
     want_a = max(0, target - len(have) - len(made) - want_o)
-    for beat in ["deals", "launches", "pricing", "manufacturing", "legal", "pipeline", "marketing", "industry"] * 2:
+    for beat in ["deals", "financing", "launches", "pricing", "manufacturing", "legal", "pipeline", "marketing", "industry"] * 2:
         if want_a <= 0:
             break
         cands = [b for b in biz if b["beat"] == beat and b.get("vigieye_url") not in done_src]
@@ -477,7 +477,7 @@ def generate_cp_daily(target: int = 10, earnings_n: int = 4, opinions: int = 3) 
         themes.append(("earnings season: what the latest results say about the industry",
                        "\n".join(f"- {r['company']} ({r.get('period') or 'latest quarter'}): {r.get('headline') or ''}. "
                                  f"{(r.get('text') or '')[:1200]}" for r in rel[:6])))
-    for beat in ("pricing", "deals", "manufacturing", "launches", "legal"):
+    for beat in ("pricing", "deals", "financing", "manufacturing", "launches", "legal"):
         rs = [b for b in biz if b["beat"] == beat][:10]
         if len(rs) >= 3:
             themes.append((CP_BEATS[beat], "\n".join(_brec(b) for b in rs)))

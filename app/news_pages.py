@@ -71,13 +71,19 @@ def _official(limit: int = 800) -> list[dict]:
     return out
 
 
-def _company_press(limit: int = 1200) -> list[dict]:
+def _is_fin(r: dict) -> bool:
+    return "financing" in (r.get("tags") or "")
+
+
+def _company_press(limit: int = 1200, financing: bool = False) -> list[dict]:
     try:
         rows = nw.latest(limit=limit)
     except Exception:
         rows = []
     out = []
     for r in rows:
+        if not financing and _is_fin(r):
+            continue                     # financing news is CompePharma's beat, not VigiEye's
         sec = nw.norm_section(r.get("section"))
         if sec in ("regulatory", "industry") and r["kind"] in ("press", "guideline", "notice", "company") and \
                 nw.classify(r.get("title") or "", r.get("summary") or "", "") == "clinical-trials":
@@ -88,12 +94,13 @@ def _company_press(limit: int = 1200) -> list[dict]:
     return out
 
 
-def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60, offset: int = 0) -> list[dict]:
+def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60, offset: int = 0,
+           financing: bool = False) -> list[dict]:
     rows = []
     if "official" in kinds:
         rows += _official()
     if any(k in kinds for k in ("company", "notice", "guideline")):
-        rows += [r for r in _company_press() if r["kind"] in kinds and r["kind"] != "press"]
+        rows += [r for r in _company_press(financing=financing) if r["kind"] in kinds and r["kind"] != "press"]
     hm = _story_map()
     if hm:
         keep = []
@@ -1048,7 +1055,7 @@ def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
     """Pharma business stream for CompePharma: company releases (SEC filings), approvals,
     recalls/warning letters and enforcement, each tagged with a business beat."""
     since = (date.today() - timedelta(days=max(1, min(days, 120)))).isoformat()
-    rows = [r for r in stream(limit=1500) if r["date"] >= since]
+    rows = [r for r in stream(limit=1500, financing=True) if r["date"] >= since]
     # approvals from the regulatory data: novel FDA approvals and EU marketing authorisations
     appr = pp._safe(lambda: pd.milestones_between(since, date.today().isoformat(), ["fda_approval", "ec_decision"],
                                                   limit=300, desc=True), [])
@@ -1072,7 +1079,7 @@ def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
         if r["kind"] in ("official", "notice") and not (
                 "justice" in pub or "enforcement report" in pub or "mhra alerts" in pub or "recall" in r["title"].lower()):
             continue          # regulatory/PV notices stay on VigiEye; only business-relevant official items pass
-        b = "launches" if r["kind"] == "approval" else nw.biz_beat(r["title"], r.get("summary") or "")
+        b = "launches" if r["kind"] == "approval" else ("financing" if _is_fin(r) else nw.biz_beat(r["title"], r.get("summary") or ""))
         if beat and b != beat:
             continue
         keep.append({"id": f'{r["kind"][0]}-{r.get("id") or _seed(r)}', "kind": r["kind"], "beat": b,
