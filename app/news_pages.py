@@ -30,6 +30,7 @@ from . import news as nw
 from . import portal_data as pd
 from . import portal_pages as pp
 from . import store
+from . import brand as _brand
 
 router = APIRouter()
 _e, _fmt, _base = cal._e, cal._fmt, cal._base
@@ -295,7 +296,7 @@ body{background:var(--paper)}
   border-bottom:3px solid transparent;white-space:nowrap}
 .secbar a:hover,.secbar a.on{border-bottom-color:var(--c,#0f172a);text-decoration:none}
 .mast{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:20px 0 12px;border-bottom:3px solid var(--ink);flex-wrap:wrap}
-.mast h1{font:900 40px/1 Georgia,'Times New Roman',serif;letter-spacing:-.02em}
+.mast h1{font:900 40px/1 Georgia,'Times New Roman',serif;letter-spacing:-.02em;display:flex;align-items:center;gap:12px}
 .mast h1 b{color:#0d9488}.mast p{color:var(--mut);font-size:14px;margin-top:6px}
 .mast .date{font-size:12.5px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
 .th{display:block;width:100%;background:#0f172a;border-radius:4px;object-fit:cover}
@@ -414,7 +415,7 @@ def _sidebar(section: str | None = None, press: list[dict] | None = None) -> str
 
 
 def _mast(sub: str) -> str:
-    return (f'<div class="mast"><div><h1>Vigi<b>Eye</b></h1><p>{_e(sub)}</p></div>'
+    return (f'<div class="mast"><div><h1>{_brand.mark_svg(36)}<span>Vigi<b>Eye</b></span></h1><p>{_e(sub)}</p></div>'
             f'<div class="date">{_e(date.today().strftime("%A %d %B %Y"))}</div></div>')
 
 
@@ -457,7 +458,7 @@ def home():
                         for r in tops[3:7])
         side = "".join(mini_card(r) for r in tops[:3])
         hero = f"""<section class="band dark hero"><div class="wrap">
-<div class="mast dark"><div><h1>Vigi<b>Eye</b></h1><p>Regulatory · Clinical trials · Pharmacovigilance · Quality · Market access, for EU &amp; US pharma, from the official sources</p></div>
+<div class="mast dark"><div><h1>{_brand.mark_svg(36, light=True)}<span>Vigi<b>Eye</b></span></h1><p>Regulatory · Clinical trials · Pharmacovigilance · Quality · Market access, for EU &amp; US pharma, from the official sources</p></div>
 <div class="date">{_e(date.today().strftime("%A %d %B %Y"))}</div></div>
 <div class="hero-grid"><div class="hero-lead">{_a(lead, _thumb(lead, "wide hero-img"))}</div>
 <div class="hero-text">{_label(lead)}<h2 class="h-lead">{_a(lead, _e(lead["title"]))}</h2>

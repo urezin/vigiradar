@@ -35,6 +35,7 @@ from . import catalysts as cal
 from . import portal_data as pd
 from . import store
 from .config import settings
+from . import brand as _brand
 
 log = logging.getLogger("vigiradar.portal")
 router = APIRouter()
@@ -618,7 +619,7 @@ def render_daily(email: str = "") -> tuple[str, str, int]:
         sections = '<p style="font:14px system-ui;color:#64748b">A quiet day: no new approvals, opinions or safety actions recorded.</p>'
     unsub = (f"{_base()}/calendar/unsubscribe?email={cal._q(email)}&t={cal._unsub_token(email)}" if email else "#")
     html = f"""<div style="max-width:640px;margin:auto;font:15px system-ui;color:#0f172a">
-<p style="font:700 20px system-ui;margin:0">👁️ VigiEye Daily</p>
+<p style="font:700 20px system-ui;margin:0"><img src="{_base()}{_brand.MARK_PNG_PATH}" width="24" height="24" alt="" style="vertical-align:-5px;margin-right:8px;border:0">VigiEye Daily</p>
 <p style="color:#64748b;margin-top:4px">{_e(datetime.now(timezone.utc).strftime("%A %d %B %Y"))} · EU &amp; US pharma regulatory briefing</p>
 {sections}
 <p style="margin-top:22px"><a href="{_base()}/" style="color:#0284c7">Portal</a> · <a href="{_base()}/pdufa" style="color:#0284c7">PDUFA calendar</a> ·
@@ -719,7 +720,7 @@ _TICKER_JS = r"""/* VigiEye upcoming-dates ticker. Usage:
       +'<span class="d">'+esc(fmt(i.date))+'</span><span class="k">'+(flag[i.region]||'')+' '+esc(i.label)+'</span>'
       +'<span class="t">'+esc(i.title)+'</span><span class="n">'+esc(days(i.date))+'</span></a>';}).join('');
     root.innerHTML='<style>'+css+'</style><div class="bar" role="region" aria-label="'+esc(label)+'">'
-      +'<a class="lab" target="_blank" rel="noopener" href="'+esc(u(j.home||base+'/'))+'">👁️ <span>'+esc(label)+'</span></a>'
+      +'<a class="lab" target="_blank" rel="noopener" href="'+esc(u(j.home||base+'/'))+'">__MARK__ <span>'+esc(label)+'</span></a>'
       +'<div class="vp"><div class="track">'+one+'<span aria-hidden="true" style="display:inline-flex">'+one+'</span></div></div></div>';
     var tr=root.querySelector('.track'); requestAnimationFrame(function(){var w=tr.scrollWidth/2;tr.style.setProperty('--d',Math.max(20,w/speed)+'s');});
   }).catch(function(){host.style.display='none';});
@@ -729,7 +730,8 @@ _TICKER_JS = r"""/* VigiEye upcoming-dates ticker. Usage:
 
 @router.get("/embed/ticker.js", include_in_schema=False)
 def ticker_js():
-    return Response(_TICKER_JS, media_type="application/javascript; charset=utf-8",
+    js = _TICKER_JS.replace("__MARK__", _brand.mark_svg(16, light=True))
+    return Response(js, media_type="application/javascript; charset=utf-8",
                     headers={"Cache-Control": "public, max-age=3600", "Access-Control-Allow-Origin": "*"})
 
 

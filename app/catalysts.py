@@ -30,6 +30,7 @@ from datetime import date, datetime, timedelta, timezone
 
 from fastapi import APIRouter, Header, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse, Response
+from . import brand as _brand
 from pydantic import BaseModel
 
 from .config import settings
@@ -152,7 +153,7 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
 nav{position:sticky;top:0;background:rgba(6,12,24,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);z-index:5}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
-.logo{font-weight:800;font-size:19px;color:#fff}.logo b{color:#2dd4bf}
+.logo{font-weight:800;font-size:19px;color:#fff;display:inline-flex;align-items:center;gap:9px;letter-spacing:-.01em}.logo:hover{text-decoration:none}.logo b{color:#2dd4bf}
 .nl a{color:#cbd5e1;margin-left:14px;font-size:14px;font-weight:500}.nl a.cta{background:linear-gradient(92deg,#0ea5e9,#14b8a6);color:#fff;padding:8px 14px;border-radius:9px}
 @media(max-width:1100px){.nl a.hide{display:none}}
 @media(max-width:640px){.nl a.hide2{display:none}}
@@ -210,13 +211,13 @@ def _page(title: str, description: str, canonical: str, body: str,
     doc = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{_e(title)}</title><meta name="description" content="{_e(description)}">
-<link rel="canonical" href="{_e(canonical)}">
+<link rel="canonical" href="{_e(canonical)}">{_brand.HEAD_ICONS}
 <meta property="og:type" content="website"><meta property="og:site_name" content="VigiEye">
 <meta property="og:title" content="{_e(title)}"><meta property="og:description" content="{_e(description)}">
 <meta property="og:url" content="{_e(canonical)}"><meta name="twitter:card" content="summary">
 <link rel="alternate" type="text/calendar" title="VigiEye EU regulatory calendar" href="{_base()}/calendar.ics">
 <style>{_CSS}</style>{ld}</head><body>
-<nav><div class="wrap"><a class="logo" href="/">👁️ Vigi<b>Eye</b></a>
+<nav><div class="wrap"><a class="logo" href="/">{_brand.mark_svg(26, light=True)}<span>Vigi<b>Eye</b></span></a>
 <div class="nl"><a href="/news">News</a><a class="hide2" href="/safety">Safety</a><a class="hide2" href="/pdufa">PDUFA</a><a class="hide" href="/drugs">Drugs</a><a class="hide" href="/welcome">For teams</a><a class="cta" href="/newsletter">Daily email</a></div></div></nav>
 {body}
 <footer><div class="wrap">VigiEye · EU pharmacovigilance &amp; regulatory monitoring. Every date links to its official source; always confirm against the source before acting.

@@ -10,6 +10,8 @@ preview endpoint and the scheduled sender.
 """
 from __future__ import annotations
 
+from .config import settings
+
 _FLAG = {"MT": "🇲🇹", "LU": "🇱🇺", "HR": "🇭🇷", "NO": "🇳🇴", "IS": "🇮🇸", "AT": "🇦🇹", "BE": "🇧🇪", "BG": "🇧🇬", "CZ": "🇨🇿", "DK": "🇩🇰", "EE": "🇪🇪", "FI": "🇫🇮", "GR": "🇬🇷", "HU": "🇭🇺", "PT": "🇵🇹", "SK": "🇸🇰", "SI": "🇸🇮", "PL": "🇵🇱", "RO": "🇷🇴", "CA": "🇨🇦", "INT": "🌐", "SE": "🇸🇪", "IE": "🇮🇪", "NL": "🇳🇱", "UK": "🇬🇧", "US": "🇺🇸", "EU": "🇪🇺", "DE": "🇩🇪", "FR": "🇫🇷", "ES": "🇪🇸", "IT": "🇮🇹",
          "NL": "🇳🇱", "IE": "🇮🇪", "SE": "🇸🇪", "BE": "🇧🇪", "US": "🇺🇸", "UK": "🇬🇧", "INT": "🌐"}
 _IMPACT_ORDER = {"high": 0, "med": 1, "low": 2}
@@ -62,7 +64,7 @@ def render_html(updates: list[dict], period_label: str = "this week",
   <div style="max-width:640px;margin:0 auto;padding:24px">
     <div style="display:flex;align-items:center;gap:9px;padding:6px 2px 18px">
       <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#34d399"></span>
-      <span style="font-size:19px;font-weight:800;color:#0b2942">Vigi<span style="color:#0ea5e9">Eye</span></span>
+      <span style="font-size:19px;font-weight:800;color:#0b2942"><img src="{settings.app_base_url}/static/brand/mark-128.png" width="22" height="22" alt="" style="vertical-align:-4px;margin-right:7px;border:0">Vigi<span style="color:#0ea5e9">Eye</span></span>
     </div>
     <div style="background:linear-gradient(120deg,#08192b,#0f3a55);border-radius:14px;padding:22px 24px;color:#fff">
       <div style="font-size:13px;color:#7dd3fc;font-weight:700;text-transform:uppercase;letter-spacing:.05em">Your VigiEye digest — {period_label}</div>
@@ -93,7 +95,7 @@ def render_alert_html(u: dict, app_url: str = "https://vigi-eye.com") -> str:
     flag = _FLAG.get(u.get("country", ""), "•")
     return f"""<!DOCTYPE html><html><body style="margin:0;background:#f6f9fc;font-family:system-ui,Segoe UI,Roboto,sans-serif">
   <div style="max-width:560px;margin:0 auto;padding:24px">
-    <div style="font-size:19px;font-weight:800;color:#0b2942;padding-bottom:12px">Vigi<span style="color:#0ea5e9">Eye</span></div>
+    <div style="font-size:19px;font-weight:800;color:#0b2942;padding-bottom:12px"><img src="{settings.app_base_url}/static/brand/mark-128.png" width="22" height="22" alt="" style="vertical-align:-4px;margin-right:7px;border:0">Vigi<span style="color:#0ea5e9">Eye</span></div>
     <div style="background:#fee2e8;color:#e11d48;border-radius:8px;padding:6px 12px;display:inline-block;font-weight:800;font-size:12px">HIGH-IMPACT ALERT</div>
     <div style="font-size:13px;color:#64748b;margin:12px 0 4px">{flag} {u.get('authority','')} · {u.get('subject','')} · {u.get('date','')}</div>
     <div style="font-size:18px;font-weight:800;color:#0f172a;margin-bottom:6px">{u.get('title','')}</div>

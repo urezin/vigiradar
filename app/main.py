@@ -79,6 +79,27 @@ class CheckoutIn(BaseModel):
     email: str | None = None
 
 
+_BRAND = os.path.join(_STATIC, "brand")
+_ICON_FILES = {
+    "/favicon.ico": ("favicon.ico", "image/x-icon"),
+    "/favicon.svg": ("favicon.svg", "image/svg+xml"),
+    "/apple-touch-icon.png": ("apple-touch-icon.png", "image/png"),
+    "/apple-touch-icon-precomposed.png": ("apple-touch-icon.png", "image/png"),
+    "/site.webmanifest": ("site.webmanifest", "application/manifest+json"),
+}
+
+
+def _icon_route(fname: str, mtype: str):
+    def _serve():
+        return FileResponse(os.path.join(_BRAND, fname), media_type=mtype,
+                            headers={"Cache-Control": "public, max-age=604800"})
+    return _serve
+
+
+for _path, (_fname, _mtype) in _ICON_FILES.items():
+    app.add_api_route(_path, _icon_route(_fname, _mtype), methods=["GET", "HEAD"], include_in_schema=False)
+
+
 @app.get("/hub", include_in_schema=False)
 def hub_page():
     return FileResponse(os.path.join(_STATIC, "hub.html"))
