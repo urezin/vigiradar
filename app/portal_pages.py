@@ -922,6 +922,18 @@ def _run_job(steps: list[str]):
                 from . import stories as story_mod
                 _JOB["step"] = "stories"
                 _JOB["result"]["stories"] = story_mod.run(limit=30)
+                # CompePharma Insights: one new piece every 2-hourly run, up to the day's 10, so the site gets
+                # fresh analysis/opinion through the day rather than one batch at dawn.
+                _JOB["step"] = "cp_articles"
+                try:
+                    from . import articles as art_mod, earnings as earn_mod
+                    try:
+                        _JOB["result"]["earnings_ingest"] = earn_mod.ingest(days=3, max_docs=20)
+                    except Exception as e:
+                        _JOB["result"]["earnings_ingest"] = {"error": f"{type(e).__name__}: {e}"}
+                    _JOB["result"]["cp_articles"] = art_mod.generate_cp_daily(target=10, max_new=1)
+                except Exception as e:
+                    _JOB["result"]["cp_articles"] = {"error": f"{type(e).__name__}: {e}"}
             elif s == "analyse":
                 _JOB["result"]["analyse"] = analyse_drugs(40)
             elif s == "week":
@@ -935,7 +947,7 @@ def _run_job(steps: list[str]):
                 except Exception as e:
                     _JOB["result"]["earnings_ingest"] = {"error": f"{type(e).__name__}: {e}"}
                 _JOB["step"] = "cp_articles"
-                _JOB["result"]["cp_articles"] = art_mod.generate_cp_daily(target=10)
+                _JOB["result"]["cp_articles_daily"] = art_mod.generate_cp_daily(target=10, max_new=1)   # rest come 1 per 2-hourly run
         _JOB["step"] = "indexnow"
         try:
             from . import indexnow as _inx

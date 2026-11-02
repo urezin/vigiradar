@@ -407,21 +407,27 @@ def _brec(r: dict) -> str:
             f"{(r.get('summary') or '')[:800]}")
 
 
-def generate_cp_daily(target: int = 10, earnings_n: int = 4, opinions: int = 3) -> dict:
-    """CompePharma: `target` articles a day: earnings analyses from SEC results releases, business analyses, opinion."""
+def generate_cp_daily(target: int = 10, earnings_n: int = 4, opinions: int = 3, max_new: int | None = None) -> dict:
+    """CompePharma: `target` articles a day: earnings analyses from SEC results releases, business analyses, opinion.
+
+    With `max_new`, at most that many new pieces are written in this call (the 2-hourly runs use 1, so the day's
+    articles are published across the day). The kind written first rotates with how many exist today, so a day's
+    run mixes earnings, analysis and opinion instead of front-loading one kind.
+    """
     from . import earnings as earn
     if not settings.anthropic_api_key:
         return {"error": "ANTHROPIC_API_KEY not set"}
     pd.init()
     today = date.today().isoformat()
     have = _todays("cparticle", today)
+    if len(have) >= target:
+        return {"generated": [], "errors": [], "note": f"daily target {target} reached", "at": datetime.now(timezone.utc).isoformat()}
     made, errors = [], []
+    budget = [max_new if max_new is not None else 10 ** 6]
     done_src = {s.get("url") for a in cp_list(400) for s in a.get("sources", [])[:1]}
     n_have = {"earnings": 0, "analysis": 0, "opinion": 0}
     for a in have:
         n_have[a.get("type", "analysis")] = n_have.get(a.get("type", "analysis"), 0) + 1
-    # 1. earnings analyses: biggest new results releases first
-    want_e = max(0, earnings_n - n_have["earnings"])
     covered = {(a.get("company") or "").lower() for a in cp_list(400) if a.get("type") == "earnings"}
     rel, seen_co = [], set()
     for r in earn.latest(days=10, limit=60):
@@ -430,84 +436,110 @@ def generate_cp_daily(target: int = 10, earnings_n: int = 4, opinions: int = 3) 
             continue          # one earnings analysis per company per results release season
         seen_co.add(co)
         rel.append(r)
-    for r in rel:
-        if want_e <= 0:
-            break
-        try:
-            j = _cp_claude(_CP_EARN.format(company=r["company"], ticker=r.get("ticker") or "", date=r["date"],
-                                           text=r["text"][:16000]))
-        except Exception as e:
-            errors.append(f"earnings {r['company']}: {e}")
-            continue
-        if not j or not j.get("title"):
-            continue
-        slug = f"{today}-{_slug(j['title'])}"
-        _cp_store({"slug": slug, "type": "earnings", "beat": "earnings", "title": j["title"][:140],
-                   "dek": (j.get("dek") or "")[:260], "date": today, "company": r["company"], "ticker": r.get("ticker"),
-                   "period": r.get("period"), "figures": [f for f in j.get("figures", []) if isinstance(f, dict)][:6],
-                   "sections": j.get("sections", [])[:7], "takeaways": j.get("takeaways", [])[:5],
-                   "model": settings.anthropic_model,
-                   "sources": [{"title": f"{r['company']}: quarterly results release (SEC filing)", "url": r["url"],
-                                "publisher": "SEC EDGAR", "date": r["date"]}]})
-        made.append(slug)
-        want_e -= 1
-    # 2. business analyses
     biz = [b for b in _biz_rows() if b.get("summary")]
-    want_o = max(0, opinions - n_have["opinion"])
-    want_a = max(0, target - len(have) - len(made) - want_o)
-    for beat in ["deals", "financing", "launches", "pricing", "manufacturing", "legal", "pipeline", "marketing", "industry"] * 2:
-        if want_a <= 0:
-            break
-        cands = [b for b in biz if b["beat"] == beat and b.get("vigieye_url") not in done_src]
-        cands.sort(key=lambda b: b.get("score") or 0, reverse=True)
-        if not cands:
-            continue
-        lead = cands[0]
-        done_src.add(lead.get("vigieye_url"))
-        related = [b for b in biz if b["beat"] == beat and b is not lead][:7]
-        try:
-            j = _cp_claude(_CP_ANALYSIS.format(beat=CP_BEATS.get(beat, beat),
-                                               records="LEAD:\n" + _brec(lead) + "\nRELATED:\n" + "\n".join(_brec(b) for b in related)))
-        except Exception as e:
-            errors.append(f"analysis {beat}: {e}")
-            continue
-        if not j or not j.get("title"):
-            continue
-        slug = f"{today}-{_slug(j['title'])}"
-        _cp_store({"slug": slug, "type": "analysis", "beat": beat, "title": j["title"][:140], "dek": (j.get("dek") or "")[:260],
-                   "date": today, "sections": j.get("sections", [])[:7], "takeaways": j.get("takeaways", [])[:5],
-                   "model": settings.anthropic_model,
-                   "sources": [{"title": b["title"], "url": b.get("source_url"), "publisher": b.get("publisher"), "date": b["date"],
-                                "vigieye_url": b.get("vigieye_url")} for b in [lead] + related[:4]]})
+
+    def left() -> bool:
+        return budget[0] > 0 and len(have) + len(made) < target
+
+    def took(slug: str) -> None:
         made.append(slug)
-        want_a -= 1
+        budget[0] -= 1
+
+    # 1. earnings analyses: biggest new results releases first
+    def do_earnings():
+        want_e = max(0, earnings_n - n_have["earnings"])
+        for r in rel:
+            if want_e <= 0 or not left():
+                break
+            try:
+                j = _cp_claude(_CP_EARN.format(company=r["company"], ticker=r.get("ticker") or "", date=r["date"],
+                                               text=r["text"][:16000]))
+            except Exception as e:
+                errors.append(f"earnings {r['company']}: {e}")
+                continue
+            if not j or not j.get("title"):
+                continue
+            slug = f"{today}-{_slug(j['title'])}"
+            _cp_store({"slug": slug, "type": "earnings", "beat": "earnings", "title": j["title"][:140],
+                       "dek": (j.get("dek") or "")[:260], "date": today, "company": r["company"], "ticker": r.get("ticker"),
+                       "period": r.get("period"), "figures": [f for f in j.get("figures", []) if isinstance(f, dict)][:6],
+                       "sections": j.get("sections", [])[:7], "takeaways": j.get("takeaways", [])[:5],
+                       "model": settings.anthropic_model,
+                       "sources": [{"title": f"{r['company']}: quarterly results release (SEC filing)", "url": r["url"],
+                                    "publisher": "SEC EDGAR", "date": r["date"]}]})
+            took(slug)
+            want_e -= 1
+
+    # 2. business analyses
+    def do_analysis():
+        want_o = max(0, opinions - n_have["opinion"] - sum(1 for x in made if "-view-" in x))
+        want_a = max(0, target - len(have) - len(made) - want_o)
+        for beat in ["deals", "financing", "launches", "pricing", "manufacturing", "legal", "pipeline", "marketing", "industry"] * 2:
+            if want_a <= 0 or not left():
+                break
+            cands = [b for b in biz if b["beat"] == beat and b.get("vigieye_url") not in done_src]
+            cands.sort(key=lambda b: b.get("score") or 0, reverse=True)
+            if not cands:
+                continue
+            lead = cands[0]
+            done_src.add(lead.get("vigieye_url"))
+            related = [b for b in biz if b["beat"] == beat and b is not lead][:7]
+            try:
+                j = _cp_claude(_CP_ANALYSIS.format(beat=CP_BEATS.get(beat, beat),
+                                                   records="LEAD:\n" + _brec(lead) + "\nRELATED:\n" + "\n".join(_brec(b) for b in related)))
+            except Exception as e:
+                errors.append(f"analysis {beat}: {e}")
+                continue
+            if not j or not j.get("title"):
+                continue
+            slug = f"{today}-{_slug(j['title'])}"
+            _cp_store({"slug": slug, "type": "analysis", "beat": beat, "title": j["title"][:140], "dek": (j.get("dek") or "")[:260],
+                       "date": today, "sections": j.get("sections", [])[:7], "takeaways": j.get("takeaways", [])[:5],
+                       "model": settings.anthropic_model,
+                       "sources": [{"title": b["title"], "url": b.get("source_url"), "publisher": b.get("publisher"), "date": b["date"],
+                                    "vigieye_url": b.get("vigieye_url")} for b in [lead] + related[:4]]})
+            took(slug)
+            want_a -= 1
+
     # 3. opinion: one on earnings season (if releases), the rest on business themes
-    recent = "; ".join(a["title"] for a in cp_list(20, kind="opinion")[:10]) or "none"
-    themes = []
-    if rel:
-        themes.append(("earnings season: what the latest results say about the industry",
-                       "\n".join(f"- {r['company']} ({r.get('period') or 'latest quarter'}): {r.get('headline') or ''}. "
-                                 f"{(r.get('text') or '')[:1200]}" for r in rel[:6])))
-    for beat in ("pricing", "deals", "financing", "manufacturing", "launches", "legal"):
-        rs = [b for b in biz if b["beat"] == beat][:10]
-        if len(rs) >= 3:
-            themes.append((CP_BEATS[beat], "\n".join(_brec(b) for b in rs)))
-    for theme, material in themes:
-        if want_o <= 0:
+    def do_opinion():
+        want_o = max(0, opinions - n_have["opinion"])
+        recent = "; ".join(a["title"] for a in cp_list(20, kind="opinion")[:10]) or "none"
+        themes = []
+        if rel:
+            themes.append(("earnings season: what the latest results say about the industry",
+                           "\n".join(f"- {r['company']} ({r.get('period') or 'latest quarter'}): {r.get('headline') or ''}. "
+                                     f"{(r.get('text') or '')[:1200]}" for r in rel[:6])))
+        for beat in ("pricing", "deals", "financing", "manufacturing", "launches", "legal"):
+            rs = [b for b in biz if b["beat"] == beat][:10]
+            if len(rs) >= 3:
+                themes.append((CP_BEATS[beat], "\n".join(_brec(b) for b in rs)))
+        for theme, material in themes:
+            if want_o <= 0 or not left():
+                break
+            try:
+                j = _cp_claude(_CP_OPINION.format(theme=theme, avoid=recent, records=material[:14000]), max_tokens=3200)
+            except Exception as e:
+                errors.append(f"opinion: {e}")
+                continue
+            if j and j.get("title"):
+                slug = f"{today}-view-{_slug(j['title'])}"
+                _cp_store({"slug": slug, "type": "opinion", "beat": "earnings" if theme.startswith("earnings") else
+                           next((k for k, v in CP_BEATS.items() if v == theme), "industry"),
+                           "title": j["title"][:140], "dek": (j.get("dek") or "")[:260], "date": today,
+                           "sections": j.get("sections", [])[:6], "takeaways": j.get("takeaways", [])[:4],
+                           "model": settings.anthropic_model, "sources": []})
+                took(slug)
+                want_o -= 1
+                recent += "; " + j["title"]
+
+    jobs = [do_earnings, do_analysis, do_opinion]
+    if max_new is not None:      # rotate which kind goes first, so a day of small runs is mixed
+        order = [0, 1, 2, 1]
+        first = order[len(have) % len(order)]
+        jobs = jobs[first:] + jobs[:first]
+    for job in jobs:
+        if not left():
             break
-        try:
-            j = _cp_claude(_CP_OPINION.format(theme=theme, avoid=recent, records=material[:14000]), max_tokens=3200)
-        except Exception as e:
-            errors.append(f"opinion: {e}")
-            continue
-        if j and j.get("title"):
-            slug = f"{today}-view-{_slug(j['title'])}"
-            _cp_store({"slug": slug, "type": "opinion", "beat": "earnings" if theme.startswith("earnings") else
-                       next((k for k, v in CP_BEATS.items() if v == theme), "industry"),
-                       "title": j["title"][:140], "dek": (j.get("dek") or "")[:260], "date": today,
-                       "sections": j.get("sections", [])[:6], "takeaways": j.get("takeaways", [])[:4],
-                       "model": settings.anthropic_model, "sources": []})
-            made.append(slug)
-            want_o -= 1
-            recent += "; " + j["title"]
+        job()
     return {"generated": made, "errors": errors[:6], "at": datetime.now(timezone.utc).isoformat()}

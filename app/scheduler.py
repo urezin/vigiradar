@@ -5,7 +5,7 @@ GitHub's scheduled workflows are best-effort: on 28-29 Oct 2026 the 2-hourly new
 2 times out of 5 overnight and the 04:40 UTC daily run never started. So the schedule now lives
 here, in a background thread that wakes every 5 minutes and asks "what is due?":
 
-  news   every 2 hours                     (steps: news)
+  news   every 2 hours                     (steps: news, which also writes one CompePharma Insight, up to 10 a day)
   daily  once a day from 04:30 UTC          (steps: ingest, news, analyse, articles [+ week on Monday]),
          then the newsletters: owner briefing every day, public lists on weekdays
 
