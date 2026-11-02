@@ -1,16 +1,25 @@
 {
  "running": false,
- "started": "2026-10-29T05:52:00.780453+00:00",
- "finished": "2026-10-29T05:59:37.491928+00:00",
+ "started": "2026-11-02T07:03:29.350280+00:00",
+ "finished": "2026-11-02T07:05:58.900945+00:00",
  "result": {
   "news": {
    "sources": 62,
-   "fetched": 1275,
-   "new": 1,
-   "errors": [],
+   "fetched": 1255,
+   "new": 0,
+   "errors": [
+    {
+     "source": "aifa",
+     "error": "Server error '502 Bad Gateway' for url 'https://www.aifa.gov.it/o/feedrss/rss?structureId=93604&groupId=20142&companyId=20115&baseportalURL=https://www.aifa.gov.it&size=25&excludeCategoryId=104878&locale=it_IT'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502"
+    },
+    {
+     "source": "aifa-en",
+     "error": "Server error '502 Bad Gateway' for url 'https://www.aifa.gov.it/o/feedrss/rss?structureId=93604&groupId=20142&companyId=20115&basePortalURL=https://www.aifa.gov.it&size=10&excludeCategoryId=104878&locale=en_US'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502"
+    }
+   ],
    "by_source": {
     "ema-news": {
-     "fetched": 11,
+     "fetched": 8,
      "new": 0
     },
     "ema-reg-guideline": {
@@ -42,11 +51,7 @@
      "new": 0
     },
     "eurlex-oj-l": {
-     "fetched": 3,
-     "new": 0
-    },
-    "aifa": {
-     "fetched": 25,
+     "fetched": 7,
      "new": 0
     },
     "fda-press": {
@@ -70,7 +75,7 @@
      "new": 0
     },
     "ec-health": {
-     "fetched": 26,
+     "fetched": 27,
      "new": 0
     },
     "ansm": {
@@ -98,7 +103,7 @@
      "new": 0
     },
     "doj": {
-     "fetched": 4,
+     "fetched": 5,
      "new": 0
     },
     "bfarm": {
@@ -130,11 +135,11 @@
      "new": 0
     },
     "pei-news": {
-     "fetched": 6,
+     "fetched": 5,
      "new": 0
     },
     "pei-safety": {
-     "fetched": 6,
+     "fetched": 8,
      "new": 0
     },
     "eof-news": {
@@ -157,20 +162,16 @@
      "fetched": 10,
      "new": 0
     },
-    "aifa-en": {
-     "fetched": 10,
-     "new": 0
-    },
     "igj-warnings": {
      "fetched": 20,
      "new": 0
     },
     "igj-docs": {
      "fetched": 20,
-     "new": 1
+     "new": 0
     },
     "sukl-sk": {
-     "fetched": 85,
+     "fetched": 90,
      "new": 0
     },
     "sukl-sk-recalls": {
@@ -182,7 +183,7 @@
      "new": 0
     },
     "basg": {
-     "fetched": 51,
+     "fetched": 55,
      "new": 0
     },
     "ogyei-rss": {
@@ -206,7 +207,7 @@
      "new": 0
     },
     "ec-union-register": {
-     "fetched": 23,
+     "fetched": 24,
      "new": 0
     },
     "ema-new-medicines": {
@@ -214,7 +215,7 @@
      "new": 0
     },
     "fda-recalls": {
-     "fetched": 7,
+     "fetched": 6,
      "new": 0
     },
     "fda-drug-recalls": {
@@ -234,7 +235,7 @@
      "new": 0
     },
     "ftc-consumer": {
-     "fetched": 6,
+     "fetched": 8,
      "new": 0
     },
     "gif-pl": {
@@ -262,55 +263,55 @@
      "verified": true
     }
    },
-   "total_in_store": 2375
+   "total_in_store": 2531
   },
   "translate": {
-   "translated": 26,
-   "irrelevant": 27,
+   "translated": 0,
+   "irrelevant": 0,
    "errors": 0
   },
   "press_company": {
    "ctgov": {
-    "studies": 25,
+    "studies": 29,
     "new": 0,
     "seconds": 0.2
    },
    "company": {
-    "hits": 58,
+    "hits": 62,
     "new": 0,
-    "skipped": 58,
+    "skipped": 62,
     "not_newsworthy": 0,
     "ai": true,
     "errors": [],
-    "seconds": 16.6
+    "seconds": 21.6
    }
   },
   "guidelines_safety": {
    "fda_guidance": {
-    "notices": 135,
+    "notices": 136,
     "new": 0,
     "seconds": 0.5
    },
    "ema_guidelines": {
     "items": 22,
     "new": 0,
-    "seconds": 0.8
+    "seconds": 0.3
    },
    "mhra_guidance": {
     "items": 20,
     "new": 0,
-    "seconds": 0.3
+    "seconds": 0.4
    },
    "ema_prac": {
-    "items": 538,
-    "kept": 33,
+    "items": 0,
+    "kept": 0,
     "new": 0,
-    "seconds": 0.7
+    "seconds": 0.1
    },
    "fda_recalls": {
-    "results": 70,
+    "results": 66,
     "new": 0,
-    "seconds": 0.4
+    "seconds": 0.3
    },
    "hc_alerts": {
     "items": 3,
@@ -319,20 +320,32 @@
    }
   },
   "stories": {
-   "written": 29,
+   "written": 0,
    "skipped": 0,
-   "errors": 1,
+   "errors": 2,
    "ai": true
+  },
+  "earnings_ingest": {
+   "hits": 5,
+   "new": 0,
+   "not_pharma": 0,
+   "errors": []
+  },
+  "cp_articles": {
+   "generated": [],
+   "errors": [],
+   "note": "daily target 10 reached",
+   "at": "2026-11-02T07:05:57.694596+00:00"
   },
   "indexnow": {
    "vigieye": {
     "host": "vigi-eye.com",
-    "submitted": 28,
+    "submitted": 9,
     "status": 200
    },
    "compepharma": {
     "host": "compepharma.com",
-    "submitted": 2,
+    "submitted": 12,
     "status": 200
    }
   }
