@@ -38,7 +38,10 @@
   .stat .v.hi{color:#e11d48}.stat .v.md{color:#d97706}.stat .v.eu{color:var(--accent)}
   /* filter bar */
   .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px 14px}
-  .filters .fl{font-size:13px;color:var(--mut);font-weight:600;margin-right:2px}
+  .filters.export input[type=date]{border:1px solid var(--line);border-radius:9px;padding:7px 9px;font:inherit;font-size:13.5px}
+  .filters .xbtn{border:0;border-radius:9px;padding:8px 13px;font:inherit;font-size:13.5px;font-weight:650;color:#fff;background:linear-gradient(92deg,#0ea5e9,#14b8a6);cursor:pointer}
+  .filters .xnote{font-weight:500}
+    .filters .fl{font-size:13px;color:var(--mut);font-weight:600;margin-right:2px}
   select,.search{font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
   .search{flex:1;min-width:160px}
   select:focus,.search:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,.15)}
@@ -146,6 +149,13 @@
       </select>
       <input class="search" id="fSearch" placeholder="Search summaries…" oninput="render()" />
     </div>
+    <div class="filters export">
+      <span class="fl" title="A dated CSV of every item captured in the scope selected above. Keep it as evidence of your regulatory surveillance.">Monitoring record</span>
+      <span class="fl">from</span><input type="date" id="xFrom" />
+      <span class="fl">to</span><input type="date" id="xTo" />
+      <button class="xbtn" onclick="exportRecord()">Download CSV</button>
+      <span class="fl xnote">Uses the country, subject and impact filters above.</span>
+    </div>
 
     <div class="feed" id="feed"></div>
     </div><!-- /view-feed -->
@@ -248,7 +258,7 @@ function render(){
         <span class="imp ${d.impact}">${impLabel(d.impact)} impact</span>
       </div>
       <h3>${d.title}</h3>
-      <div class="sum"><span class="aiflag">✦ AI summary</span> — ${d.sum}</div>
+      <div class="sum"><span class="aiflag">${d.mode==='heuristic'?'Source wording':'✦ AI summary'}</span> — ${d.sum}</div>
       <div class="row2">
         <span>Effective / published: <b>${fmt(d.date)}</b></span><span class="dot"></span>
         <span>Source: ${d.auth}</span><span class="dot"></span>
@@ -422,6 +432,15 @@ async function billingPortal(){
     if(j && j.url) location.href = j.url; else alert((j&&j.error)||'Billing portal unavailable.'); }catch(e){}
 }
 init(); loadLive(); loadAuth();
+function exportRecord(){
+  const q=new URLSearchParams();
+  const f=document.getElementById('xFrom').value, t=document.getElementById('xTo').value;
+  if(f) q.set('start',f); if(t) q.set('end',t);
+  for(const [k,id] of [['country','fCountry'],['subject','fSubject'],['impact','fImpact']]){const v=document.getElementById(id).value; if(v) q.set(k,v);}
+  window.location='/app/monitoring-record.csv?'+q.toString();
+}
+(function(){const t=new Date(), f=new Date(t.getTime()-29*864e5), iso=d=>d.toISOString().slice(0,10);
+  const a=document.getElementById('xFrom'), b=document.getElementById('xTo'); if(a&&b){a.value=iso(f); b.value=iso(t);}})();
 </script>
 </body>
 </html>

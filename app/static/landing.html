@@ -4,12 +4,12 @@
 <meta charset="utf-8" />
 <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content="#0b1324">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>VigiEye — EU pharmacovigilance & regulatory monitoring, per country, per subject</title>
-<meta name="description" content="VigiEye watches pharmacovigilance and regulatory legislation across every EU member state — organised by country and by subject — and gives you AI summaries, impact flags and inspection-ready audit trails. Stop checking 27 agency websites by hand." />
+<title>VigiEye — Regulatory legislation monitoring for pharma companies and CROs</title>
+<meta name="description" content="Regulatory and pharmacovigilance legislation monitoring for pharma companies and CROs: EMA, the European Commission, 18 EU national agencies, MHRA and FDA, with a dated monitoring record you can show an auditor." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="VigiEye" />
-<meta property="og:title" content="EU pharmacovigilance & regulatory monitoring — per country, per subject" />
-<meta property="og:description" content="One eye on EMA, EUR-Lex and all 27 national agencies. AI-summarised regulatory change, filtered to your markets and subjects." />
+<meta property="og:title" content="VigiEye — Regulatory legislation monitoring for pharma companies and CROs" />
+<meta property="og:description" content="Legislation monitoring for pharma companies and CROs, with a dated, source-linked monitoring record for audits and inspections." />
 <meta property="og:url" content="https://vigi-eye.com/" />
 <style>
   :root{--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--accent2:#14b8a6;--radar:#34d399;
@@ -110,8 +110,8 @@
   .cover .sub{color:#8b9bb2;font-size:14px}
   /* pricing */
   #pricing{background:var(--soft)}
-  .prices{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:stretch}
-  @media(max-width:960px){.prices{grid-template-columns:1fr 1fr}}
+  .prices{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch}
+  @media(max-width:960px){.prices{grid-template-columns:1fr}}
   @media(max-width:520px){.prices{grid-template-columns:1fr}}
   .price{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column}
   .price.pop{border:2px solid var(--accent);box-shadow:0 12px 30px rgba(14,165,233,.14)}
@@ -140,12 +140,13 @@
   <div class="logo"><svg class="vg-mark" width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false" style="flex:none;vertical-align:middle"><defs><linearGradient id="vgm2" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#2dd4bf"/></linearGradient></defs><path d="M16 3.5 26.8 9.75v12.5L16 28.5 5.2 22.25V9.75Z" stroke="url(#vgm2)" stroke-width="2.4" stroke-linejoin="round"/><path d="M5.2 16h5.3l2.3-5.2 3.6 10.6 2.5-7.2 1.3 1.8h6.6" stroke="url(#vgm2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><strong class="wm" style="font-weight:inherit">Vigi<span>Eye</span></strong></div>
   <div class="navlinks">
     <a href="/calendar">Regulatory calendar</a>
+    <a href="#who">Who it's for</a>
     <a href="#how">How it works</a>
     <a href="#coverage">Coverage</a>
-    <a href="#pricing">Pricing</a>
+    <a href="#pricing">Enterprise</a>
     <a href="/app">Log in</a>
   </div>
-  <a class="btn" href="/app">Start free</a>
+  <a class="btn" href="mailto:info@vigi-eye.com?subject=VigiEye%20demo%20request">Book a demo</a>
 </div></nav>
 
 <header class="hero">
@@ -155,39 +156,50 @@
   <div class="wrap">
     <div class="launchrow">
       <span class="livepill"><span class="livedot"></span> Monitoring live</span>
-      <div class="badge">🇪🇺 All 27 EU member states + EMA</div>
+      <div class="badge">For pharma companies &amp; CROs</div>
     </div>
-    <h1>Every EU pharmacovigilance & regulatory change — <em>in one clear view</em>.</h1>
-    <p class="sub">VigiEye watches EMA, EUR-Lex and all 27 national medicines agencies, then summarises what changed with AI — organised by country and by subject, and flagged for the markets and products that matter to you.</p>
+    <h1>Legislation monitoring <em>you can prove</em> to an auditor.</h1>
+    <p class="sub">VigiEye watches EMA, the European Commission, 18 EU national medicines agencies, MHRA and FDA for regulatory, pharmacovigilance and clinical-trial changes. Every change in your scope is summarised, linked to its official source and kept in a dated monitoring record you can export for audits, sponsor qualifications and inspections.</p>
     <div class="cta-row">
-      <a class="btn" href="/app">Start free — no card</a>
-      <a class="btn ghost" href="#how">See how it works</a>
+      <a class="btn" href="mailto:info@vigi-eye.com?subject=VigiEye%20demo%20request">Book a demo</a>
+      <a class="btn ghost" href="#who">See who it's for</a>
     </div>
     <div class="capture">
       <input id="heroEmail" type="email" placeholder="you@company.com" />
-      <button class="btn dark" onclick="capture('hero')">Get early access</button>
+      <button class="btn dark" onclick="capture('hero')">Ask for a trial</button>
     </div>
-    <p class="microcopy">Free plan forever · Pro from €249/mo · Built for regulatory affairs & PV teams</p>
+    <p class="microcopy">Enterprise licences for pharma companies and CROs · Pro from €249 per user per month for individual RA and PV professionals</p>
     <div class="badges">
-      <div class="badge"><b>GVP</b> modules</div>
-      <div class="badge"><b>EUR-Lex</b> & national law</div>
-      <div class="badge"><b>AI</b> change summaries</div>
-      <div class="badge"><b>Inspection-ready</b> audit trail</div>
+      <div class="badge"><b>GVP</b> &amp; pharmacovigilance</div>
+      <div class="badge"><b>CTR</b> &amp; ICH GCP</div>
+      <div class="badge"><b>Source-linked</b> every item</div>
+      <div class="badge"><b>Exportable</b> monitoring record</div>
     </div>
   </div>
 </header>
 
+<section id="who"><div class="wrap">
+  <div class="eyebrow">Who it's for</div>
+  <h2 class="title">For organisations that have to show they watch the rules</h2>
+  <p class="lede">Inspectors and auditors ask the same question: how do you know when the legislation changes, and what did you do about it? VigiEye answers the first half, with evidence.</p>
+  <div class="grid">
+    <div class="card"><div class="ic">◆</div><h3>Pharma companies</h3><p>Marketing authorisation holders need documented regulatory intelligence for pharmacovigilance, labelling, quality and market access. One watch for RA, PV and QA, filtered by market and subject, with a dated record for inspections and partner audits.</p></div>
+    <div class="card"><div class="ic">◇</div><h3>CROs</h3><p>Sponsors audit how you keep up with clinical-trial, GCP and safety-reporting rules in every country you run studies. Show them a source-linked watch across EU and US authorities, and the monitoring record behind it.</p></div>
+    <div class="card"><div class="ic">✓</div><h3>How you prove it</h3><p>Every item is time-stamped when VigiEye captures it and linked to the official source. Export the monitoring record for any period and scope, and file it with your regulatory-surveillance SOP.</p></div>
+  </div>
+</div></section>
+
 <section id="features"><div class="wrap">
   <div class="eyebrow">Why VigiEye</div>
-  <h2 class="title">Regulatory intelligence without the 27-tab morning</h2>
-  <p class="lede">National agencies publish in 24 languages, on 27 different websites, with no common feed. VigiEye unifies them — and tells you what actually changed and why it matters.</p>
+  <h2 class="title">One watch across EU and US regulators</h2>
+  <p class="lede">National agencies publish in their own languages, on their own websites, with no common feed. VigiEye brings them together and tells you what changed and why it matters.</p>
   <div class="grid">
-    <div class="card"><div class="ic">◎</div><h3>Per-country coverage</h3><p>EMA and the EU level plus every national competent authority — BfArM, ANSM, AEMPS, AIFA, and the rest. Pick the markets you sell in.</p></div>
+    <div class="card"><div class="ic">◎</div><h3>Per-country coverage</h3><p>EMA, the European Commission and HMA, 18 national competent authorities, MHRA, FDA and Health Canada. Pick the markets you operate in.</p></div>
     <div class="card"><div class="ic">☰</div><h3>Per-subject filtering</h3><p>Slice by subject: signal management, PSUR/PBRER, labelling & SmPC, GVP inspections, clinical trials (CTR), falsified medicines, and more.</p></div>
-    <div class="card"><div class="ic">✦</div><h3>AI change summaries</h3><p>Every update comes with a plain-language summary of what changed, the effective date, and an impact flag — not just a link to a 60-page PDF.</p></div>
-    <div class="card"><div class="ic">◔</div><h3>Alerts & digests</h3><p>Real-time alerts for high-impact changes; a clean weekly digest for the rest. Route by country, subject or product portfolio.</p></div>
-    <div class="card"><div class="ic">⛃</div><h3>Cited to the source</h3><p>Each item links to the exact official document and section it came from. Trace any summary back to primary source in one click.</p></div>
-    <div class="card"><div class="ic">🛡</div><h3>Inspection-ready trail</h3><p>Exportable timeline of what your team saw and when — evidence of regulatory surveillance for GVP inspections and audits.</p></div>
+    <div class="card"><div class="ic">✦</div><h3>AI change summaries</h3><p>Each update gets a plain-language summary of what changed and an impact flag, clearly labelled as AI, with the official document one click away.</p></div>
+    <div class="card"><div class="ic">◔</div><h3>Daily briefing</h3><p>A weekday e-mail briefing with the new approvals, safety actions, guidelines and deadlines, plus a regulatory calendar of what is coming up.</p></div>
+    <div class="card"><div class="ic">⛃</div><h3>Cited to the source</h3><p>Every item links to the official publication it came from. Links to anything other than an official source are filtered out.</p></div>
+    <div class="card"><div class="ic">🛡</div><h3>Monitoring record</h3><p>Export a dated CSV of every change captured in your scope for any period: capture time, source date, authority, subject, impact and the official link.</p></div>
   </div>
 </div></section>
 
@@ -198,8 +210,8 @@
     <div>
       <strong>Today, without VigiEye</strong>
       <ul>
-        <li>Someone checks 27 agency sites + EMA + EUR-Lex by hand — or not at all</li>
-        <li>Updates arrive in 24 languages with no summary of what changed</li>
+        <li>Someone checks dozens of agency websites by hand, or not at all</li>
+        <li>Updates arrive in many languages with no summary of what changed</li>
         <li>Relevant changes get missed; you find out at inspection</li>
         <li>No record proving you actually monitored the landscape</li>
       </ul>
@@ -210,7 +222,7 @@
         <li>VigiEye continuously watches every source for you</li>
         <li>AI summarises each change in English, with an impact flag</li>
         <li>Filtered to your countries, subjects and product portfolio</li>
-        <li>Every item cited to source and logged for inspection evidence</li>
+        <li>Every item cited to source, time-stamped and exportable as a monitoring record</li>
       </ul>
     </div>
   </div>
@@ -218,29 +230,30 @@
 
 <section id="how"><div class="wrap">
   <div class="eyebrow">How it works</div>
-  <h2 class="title">From 27 agencies to one prioritised feed</h2>
+  <h2 class="title">From dozens of agencies to one prioritised feed</h2>
   <p class="lede">Set it up once. VigiEye does the watching, summarising and prioritising continuously.</p>
   <div class="steps">
-    <div class="step"><div class="n"></div><h4>Choose your scope</h4><p>Select the EU markets and the subjects you care about — and add your product portfolio.</p></div>
-    <div class="step"><div class="n"></div><h4>We monitor the sources</h4><p>VigiEye continuously ingests EMA, EUR-Lex, HMA and all national agency publications.</p></div>
+    <div class="step"><div class="n"></div><h4>Choose your scope</h4><p>Select the markets and the subjects your SOP says you must watch.</p></div>
+    <div class="step"><div class="n"></div><h4>We monitor the sources</h4><p>VigiEye checks EMA, the European Commission, HMA, the national agencies, MHRA and FDA every two hours.</p></div>
     <div class="step"><div class="n"></div><h4>AI summarises & flags</h4><p>Each change gets a plain-language summary, effective date and impact rating, cited to source.</p></div>
-    <div class="step"><div class="n"></div><h4>You get the signal</h4><p>Real-time alerts, a weekly digest and a searchable, exportable timeline for your team.</p></div>
+    <div class="step"><div class="n"></div><h4>You keep the evidence</h4><p>A daily briefing, a filtered workspace, and a monitoring record you can export for any period.</p></div>
   </div>
 </div></section>
 
 <section id="coverage" class="cover"><div class="wrap">
   <div class="eyebrow" style="color:#7dd3fc">Coverage</div>
-  <h2 class="title">EU-wide sources, one taxonomy</h2>
+  <h2 class="title">EU, UK and US sources, one taxonomy</h2>
   <p class="lede">Every level of the European medicines landscape, mapped to a consistent country × subject grid.</p>
   <div class="cols">
     <div>
       <h3>Countries & authorities</h3>
-      <div class="sub">EU level + all 27 member states</div>
+      <div class="sub">EU level, 18 national authorities, UK and US</div>
       <div class="chips">
-        <div class="chip"><b>EU</b> · EMA · EUR-Lex · HMA</div>
+        <div class="chip"><b>EU</b> · EMA · European Commission · HMA/CMDh</div>
         <div class="chip">🇩🇪 BfArM / PEI</div><div class="chip">🇫🇷 ANSM</div><div class="chip">🇪🇸 AEMPS</div>
-        <div class="chip">🇮🇹 AIFA</div><div class="chip">🇳🇱 CBG-MEB</div><div class="chip">🇸🇪 LV</div>
-        <div class="chip">🇮🇪 HPRA</div><div class="chip">🇧🇪 FAMHP</div><div class="chip">+ 19 more</div>
+        <div class="chip">🇮🇹 AIFA</div><div class="chip">🇳🇱 IGJ</div><div class="chip">🇬🇷 EOF</div>
+        <div class="chip">🇦🇹 BASG</div><div class="chip">🇵🇹 INFARMED</div><div class="chip">🇬🇧 MHRA</div>
+        <div class="chip">🇺🇸 FDA</div><div class="chip">+ 10 more EU agencies</div>
       </div>
     </div>
     <div>
@@ -272,36 +285,31 @@ fetch('/api/catalysts?impact=high').then(r=>r.json()).then(d=>{const el=document
 </script>
 <section id="pricing"><div class="wrap">
   <div class="eyebrow">Pricing</div>
-  <h2 class="title">Start free. Scale to your whole portfolio.</h2>
-  <p class="lede">Transparent pricing — change or cancel anytime.</p>
+  <h2 class="title">Plans for professionals, companies and enterprises</h2>
+  <p class="lede">Individual plans start today. Company and enterprise licences come with onboarding to your surveillance procedure.</p>
   <div class="prices">
-    <div class="price">
-      <div class="tag">Free</div><div class="amt">€0</div><div class="cad">forever</div>
-      <ul><li>1 country + EU level</li><li>2 subjects</li><li>Weekly digest</li><li>AI summaries (basic)</li></ul>
-      <a class="btn ghost" href="/app">Start free</a>
-    </div>
     <div class="price pop">
-      <div class="tag">Pro · Most popular</div><div class="amt">€249</div><div class="cad">per user / month</div>
-      <ul><li>All 27 countries + EMA</li><li>All subjects</li><li>Real-time alerts + digest</li><li>Full AI summaries & impact flags</li><li>Source citations + export</li></ul>
+      <div class="tag">Pro · for individuals</div><div class="amt">€249</div><div class="cad">per user / month</div>
+      <ul><li>All covered authorities</li><li>All subjects</li><li>Daily e-mail briefing</li><li>AI summaries &amp; impact flags</li><li>Monitoring record export</li></ul>
       <button class="btn" onclick="checkout('pro_monthly')">Start 14-day trial</button>
     </div>
     <div class="price">
-      <div class="tag">Team</div><div class="amt">€199</div><div class="cad">per user / mo · annual</div>
-      <ul><li>Everything in Pro</li><li>Shared workspaces & routing</li><li>Product-portfolio tagging</li><li>Annual invoice for procurement</li></ul>
+      <div class="tag">Company</div><div class="amt">€199</div><div class="cad">per user / month · billed annually</div>
+      <ul><li>Everything in Pro</li><li>For RA, PV and QA teams</li><li>Monitoring record for audits and inspections</li><li>Annual invoice for procurement</li></ul>
       <button class="btn ghost" onclick="checkout('team_annual')">Go annual</button>
     </div>
     <div class="price ent-card">
-      <div class="tag" style="color:#7dd3fc">Enterprise</div><div class="amt">Custom</div><div class="cad">tailored to your org</div>
-      <ul><li>Unlimited users & portfolios</li><li>API & data feed access</li><li>Custom / private sources</li><li>SSO/SAML & audit export</li><li>Dedicated success & SLA</li></ul>
-      <a class="btn" href="mailto:info@vigi-eye.com?subject=VigiEye%20Enterprise%20inquiry">Contact sales</a>
+      <div class="tag" style="color:#7dd3fc">Enterprise · pharma &amp; CROs</div><div class="amt">Custom</div><div class="cad">organisation-wide licence</div>
+      <ul><li>All users in your organisation</li><li>Onboarding to your surveillance SOP</li><li>Support for your supplier qualification audit</li><li>Extra sources on request</li><li>Named contact and service levels in contract</li></ul>
+      <a class="btn" href="mailto:info@vigi-eye.com?subject=VigiEye%20Enterprise%20inquiry">Talk to us</a>
     </div>
   </div>
 </div></section>
 
 <section><div class="wrap"><div class="band">
-  <h2>See what changed across the EU this week.</h2>
-  <p>Set up your country and subject watch in minutes. Free to start, no card required.</p>
-  <a class="btn" href="/app">Start free</a>
+  <h2>Show your auditor what you monitor, and when.</h2>
+  <p>Tell us your markets and subjects, and we will set up a trial of your watch and its monitoring record.</p>
+  <a class="btn" href="mailto:info@vigi-eye.com?subject=VigiEye%20demo%20request">Book a demo</a>
 </div></div></section>
 
 <footer><div class="wrap"><div class="cols">
@@ -309,7 +317,7 @@ fetch('/api/catalysts?impact=high').then(r=>r.json()).then(d=>{const el=document
   <div>
     <a href="#how" style="color:var(--accent)">How it works</a> ·
     <a href="#coverage" style="color:var(--accent)">Coverage</a> ·
-    <a href="#pricing" style="color:var(--accent)">Pricing</a> ·
+    <a href="#pricing" style="color:var(--accent)">Enterprise</a> ·
     <a href="mailto:info@vigi-eye.com" style="color:var(--accent)">info@vigi-eye.com</a>
   </div>
   <div>© 2026 VigiEye</div>

@@ -105,6 +105,7 @@ def hub_page():
     return FileResponse(os.path.join(_STATIC, "hub.html"))
 
 
+@app.get("/enterprise", include_in_schema=False)
 @app.get("/welcome", include_in_schema=False)
 def marketing_landing():
     # The original marketing landing (incl. pricing) is kept here.
@@ -129,6 +130,58 @@ def _gated(session, filename):
 @app.get("/app", include_in_schema=False)
 def workspace(session: str | None = Cookie(default=None, alias=auth_mod.COOKIE_NAME)):
     return _gated(session, "app.html")
+
+
+@app.get("/app/monitoring-record.csv", include_in_schema=False)
+def monitoring_record_csv(start: str = "", end: str = "", country: str = "", subject: str = "",
+                          impact: str = "",
+                          session: str | None = Cookie(default=None, alias=auth_mod.COOKIE_NAME)):
+    """A dated record of every item VigiEye captured in the subscriber's scope and period:
+    capture time (UTC), the source's own date, authority, subject, impact and the official
+    link. Customers keep it as evidence of their regulatory-surveillance activity."""
+    import csv
+    import io
+    from datetime import date as _date, datetime as _dt, timedelta as _td, timezone as _tz
+    from fastapi.responses import Response as _Resp
+
+    if not _plan_ok(session):
+        raise HTTPException(status_code=403, detail="The monitoring record is available on paid plans.")
+    user = _current_user(session) or {}
+    today = _dt.now(_tz.utc).date()
+    try:
+        d_end = _date.fromisoformat(end) if end else today
+        d_start = _date.fromisoformat(start) if start else d_end - _td(days=29)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Dates must be YYYY-MM-DD.")
+    if d_start > d_end:
+        raise HTTPException(status_code=400, detail="The start date is after the end date.")
+    if (d_end - d_start).days > 366:
+        raise HTTPException(status_code=400, detail="Export at most 12 months at a time.")
+    store.init()
+    rows = store.monitoring_record(d_start.isoformat(), d_end.isoformat(),
+                                   country or None, subject or None, impact or None)
+    kind = {"llm": "AI summary", "heuristic": "Source wording"}
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(["VigiEye monitoring record"])
+    w.writerow(["Account", user.get("email", "")])
+    w.writerow(["Period (capture date, UTC)", f"{d_start.isoformat()} to {d_end.isoformat()}"])
+    w.writerow(["Scope", f"country={country or 'all'}; subject={subject or 'all'}; impact={impact or 'all'}"])
+    w.writerow(["Exported (UTC)", _dt.now(_tz.utc).replace(microsecond=0).isoformat()])
+    w.writerow(["Items", len(rows)])
+    w.writerow(["Note", "Each item links to its official source, which remains the authority. AI summaries can contain errors."])
+    w.writerow([])
+    w.writerow(["Record ID", "Captured by VigiEye (UTC)", "Source date", "Country", "Authority", "Subject",
+                "Impact", "Title", "Summary", "Summary type", "Official source"])
+    for r in rows:
+        w.writerow([r["id"], (r.get("ingested_at") or "")[:19].replace("T", " "), r.get("date") or "",
+                    r.get("country") or "", r.get("authority") or "", r.get("subject") or "",
+                    r.get("impact") or "", r.get("title") or "", r.get("summary") or "",
+                    kind.get(r.get("mode") or "", "Source wording"), r.get("source_url") or ""])
+    fname = f"vigieye-monitoring-record_{d_start.isoformat()}_{d_end.isoformat()}.csv"
+    return _Resp("﻿" + buf.getvalue(), media_type="text/csv; charset=utf-8",
+                 headers={"Content-Disposition": f'attachment; filename="{fname}"',
+                          "Cache-Control": "no-store"})
 
 
 @app.get("/compliance", include_in_schema=False)

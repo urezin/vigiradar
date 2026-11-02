@@ -139,7 +139,7 @@ def query(country: str | None = None, subject: str | None = None,
           impact: str | None = None, limit: int = 200) -> list[dict]:
     stmt = select(updates.c.id, updates.c.country, updates.c.authority, updates.c.subject,
                   updates.c.impact, updates.c.title, updates.c.summary,
-                  updates.c.source_url, updates.c.date)
+                  updates.c.source_url, updates.c.date, updates.c.mode)
     if country:
         stmt = stmt.where(updates.c.country == country)
     if subject:
@@ -148,6 +148,26 @@ def query(country: str | None = None, subject: str | None = None,
         stmt = stmt.where(updates.c.impact == impact)
     stmt = stmt.where((updates.c.mode.is_(None)) | (updates.c.mode.notin_(["irrelevant", "seed"])))
     stmt = stmt.order_by(updates.c.date.desc(), updates.c.ingested_at.desc()).limit(limit)
+    with _engine.connect() as c:
+        return [dict(r._mapping) for r in c.execute(stmt)]
+
+
+def monitoring_record(start: str, end: str, country: str | None = None, subject: str | None = None,
+                      impact: str | None = None, limit: int = 20000) -> list[dict]:
+    """Every item VigiEye captured between two UTC dates (inclusive), oldest first, for a
+    customer's dated record of regulatory surveillance. Dates are 'YYYY-MM-DD'."""
+    stmt = select(updates.c.id, updates.c.ingested_at, updates.c.published, updates.c.date,
+                  updates.c.country, updates.c.authority, updates.c.subject, updates.c.impact,
+                  updates.c.title, updates.c.summary, updates.c.mode, updates.c.source_url)
+    stmt = stmt.where(updates.c.ingested_at >= start, updates.c.ingested_at < end + "T99")
+    if country:
+        stmt = stmt.where(updates.c.country == country)
+    if subject:
+        stmt = stmt.where(updates.c.subject == subject)
+    if impact:
+        stmt = stmt.where(updates.c.impact == impact)
+    stmt = stmt.where((updates.c.mode.is_(None)) | (updates.c.mode.notin_(["irrelevant", "seed"])))
+    stmt = stmt.order_by(updates.c.ingested_at.asc(), updates.c.id.asc()).limit(limit)
     with _engine.connect() as c:
         return [dict(r._mapping) for r in c.execute(stmt)]
 
