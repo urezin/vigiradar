@@ -218,10 +218,10 @@ def _page(title: str, description: str, canonical: str, body: str,
 <link rel="alternate" type="text/calendar" title="VigiEye EU regulatory calendar" href="{_base()}/calendar.ics">
 <style>{_CSS}</style>{ld}</head><body>
 <nav><div class="wrap"><a class="logo" href="/">{_brand.mark_svg(26, light=True)}<span>Vigi<b>Eye</b></span></a>
-<div class="nl"><a href="/news">News</a><a class="hide2" href="/safety">Safety</a><a class="hide2" href="/pdufa">PDUFA</a><a class="hide" href="/drugs">Drugs</a><a class="hide" href="/enterprise">Enterprise</a><a class="cta" href="/newsletter">Daily email</a></div></div></nav>
+<div class="nl"><a href="/news">News</a><a class="hide2" href="/safety">Safety</a><a class="hide2" href="/pdufa">PDUFA</a><a class="hide" href="/drugs">Drugs</a><a class="hide" href="/welcome">Enterprise</a><a class="cta" href="/newsletter">Daily email</a></div></div></nav>
 {body}
 <footer><div class="wrap">VigiEye · EU pharmacovigilance &amp; regulatory monitoring. Every date links to its official source; always confirm against the source before acting.
- · <a href="/">Home</a> · <a href="/news/pharmacovigilance">Pharmacovigilance</a> · <a href="/news/regulatory">Regulatory</a> · <a href="/news/market-access">Market access</a> · <a href="/news/compliance">Compliance</a> · <a href="/safety">Safety hub</a> · <a href="/guidelines">Guidelines</a> · <a href="/feed.xml">RSS</a> · <a href="/pdufa">PDUFA calendar</a> · <a href="/approvals">Approvals</a> · <a href="/safety">Safety</a> · <a href="/drugs">Drugs</a> · <a href="/calendar">EU calendar</a> · <a href="/calendar.ics">iCal</a> · <a href="/radar">News</a> · <a href="/insights">Insights</a> · <a href="/newsletter">Newsletter</a> · <a href="/embed">Embed ticker</a> · <a href="/welcome">About</a></div></footer>
+ · <a href="/">Home</a> · <a href="/news/pharmacovigilance">Pharmacovigilance</a> · <a href="/news/regulatory">Regulatory</a> · <a href="/news/market-access">Market access</a> · <a href="/news/quality">Quality &amp; compliance</a> · <a href="/safety">Safety hub</a> · <a href="/guidelines">Guidelines</a> · <a href="/feed.xml">RSS</a> · <a href="/pdufa">PDUFA calendar</a> · <a href="/approvals">Approvals</a> · <a href="/safety">Safety</a> · <a href="/drugs">Drugs</a> · <a href="/calendar">EU calendar</a> · <a href="/calendar.ics">iCal</a> · <a href="/radar">News</a> · <a href="/insights">Insights</a> · <a href="/newsletter">Newsletter</a> · <a href="/embed">Embed ticker</a> · <a href="/welcome">About</a></div></footer>
 <script>
 async function vgSub(form){{const i=form.querySelector('input[type=email]'),m=form.parentNode.querySelector('.msg');
  m.textContent='…';try{{const r=await fetch('/calendar/subscribe',{{method:'POST',headers:{{'Content-Type':'application/json'}},
@@ -302,7 +302,7 @@ def calendar_page(past: int = 0):
 <p style="margin-top:14px"><a href="/calendar?past={0 if past else 1}">{"Hide past events" if past else "Show past events"}</a></p>
 <div class="lock"><h3>Know what each date means for <em>your</em> products</h3>
 <p>VigiEye subscribers get AI-summarised outcomes as each meeting publishes, a feed filtered to their markets and subjects, and a dated monitoring record they can export for audits and inspections.</p>
-<a class="btn" href="/enterprise#pricing">See plans</a> <a class="btn ghost" href="/radar">Browse the latest changes</a></div>
+<a class="btn" href="/welcome#pricing">See plans</a> <a class="btn ghost" href="/radar">Browse the latest changes</a></div>
 </main>
 <script>
 (function(){{const q=document.getElementById('fq'),t=document.getElementById('ft'),b=document.getElementById('fb'),
@@ -490,7 +490,7 @@ def radar_page():
 <p>What EMA, HMA/CMDh, EUR-Lex and national agencies published recently, summarised in plain language with a link to each official source.</p>
 {_subscribe_box("radar")}</div></header><main class="wrap" style="padding-top:18px">{note}{items}
 <div class="lock"><h3>Filter this to your countries, subjects and products</h3><p>Subscribers get this feed filtered to their markets, with impact flags, alerts and an audit trail.</p>
-<a class="btn" href="/enterprise#pricing">See plans</a></div></main>"""
+<a class="btn" href="/welcome#pricing">See plans</a></div></main>"""
     return _page("EU Pharmacovigilance & Regulatory Updates — latest changes | VigiEye",
                  "Latest EU pharmacovigilance and regulatory changes from EMA, HMA/CMDh, EUR-Lex and national agencies, "
                  "summarised in plain language with official sources.", f"{_base()}/radar", body)
@@ -501,7 +501,7 @@ def radar_page():
 @router.get("/robots.txt", response_class=PlainTextResponse, include_in_schema=False)
 def robots():
     return ("User-agent: *\nAllow: /\nDisallow: /app\nDisallow: /api/\nDisallow: /admin/\n"
-            "Disallow: /auth/\nDisallow: /billing/\nDisallow: /newsletter/preview\nDisallow: /embed/\n"
+            "Disallow: /auth/\nDisallow: /billing/\nDisallow: /compliance\nDisallow: /medical-monitoring\nDisallow: /medical-literature\nDisallow: /newsletter/preview\nDisallow: /embed/\n"
             f"Sitemap: {_base()}/sitemap.xml\nSitemap: {_base()}/news-sitemap.xml\n")
 
 

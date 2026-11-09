@@ -108,6 +108,11 @@ def hub_page():
 
 
 @app.get("/enterprise", include_in_schema=False)
+def enterprise_alias():
+    # One URL for the landing page, so Google doesn't index /enterprise as a duplicate of /welcome.
+    return RedirectResponse("/welcome", status_code=301)
+
+
 @app.get("/welcome", include_in_schema=False)
 def marketing_landing():
     # The original marketing landing (incl. pricing) is kept here.
