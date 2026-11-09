@@ -924,6 +924,11 @@ def _run_job(steps: list[str]):
                 from . import stories as story_mod
                 _JOB["step"] = "stories"
                 _JOB["result"]["stories"] = story_mod.run(limit=30)
+                _JOB["step"] = "cp_stories"
+                try:
+                    _JOB["result"]["cp_stories"] = story_mod.run_cp(limit=20)
+                except Exception as e:
+                    _JOB["result"]["cp_stories"] = {"error": f"{type(e).__name__}: {e}"}
                 # CompePharma Insights: one new piece every 2-hourly run, up to the day's 10, so the site gets
                 # fresh analysis/opinion through the day rather than one batch at dawn.
                 _JOB["step"] = "cp_articles"

@@ -68,8 +68,132 @@ Return ONLY a JSON object:
   "newsworthy": true or false (false for staff news, events listings, website notices, page maintenance)}}"""
 
 
+# CompePharma edition: the same news item reported again for pharma business readers, so CompePharma's
+# story pages are original articles that can rank on their own instead of copies of VigiEye's.
+cp_stories = Table(
+    "portal_cp_stories", _meta,
+    Column("key", String(40), primary_key=True),
+    Column("headline", Text, nullable=False),
+    Column("dek", Text),
+    Column("body", Text, nullable=False),
+    Column("takeaways", Text),
+    Column("model", String(60)),
+    Column("created_at", String(40), nullable=False),
+)
+
+_CP_SYSTEM = ("You are a senior business reporter at CompePharma, an independent publication on the business of pharma and "
+              "biotech (deals, launches, pricing, manufacturing, legal, earnings), written in the style of STAT News. You write "
+              "original articles in clear British English for commercial, business-development, finance and strategy readers. "
+              "You never invent facts, numbers, dates, names or quotes, and you never give investment advice.")
+
+_CP_PROMPT = """Write a CompePharma business news article about this item.
+
+Company / publisher: {publisher} ({country})
+Date: {date}
+Original title: {title}
+Facts on file (a regulatory-desk write-up from our sister service plus the item summary; report these facts in
+completely new words, with a different headline, a different opening and a different structure):
+<<<
+{facts}
+>>>
+
+Rules:
+- Lead with the business angle: what it means commercially (revenue, market position, competitors, pricing, supply,
+  deal value, pipeline value), but only as far as the facts support. Mark general industry context clearly as context.
+- Do NOT reuse any sentence, phrase or headline wording from the facts above.
+- If the facts are thin, write a shorter article. No speculation, no quotes unless verbatim in the facts, no advice.
+
+Return ONLY a JSON object:
+{{"headline": "business news headline, max 14 words, factual",
+  "dek": "one-sentence standfirst, max 30 words",
+  "body": ["3 to 5 short paragraphs of original reporting"],
+  "takeaways": ["2 to 4 bullets: why it matters for the pharma business"]}}"""
+
+
 def init() -> None:
     _meta.create_all(store._engine)
+
+
+def get_cp(key: str) -> dict | None:
+    init()
+    with store._engine.connect() as c:
+        r = c.execute(select(cp_stories).where(cp_stories.c.key == key)).first()
+    if not r:
+        return None
+    d = dict(r._mapping)
+    for k in ("body", "takeaways"):
+        try:
+            d[k] = json.loads(d.get(k) or "[]")
+        except Exception:
+            d[k] = []
+    return d
+
+
+_CP_KIND = {"c": "c", "o": "u", "n": "n"}       # CompePharma item id prefix -> story key prefix
+
+
+def write_cp(item: dict, base: dict) -> dict | None:
+    import anthropic
+    from .articles import _parse_json
+    facts = "\n".join([base.get("headline") or "", base.get("dek") or "", *(base.get("body") or []),
+                        *("- " + t for t in base.get("takeaways") or []), "Summary: " + (item.get("summary") or "")])
+    client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    prompt = _CP_PROMPT.format(publisher=item.get("publisher") or "", country=item.get("country") or "",
+                               date=item.get("date") or "", title=item.get("title") or "", facts=facts[:6000])
+    data = None
+    for extra in ("", "\n\nReturn strictly valid JSON (escape double quotes inside strings)."):
+        msg = client.messages.create(model=settings.anthropic_model, max_tokens=1600, system=_CP_SYSTEM,
+                                     messages=[{"role": "user", "content": prompt + extra}])
+        try:
+            data = _parse_json("".join(b.text for b in msg.content if getattr(b, "type", "") == "text"))
+            break
+        except Exception:
+            continue
+    body = [p.strip() for p in (data or {}).get("body") or [] if isinstance(p, str) and p.strip()]
+    if not data or not data.get("headline") or not body:
+        return None
+    return {"headline": data["headline"].strip()[:220], "dek": (data.get("dek") or "").strip()[:400], "body": body[:6],
+            "takeaways": [t.strip() for t in data.get("takeaways") or [] if isinstance(t, str)][:5]}
+
+
+def run_cp(limit: int = 20, days: int = 14) -> dict:
+    """Write CompePharma editions for the newest business-news items that have a VigiEye story but no CP one yet."""
+    from . import news_pages as np_
+    init()
+    stats = {"written": 0, "skipped": 0, "errors": 0}
+    if not settings.anthropic_api_key:
+        return stats
+    with store._engine.connect() as c:
+        have = {r[0] for r in c.execute(select(cp_stories.c.key))}
+    items = json.loads(np_.api_business_news(limit=400, days=days).body).get("items", [])
+    for it in items:
+        if stats["written"] + stats["skipped"] + stats["errors"] >= limit:
+            break
+        pre, _, nid = (it.get("id") or "").partition("-")
+        if pre not in _CP_KIND or not nid:
+            continue
+        key = f"{_CP_KIND[pre]}:{nid}"
+        if key in have:
+            continue
+        base = get(key)
+        if not base or base.get("lang") == "skip" or not base.get("body"):
+            continue                     # no VigiEye write-up yet: CompePharma keeps pointing to VigiEye for now
+        try:
+            s = write_cp(it, base)
+        except Exception as e:
+            log.warning("cp story failed for %s: %s", key, e)
+            stats["errors"] += 1
+            continue
+        if not s:
+            stats["skipped"] += 1
+            continue
+        with store._engine.begin() as c:
+            c.execute(insert(cp_stories).values(
+                key=key, headline=s["headline"], dek=s["dek"], body=json.dumps(s["body"], ensure_ascii=False),
+                takeaways=json.dumps(s["takeaways"], ensure_ascii=False), model=settings.anthropic_model,
+                created_at=datetime.now(timezone.utc).isoformat()))
+        stats["written"] += 1
+    return stats
 
 
 def get(key: str) -> dict | None:

@@ -1024,12 +1024,18 @@ Not legal, medical or investment advice.</p>
 # --- data feed for CompePharma (pharma business portal) --------------------------------------------
 
 @router.get("/api/story/{kind}/{nid}", include_in_schema=False)
-def api_story(kind: str, nid: str):
-    """The VigiEye-written article for one item (used by CompePharma story pages)."""
+def api_story(kind: str, nid: str, edition: str = ""):
+    """The article for one item (used by CompePharma story pages). edition=cp returns CompePharma's own
+    business write-up when one exists ("edition": "cp"), else VigiEye's ("edition": "vigieye")."""
     from . import stories as _st
     from .official import safe_url
     k = {"u": "u", "o": "u", "c": "c", "n": "n"}.get(kind)
-    st = _st.get(f"{k}:{nid}") if k else None
+    st, ed = None, "vigieye"
+    if k and edition == "cp":
+        st = _st.get_cp(f"{k}:{nid}")
+        ed = "cp" if st and st.get("body") else "vigieye"
+    if ed == "vigieye":
+        st = _st.get(f"{k}:{nid}") if k else None
     if k == "u":
         try:
             store.init()
@@ -1046,7 +1052,7 @@ def api_story(kind: str, nid: str):
     out = {"headline": st["headline"] if ok else _clean(raw.get("title")), "dek": st.get("dek") if ok else "",
            "body": st["body"] if ok else [], "takeaways": st.get("takeaways") if ok else [],
            "summary": _clean(raw.get("summary")), "publisher": pub, "source_url": safe_url(src),
-           "vigieye_url": f"{_base()}/news/item/{k}/{nid}"}
+           "vigieye_url": f"{_base()}/news/item/{k}/{nid}", "edition": ed if ok else "vigieye"}
     return Response(json.dumps(out, ensure_ascii=False), media_type="application/json",
                     headers={"Cache-Control": "public, max-age=900", "Access-Control-Allow-Origin": "*"})
 
@@ -1070,6 +1076,14 @@ def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
                      "date": m["date"], "impact": "high", "ticker": None, "_href": (_base() + href) if href else None})
     rows.sort(key=lambda r: r["date"], reverse=True)
     keep, recalls, seen_co = [], 0, set()
+    try:
+        from sqlalchemy import select as _sel
+        from . import stories as _st
+        _st.init()
+        with store._engine.connect() as _c:
+            have_cp = {x[0] for x in _c.execute(_sel(_st.cp_stories.c.key))}
+    except Exception:
+        have_cp = set()
     for r in rows:
         pub = (r.get("publisher") or "").lower()
         if r["kind"] == "guideline":
@@ -1098,7 +1112,8 @@ def api_business_news(beat: str = "", limit: int = 120, days: int = 30):
                      "publisher": r.get("publisher"), "country": r.get("country"), "ticker": r.get("ticker"),
                      "date": r["date"], "source_url": safe_url(r.get("url")),
                      "vigieye_url": r.get("_href") or (_base() + _href(r)),
-                     "score": round(_score(r) if r["kind"] != "approval" else 6.0, 2)})
+                     "score": round(_score(r) if r["kind"] != "approval" else 6.0, 2),
+                     "cp_story": f'{ {"company": "c", "official": "u", "notice": "n"}.get(r["kind"], "x")}:{r.get("id")}' in have_cp})
         if len(keep) >= max(1, min(limit, 400)):
             break
     return Response(json.dumps({"items": keep, "beats": nw.BIZ_BEATS, "generated": date.today().isoformat()},
