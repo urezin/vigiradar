@@ -27,6 +27,10 @@ from . import (store, ingest as ingest_mod, digest as digest_mod, emailer,
 log = logging.getLogger("vigiradar")
 
 app = FastAPI(title="VigiEye", version="0.1.0")
+from .adsense import AdSenseMiddleware
+# Google AdSense on public pages only (never inside the workspace, admin or APIs); serves /ads.txt
+app.add_middleware(AdSenseMiddleware, exclude=("/app", "/hub", "/compliance", "/medical-monitoring", "/medical-literature",
+                                               "/admin", "/auth", "/billing", "/api", "/account"))
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 _BASE = os.path.dirname(__file__)
