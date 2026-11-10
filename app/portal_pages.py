@@ -926,7 +926,7 @@ def _run_job(steps: list[str]):
                 _JOB["result"]["stories"] = story_mod.run(limit=30)
                 _JOB["step"] = "cp_stories"
                 try:
-                    _JOB["result"]["cp_stories"] = story_mod.run_cp(limit=20)
+                    _JOB["result"]["cp_stories"] = story_mod.run_cp(limit=5)   # ~60 a day; newest first
                 except Exception as e:
                     _JOB["result"]["cp_stories"] = {"error": f"{type(e).__name__}: {e}"}
                 # CompePharma Insights: one new piece every 2-hourly run, up to the day's 10, so the site gets
