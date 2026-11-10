@@ -34,7 +34,6 @@ PQRA_AD = {
     "tagline": "Regulatory, quality and pharmacovigilance consulting for the pharmaceutical industry",
     "services": ["Regulatory affairs & market access", "Quality management & audit readiness",
                  "Pharmacovigilance & medical information"],
-    "proof": "25+ years with EOF and EMA · human and veterinary medicines",
     "cta": "Visit pqra.gr",
     "cta_url": "https://www.pqra.gr/",
     "site_url": "https://www.pqra.gr/",
@@ -56,7 +55,7 @@ def ad_html(placement: str, style: str = "box") -> str:
     if style == "banner":
         return f"""<aside class="ad ad-banner" aria-label="Advertisement"><span class="ad-tag">Advertisement</span>
 <div class="ad-in"><div><div class="ad-logo">PQRA</div><p class="ad-tl">{e(a["tagline"])}</p>
-<ul class="ad-svc">{svc}</ul><p class="ad-proof">{e(a["proof"])}</p></div>
+<ul class="ad-svc">{svc}</ul></div>
 <div class="ad-cta"><a class="btn" href="{e(_utm(a["cta_url"], placement))}" target="_blank" rel="noopener sponsored">{e(a["cta"])}</a>
 <a class="ad-link" href="{e(_utm(a["site_url"], placement))}" target="_blank" rel="noopener sponsored">pqra.gr</a>
 <span class="ad-contact">{e(a["email"])} · {e(a["phone"])}</span></div></div></aside>"""
@@ -67,7 +66,6 @@ def ad_html(placement: str, style: str = "box") -> str:
 <a class="btn" href="{e(_utm(a["cta_url"], placement))}" target="_blank" rel="noopener sponsored">{e(a["cta"])}</a></div></aside>"""
     return f"""<aside class="ad ad-box box" aria-label="Advertisement"><span class="ad-tag">Advertisement</span>
 <div class="ad-logo">PQRA</div><p class="ad-tl">{e(a["tagline"])}</p><ul class="ad-svc">{svc}</ul>
-<p class="ad-proof">{e(a["proof"])}</p>
 <a class="btn" style="width:100%;text-align:center" href="{e(_utm(a["cta_url"], placement))}" target="_blank" rel="noopener sponsored">{e(a["cta"])}</a>
 <p class="ad-contact"><a href="{e(_utm(a["site_url"], placement))}" target="_blank" rel="noopener sponsored">pqra.gr</a> · {e(a["email"])}</p></aside>"""
 
