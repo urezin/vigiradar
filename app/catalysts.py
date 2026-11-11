@@ -500,7 +500,12 @@ def radar_page():
 
 @router.get("/robots.txt", response_class=PlainTextResponse, include_in_schema=False)
 def robots():
-    return ("User-agent: *\nAllow: /\nDisallow: /app\nDisallow: /api/\nDisallow: /admin/\n"
+    # Public read-only JSON feeds stay fetchable (longest-match Allow beats Disallow: /api/)
+    # so the daily stock-outlook task and other tools that honour robots.txt can read them.
+    return ("User-agent: *\nAllow: /\n"
+            "Allow: /api/business-news\nAllow: /api/catalysts\nAllow: /api/cp-articles\n"
+            "Allow: /api/editorial\nAllow: /api/updates\nAllow: /api/story/\n"
+            "Disallow: /app\nDisallow: /api/\nDisallow: /admin/\n"
             "Disallow: /auth/\nDisallow: /billing/\nDisallow: /compliance\nDisallow: /medical-monitoring\nDisallow: /medical-literature\nDisallow: /newsletter/preview\nDisallow: /embed/\n"
             f"Sitemap: {_base()}/sitemap.xml\nSitemap: {_base()}/news-sitemap.xml\n")
 
