@@ -382,8 +382,41 @@ def cp_list(limit: int = 30, kind: str | None = None) -> list[dict]:
         if kind and a.get("type") != kind:
             continue
         out.append(a)
+    out = _cp_dedupe(out)
     out.sort(key=lambda a: (a.get("date", ""), a.get("created", "")), reverse=True)
     return out[:limit]
+
+
+def _lead_co(a: dict) -> str:
+    """The company an analysis is about: the publisher of its lead source record."""
+    src = a.get("sources") or []
+    return (a.get("company") or (src[0].get("publisher") if src else "") or "").strip().lower()
+
+
+def cp_dupe_of(a: dict, pool: list[dict]) -> dict | None:
+    """The earlier analysis that `a` repeats (same lead company within 10 days), if any."""
+    if a.get("type") != "analysis" or not _lead_co(a):
+        return None
+    try:
+        d = date.fromisoformat(a.get("date", ""))
+    except ValueError:
+        return None
+    for b in pool:
+        if b is a or b.get("slug") == a.get("slug") or b.get("type") != "analysis" or _lead_co(b) != _lead_co(a):
+            continue
+        try:
+            db = date.fromisoformat(b.get("date", ""))
+        except ValueError:
+            continue
+        if 0 <= (d - db).days <= 10 and (db, b.get("created", ""), b.get("slug", "")) < (d, a.get("created", ""), a.get("slug", "")):
+            return b
+    return None
+
+
+def _cp_dedupe(arts: list[dict]) -> list[dict]:
+    """Business analyses about the same lead company within 10 days repeat each other (thin, duplicate content):
+    list only the first one."""
+    return [a for a in arts if not cp_dupe_of(a, arts)]
 
 
 def cp_get(slug: str) -> dict | None:
@@ -435,6 +468,9 @@ def generate_cp_daily(target: int = 10, earnings_n: int = 4, opinions: int = 3, 
         seen_co.add(co)
         rel.append(r)
     biz = [b for b in _biz_rows() if b.get("summary")]
+    # one business analysis per lead company per 10 days: the same deal must not be re-analysed run after run
+    since10 = (date.today() - timedelta(days=10)).isoformat()
+    led_recently = {_lead_co(a) for a in cp_list(400, kind="analysis") if (a.get("date") or "") >= since10} - {""}
 
     def left() -> bool:
         return budget[0] > 0 and len(have) + len(made) < target
@@ -475,12 +511,14 @@ def generate_cp_daily(target: int = 10, earnings_n: int = 4, opinions: int = 3, 
         for beat in ["deals", "financing", "launches", "pricing", "manufacturing", "legal", "pipeline", "marketing", "industry"] * 2:
             if want_a <= 0 or not left():
                 break
-            cands = [b for b in biz if b["beat"] == beat and b.get("vigieye_url") not in done_src]
+            cands = [b for b in biz if b["beat"] == beat and b.get("vigieye_url") not in done_src
+                     and (b.get("publisher") or "").strip().lower() not in led_recently]
             cands.sort(key=lambda b: b.get("score") or 0, reverse=True)
             if not cands:
                 continue
             lead = cands[0]
             done_src.add(lead.get("vigieye_url"))
+            led_recently.add((lead.get("publisher") or "").strip().lower())
             related = [b for b in biz if b["beat"] == beat and b is not lead][:7]
             try:
                 j = _cp_claude(_CP_ANALYSIS.format(beat=CP_BEATS.get(beat, beat),

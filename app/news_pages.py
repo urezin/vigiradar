@@ -117,14 +117,35 @@ def stream(section: str | None = None, kinds: tuple = ALL_KINDS, limit: int = 60
         rows = [r for r in rows if r["section"] == section]
     rows.sort(key=lambda r: (r["date"], bool(r.get("story")), r["impact"] == "high"), reverse=True)
     # the same notice often arrives through two feeds (e.g. MHRA news + MHRA alerts): keep one
-    seen, out = set(), []
+    # and one company release is often filed twice (press release + 8-K exhibit): keep the first of near-identical
+    # same-day stories from the same company, so the site does not show duplicate articles
+    seen, out, co_day = set(), [], {}
     for r in rows:
         k = re.sub(r"[^a-z0-9]+", "", (r.get("orig_title") or r.get("title") or "").lower())[:90]
         if k in seen:
             continue
+        if r.get("kind") == "company":
+            ck = ((r.get("company") or r.get("publisher") or "").lower(), r.get("date"))
+            words = _title_words(r)
+            if any(_overlap(words, w) >= 0.3 for w in co_day.get(ck, [])):
+                continue
+            co_day.setdefault(ck, []).append(words)
         seen.add(k)
         out.append(r)
     return out[offset: offset + limit]
+
+
+_STOP = {"the", "and", "for", "with", "its", "after", "from", "into", "over", "as", "to", "of", "in", "on", "at", "a", "an",
+         "by", "q1", "q2", "q3", "q4", "inc", "reports", "report", "says", "company"}
+
+
+def _title_words(r: dict) -> set:
+    t = (r.get("orig_title") or r.get("title") or "").lower()
+    return {w for w in re.findall(r"[a-z0-9]+", t) if w not in _STOP and len(w) > 1}
+
+
+def _overlap(a: set, b: set) -> float:
+    return len(a & b) / max(1, min(len(a), len(b)) + len(a ^ b) // 2)
 
 
 def _story_key(r: dict) -> str:
@@ -1143,6 +1164,9 @@ def api_cp_article(slug: str):
     a = art_mod.cp_get(slug)
     if not a:
         raise HTTPException(404)
+    dup = art_mod.cp_dupe_of(a, art_mod.cp_list(400, kind="analysis") + [a]) if a.get("type") == "analysis" else None
+    if dup:
+        a = {**a, "dupe_of": dup.get("slug")}   # CompePharma redirects repeat analyses to the first one
     return Response(json.dumps(a, ensure_ascii=False), media_type="application/json",
                     headers={"Cache-Control": "public, max-age=900", "Access-Control-Allow-Origin": "*"})
 

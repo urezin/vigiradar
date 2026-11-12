@@ -52,6 +52,15 @@ from . import indexnow as indexnow_mod
 app.include_router(indexnow_mod.router)
 app.include_router(portal_mod.router)
 app.include_router(catalysts_mod.router)
+from . import legal as legal_mod
+app.include_router(legal_mod.make_router(
+    {"name": "VigiEye", "domain": "vigi-eye.com",
+     "what": "VigiEye is a daily news service on EU and US pharmaceutical regulation: approvals, pharmacovigilance and PRAC "
+             "safety signals, quality and GMP, clinical-trials rules, market access, guidelines and the PDUFA calendar.",
+     "audience": "regulatory affairs, pharmacovigilance, quality, clinical and market-access professionals",
+     "sister": ("CompePharma", "https://compepharma.com/"), "sister_scope": "business of pharma: deals, financing, launches and earnings",
+     "accounts": True, "payments": True},
+    lambda t, d, p, b: portal_mod._page(t, d, p, b)))
 
 from starlette.exceptions import HTTPException as _StarletteHTTPException
 
