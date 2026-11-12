@@ -7,9 +7,10 @@ Three kinds of item, shown together and sorted into four sections
   official  regulator / HTA / enforcement notices (EMA, FDA, MHRA, HMA, EC, WHO, G-BA,
             HAS, ICER, DOJ, national agencies). Stored in the existing `updates` table by
             the radar ingest and summarised in VigiEye's own words.
-  company   company press releases filed with the SEC (8-K exhibits) about approvals,
-            CHMP opinions, CRLs, designations, reimbursement, warning letters. Stored here
-            with VigiEye's own AI summary and a link to the filing.
+  company   company press releases filed with the SEC (8-K/6-K exhibits), plus European
+            issuers' own releases (newsroom / wire feeds), about approvals, CHMP opinions,
+            CRLs, designations, pricing, reimbursement, HTA, warning letters. Stored here
+            with VigiEye's own AI summary and a link to the release.
   press     trade-press headlines (BioPharma Dive, Fierce, Endpoints, STAT...). Headline,
             publisher, date and link ONLY. No summary or text is copied.
 """
@@ -384,7 +385,7 @@ _SEC_QUERIES = ['"FDA approval"', '"approved by the U.S. Food and Drug Administr
                 '"initial public offering" biopharmaceutical', '"Series B" financing therapeutics',
                 '"credit facility" pharmaceutical', '"royalty" "financing agreement"', '"registered direct offering"']
 
-_CO_PROMPT = """Below is a press release a pharma/biotech company filed with the SEC. Write a short news brief
+_CO_PROMPT = """Below is a press release a pharma/biotech company issued (SEC filing or its own news release). Write a short news brief
 for regulatory, pharmacovigilance, market-access and compliance professionals.
 
 Return ONLY JSON: {{"headline":"factual news headline, max 110 chars, in your own words",
@@ -533,6 +534,111 @@ def get(nid: str) -> dict | None:
         return dict(r._mapping) if r else None
 
 
+# --- company releases outside the SEC (European issuers) -----------------------------------
+# Many European companies (Roche, Ipsen, Zealand, Ascendis, Pharming...) never file with the SEC, so their
+# pricing, reimbursement and HTA announcements were missed. These are the companies' own releases, read from
+# their newsroom or the wire they publish on. `eu_only` keeps just European datelines on general wire feeds,
+# because US issuers on those wires are already covered by their 8-K filings.
+EU_RELEASE_FEEDS = [
+    # (id, label, url, eu_only)
+    ("gnw-pharma", "GlobeNewswire", "https://www.globenewswire.com/RssFeed/industry/4577-Pharmaceuticals/"
+     "feedTitle/GlobeNewswire%20-%20Industry%20News%20on%20Pharmaceuticals", True),
+    ("gnw-biotech", "GlobeNewswire", "https://www.globenewswire.com/RssFeed/industry/4573-Biotechnology/"
+     "feedTitle/GlobeNewswire%20-%20Industry%20News%20on%20Biotechnology", True),
+    ("gnw-reimb", "GlobeNewswire", "https://www.globenewswire.com/RssFeed/keyword/reimbursement", False),
+    ("roche", "Roche", "https://www.roche.com/med_news_xml.xml", False),
+]
+_EU_PLACES = ("austria", "belgium", "bulgaria", "croatia", "cyprus", "czech", "denmark", "estonia", "finland",
+              "france", "germany", "greece", "hungary", "ireland", "italy", "latvia", "lithuania", "luxembourg",
+              "malta", "netherlands", "poland", "portugal", "romania", "slovakia", "slovenia", "spain", "sweden",
+              "norway", "switzerland", "united kingdom", "england", "scotland", "iceland", "serbia",
+              "copenhagen", "bagsv", "paris", "lyon", "munich", "berlin", "frankfurt", "darmstadt", "basel", "zurich",
+              "geneva", "lausanne", "amsterdam", "leiden", "utrecht", "brussels", "mechelen", "ghent", "stockholm",
+              "gothenburg", "uppsala", "lund", "helsinki", "turku", "oslo", "madrid", "barcelona", "milan", "rome",
+              "dublin", "london", "cambridge, uk", "oxford", "vienna", "warsaw", "budapest", "athens", "lisbon",
+              "hellerup", "hørsholm", "horsholm", "aarhus", "odense", "marseille", "nantes", "strasbourg")
+_SKIP_TITLE = re.compile(r"(to (present|participate|host|report|announce) |investor (conference|event)|fireside|"
+                         r"webcast|conference call|capital markets day|annual general|general meeting|"
+                         r"managers'? transactions|insider|share buy-?back|transactions in own shares|"
+                         r"financial calendar|total number of (shares|voting)|major shareholder|"
+                         r"notification of|disclosure in|ex[- ]dividend|bond issue|nomination committee)", re.I)
+
+
+def _is_european(text: str) -> bool:
+    head = (text or "")[:260].lower()
+    dl = head.split("(globe newswire)")[0] if "(globe newswire)" in head else head[:140]
+    return any(p in dl for p in _EU_PLACES)
+
+
+def ingest_eu_releases(max_per_feed: int = 40, max_docs: int = 40) -> dict:
+    import feedparser
+    from . import portal_data as pd
+    init()
+    stats = {"feeds": 0, "items": 0, "new": 0, "skipped": 0, "not_newsworthy": 0, "errors": []}
+    with store._engine.connect() as c:
+        have = {r[0] for r in c.execute(select(news.c.id).where(news.c.kind.in_(["company", "skip"])))}
+    done = 0
+    for fid, label, url, eu_only in EU_RELEASE_FEEDS:
+        try:
+            parsed = feedparser.parse(pd._http_get(url, timeout=40, headers=_UA).content)
+        except Exception as e:
+            stats["errors"].append(f"{fid}: {e}")
+            continue
+        stats["feeds"] += 1
+        for e in parsed.entries[:max_per_feed]:
+            title = re.sub(r"\s+", " ", getattr(e, "title", "") or "").strip()
+            link = (getattr(e, "link", "") or "").strip()
+            if not title or not link.startswith("http"):
+                continue
+            stats["items"] += 1
+            nid = _id("eu", link)
+            if nid in have:
+                continue
+            have.add(nid)
+            desc = pd._html_text(getattr(e, "summary", "") or getattr(e, "description", "") or "")
+            contrib = (e.get("contributors") or [{}])[0].get("name") if hasattr(e, "get") else ""
+            company = (contrib or getattr(e, "dc_contributor", "") or getattr(e, "author", "") or label).strip()[:120]
+            lang = (getattr(e, "language", "") or getattr(e, "dc_language", "") or "en").lower()
+            if (_SKIP_TITLE.search(title) or not re.search(r"[A-Za-z]{3}", title) or not lang.startswith("en")
+                    or (eu_only and not _is_european(desc))):
+                stats["skipped"] += 1
+                continue
+            if done >= max_docs:
+                break
+            text = desc
+            if len(text) < 600:      # short teaser: read the release itself
+                try:
+                    text = pd._html_text(pd._http_get(link, timeout=40, headers=_UA).text)[:12000]
+                except Exception as ex:
+                    stats["errors"].append(f"{fid}: {ex}")
+            done += 1
+            day = _date_of(e)
+            brief = _ai_brief(f"{title}\n\n{text}")
+            if brief is None:
+                hl = title.lower()
+                ok = re.search(r"approv|chmp|reimburse|pricing|nice\b|g-ba|\bhta\b|coverage|recommend|"
+                               r"marketing authori[sz]ation|complete response|designation|recall|ntap", hl)
+                brief = {"headline": title, "summary": None, "section": classify(title, text[:1500]),
+                         "newsworthy": bool(ok), "financing": False}
+            if not brief.get("newsworthy", True):
+                stats["not_newsworthy"] += 1
+                with store._engine.begin() as c:
+                    c.execute(insert(news).values(id=nid, kind="skip", section="industry", publisher=company,
+                                                  title=title[:300], url=link, date=day, ingested_at=_now()))
+                continue
+            section = norm_section(brief.get("section"))
+            section = section if section in SECTIONS else classify(title, text[:1500])
+            is_fin = bool(brief.get("financing")) or biz_beat(title, "") == "financing"
+            if _upsert({"id": nid, "kind": "company", "section": "industry" if is_fin else section,
+                        "publisher": company, "country": None,
+                        "title": (brief.get("headline") or title)[:300],
+                        "summary": (brief.get("summary") or None) and brief["summary"][:900],
+                        "url": link, "date": day, "company": company, "ticker": None,
+                        "tags": json.dumps(["financing"]) if is_fin else None}):
+                stats["new"] += 1
+    return stats
+
+
 def run_all() -> dict:
     out = {}
     # Trade press and ISPOR are no longer ingested or shown (owner's rule: VigiEye writes every story itself and
@@ -543,7 +649,7 @@ def run_all() -> dict:
             c.execute(_upd(news).where(news.c.kind == "press").values(kind="skip"))
     except Exception:
         log.exception("retiring press rows failed")
-    for name, fn in (("ctgov", ingest_ctgov), ("company", ingest_company)):
+    for name, fn in (("ctgov", ingest_ctgov), ("company", ingest_company), ("eu_releases", ingest_eu_releases)):
         t0 = time.time()
         try:
             out[name] = fn()

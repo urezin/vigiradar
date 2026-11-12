@@ -656,11 +656,15 @@ def news_item(kind: str, nid: str):
         r = {**r, "title": story["headline"]}
     related = [x for x in stream(section=r["section"], limit=14) if x.get("id") != r.get("id")][:6]
     src_label = {"official": "Official source", "notice": "Official source", "guideline": "Official guideline text",
-                 "trial": "ClinicalTrials.gov record"}.get(r["kind"], "Company's press release (SEC filing)")
-    src_url = safe_url(r.get("url"))
+                 "trial": "ClinicalTrials.gov record"}
+    via_sec = "sec.gov" in (r.get("url") or "")
+    src_label = src_label.get(r["kind"], "Company's press release" + (" (SEC filing)" if via_sec else ""))
+    from .official import safe_company_url
+    src_url = safe_company_url(r.get("url")) if r["kind"] == "company" else safe_url(r.get("url"))
     summary = r.get("summary") or ""
     note = ("Summary written by VigiEye from the official notice." if r["kind"] == "official" else
-            "Brief written by VigiEye from the company's press release filed with the SEC. Claims are the company's own.")
+            "Brief written by VigiEye from the company's press release" + (" filed with the SEC" if via_sec else "")
+            + ". Claims are the company's own.")
     if story and story.get("body"):
         note = (f"Article written by VigiEye from the official source ({r.get('publisher')}). "
                 + ("Claims are the company's own. " if r["kind"] == "company" else ""))

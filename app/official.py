@@ -41,6 +41,21 @@ def is_official(url: str | None) -> bool:
     return any(host == d or host.endswith("." + d) for d in _OFFICIAL)
 
 
+# Where a company's OWN press release is published (its newsroom or the wire it files on). Allowed only as the
+# source link of a company-release item (owner's request, 12 Nov 2026); never for media coverage.
+_COMPANY_RELEASE = ("globenewswire.com", "roche.com")
+
+
+def safe_company_url(url: str | None) -> str | None:
+    if is_official(url):
+        return url
+    try:
+        host = (urlparse(url or "").hostname or "").lower()
+    except Exception:
+        return None
+    return url if host and any(host == d or host.endswith("." + d) for d in _COMPANY_RELEASE) else None
+
+
 def safe_url(url: str | None) -> str | None:
     """The URL if it is an official source, else None (the caller renders no link)."""
     return url if is_official(url) else None
