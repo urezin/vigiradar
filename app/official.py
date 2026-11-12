@@ -43,7 +43,7 @@ def is_official(url: str | None) -> bool:
 
 # Where a company's OWN press release is published (its newsroom or the wire it files on). Allowed only as the
 # source link of a company-release item (owner's request, 12 Nov 2026); never for media coverage.
-_COMPANY_RELEASE = ("globenewswire.com", "roche.com")
+_COMPANY_RELEASE = ("globenewswire.com", "roche.com", "ucb.com", "gedeonrichter.com", "news.cision.com")
 
 
 def safe_company_url(url: str | None) -> str | None:

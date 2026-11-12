@@ -561,7 +561,8 @@ _SKIP_TITLE = re.compile(r"(to (present|participate|host|report|announce) |inves
                          r"webcast|conference call|capital markets day|annual general|general meeting|"
                          r"managers'? transactions|insider|share buy-?back|transactions in own shares|"
                          r"financial calendar|total number of (shares|voting)|major shareholder|"
-                         r"notification of|disclosure in|ex[- ]dividend|bond issue|nomination committee)", re.I)
+                         r"notification of|transparency notification|disclosure in|ex[- ]dividend|bond issue|"
+                         r"nomination committee|changes to the board)", re.I)
 
 
 def _is_european(text: str) -> bool:
@@ -570,14 +571,83 @@ def _is_european(text: str) -> bool:
     return any(p in dl for p in _EU_PLACES)
 
 
-def ingest_eu_releases(max_per_feed: int = 40, max_docs: int = 40) -> dict:
+# Newsrooms without a usable RSS feed: read the company's own release list.
+_HTML = {**_UA, "Accept": "text/html,application/xhtml+xml,application/json,*/*"}
+_MONTHS = {m: i for i, m in enumerate(("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct",
+                                       "nov", "dec"), 1)}
+
+
+def _parse_day(s: str, dmy: bool = True) -> str:
+    """'19 Oct 2026', '10 November, 2026', 'October 16, 2026', '12/11/2026' (d/m/y) or ISO -> YYYY-MM-DD."""
+    s = (s or "").strip()
+    try:
+        m = re.search(r"(\d{4})-(\d{2})-(\d{2})", s)
+        if m:
+            return date(int(m[1]), int(m[2]), int(m[3])).isoformat()
+        m = re.search(r"(\d{1,2})\s+([A-Za-z]{3})[a-z]*,?\s+(\d{4})", s)
+        if m and m[2].lower() in _MONTHS:
+            return date(int(m[3]), _MONTHS[m[2].lower()], int(m[1])).isoformat()
+        m = re.search(r"([A-Za-z]{3})[a-z]*\s+(\d{1,2}),?\s+(\d{4})", s)
+        if m and m[1].lower() in _MONTHS:
+            return date(int(m[3]), _MONTHS[m[1].lower()], int(m[2])).isoformat()
+        m = re.search(r"(\d{1,2})[/.](\d{1,2})[/.](\d{4})", s)
+        if m:
+            a, b = int(m[1]), int(m[2])
+            return date(int(m[3]), b, a).isoformat() if dmy else date(int(m[3]), a, b).isoformat()
+    except ValueError:
+        pass
+    return date.today().isoformat()
+
+
+def _ucb(body: str) -> list[dict]:
+    # Each teaser holds its own date and title just before its link; the featured top item has neither,
+    # so date/title are only taken from the teaser itself and otherwise read from the release page.
+    out, seen, prev = [], set(), 0
+    for m in re.finditer(r'href="(/newsroom/press-releases/article/[^"#?]+)"', body):
+        win = body[max(prev, m.start() - 1600): m.start()]
+        prev = m.end()
+        if m[1] in seen:
+            continue
+        seen.add(m[1])
+        d = re.findall(r'class="created">([^<]+)</div>', win)
+        t = re.findall(r'teaser--title">(.*?)</span>', win, re.S)
+        out.append({"date": _parse_day(d[-1]) if d else None, "title": t[-1] if t else "",
+                    "url": "https://www.ucb.com" + m[1]})
+    return out
+
+
+def _lundbeck(body: str) -> list[dict]:
+    out = []
+    for m in re.finditer(r'cmp-latestnews__meta-item">([^<]+)</span>.*?<a href="(https://news\.cision\.com/[^"]+)"'
+                         r'[^>]*cmp-latestnews__title[^>]*>(.*?)</a>', body, re.S):
+        out.append({"date": _parse_day(m[1]), "title": m[3], "url": m[2]})
+    return out
+
+
+def _richter(body: str) -> list[dict]:
+    out = []
+    for blk in (json.loads(body).get("Blocks") or []):
+        for it in blk.get("Items") or []:
+            if it.get("Title") and it.get("ItemUrl"):
+                out.append({"date": _parse_day(it.get("NewsDate") or ""), "title": it["Title"],
+                            "url": "https://www.gedeonrichter.com" + it["ItemUrl"], "lead": it.get("Lead") or ""})
+    return out
+
+
+NEWSROOMS = [
+    # (id, company, list url, parser)
+    ("ucb", "UCB", "https://www.ucb.com/newsroom/press-releases", _ucb),
+    ("lundbeck", "H. Lundbeck A/S", "https://www.lundbeck.com/global/investors/releases", _lundbeck),
+    ("richter", "Gedeon Richter", "https://www.gedeonrichter.com/api/HQ/news/getnewslistitems/"
+     "deed288b-33e7-4756-849a-ff52066d6f02?Page=1&MaxCount=12&IsDescending=true&Year=0&SiteName=&DatabaseName="
+     "&SC_LANG=en&sc_site=HQ", _richter),
+]
+
+
+def _release_candidates(stats: dict, max_per_feed: int):
+    """Yield uniform release records from the wire/newsroom feeds and the scraped newsrooms."""
     import feedparser
     from . import portal_data as pd
-    init()
-    stats = {"feeds": 0, "items": 0, "new": 0, "skipped": 0, "not_newsworthy": 0, "errors": []}
-    with store._engine.connect() as c:
-        have = {r[0] for r in c.execute(select(news.c.id).where(news.c.kind.in_(["company", "skip"])))}
-    done = 0
     for fid, label, url, eu_only in EU_RELEASE_FEEDS:
         try:
             parsed = feedparser.parse(pd._http_get(url, timeout=40, headers=_UA).content)
@@ -586,56 +656,102 @@ def ingest_eu_releases(max_per_feed: int = 40, max_docs: int = 40) -> dict:
             continue
         stats["feeds"] += 1
         for e in parsed.entries[:max_per_feed]:
-            title = re.sub(r"\s+", " ", getattr(e, "title", "") or "").strip()
-            link = (getattr(e, "link", "") or "").strip()
-            if not title or not link.startswith("http"):
-                continue
-            stats["items"] += 1
-            nid = _id("eu", link)
-            if nid in have:
-                continue
-            have.add(nid)
-            desc = pd._html_text(getattr(e, "summary", "") or getattr(e, "description", "") or "")
             contrib = (e.get("contributors") or [{}])[0].get("name") if hasattr(e, "get") else ""
-            company = (contrib or getattr(e, "dc_contributor", "") or getattr(e, "author", "") or label).strip()[:120]
-            lang = (getattr(e, "language", "") or getattr(e, "dc_language", "") or "en").lower()
-            if (_SKIP_TITLE.search(title) or not re.search(r"[A-Za-z]{3}", title) or not lang.startswith("en")
-                    or (eu_only and not _is_european(desc))):
-                stats["skipped"] += 1
+            yield {"src": fid, "title": getattr(e, "title", "") or "", "url": (getattr(e, "link", "") or "").strip(),
+                   "date": _date_of(e),
+                   "text": pd._html_text(getattr(e, "summary", "") or getattr(e, "description", "") or ""),
+                   "company": contrib or getattr(e, "dc_contributor", "") or getattr(e, "author", "") or label,
+                   "lang": (getattr(e, "language", "") or getattr(e, "dc_language", "") or "en").lower(),
+                   "eu_only": eu_only}
+    for rid, company, url, parse in NEWSROOMS:
+        try:
+            items = parse(pd._http_get(url, timeout=40, headers=_HTML).text)
+        except Exception as e:
+            stats["errors"].append(f"{rid}: {e}")
+            continue
+        stats["feeds"] += 1
+        if not items:
+            stats["errors"].append(f"{rid}: no releases found (page layout changed?)")
+        for it in items[:max_per_feed]:
+            yield {"src": rid, "title": pd._html_text(it["title"] or ""), "url": it["url"], "date": it["date"],
+                   "text": it.get("lead") or "", "company": company, "lang": "en", "eu_only": False}
+
+
+def ingest_eu_releases(max_per_feed: int = 40, max_docs: int = 40) -> dict:
+    from . import portal_data as pd
+    init()
+    stats = {"feeds": 0, "items": 0, "new": 0, "skipped": 0, "not_newsworthy": 0, "errors": []}
+    with store._engine.connect() as c:
+        have = {r[0] for r in c.execute(select(news.c.id).where(news.c.kind.in_(["company", "skip"])))}
+    done = 0
+    for r in _release_candidates(stats, max_per_feed):
+        title = re.sub(r"\s+", " ", r["title"] or "").strip()
+        link = r["url"]
+        if not link.startswith("http"):
+            continue
+        stats["items"] += 1
+        nid = _id("eu", link)
+        if nid in have:
+            continue
+        have.add(nid)
+        company = (r["company"] or "").strip()[:120]
+        page = None
+        if not title or not r["date"]:      # listing gave no title/date: read them from the release page
+            try:
+                page = pd._http_get(link, timeout=40, headers=_HTML).text
+            except Exception as ex:
+                stats["errors"].append(f"{r['src']}: {ex}")
                 continue
-            if done >= max_docs:
-                break
-            text = desc
-            if len(text) < 600:      # short teaser: read the release itself
-                try:
-                    text = pd._html_text(pd._http_get(link, timeout=40, headers=_UA).text)[:12000]
-                except Exception as ex:
-                    stats["errors"].append(f"{fid}: {ex}")
-            done += 1
-            day = _date_of(e)
-            brief = _ai_brief(f"{title}\n\n{text}")
-            if brief is None:
-                hl = title.lower()
-                ok = re.search(r"approv|chmp|reimburse|pricing|nice\b|g-ba|\bhta\b|coverage|recommend|"
-                               r"marketing authori[sz]ation|complete response|designation|recall|ntap", hl)
-                brief = {"headline": title, "summary": None, "section": classify(title, text[:1500]),
-                         "newsworthy": bool(ok), "financing": False}
-            if not brief.get("newsworthy", True):
-                stats["not_newsworthy"] += 1
-                with store._engine.begin() as c:
-                    c.execute(insert(news).values(id=nid, kind="skip", section="industry", publisher=company,
-                                                  title=title[:300], url=link, date=day, ingested_at=_now()))
-                continue
-            section = norm_section(brief.get("section"))
-            section = section if section in SECTIONS else classify(title, text[:1500])
-            is_fin = bool(brief.get("financing")) or biz_beat(title, "") == "financing"
-            if _upsert({"id": nid, "kind": "company", "section": "industry" if is_fin else section,
-                        "publisher": company, "country": None,
-                        "title": (brief.get("headline") or title)[:300],
-                        "summary": (brief.get("summary") or None) and brief["summary"][:900],
-                        "url": link, "date": day, "company": company, "ticker": None,
-                        "tags": json.dumps(["financing"]) if is_fin else None}):
-                stats["new"] += 1
+            if not title:
+                m = re.search(r'property="og:title"\s+content="([^"]+)"', page) or re.search(r"<title>([^<]+)", page)
+                title = re.sub(r"\s*\|\s*[^|]{1,40}$", "", pd._html_text(m[1])).strip() if m else ""
+            if not r["date"]:
+                body = pd._html_text(page)
+                m = re.search(r"\b(\d{1,2}\s+[A-Z][a-z]+,?\s+20\d\d|[A-Z][a-z]+\s+\d{1,2},\s+20\d\d)\b", body)
+                r["date"] = _parse_day(m[1]) if m else date.today().isoformat()
+        if not title:
+            continue
+        if r["date"] < (date.today() - timedelta(days=21)).isoformat():   # no back-filling old releases
+            stats["skipped"] += 1
+            continue
+        if (_SKIP_TITLE.search(title) or not re.search(r"[A-Za-z]{3}", title) or not r["lang"].startswith("en")
+                or (r["eu_only"] and not _is_european(r["text"]))):
+            stats["skipped"] += 1
+            continue
+        if done >= max_docs:
+            continue
+        text = r["text"]
+        if len(text) < 600:      # short teaser: read the release itself
+            try:
+                page = page or pd._http_get(link, timeout=40, headers=_HTML).text
+                text = pd._html_text(page)[:12000]
+            except Exception as ex:
+                stats["errors"].append(f"{r['src']}: {ex}")
+        done += 1
+        day = r["date"]
+        brief = _ai_brief(f"{title}\n\n{text}")
+        if brief is None:
+            hl = title.lower()
+            ok = re.search(r"approv|chmp|reimburse|pricing|nice\b|g-ba|\bhta\b|coverage|recommend|"
+                           r"marketing authori[sz]ation|complete response|designation|recall|ntap", hl)
+            brief = {"headline": title, "summary": None, "section": classify(title, text[:1500]),
+                     "newsworthy": bool(ok), "financing": False}
+        if not brief.get("newsworthy", True):
+            stats["not_newsworthy"] += 1
+            with store._engine.begin() as c:
+                c.execute(insert(news).values(id=nid, kind="skip", section="industry", publisher=company,
+                                              title=title[:300], url=link, date=day, ingested_at=_now()))
+            continue
+        section = norm_section(brief.get("section"))
+        section = section if section in SECTIONS else classify(title, text[:1500])
+        is_fin = bool(brief.get("financing")) or biz_beat(title, "") == "financing"
+        if _upsert({"id": nid, "kind": "company", "section": "industry" if is_fin else section,
+                    "publisher": company, "country": None,
+                    "title": (brief.get("headline") or title)[:300],
+                    "summary": (brief.get("summary") or None) and brief["summary"][:900],
+                    "url": link, "date": day, "company": company, "ticker": None,
+                    "tags": json.dumps(["financing"]) if is_fin else None}):
+            stats["new"] += 1
     return stats
 
 
