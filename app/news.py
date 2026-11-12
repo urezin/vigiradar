@@ -368,6 +368,14 @@ _SEC_QUERIES = ['"FDA approval"', '"approved by the U.S. Food and Drug Administr
                 '"Fast Track designation"', '"Orphan Drug Designation"', '"Priority Review"', '"accelerated approval"',
                 '"clinical hold"', '"warning letter"', '"Form 483"', '"reimbursement" FDA', '"label expansion"',
                 '"Refuse to File"', '"Advisory Committee"',
+                # market access: pricing, reimbursement, HTA and coverage decisions announced by companies
+                '"reimbursement decision"', '"reimbursement approval"', '"pricing and reimbursement"',
+                '"National Institute for Health and Care Excellence"', '"NICE" recommends',
+                '"Scottish Medicines Consortium"', '"G-BA"', '"added benefit" AMNOG',
+                '"Haute Autorité de Santé"', '"Joint Clinical Assessment"', '"AIFA" reimbursement',
+                '"PBAC"', '"Canada\'s Drug Agency"', '"pCPA"', '"CADTH"',
+                '"New Technology Add-on Payment"', '"Transitional Pass-Through"', '"National Coverage Determination"',
+                '"permanent J-code"', '"Medicare coverage"', '"formulary" coverage', '"Medicare Drug Price Negotiation"',
                 # business side (for CompePharma): deals, launches, manufacturing
                 '"definitive agreement" pharmaceutical', '"license agreement" pharmaceutical', '"commercial launch"',
                 '"manufacturing facility"', '"acquisition" biopharmaceutical',
@@ -381,7 +389,10 @@ for regulatory, pharmacovigilance, market-access and compliance professionals.
 
 Return ONLY JSON: {{"headline":"factual news headline, max 110 chars, in your own words",
 "summary":"2-3 sentences in your own words: what happened, product and indication, regulator/body, date",
-"section":"one of pharmacovigilance|regulatory|clinical-trials|market-access|quality|industry",
+"section":"one of pharmacovigilance|regulatory|clinical-trials|market-access|quality|industry; use market-access
+whenever the main news is a pricing, reimbursement, HTA or coverage outcome (NICE, SMC, G-BA/AMNOG, HAS, AIFA, EU JCA,
+PBAC, Canada's Drug Agency/pCPA, CMS coverage, NTAP, pass-through, J-code, Medicare negotiation, payer or formulary
+decisions, national reimbursement or price listing), even if the release also mentions an approval",
 "financing":true if the release is mainly about raising money (IPO, public or registered offering, private placement,
 venture round, loan, credit facility, royalty financing), else false,
 "newsworthy":true or false (false only for executive/board appointments, conference-presentation notices and
@@ -419,7 +430,7 @@ def ingest_company(days: int = 4, max_docs: int = 80) -> dict:
     errors = []
     for q in _SEC_QUERIES:
         try:
-            qs = urlencode({"q": q, "forms": "8-K", "dateRange": "custom", "startdt": start, "enddt": end})
+            qs = urlencode({"q": q, "forms": "8-K,6-K", "dateRange": "custom", "startdt": start, "enddt": end})
             j = pd._http_get(f"{SEC_FTS}?{qs}", timeout=60).json()
             for h in (j.get("hits") or {}).get("hits") or []:
                 src_ = h["_source"]
@@ -479,7 +490,8 @@ def ingest_company(days: int = 4, max_docs: int = 80) -> dict:
             if (len(headline) < 30 or "contact" in hl or "financial results" in hl or "quarter" in hl
                     or not re.search(r"fda|approv|chmp|pdufa|designation|ema\b|european commission|"
                                      r"marketing authori[sz]ation|complete response|clinical hold|warning letter|"
-                                     r"reimburse|priority review|breakthrough|fast track|orphan", hl)):
+                                     r"reimburse|priority review|breakthrough|fast track|orphan|nice\b|g-ba|"
+                                     r"\bhta\b|coverage|pricing|ntap|pass-through|j-code|formulary", hl)):
                 with store._engine.begin() as c:
                     c.execute(insert(news).values(id=nid, kind="skip", section="industry", publisher=company,
                                                   title=headline[:300] or "-", url=url,
@@ -490,7 +502,8 @@ def ingest_company(days: int = 4, max_docs: int = 80) -> dict:
             continue
         is_fin = bool(brief and brief.get("financing")) or biz_beat(title, "") == "financing"
         _upsert({"id": nid, "kind": "company", "section": "industry" if is_fin else section, "publisher": company,
-                 "country": "US", "title": title, "summary": summary, "url": url, "date": src.get("file_date", end),
+                 "country": None if "6-K" in str(src.get("form") or src.get("root_forms") or "") else "US",
+                 "title": title, "summary": summary, "url": url, "date": src.get("file_date", end),
                  "company": company, "ticker": ticker, "tags": json.dumps(["financing"]) if is_fin else None})
         stats["new"] += 1
     return stats

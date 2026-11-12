@@ -291,9 +291,12 @@ _NCSS = """
 body{background:var(--paper)}
 .ticker-strip{background:#050c17;padding:7px 0;border-bottom:1px solid #1e2d44}
 .secbar{border-bottom:1px solid var(--rule);background:var(--paper);position:sticky;top:58px;z-index:4}
-.secbar .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
-.secbar a{padding:12px 12px;font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);
+.secbar{backdrop-filter:none}
+.secbar .wrap{display:flex;flex-wrap:wrap;gap:0 2px;height:auto;justify-content:flex-start;align-items:stretch}
+.secbar a{padding:10px 8px;font-weight:800;font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink);
   border-bottom:3px solid transparent;white-space:nowrap}
+@media(max-width:760px){.secbar .wrap{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;
+  -webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}}
 .secbar a:hover,.secbar a.on{border-bottom-color:var(--c,#0f172a);text-decoration:none}
 .mast{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:20px 0 12px;border-bottom:3px solid var(--ink);flex-wrap:wrap}
 .mast h1{font:900 40px/1 Georgia,'Times New Roman',serif;letter-spacing:-.02em;display:flex;align-items:center;gap:12px}
