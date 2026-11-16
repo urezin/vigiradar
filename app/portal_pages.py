@@ -523,20 +523,24 @@ def insights_index():
 
 
 @router.get("/insights/{week}", response_class=HTMLResponse, include_in_schema=False)
-def insight_page(week: str):
+def insight_page(week: str, request: Request):
     a = _safe(lambda: pd.analysis_get(f"week:{week}"), None)
     if not a:
         raise HTTPException(404)
+    from . import gate as _gate
+    _b = a["body"] or ""
+    _cut = _b.find("</p>")
+    _wk_body = _gate.gated(request, _b[:_cut + 4], _b[_cut + 4:], source="insights") if _cut > 0 else _b
     body = f"""<main class="wrap"><div class="article"><p><a href="/insights">← Insights</a></p>
 <h1 style="font-size:30px;margin-top:8px">EU &amp; US regulatory week in review: {_e(week)}</h1>
-<div class="analysis">{a["body"]}</div>
+<div class="analysis">{_wk_body}</div>
 <p class="note">AI-generated on {_e(a["created_at"][:10])} from the week's official records on VigiEye (model {_e(a.get("model"))}). It can contain errors: check the linked sources.</p>
 <div class="lock"><h3>Get this every week, and the daily briefing</h3>{_newsletter_box("insight:" + week)}</div></div></main>"""
     return _page(f"EU & US regulatory week in review {week} | VigiEye",
                  f"In-depth review of EU and US pharma regulatory events for {week}: approvals, opinions, PDUFA dates "
                  "and safety actions.", f"/insights/{week}", body,
-                 [{"@context": "https://schema.org", "@type": "Article", "headline": f"EU & US regulatory week in review {week}",
-                   "datePublished": a["created_at"][:10], "publisher": {"@type": "Organization", "name": "VigiEye"}}])
+                 [_gate.ld({"@context": "https://schema.org", "@type": "Article", "headline": f"EU & US regulatory week in review {week}",
+                   "datePublished": a["created_at"][:10], "publisher": {"@type": "Organization", "name": "VigiEye"}})])
 
 
 # --- newsletter -------------------------------------------------------------

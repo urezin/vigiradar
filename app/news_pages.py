@@ -22,7 +22,7 @@ import json
 import re
 from datetime import date, timedelta
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 
 from . import catalysts as cal
@@ -31,6 +31,7 @@ from . import portal_data as pd
 from . import portal_pages as pp
 from . import store
 from . import brand as _brand
+from . import gate as _gate
 
 router = APIRouter()
 _e, _fmt, _base = cal._e, cal._fmt, cal._base
@@ -636,6 +637,13 @@ def news_section(section: str, page: int = 1):
 
 # --- article pages --------------------------------------------------------------------------
 
+def _story_parts(st: dict) -> tuple[str, str]:
+    """(lead, rest): standfirst + first paragraph are public; the rest is for signed-in readers."""
+    html = _story_html(st)
+    cut = html.find("</p>", html.find('<p style="font-size:18px'))
+    return (html, "") if cut < 0 else (html[:cut + 4], html[cut + 4:])
+
+
 def _story_html(st: dict) -> str:
     dek = f'<p class="detail" style="font-size:20px;color:var(--mut);font-style:italic">{_e(st.get("dek"))}</p>' if st.get("dek") else ""
     body = "".join(f'<p style="font-size:18px;line-height:1.65;margin:0 0 16px">{_e(p)}</p>' for p in st["body"])
@@ -647,7 +655,7 @@ def _story_html(st: dict) -> str:
 
 
 @router.get("/news/item/{kind}/{nid}", response_class=HTMLResponse, include_in_schema=False)
-def news_item(kind: str, nid: str):
+def news_item(kind: str, nid: str, request: Request):
     if kind == "u":
         try:
             store.init()
@@ -697,7 +705,7 @@ def news_item(kind: str, nid: str):
 <h1 style="font:800 36px/1.15 Georgia,'Times New Roman',serif;margin:8px 0 10px">{_e(r["title"])}</h1>
 {_meta(r)}
 <div style="margin:18px 0">{_thumb(r, "wide")}</div>
-{_story_html(story) if story and story.get("body") else (f'<p class="detail" style="font-size:18px">{_e(summary)}</p>' if summary else "")}
+{_gate.gated(request, *_story_parts(story), source="news") if story and story.get("body") else (f'<p class="detail" style="font-size:18px">{_e(summary)}</p>' if summary else "")}
 {f'<p style="margin-top:18px"><a class="btn" href="{_e(src_url)}" target="_blank" rel="noopener">{_e(src_label)}: {_e(r.get("publisher"))} ↗</a></p>' if src_url else ""}
 <p class="note">{_e(note)} AI-assisted; check the source before acting.</p>
 <div class="row" style="--c:{SEC_COLOR.get(r["section"])}"><div class="row-h"><span>More {_e(nw.SECTIONS.get(r["section"], ""))}</span>
@@ -708,6 +716,8 @@ def news_item(kind: str, nid: str):
            "image": [f"{_base()}/thumb/{r['section']}/{_seed(r)}.svg"],
            "publisher": {"@type": "Organization", "name": "VigiEye", "url": _base() + "/"},
            "isBasedOn": src_url, "articleSection": nw.SECTIONS.get(r["section"], "")}]
+    if story and story.get("body") and len(story["body"]) > 1:
+        ld = [_gate.ld(ld[0])]
     return _page(f"{r['title'][:90]} | VigiEye", (summary or r["title"])[:155], f"/news/item/{kind}/{nid}", body, ld)
 
 
@@ -1011,19 +1021,22 @@ pharmacovigilance, quality and market-access developments, built from the offici
 
 
 @router.get("/analysis/{slug}", response_class=HTMLResponse, include_in_schema=False)
-def analysis_page(slug: str):
+def analysis_page(slug: str, request: Request):
     a = art_mod.get_article(slug)
     if not a:
         raise HTTPException(404)
     t = a.get("type", "analysis")
-    secs = "".join(f'<h2>{_e(s.get("heading"))}</h2>' + "".join(f"<p>{_e(p)}</p>" for p in (s.get("paragraphs") or []))
-                   for s in a.get("sections", []))
+    _secs = [f'<h2>{_e(s.get("heading"))}</h2>' + "".join(f"<p>{_e(p)}</p>" for p in (s.get("paragraphs") or []))
+             for s in a.get("sections", [])]
     take = "".join(f"<li>{_e(x)}</li>" for x in a.get("takeaways", []))
     from .official import is_official as _iso
     srcs = "".join((f'<li><a href="{_e(s.get("url"))}" target="_blank" rel="noopener">{_e(s.get("title"))}</a> ' if _iso(s.get("url"))
                     else f'<li>{_e(s.get("title"))} ')
                    + f'<span class="by">{_e(s.get("publisher"))} · {_e(_fmt(s.get("date", "")))}</span></li>' for s in a.get("sources", []))
     more = [x for x in art_mod.list_articles(10) if x["slug"] != slug][:3]
+    _rest = '<div class="abody">' + "".join(_secs[1:]) + "</div>" + (
+        '<div class="take"><b>What to do</b><ul>' + take + "</ul></div>" if take else "")
+    _abody = _gate.gated(request, '<div class="abody">' + "".join(_secs[:1]) + "</div>", _rest, source="analysis")
     label = "Opinion · VigiEye View" if t == "opinion" else "Analysis"
     body = f"""<style>{_ACSS}</style>{_ticker()}{_secbar(a.get("section"))}<main class="wrap"><div class="body3"><article class="article" style="max-width:760px">
 <div style="margin-top:14px"><span class="op-badge {t}">{label}</span> <a class="lab" style="color:{SEC_COLOR.get(a.get("section"))};margin-left:6px" href="/news/{_e(a.get("section"))}">{_e(nw.SECTIONS.get(a.get("section"), ""))}</a></div>
@@ -1031,8 +1044,7 @@ def analysis_page(slug: str):
 <p style="font-size:19px;color:var(--mut)">{_e(a.get("dek"))}</p>
 <div class="by">VigiEye editorial · {_e(_fmt(a.get("date", "")))}</div>
 <div style="margin:18px 0">{_art_thumb(a)}</div>
-<div class="abody">{secs}</div>
-{f'<div class="take"><b>What to do</b><ul>{take}</ul></div>' if take else ""}
+{_abody}
 {art_mod.ad_html("article-inline", "inline")}
 <h2 style="font-size:18px;margin-top:22px">Sources this {("column" if t == "opinion" else "analysis")} is based on</h2><ul class="srcs">{srcs}</ul>
 <p class="note">{("Opinion: this column argues a position." if t == "opinion" else "")} Written by VigiEye's editorial system with AI assistance
@@ -1045,6 +1057,8 @@ Not legal, medical or investment advice.</p>
            "author": {"@type": "Organization", "name": "VigiEye editorial"},
            "publisher": {"@type": "Organization", "name": "VigiEye", "url": _base() + "/"},
            "isBasedOn": [s.get("url") for s in a.get("sources", []) if s.get("url")]}]
+    if len(_secs) > 1 or take:
+        ld = [_gate.ld(ld[0])]
     return _page(f"{a['title'][:90]} | VigiEye {label}", (a.get("dek") or a["title"])[:155], f"/analysis/{slug}", body, ld)
 
 

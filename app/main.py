@@ -53,6 +53,8 @@ app.include_router(indexnow_mod.router)
 app.include_router(portal_mod.router)
 app.include_router(catalysts_mod.router)
 from . import legal as legal_mod
+from . import gate as gate_mod
+app.include_router(gate_mod.router)   # free reader sign-up for full articles
 app.include_router(legal_mod.make_router(
     {"name": "VigiEye", "domain": "vigi-eye.com",
      "what": "VigiEye is a daily news service on EU and US pharmaceutical regulation: approvals, pharmacovigilance and PRAC "

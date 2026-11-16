@@ -13,7 +13,7 @@ from html import escape as _e
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
 
-UPDATED = "12 November 2026"
+UPDATED = "16 November 2026"
 OPERATOR = "PQRA, the regulatory, quality and pharmacovigilance consultancy of Dimitrios Gkikas"
 CITY = "Marousi, Athens, Greece"
 EMAIL = "info@pqra.gr"
@@ -107,7 +107,10 @@ General Data Protection Regulation (GDPR).</p>
 <h2>Who is responsible</h2>
 <p>The data controller is {_e(OPERATOR)}, {_e(CITY)}. Contact: <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>
 <h2>What we collect and why</h2>
-<ul><li><b>Newsletter:</b> your email address, so we can send the daily email you asked for (legal basis: your consent,
+<ul><li><b>Free reader account:</b> your email address and, if you give them, your name, company and role, so we can
+give you access to full articles and understand our readership (legal basis: performing the free account you asked for).
+A cookie on your device remembers your access for a year; there is no password. Ask us at any time to delete your account.</li>
+<li><b>Newsletter:</b> your email address, so we can send the daily email you asked for (legal basis: your consent,
 which you can withdraw at any time with the unsubscribe link).</li>
 {acc}{pay}
 <li><b>Messages</b> you send us, to answer them (legitimate interest).</li>
