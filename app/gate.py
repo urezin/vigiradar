@@ -275,7 +275,7 @@ def signup_box(return_url: str, source: str = "article", site_name: str = SITE_N
     return f"""<style>{_CSS}</style><div class="rg">{'<div class="fade"></div>' if fade else ''}<div class="card">
 <h3>{_e(heading)}</h3><p><span class="price">{_e(PRICE_LABEL)}</span> / month</p>{_BENEFITS}
 <p class="fine" style="margin:-4px 0 10px">Already a subscriber? Enter your email below: we'll send you a sign-in link. No password needed.</p>
-<form onsubmit="return rgSignup(this)" data-src="{_e(source)}" data-ret="{_e(return_url)}">
+<form onsubmit="rgSignup(this);return false;" data-src="{_e(source)}" data-ret="{_e(return_url)}">
 <input type="email" name="email" placeholder="Your email" required autocomplete="email">
 <label class="ck"><input type="checkbox" name="newsletter" value="1"> {_e(nl)}</label>
 <button type="submit">Continue</button><div class="msg" aria-live="polite"></div>
