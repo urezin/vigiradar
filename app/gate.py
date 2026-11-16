@@ -516,7 +516,9 @@ def api_readers_access(t: str = ""):
     email = email_from_access(t)
     if not email:
         return JSONResponse({"error": "invalid token"}, status_code=401)
-    return {"email": email, "paid": is_paid(email), "link": link_token(email)}
+    a = _acct(email) or {}
+    return {"email": email, "paid": is_paid(email), "link": link_token(email),
+            "complimentary": email.lower() in _complimentary(), "has_subscription": bool(a.get("sub_id"))}
 
 
 def _email_for_links(request: Request, t: str) -> str | None:
