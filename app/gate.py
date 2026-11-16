@@ -165,10 +165,18 @@ def _acct_set(email: str, **vals) -> None:
     _paid_cache.pop(email, None)
 
 
+# Stripe Managed Payments: Stripe (via Link) is the merchant of record, so it works out, collects and remits the VAT /
+# sales tax of the reader's country and issues the receipts. Needs an eligible product tax code and API 2025-03-31+.
+MANAGED_PAYMENTS = os.getenv("READER_MANAGED_PAYMENTS", "1").strip().lower() in ("1", "true", "yes", "on")
+TAX_CODE = os.getenv("READER_TAX_CODE", "txcd_10304102")   # Digital Newspapers - viewable only - subscription
+STRIPE_VERSION = os.getenv("READER_STRIPE_API_VERSION", "2025-03-31.basil")
+
+
 def _stripe(method: str, path: str, data: dict | None = None) -> dict:
     import httpx
     with httpx.Client(timeout=30) as c:
-        r = c.request(method, f"https://api.stripe.com/v1{path}", data=data, auth=(settings.stripe_secret_key, ""))
+        r = c.request(method, f"https://api.stripe.com/v1{path}", data=data, auth=(settings.stripe_secret_key, ""),
+                      headers={"Stripe-Version": STRIPE_VERSION})
     if r.status_code >= 400:
         raise RuntimeError(f"stripe {path} -> {r.status_code}: {r.text[:300]}")
     return r.json()
@@ -523,10 +531,13 @@ def reader_subscribe(request: Request, t: str = ""):
             "line_items[0][price_data][unit_amount]": str(PRICE_CENTS),
             "line_items[0][price_data][recurring][interval]": "month",
             "line_items[0][price_data][product_data][name]": PLAN_NAME,
+            "line_items[0][price_data][product_data][tax_code]": TAX_CODE,
+            "line_items[0][price_data][tax_behavior]": "inclusive",   # $4.99 is the price the reader pays, tax included
             "subscription_data[metadata][reader_email]": email,
             "metadata[reader_email]": email, "allow_promotion_codes": "true",
             "success_url": f"{_base()}/reader/paid?session_id={{CHECKOUT_SESSION_ID}}&return={quote(ret, safe='')}",
-            "cancel_url": ret})
+            "cancel_url": ret,
+            **({"managed_payments[enabled]": "true"} if MANAGED_PAYMENTS else {})})
         resp = RedirectResponse(s["url"], status_code=303)
         return _set_cookie(resp, request, email) if not reader(request) else resp
     except Exception as ex:

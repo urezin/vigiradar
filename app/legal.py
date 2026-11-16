@@ -111,7 +111,8 @@ General Data Protection Regulation (GDPR).</p>
 <ul><li><b>Reader account and subscription:</b> your email address, confirmed through a link we email you, so we can sign
 you in and give subscribers access to full articles (legal basis: performing the contract you asked for). A cookie on your
 device keeps you signed in for a year; there is no password. Payments and the subscription are handled by Stripe; we keep the
-subscription status and Stripe's customer reference, never card details. Ask us at any time to delete your account.</li>
+subscription status and Stripe's customer reference, never card details. Because the subscription is sold through Link
+(Stripe) as seller of record, Stripe and Link also process your payment and billing details as an independent controller. Ask us at any time to delete your account.</li>
 <li><b>Newsletter:</b> your email address, so we can send the daily email you asked for (legal basis: your consent,
 which you can withdraw at any time with the unsubscribe link).</li>
 {acc}{pay}
@@ -157,8 +158,10 @@ documents we link to remain the property of their authors.</p>
 <h2>Links</h2>
 <p>We link to official websites we do not control and are not responsible for their content or availability.</p>
 <h2>Reader subscription</h2>
-<p>Full articles on VigiEye and CompePharma need a reader subscription of $4.99 per month (taxes may apply), billed monthly
-through Stripe until you cancel. You can cancel at any time from the link in your account or by emailing us; access continues
+<p>Full articles on VigiEye and CompePharma need a reader subscription of $4.99 per month, any VAT or sales tax included, billed
+monthly until you cancel. Payments are processed through Stripe's Managed Payments: the subscription is sold through Link
+(Stripe), which acts as the seller of record, charges the tax that applies in your country and sends your receipts and
+invoices. You can cancel at any time at link.com, from the link in your account or by emailing us; access continues
 until the end of the period you paid for, and paid periods are not refunded. Access starts immediately when you subscribe:
 by subscribing you ask for that and accept that the 14-day right of withdrawal for digital content ends once access starts.
 We may change the price with at least 30 days' notice by email; the change applies from your next billing period.</p>
