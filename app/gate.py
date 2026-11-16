@@ -240,7 +240,7 @@ def can_read(request: Request) -> bool:
 
 _CSS = """.rg{position:relative;margin:6px 0 26px}.rg .fade{height:90px;margin-top:-90px;position:relative;
 background:linear-gradient(rgba(255,255,255,0),var(--bg,#fff))}
-.rg .card{border:1px solid rgba(100,116,139,.35);border-radius:14px;padding:22px;background:var(--card,#f8fafc)}
+.rg .card{border:1px solid rgba(100,116,139,.35);border-radius:14px;padding:22px;background:#f8fafc!important;color:#0f172a!important}.rg .card h3,.rg .card p,.rg .card li,.rg .card label,.rg .card .price,.rg .card .fine,.rg .card .msg{color:#0f172a!important}.rg .card .fine{color:#475569!important}.rg .card a:not(.rg-btn){color:#0f766e!important}
 .rg h3{margin:0 0 6px;font-size:21px}.rg p{margin:6px 0 12px;font-size:15px}.rg form{display:grid;gap:10px;grid-template-columns:1fr}
 .rg input{width:100%;padding:11px 12px;border:1px solid rgba(100,116,139,.45);border-radius:9px;font-size:15px;background:#fff;color:#0f172a}
 .rg label.ck{display:flex;gap:8px;align-items:flex-start;font-size:13.5px}.rg label.ck input{width:auto;margin-top:3px}
