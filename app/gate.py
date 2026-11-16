@@ -207,9 +207,25 @@ def on_subscription_event(obj: dict) -> None:
 _paid_cache: dict[str, tuple[float, bool]] = {}
 
 
+def _complimentary() -> set[str]:
+    """Readers with full access without paying: the site owner (OWNER_EMAIL, the address that gets the daily owner
+    briefing) and anyone listed in READER_FREE_EMAILS (comma-separated), e.g. colleagues or reviewers."""
+    emails = {e.strip().lower() for e in os.getenv("READER_FREE_EMAILS", "").split(",") if e.strip()}
+    owner = os.getenv("OWNER_EMAIL", "").strip().lower()
+    if not owner:
+        try:
+            from . import scheduler
+            owner = str(scheduler._get("owner").get("email") or "").strip().lower()
+        except Exception:
+            owner = ""
+    return emails | ({owner} if owner else set())
+
+
 def is_paid(email: str | None) -> bool:
     if not email:
         return False
+    if email.lower() in _complimentary():
+        return True
     hit = _paid_cache.get(email)
     if hit and time.time() - hit[0] < 60:
         return hit[1]
