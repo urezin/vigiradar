@@ -29,6 +29,8 @@ import re
 from datetime import date, datetime, timedelta, timezone
 
 from fastapi import APIRouter, Header, HTTPException
+
+from .legal import FOOTER_NOTE as _legal_note
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse, Response
 from . import brand as _brand
 from pydantic import BaseModel
@@ -221,7 +223,7 @@ def _page(title: str, description: str, canonical: str, body: str,
 <div class="nl"><a href="/news">News</a><a class="hide2" href="/safety">Safety</a><a class="hide2" href="/pdufa">PDUFA</a><a class="hide" href="/drugs">Drugs</a><a class="hide" href="/welcome">Enterprise</a><a class="cta" href="/newsletter">Daily email</a></div></div></nav>
 {body}
 <footer><div class="wrap">VigiEye · EU pharmacovigilance &amp; regulatory monitoring. Every date links to its official source; always confirm against the source before acting.
- · <a href="/">Home</a> · <a href="/news/pharmacovigilance">Pharmacovigilance</a> · <a href="/news/regulatory">Regulatory</a> · <a href="/news/market-access">Market access</a> · <a href="/news/quality">Quality &amp; compliance</a> · <a href="/safety">Safety hub</a> · <a href="/guidelines">Guidelines</a> · <a href="/feed.xml">RSS</a> · <a href="/pdufa">PDUFA calendar</a> · <a href="/approvals">Approvals</a> · <a href="/safety">Safety</a> · <a href="/drugs">Drugs</a> · <a href="/calendar">EU calendar</a> · <a href="/calendar.ics">iCal</a> · <a href="/radar">News</a> · <a href="/insights">Insights</a> · <a href="/newsletter">Newsletter</a> · <a href="/embed">Embed ticker</a> · <a href="/welcome">Enterprise</a><div style="margin-top:10px">Published by PQRA, Marousi, Athens · <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/editorial-policy">Editorial policy</a> · <a href="/privacy">Privacy &amp; cookies</a> · <a href="/terms">Terms</a></div></div></footer>
+ · <a href="/">Home</a> · <a href="/news/pharmacovigilance">Pharmacovigilance</a> · <a href="/news/regulatory">Regulatory</a> · <a href="/news/market-access">Market access</a> · <a href="/news/quality">Quality &amp; compliance</a> · <a href="/safety">Safety hub</a> · <a href="/guidelines">Guidelines</a> · <a href="/feed.xml">RSS</a> · <a href="/pdufa">PDUFA calendar</a> · <a href="/approvals">Approvals</a> · <a href="/safety">Safety</a> · <a href="/drugs">Drugs</a> · <a href="/calendar">EU calendar</a> · <a href="/calendar.ics">iCal</a> · <a href="/radar">News</a> · <a href="/insights">Insights</a> · <a href="/newsletter">Newsletter</a> · <a href="/embed">Embed ticker</a> · <a href="/welcome">Enterprise</a><div style="margin-top:10px">Published by PQRA, Marousi, Athens · <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/editorial-policy">Editorial policy</a> · <a href="/privacy">Privacy &amp; cookies</a> · <a href="/terms">Terms</a> · <a href="/disclaimer">Disclaimer</a></div><div style="margin-top:8px;font-size:12.5px;opacity:.8">{_legal_note}</div></div></footer>
 <script>
 async function vgSub(form){{const i=form.querySelector('input[type=email]'),m=form.parentNode.querySelector('.msg');
  m.textContent='…';try{{const r=await fetch('/calendar/subscribe',{{method:'POST',headers:{{'Content-Type':'application/json'}},
@@ -514,7 +516,7 @@ def robots():
 def sitemap():
     today = date.today().isoformat()
     urls = [("/welcome", "weekly", "0.8"), ("/calendar", "daily", "1.0"), ("/radar", "daily", "0.9")]
-    urls += [(u, "monthly", "0.4") for u in ("/about", "/contact", "/editorial-policy", "/privacy", "/terms")]
+    urls += [(u, "monthly", "0.4") for u in ("/about", "/contact", "/editorial-policy", "/privacy", "/terms", "/disclaimer")]
     try:
         from . import portal_pages, news_pages
         urls += news_pages.sitemap_urls() + portal_pages.sitemap_urls()

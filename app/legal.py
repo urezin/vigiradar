@@ -1,5 +1,5 @@
 """
-Trust & legal pages: /about, /contact, /privacy, /terms, /editorial-policy.
+Trust & legal pages: /about, /contact, /privacy, /terms, /editorial-policy, /disclaimer.
 
 Required for Google AdSense review (About and Contact pages, a privacy policy that discloses
 advertising cookies) and for EU users (GDPR information, publisher identity). The same module
@@ -18,6 +18,16 @@ OPERATOR = "PQRA, the regulatory, quality and pharmacovigilance consultancy of D
 CITY = "Marousi, Athens, Greece"
 EMAIL = "info@pqra.gr"
 PHONE = "+30 21 0444 1982"
+# Provider identification required by P.D. 131/2003 art. 4 (Greek e-commerce rules)
+LEGAL_NAME = "Dimitrios Gkikas (trading as PQRA)"
+ADDRESS = "Leof. Kifisias 44, 151 25 Marousi, Athens, Greece"
+VAT_NO = "EL131680720"
+DISCLAIMER_UPDATED = "16 November 2026"
+
+# One-line notice for every page footer
+FOOTER_NOTE = ("General information only, not medical, regulatory, legal or investment advice. Content is produced with "
+               "AI assistance and may contain errors: always check the official source before acting. "
+               '<a href="/disclaimer">Full disclaimer</a>.')
 
 CSS = """.lg{max-width:780px;margin:34px auto 10px;padding:0 16px;line-height:1.65;font-size:16.5px}
 .lg h1{font-size:32px;line-height:1.2;margin-bottom:6px}.lg .upd{color:#64748b;font-size:13.5px;margin-bottom:22px}
@@ -29,7 +39,7 @@ CSS = """.lg{max-width:780px;margin:34px auto 10px;padding:0 16px;line-height:1.
 
 def _nav() -> str:
     return ('<nav class="lgn"><a href="/about">About</a><a href="/contact">Contact</a><a href="/editorial-policy">Editorial policy</a>'
-            '<a href="/privacy">Privacy &amp; cookies</a><a href="/terms">Terms of use</a></nav>')
+            '<a href="/privacy">Privacy &amp; cookies</a><a href="/terms">Terms of use</a><a href="/disclaimer">Disclaimer</a></nav>')
 
 
 def bodies(s: dict) -> dict[str, tuple[str, str, str]]:
@@ -145,13 +155,64 @@ documents we link to remain the property of their authors.</p>
 <p>Subscriptions and enterprise products are also governed by the terms shown when you buy them.</p>
 <h2>Liability</h2>
 <p>We work to keep the site accurate and available but cannot guarantee either. To the extent the law allows, we are not
-liable for losses arising from use of the site or reliance on its content.</p>
+liable for losses arising from use of the site or reliance on its content. See the full <a href="/disclaimer">legal
+disclaimer</a>.</p>
 <h2>Law</h2>
 <p>These terms are governed by Greek law, and the courts of Athens have jurisdiction, without prejudice to any mandatory
 consumer protection rules of your country of residence.</p>
 <p>Questions: <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>"""
 
+    disclaimer = f"""<h1>Legal disclaimer</h1><div class="upd">Last updated {DISCLAIMER_UPDATED}</div>
+<p>Please read this disclaimer before relying on anything published on {_e(s['domain'])}. By using the site you accept it,
+together with our <a href="/terms">terms of use</a>.</p>
+<h2>1. General information only</h2>
+<p>Everything on {_e(n)} (news, analysis, opinion, calendars, data, newsletters and any other material) is general
+information for professionals in the pharmaceutical and life-sciences sector. It is <b>not</b> medical, clinical,
+pharmaceutical, regulatory, legal, tax, financial or investment advice, and it does not create a client, consultancy or
+any other professional relationship with the publisher or PQRA. Do not act, or refrain from acting, on it without taking
+advice that fits your own circumstances.</p>
+<h2>2. Accuracy and official sources</h2>
+<p>Our stories are drawn from public official records (regulators, official journals, courts and company filings), and each
+one links to its source. Those records can be updated, corrected or withdrawn after we report them, and summaries can omit
+detail. We do not warrant that any content is accurate, complete, current or fit for a particular purpose. The official
+source always prevails: check it before making any regulatory, clinical, commercial or investment decision. Deadlines and
+dates in particular must be confirmed with the competent authority.</p>
+<h2>3. Use of artificial intelligence</h2>
+<p>Content on this site is drafted with the help of AI language models, under the editorial control and responsibility of
+the publisher (see our <a href="/editorial-policy">editorial policy</a>). AI-assisted text can contain errors, omissions or
+outdated information. Please tell us about any mistake you find and we will correct it.</p>
+<h2>4. Medicines and health</h2>
+<p>Mentions of medicines, medical devices or treatments are news reporting for professionals. They are not advertising or
+promotion of any product and not a recommendation to prescribe, use or stop using anything. Patients should talk to their
+doctor or pharmacist. Report suspected side effects to your national medicines authority (in Greece, the EOF at
+<a href="https://www.eof.gr" rel="noopener">eof.gr</a>).</p>
+<h2>5. Companies, markets and investments</h2>
+<p>Reporting or analysis about companies, deals, earnings or the possible effect of news on a company is not an investment
+recommendation, an offer, or a solicitation to buy or sell any security, and it does not take account of anyone's
+investment objectives or financial situation. Past performance and our analysis are no guide to future results. Consult an
+authorised financial adviser before investing.</p>
+<h2>6. Links, third parties and advertising</h2>
+<p>Links to official and third-party websites, and advertisements shown on the site (including Google AdSense and PQRA house
+advertisements), are provided for convenience. We do not control or endorse third-party content, products or services and are
+not responsible for them.</p>
+<h2>7. Limitation of liability</h2>
+<p>To the fullest extent permitted by applicable law, the publisher, PQRA and their staff and contributors are not liable for
+any direct, indirect, incidental or consequential loss or damage (including loss of profit, revenue, data or business
+opportunity, regulatory sanctions or missed deadlines) arising from use of, or reliance on, the site or its content, or from
+the site being unavailable. Nothing in this disclaimer excludes or limits liability that cannot be excluded or limited under
+applicable law, including liability for intent or gross negligence, or the mandatory rights of consumers.</p>
+<h2>8. Corrections and complaints</h2>
+<p>If you believe something we published is inaccurate, unfair or infringes your rights, write to
+<a href="mailto:{EMAIL}">{EMAIL}</a> with the page address and what you believe is wrong. We review every request promptly,
+correct or remove material that is wrong, and note material corrections on the page.</p>
+<h2>9. Publisher information</h2>
+<div class="card"><b>{_e(n)}</b> ({_e(s['domain'])})<br>Published by {_e(LEGAL_NAME)}<br>{_e(ADDRESS)}<br>
+VAT number: {_e(VAT_NO)}<br>Email: <a href="mailto:{EMAIL}">{EMAIL}</a> · Phone: {_e(PHONE)}<br>
+Editorial responsibility: Dimitrios Gkikas</div>
+<p>This disclaimer is governed by Greek law. If any part of it is found unenforceable, the rest remains in effect.</p>"""
+
     return {
+        "/disclaimer": (f"Legal disclaimer | {n}", f"Legal disclaimer, limitation of liability and publisher information for {s['domain']}.", disclaimer),
         "/about": (f"About {n}", f"Who publishes {n}, how it is funded and how its stories are written.", about),
         "/contact": (f"Contact {n}", f"Contact {n} for corrections, news, advertising, enterprise plans or privacy requests.", contact_html),
         "/editorial-policy": (f"Editorial policy | {n}", f"{n}'s sources, use of AI tools, corrections and independence.", editorial),
@@ -171,5 +232,5 @@ def make_router(site: dict, page_fn) -> APIRouter:
 
 
 FOOTER_LINKS = ('<a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/editorial-policy">Editorial policy</a> · '
-                '<a href="/privacy">Privacy &amp; cookies</a> · <a href="/terms">Terms</a>')
-PATHS = ["/about", "/contact", "/editorial-policy", "/privacy", "/terms"]
+                '<a href="/privacy">Privacy &amp; cookies</a> · <a href="/terms">Terms</a> · <a href="/disclaimer">Disclaimer</a>')
+PATHS = ["/about", "/contact", "/editorial-policy", "/privacy", "/terms", "/disclaimer"]
