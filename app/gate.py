@@ -244,8 +244,9 @@ background:linear-gradient(rgba(255,255,255,0),var(--bg,#fff))}
 .rg h3{margin:0 0 6px;font-size:21px}.rg p{margin:6px 0 12px;font-size:15px}.rg form{display:grid;gap:10px;grid-template-columns:1fr}
 .rg input{width:100%;padding:11px 12px;border:1px solid rgba(100,116,139,.45);border-radius:9px;font-size:15px;background:#fff;color:#0f172a}
 .rg label.ck{display:flex;gap:8px;align-items:flex-start;font-size:13.5px}.rg label.ck input{width:auto;margin-top:3px}
-.rg button,.rg a.btn{display:block;text-align:center;padding:12px;border:0;border-radius:10px;font-weight:800;font-size:16px;cursor:pointer;
-background:#0f766e;color:#fff;text-decoration:none}.rg .msg{font-size:14px;min-height:1em}.rg ul{margin:4px 0 12px;padding-left:20px;font-size:14.5px}
+.rg button,.rg a.rg-btn{display:block!important;text-align:center;padding:12px 16px!important;border:0!important;border-radius:10px!important;
+font-weight:800!important;font-size:16px!important;cursor:pointer;background:#0f766e!important;color:#fff!important;text-decoration:none!important;
+opacity:1!important;-webkit-text-fill-color:#fff}.rg a.rg-btn:hover,.rg button:hover{filter:brightness(1.1)}.rg .msg{font-size:14px;min-height:1em}.rg ul{margin:4px 0 12px;padding-left:20px;font-size:14.5px}
 .rg .fine{font-size:12.5px;opacity:.8}.rg .price{font-size:26px;font-weight:800}"""
 
 _BENEFITS = ("<ul><li>Every article, analysis and opinion piece on VigiEye and CompePharma</li>"
@@ -276,7 +277,7 @@ catch(e){{m.textContent='Something went wrong, please try again.';}}return false
 def subscribe_box(email: str, subscribe_url: str, signout_url: str = "/reader/signout") -> str:
     return f"""<style>{_CSS}</style><div class="rg"><div class="fade"></div><div class="card">
 <h3>Subscribe to keep reading</h3><p><span class="price">{_e(PRICE_LABEL)}</span> / month</p>{_BENEFITS}
-<a class="btn" href="{_e(subscribe_url)}">Subscribe with Stripe</a>
+<a class="rg-btn" href="{_e(subscribe_url)}">Subscribe with Stripe</a>
 <p class="fine" style="margin-top:8px">Billed monthly until you cancel. Access starts at once, so the 14-day withdrawal right ends when it does.
 <a href="/terms">Terms</a></p>
 <p class="fine" style="margin-top:10px">Signed in as {_e(email)} · <a href="{_e(signout_url)}">not you?</a></p></div></div>"""
