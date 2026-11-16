@@ -135,6 +135,12 @@ def count() -> int:
         return c.execute(select(func.count()).select_from(updates)).scalar_one()
 
 
+def _visible(rows: list[dict]) -> list[dict]:
+    """Drop withdrawn items (see takedowns.py)."""
+    from .takedowns import item_blocked, text_blocked
+    return [r for r in rows if not item_blocked(r.get("id")) and not text_blocked(r.get("title"), r.get("summary"))]
+
+
 def query(country: str | None = None, subject: str | None = None,
           impact: str | None = None, limit: int = 200) -> list[dict]:
     stmt = select(updates.c.id, updates.c.country, updates.c.authority, updates.c.subject,
@@ -149,7 +155,7 @@ def query(country: str | None = None, subject: str | None = None,
     stmt = stmt.where((updates.c.mode.is_(None)) | (updates.c.mode.notin_(["irrelevant", "seed"])))
     stmt = stmt.order_by(updates.c.date.desc(), updates.c.ingested_at.desc()).limit(limit)
     with _engine.connect() as c:
-        return [dict(r._mapping) for r in c.execute(stmt)]
+        return _visible([dict(r._mapping) for r in c.execute(stmt)])
 
 
 def monitoring_record(start: str, end: str, country: str | None = None, subject: str | None = None,
@@ -169,7 +175,7 @@ def monitoring_record(start: str, end: str, country: str | None = None, subject:
     stmt = stmt.where((updates.c.mode.is_(None)) | (updates.c.mode.notin_(["irrelevant", "seed"])))
     stmt = stmt.order_by(updates.c.ingested_at.asc(), updates.c.id.asc()).limit(limit)
     with _engine.connect() as c:
-        return [dict(r._mapping) for r in c.execute(stmt)]
+        return _visible([dict(r._mapping) for r in c.execute(stmt)])
 
 
 def authority_seen(authority: str) -> bool:
@@ -178,9 +184,13 @@ def authority_seen(authority: str) -> bool:
 
 
 def get_update(item_id: str) -> dict | None:
+    """Public read of one item; withdrawn items (takedowns.py) read as missing."""
     with _engine.connect() as c:
         r = c.execute(select(updates).where(updates.c.id == item_id)).first()
-        return dict(r._mapping) if r else None
+    if not r:
+        return None
+    d = dict(r._mapping)
+    return None if _visible([d]) == [] else d
 
 
 def distinct_countries() -> list[str]:

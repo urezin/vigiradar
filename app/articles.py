@@ -23,6 +23,7 @@ from sqlalchemy import select
 
 from . import portal_data as pd
 from . import store
+from .takedowns import article_blocked
 from .config import settings
 
 log = logging.getLogger("vigiradar.articles")
@@ -162,6 +163,8 @@ def list_articles(limit: int = 30, kind: str | None = None) -> list[dict]:
             continue
         if kind and a.get("type") != kind:
             continue
+        if article_blocked(a):
+            continue
         out.append(a)
     out.sort(key=lambda a: (a.get("date", ""), a.get("type") == "opinion"), reverse=True)
     return out[:limit]
@@ -172,9 +175,10 @@ def get_article(slug: str) -> dict | None:
     if not a:
         return None
     try:
-        return json.loads(a["body"])
+        art = json.loads(a["body"])
     except Exception:
         return None
+    return None if article_blocked(art) else art
 
 
 _DESKS = ("pharmacovigilance", "regulatory", "quality", "market-access", "clinical-trials")
@@ -381,6 +385,8 @@ def cp_list(limit: int = 30, kind: str | None = None) -> list[dict]:
             continue
         if kind and a.get("type") != kind:
             continue
+        if article_blocked(a):
+            continue
         out.append(a)
     out = _cp_dedupe(out)
     out.sort(key=lambda a: (a.get("date", ""), a.get("created", "")), reverse=True)
@@ -422,9 +428,10 @@ def _cp_dedupe(arts: list[dict]) -> list[dict]:
 def cp_get(slug: str) -> dict | None:
     a = pd.analysis_get(f"cparticle:{slug}")
     try:
-        return json.loads(a["body"]) if a else None
+        art = json.loads(a["body"]) if a else None
     except Exception:
         return None
+    return None if art and article_blocked(art) else art
 
 
 def _biz_rows(days: int = 6) -> list[dict]:
