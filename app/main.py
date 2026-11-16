@@ -54,7 +54,7 @@ app.include_router(portal_mod.router)
 app.include_router(catalysts_mod.router)
 from . import legal as legal_mod
 from . import gate as gate_mod
-app.include_router(gate_mod.router)   # free reader sign-up for full articles
+app.include_router(gate_mod.router)   # reader paywall ($4.99/month, accounts live on VigiEye)
 app.include_router(legal_mod.make_router(
     {"name": "VigiEye", "domain": "vigi-eye.com",
      "what": "VigiEye is a daily news service on EU and US pharmaceutical regulation: approvals, pharmacovigilance and PRAC "
@@ -640,6 +640,7 @@ async def billing_webhook(request: Request):
             items = (obj.get("items", {}) or {}).get("data", [])
             price_id = items[0].get("price", {}).get("id", "") if items else ""
             store.user_set_plan(customer, billing_mod.plan_name_for_price(price_id), status)
+            gate_mod.on_subscription_event({**obj, "status": status})   # $4.99 reader subscriptions
         elif etype == "checkout.session.completed" and customer:
             store.user_set_plan(customer, "subscription", "active")
     except Exception as e:

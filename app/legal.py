@@ -64,7 +64,8 @@ quality and pharmacovigilance for clients in Greece and Cyprus, and that experie
 it explains it.</p>
 <p>Our sister site <a href="{_e(sister_u)}">{_e(sister_n)}</a> covers the {_e(s['sister_scope'])}.</p>
 <h2>How the site is funded</h2>
-<p>The news is free to read. The site is funded by advertising (Google AdSense), by its paid products, and by clearly
+<p>Headlines and the opening of every story are free. Full articles need a reader subscription ($4.99 a month, one
+subscription for both VigiEye and CompePharma). The site is also funded by advertising (Google AdSense), by its other paid products, and by clearly
 labelled house advertisements for PQRA's consulting services. Advertisers have no influence on what we cover.</p>
 <h2>How stories are written</h2>
 <p>See our <a href="/editorial-policy">editorial policy</a> for our sources, our use of AI tools and how to ask for a correction.</p>
@@ -107,9 +108,10 @@ General Data Protection Regulation (GDPR).</p>
 <h2>Who is responsible</h2>
 <p>The data controller is {_e(OPERATOR)}, {_e(CITY)}. Contact: <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>
 <h2>What we collect and why</h2>
-<ul><li><b>Free reader account:</b> your email address and, if you give them, your name, company and role, so we can
-give you access to full articles and understand our readership (legal basis: performing the free account you asked for).
-A cookie on your device remembers your access for a year; there is no password. Ask us at any time to delete your account.</li>
+<ul><li><b>Reader account and subscription:</b> your email address, confirmed through a link we email you, so we can sign
+you in and give subscribers access to full articles (legal basis: performing the contract you asked for). A cookie on your
+device keeps you signed in for a year; there is no password. Payments and the subscription are handled by Stripe; we keep the
+subscription status and Stripe's customer reference, never card details. Ask us at any time to delete your account.</li>
 <li><b>Newsletter:</b> your email address, so we can send the daily email you asked for (legal basis: your consent,
 which you can withdraw at any time with the unsubscribe link).</li>
 {acc}{pay}
@@ -154,7 +156,13 @@ to the original page. Republishing whole articles, or systematic copying or scra
 documents we link to remain the property of their authors.</p>
 <h2>Links</h2>
 <p>We link to official websites we do not control and are not responsible for their content or availability.</p>
-<h2>Paid products</h2>
+<h2>Reader subscription</h2>
+<p>Full articles on VigiEye and CompePharma need a reader subscription of $4.99 per month (taxes may apply), billed monthly
+through Stripe until you cancel. You can cancel at any time from the link in your account or by emailing us; access continues
+until the end of the period you paid for, and paid periods are not refunded. Access starts immediately when you subscribe:
+by subscribing you ask for that and accept that the 14-day right of withdrawal for digital content ends once access starts.
+We may change the price with at least 30 days' notice by email; the change applies from your next billing period.</p>
+<h2>Other paid products</h2>
 <p>Subscriptions and enterprise products are also governed by the terms shown when you buy them.</p>
 <h2>Liability</h2>
 <p>We work to keep the site accurate and available but cannot guarantee either. To the extent the law allows, we are not
