@@ -270,10 +270,11 @@ _BENEFITS = ("<ul><li>Every article, analysis and opinion piece on VigiEye and C
 
 
 def signup_box(return_url: str, source: str = "article", site_name: str = SITE_NAME, action: str = "/reader/signup",
-               newsletter_label: str | None = None) -> str:
+               newsletter_label: str | None = None, heading: str = "Subscribe to keep reading", fade: bool = True) -> str:
     nl = newsletter_label or f"Also send me the free daily {site_name} email (unsubscribe any time)"
-    return f"""<style>{_CSS}</style><div class="rg"><div class="fade"></div><div class="card">
-<h3>Subscribe to keep reading</h3><p><span class="price">{_e(PRICE_LABEL)}</span> / month</p>{_BENEFITS}
+    return f"""<style>{_CSS}</style><div class="rg">{'<div class="fade"></div>' if fade else ''}<div class="card">
+<h3>{_e(heading)}</h3><p><span class="price">{_e(PRICE_LABEL)}</span> / month</p>{_BENEFITS}
+<p class="fine" style="margin:-4px 0 10px">Already a subscriber? Enter your email below: we'll send you a sign-in link. No password needed.</p>
 <form onsubmit="return rgSignup(this)" data-src="{_e(source)}" data-ret="{_e(return_url)}">
 <input type="email" name="email" placeholder="Your email" required autocomplete="email">
 <label class="ck"><input type="checkbox" name="newsletter" value="1"> {_e(nl)}</label>
@@ -593,6 +594,49 @@ def reader_manage(request: Request, t: str = ""):
     except Exception as ex:
         log.warning("billing portal for %s failed: %s", email, ex)
         return HTMLResponse(_page("Unavailable", "<p>Please try again in a few minutes, or email info@vigi-eye.com.</p>"), status_code=502)
+
+
+def _account_html(email: str) -> str:
+    a = _acct(email) or {}
+    comp = email.lower() in _complimentary()
+    paid = is_paid(email)
+    if comp:
+        status = "Full access (site administrator / complimentary)"
+    elif paid:
+        until = datetime.fromtimestamp(a.get("paid_until") or 0, timezone.utc).strftime("%d %b %Y") if a.get("paid_until") else ""
+        status = f"Subscriber: full access{f', renews or ends {until}' if until else ''}"
+    else:
+        status = "Not subscribed: you can read headlines and the opening of each story"
+    btns = []
+    if not paid:
+        btns.append(f'<a class="rg-btn" href="/reader/subscribe?return={quote(_base() + "/", safe="")}">Subscribe for {_e(PRICE_LABEL)} / month</a>')
+    if a.get("sub_id") and not comp:
+        btns.append('<a class="rg-btn" style="background:#334155!important" href="/reader/manage">Manage or cancel subscription</a>')
+    btns.append('<a class="rg-btn" style="background:#64748b!important" href="/reader/signout">Sign out</a>')
+    return (f'<style>{_CSS}</style><div class="rg"><div class="card"><h3>Your account</h3>'
+            f'<p>Signed in as <b>{_e(email)}</b></p><p><b>{_e(status)}</b></p><div style="display:grid;gap:10px">{"".join(btns)}</div>'
+            f'<p class="fine" style="margin-top:12px">One subscription covers VigiEye and CompePharma. On CompePharma, sign in there once with the same email.</p></div></div>')
+
+
+HOW_IT_WORKS = ('<ol style="font-size:15px;line-height:1.6;padding-left:20px"><li>Enter your email and press <b>Continue</b>.</li>'
+                '<li>Open the email we send you and click <b>Confirm and continue</b>. That signs you in on this device for a year; there is no password.</li>'
+                '<li>Subscribers go straight back to reading. Everyone else is taken to secure checkout (Stripe, '
+                + PRICE_LABEL + ' a month, cancel any time).</li><li>On a new phone or computer, do the same once more with the same email.</li></ol>')
+
+
+@router.get("/reader/login", include_in_schema=False)
+def reader_login(request: Request):
+    from . import portal_pages as _pp
+    who = reader(request)
+    ret = _safe_return(request.query_params.get("return"), _base() + "/")
+    if who:
+        body = _account_html(who)
+    else:
+        body = (f'<p style="font-size:16px">Headlines and the first paragraph of every story are free. Full articles on VigiEye and '
+                f'CompePharma are for subscribers.</p><h2 style="font-size:19px;margin:18px 0 4px">How signing in works</h2>{HOW_IT_WORKS}'
+                + signup_box(ret, "login", heading="Sign in or subscribe", fade=False))
+    html = f'<main style="max-width:640px;margin:30px auto;padding:0 16px"><h1 style="font-size:30px">{"Your account" if who else "Sign in"}</h1>{body}</main>'
+    return _pp._page("Sign in | VigiEye", "Sign in to VigiEye or subscribe to read every article.", "/reader/login", html)
 
 
 @router.get("/reader/signout", include_in_schema=False)
