@@ -7,7 +7,7 @@ here, in a background thread that wakes every 5 minutes and asks "what is due?":
 
   news   every 2 hours                     (steps: news, which also writes one CompePharma Insight, up to 10 a day)
   daily  once a day from 04:30 UTC          (steps: ingest, news, analyse, articles [+ week on Monday]),
-         then the newsletters: owner briefing every day, public lists on weekdays
+         then the newsletters: owner briefing + subscriber statistics every day, public lists on weekdays
 
 State (last start / finish per job) is kept in the database, so a restart or redeploy never
 loses track and two triggers never start the same job twice. GitHub's hourly workflow just
@@ -94,6 +94,11 @@ def _send_newsletters(today: str) -> dict:
                 out["owner"] = "sent" if emailer.settings.email_enabled else "logged (no RESEND_API_KEY)"
             except Exception as e:
                 out["owner"] = f"error: {str(e)[:120]}"
+    try:   # subscriber statistics for VigiEye, CompePharma, Competrain and VigiRadar
+        from . import stats_email
+        out["stats"] = stats_email.send_daily()
+    except Exception as e:
+        out["stats"] = f"error: {str(e)[:120]}"
     if date.fromisoformat(today).weekday() < 5:
         sent = 0
         try:

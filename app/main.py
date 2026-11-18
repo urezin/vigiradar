@@ -55,6 +55,10 @@ app.include_router(catalysts_mod.router)
 from . import legal as legal_mod
 from . import gate as gate_mod
 app.include_router(gate_mod.router)   # reader paywall ($4.99/month, accounts live on VigiEye)
+from . import reader_auth as reader_auth_mod
+app.include_router(reader_auth_mod.router)   # reader username/password + Google sign-in (VigiEye and CompePharma)
+from . import stats_email as stats_email_mod
+app.include_router(stats_email_mod.router)   # daily subscriber statistics email (all four sites)
 app.include_router(legal_mod.make_router(
     {"name": "VigiEye", "domain": "vigi-eye.com",
      "what": "VigiEye is a daily news service on EU and US pharmaceutical regulation: approvals, pharmacovigilance and PRAC "

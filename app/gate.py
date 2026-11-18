@@ -132,16 +132,32 @@ def _safe_return(url: str | None, default: str) -> str:
 
 # --- accounts & subscription status --------------------------------------------------------------------
 
+# Columns added in Nov 2026 for username/password and Google accounts (reader_auth.py). create_all() never alters an
+# existing table, so _accounts() adds any that are missing with ALTER TABLE (works on SQLite and Postgres).
+ACCOUNT_EXTRA = {"username": 40, "password_hash": 200, "google_sub": 64, "name": 200, "signup_site": 20,
+                 "signup_method": 20, "last_login_at": None, "login_count": None}
+_ACCOUNTS: dict = {}
+
+
 def _accounts():
-    from sqlalchemy import Column, Integer, MetaData, String, Table
+    if "t" in _ACCOUNTS:
+        return _ACCOUNTS["t"], _ACCOUNTS["eng"]
+    from sqlalchemy import Column, Integer, MetaData, String, Table, inspect, text
     from . import store
     meta = MetaData()
     t = Table("reader_accounts", meta,
               Column("email", String(320), primary_key=True), Column("confirmed_at", String(40)),
               Column("customer_id", String(80)), Column("sub_id", String(80)), Column("sub_status", String(30)),
               Column("paid_until", Integer), Column("checked_at", Integer), Column("link_sent_at", Integer),
-              Column("created_at", String(40)))
+              Column("created_at", String(40)),
+              *[Column(k, Integer if n is None else String(n)) for k, n in ACCOUNT_EXTRA.items()])
     meta.create_all(store._engine)
+    have = {c["name"] for c in inspect(store._engine).get_columns("reader_accounts")}
+    with store._engine.begin() as c:
+        for k, n in ACCOUNT_EXTRA.items():
+            if k not in have:
+                c.execute(text(f"ALTER TABLE reader_accounts ADD COLUMN {k} {'INTEGER' if n is None else f'VARCHAR({n})'}"))
+    _ACCOUNTS.update(t=t, eng=store._engine)
     return t, store._engine
 
 
@@ -269,6 +285,14 @@ _BENEFITS = ("<ul><li>Every article, analysis and opinion piece on VigiEye and C
              "<li>One subscription for both sites, cancel any time</li></ul>")
 
 
+def auth_box(return_url: str, source: str = "article", heading: str = "Subscribe to keep reading", fade: bool = True,
+             start: str = "register") -> str:
+    """Create account / sign in (username + password, or Google) card."""
+    from . import reader_auth as ra
+    return ra.auth_box(return_url, source, heading=heading, fade=fade, start=start,
+                       google_url=ra.google_start_url(SITE, return_url) if ra.google_on() else None)
+
+
 def signup_box(return_url: str, source: str = "article", site_name: str = SITE_NAME, action: str = "/reader/signup",
                newsletter_label: str | None = None, heading: str = "Subscribe to keep reading", fade: bool = True) -> str:
     nl = newsletter_label or f"Also send me the free daily {site_name} email (unsubscribe any time)"
@@ -315,7 +339,7 @@ def gated(request: Request, lead_html: str, rest_html: str, source: str = "artic
     who = reader(request)
     if who:
         return lead_html + subscribe_box(who, f"/reader/subscribe?return={quote(here, safe='')}")
-    return lead_html + signup_box(here, source)
+    return lead_html + auth_box(here, source)
 
 
 def ld(obj: dict) -> dict:
@@ -518,7 +542,8 @@ def api_readers_access(t: str = ""):
         return JSONResponse({"error": "invalid token"}, status_code=401)
     a = _acct(email) or {}
     return {"email": email, "paid": is_paid(email), "link": link_token(email),
-            "complimentary": email.lower() in _complimentary(), "has_subscription": bool(a.get("sub_id"))}
+            "complimentary": email.lower() in _complimentary(), "has_subscription": bool(a.get("sub_id")),
+            "username": a.get("username") or "", "has_password": bool(a.get("password_hash")), "google": bool(a.get("google_sub"))}
 
 
 def _email_for_links(request: Request, t: str) -> str | None:
@@ -617,13 +642,26 @@ def _account_html(email: str) -> str:
     btns.append('<a class="rg-btn" style="background:#64748b!important" href="/reader/signout">Sign out</a>')
     return (f'<style>{_CSS}</style><div class="rg"><div class="card"><h3>Your account</h3>'
             f'<p>Signed in as <b>{_e(email)}</b></p><p><b>{_e(status)}</b></p><div style="display:grid;gap:10px">{"".join(btns)}</div>'
-            f'<p class="fine" style="margin-top:12px">One subscription covers VigiEye and CompePharma. On CompePharma, sign in there once with the same email.</p></div></div>')
+            f'{_extra(email)}'
+            f'<p class="fine" style="margin-top:12px">One subscription covers VigiEye and CompePharma: sign in on CompePharma with the same username or email and password.</p></div></div>')
 
 
-HOW_IT_WORKS = ('<ol style="font-size:15px;line-height:1.6;padding-left:20px"><li>Enter your email and press <b>Continue</b>.</li>'
-                '<li>Open the email we send you and click <b>Confirm and continue</b>. That signs you in on this device for a year; there is no password.</li>'
+def _extra(email: str) -> str:
+    try:
+        from . import reader_auth
+        return reader_auth.account_extra(email)
+    except Exception as ex:
+        log.warning("account extras failed: %s", ex)
+        return ""
+
+
+HOW_IT_WORKS = ('<ol style="font-size:15px;line-height:1.6;padding-left:20px"><li><b>Create an account</b> with your email, a username and a '
+                'password, or press <b>Continue with Google</b>.</li>'
+                '<li>Next time, <b>sign in</b> with your username (or email) and password, on any phone or computer. The same account works on '
+                'VigiEye and CompePharma.</li>'
                 '<li>Subscribers go straight back to reading. Everyone else is taken to secure checkout (Stripe, '
-                + PRICE_LABEL + ' a month, cancel any time).</li><li>On a new phone or computer, do the same once more with the same email.</li></ol>')
+                + PRICE_LABEL + ' a month, cancel any time).</li><li>Forgot your password, or signed up before with just your email? Use '
+                '<b>Forgot password?</b> under Sign in and we email you a link to set one.</li></ol>')
 
 
 @router.get("/reader/login", include_in_schema=False)
@@ -636,7 +674,7 @@ def reader_login(request: Request):
     else:
         body = (f'<p style="font-size:16px">Headlines and the first paragraph of every story are free. Full articles on VigiEye and '
                 f'CompePharma are for subscribers.</p><h2 style="font-size:19px;margin:18px 0 4px">How signing in works</h2>{HOW_IT_WORKS}'
-                + signup_box(ret, "login", heading="Sign in or subscribe", fade=False))
+                + auth_box(ret, "login", heading="Sign in or create an account", fade=False, start="login"))
     html = f'<main style="max-width:640px;margin:30px auto;padding:0 16px"><h1 style="font-size:30px">{"Your account" if who else "Sign in"}</h1>{body}</main>'
     return _pp._page("Sign in | VigiEye", "Sign in to VigiEye or subscribe to read every article.", "/reader/login", html)
 
